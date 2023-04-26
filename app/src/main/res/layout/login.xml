@@ -59,15 +59,18 @@
 
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/loginBTN"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/loginBTN"
         android:layout_below="@+id/passwordLE"
-        android:text="LOGIN"
-        android:backgroundTint="@color/design_default_color_on_secondary"
         android:layout_centerHorizontal="true"
-        android:layout_margin="20dp"
-        />
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:layout_marginBottom="20dp"
+        android:backgroundTint="@color/design_default_color_on_secondary"
+        android:text="LOGIN"
+        android:textColor="@color/white"/>
 
     <TextView
         android:id="@+id/passworddimenticata"
@@ -75,12 +78,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/loginBTN"
         android:layout_centerHorizontal="true"
-        android:text="Password dimenticata?"
-        android:layout_margin="20dp"
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
+        android:text="Password dimenticata?"
         android:textColor="@color/black" />
 
 </RelativeLayout>
