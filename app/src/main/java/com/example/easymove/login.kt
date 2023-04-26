@@ -10,7 +10,7 @@ class login : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
 
-        val secondAct=findViewById<Button>(R.id.loginBTN)
+        val secondAct=findViewById<Button>(R.id.login)
         secondAct.setOnClickListener{
             val Intent = Intent(this,MainActivity::class.java)
             startActivity(Intent)
