@@ -13,4 +13,14 @@
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
     </style>
+
+    <style name="custom_card_view" parent="">
+
+        <item name="cornerFamily">rounded</item>
+
+    </style>
 </resources>
+
+
+
+
