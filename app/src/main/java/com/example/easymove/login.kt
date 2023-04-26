@@ -19,7 +19,7 @@ class login : AppCompatActivity() {
 
         loginbtn.setOnClickListener {
 
-            if (!(user.getText().toString().isEmpty()) && !(pass.getText().toString().isEmpty())) {
+            if (user.getText().toString().isNotEmpty() && pass.getText().toString().isNotEmpty()) {
 
                 if (user.getText().toString().equals("admin") && pass.getText().toString()
                         .equals("pass")
