@@ -7,26 +7,13 @@
     android:layout_height="match_parent"
     android:background="@color/app_theme">
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="0dp"
-        android:layout_height="43dp"
-        android:layout_marginStart="124dp"
-        android:text="Benvenuto"
-        android:textColor="@color/white"
-        android:textColorLink="@color/white"
-        android:textSize="34sp"
-        android:textStyle="bold"
-        app:layout_constraintStart_toStartOf="parent"
-        tools:layout_editor_absoluteY="172dp" />
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="-164dp">
+        tools:layout_editor_absoluteX="-204dp"
+        tools:layout_editor_absoluteY="0dp">
 
         <Button
             android:id="@+id/signup"

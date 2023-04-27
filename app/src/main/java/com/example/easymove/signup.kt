@@ -10,7 +10,13 @@ class signup : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.signup)
 
+        val backbutton= findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.floatingActionButton)
         val scrittaAccedi = findViewById<TextView>(R.id.text_login_2)
+
+        backbutton.setOnClickListener{
+            val IntentBack= Intent(this, splashpage::class.java)
+            startActivity(IntentBack)
+        }
 
         scrittaAccedi.setOnClickListener{
             val IntentSignUp = Intent(this, login::class.java)
