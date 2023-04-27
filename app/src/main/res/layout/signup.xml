@@ -57,7 +57,9 @@
                 android:id="@+id/Nome"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
                 android:layout_marginTop="16dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/text_form_background"
                 android:drawableLeft="@drawable/baseline_person_24"
                 android:drawablePadding="5dp"
@@ -77,6 +79,9 @@
                 android:id="@+id/Cognome"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginRight="20dp"
                 android:background="@drawable/text_form_background"
                 android:drawableLeft="@drawable/baseline_person_24"
                 android:drawablePadding="5dp"
@@ -87,6 +92,7 @@
                 android:padding="5dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/Nome" />
 
@@ -94,6 +100,9 @@
                 android:id="@+id/Email"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
                 android:background="@drawable/text_form_background"
                 android:drawableLeft="@drawable/mail_icon"
                 android:drawablePadding="5dp"
@@ -106,13 +115,15 @@
                 android:textColorHint="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Cognome"
-                tools:layout_editor_absoluteX="16dp" />
+                app:layout_constraintTop_toBottomOf="@+id/Cognome" />
 
             <EditText
                 android:id="@+id/Password"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
                 android:background="@drawable/text_form_background"
                 android:drawableLeft="@drawable/lock_icon"
                 android:drawablePadding="5dp"
@@ -123,13 +134,17 @@
                 android:padding="5dp"
                 android:textColor="@color/black"
                 android:textColorHint="@color/black"
-                app:layout_constraintTop_toBottomOf="@+id/Email"
-                tools:layout_editor_absoluteX="40dp" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Email" />
 
             <EditText
                 android:id="@+id/RepeatPassword"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="20dp"
                 android:background="@drawable/text_form_background"
                 android:drawableLeft="@drawable/lock_icon"
                 android:drawablePadding="5dp"
@@ -142,14 +157,14 @@
                 android:textColorHint="@color/black"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/Password"
-                tools:layout_editor_absoluteX="0dp" />
+                app:layout_constraintTop_toBottomOf="@+id/Password" />
 
             <Button
                 android:id="@+id/sign_up"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="20dp"
+                android:layout_marginTop="30dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/app_theme"
                 android:text="REGISTRATI"
@@ -157,11 +172,10 @@
                 android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="20dp"
-                app:layout_constraintHorizontal_bias="0.875"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.875"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/RepeatPassword"
-                tools:layout_editor_absoluteY="349dp" />
+                app:layout_constraintTop_toBottomOf="@+id/RepeatPassword" />
 
             <LinearLayout
                 android:id="@+id/Registrati"
