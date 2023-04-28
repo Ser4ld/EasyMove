@@ -1,30 +1,28 @@
 package com.example.easymove
 
 import android.content.Intent
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.WindowManager
 import android.widget.TextView
 
-class splashpage : AppCompatActivity() {
+class firstpage : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        setContentView(R.layout.splashpage)
+        setContentView(R.layout.firstpage)
 
         val scrittaAccedi = findViewById<TextView>(R.id.login)
         val scrittaRegistrati = findViewById<TextView>(R.id.signup)
 
         scrittaAccedi.setOnClickListener{
-            val IntentAccedi = Intent(this, login::class.java)
-            startActivity(IntentAccedi)
+            val intentAccedi = Intent(this, login::class.java)
+            startActivity(intentAccedi)
         }
 
         scrittaRegistrati.setOnClickListener{
-            val IntentRegistrati = Intent(this, signup::class.java)
-            startActivity(IntentRegistrati)
+            val intentRegistrati = Intent(this, signup::class.java)
+            startActivity(intentRegistrati)
         }
 
     }
