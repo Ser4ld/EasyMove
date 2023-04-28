@@ -10,4 +10,5 @@
 
     <color name="app_theme">#00bfff</color>
     <color name="app_theme_light">#1A00bfff</color>
+    <color name="placeholder">#65000000</color>
 </resources>

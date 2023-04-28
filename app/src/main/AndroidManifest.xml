@@ -14,7 +14,7 @@
         android:theme="@style/Theme.EasyMove"
         tools:targetApi="31">
         <activity
-            android:name=".SplashpageActivity"
+            android:name=".firstpage"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -24,11 +24,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".firstpage"
-            android:exported="true"
-            android:screenOrientation="portrait">
-        </activity>
 
         <activity
             android:name=".SignupActivity"

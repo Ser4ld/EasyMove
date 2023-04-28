@@ -15,7 +15,7 @@
         app:layout_constraintGuide_percent="0.5" />
 
     <ImageView
-        android:id="@+id/imageView"
+        android:id="@+id/EasyMoveLogo"
         android:layout_width="344dp"
         android:layout_height="266dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_index"
@@ -33,12 +33,12 @@
         android:padding="5dp"
         android:text="Benvenuto in EasyMove"
         android:textColor="@color/white"
-        android:textSize="30sp"
+        android:textSize="30dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/textView_sub_header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView"
+        app:layout_constraintTop_toBottomOf="@+id/EasyMoveLogo"
         app:layout_constraintVertical_bias="1.0" />
 
     <TextView
@@ -48,13 +48,14 @@
         android:layout_marginBottom="30dp"
         android:text="Scegli una delle due opzioni per proseguire"
         android:textColor="@color/white"
-        android:textSize="15sp"
+        android:textSize="15dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline_index"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardview_index"
         style="@style/custom_card_view_style"
         android:layout_width="match_parent"
         android:layout_height="0dp"
@@ -83,7 +84,7 @@
                 android:layout_marginRight="20dp"
                 android:text="Registrati"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -100,7 +101,7 @@
                 android:layout_marginRight="20dp"
                 android:text="Accedi"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -126,7 +127,8 @@
                     android:drawableLeft="@drawable/copyright_theme_color"
                     android:drawablePadding="3dp"
                     android:text="2023, EasyMove"
-                    android:textColor="@color/app_theme" />
+                    android:textColor="@color/app_theme"
+                    android:textSize="14dp" />
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -28,7 +28,7 @@
         android:text="Accedi"
         android:textColor="@color/white"
         android:textColorLink="@color/white"
-        android:textSize="42sp"
+        android:textSize="42dp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,7 +72,8 @@
                 android:inputType="textEmailAddress"
                 android:padding="5dp"
                 android:textColor="@color/black"
-                android:textColorHint="@color/black"
+                android:textColorHint="@color/placeholder"
+                android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -93,7 +94,8 @@
                 android:inputType="textPassword"
                 android:padding="5dp"
                 android:textColor="@color/black"
-                android:textColorHint="@color/black"
+                android:textColorHint="@color/placeholder"
+                android:textSize="18dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.497"
                 app:layout_constraintStart_toStartOf="parent"
@@ -104,12 +106,12 @@
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="20dp"
-                android:layout_marginTop="30dp"
+                android:layout_marginTop="40dp"
                 android:layout_marginRight="20dp"
                 android:backgroundTint="@color/app_theme"
                 android:text="LOGIN"
                 android:textColor="@color/white"
-                android:textSize="16sp"
+                android:textSize="16dp"
                 android:textStyle="bold"
                 app:cornerRadius="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -133,17 +135,19 @@
                     android:layout_height="wrap_content"
                     android:layout_weight="0"
                     android:text="Non hai un Account?"
-                    android:textColor="@color/black" />
+                    android:textColor="@color/black"
+                    android:textSize="14dp" />
 
                 <TextView
                     android:id="@+id/text_sing_up_2"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="2dp"
+                    android:layout_marginLeft="4dp"
                     android:layout_weight="0"
                     android:clickable="true"
                     android:text="Registrati"
                     android:textColor="@color/app_theme"
+                    android:textSize="14dp"
                     android:textStyle="bold" />
 
             </LinearLayout>
@@ -152,15 +156,16 @@
                 android:id="@+id/passwordDimenticata"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="8dp"
+                android:layout_marginTop="6dp"
+                android:clickable="true"
                 android:text="Password dimenticata?"
                 android:textColor="@color/app_theme"
+                android:textSize="14dp"
                 android:textStyle="bold"
-                android:clickable="true"
-                app:layout_constraintBottom_toTopOf="@+id/login"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.502"
-                app:layout_constraintStart_toStartOf="parent" />
+                app:layout_constraintHorizontal_bias="0.89"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/Password" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
