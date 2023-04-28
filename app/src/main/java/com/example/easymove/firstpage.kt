@@ -3,6 +3,7 @@ package com.example.easymove
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.Button
 import android.widget.TextView
 
 class firstpage : AppCompatActivity() {
@@ -12,17 +13,17 @@ class firstpage : AppCompatActivity() {
 
         setContentView(R.layout.firstpage)
 
-        val scrittaAccedi = findViewById<TextView>(R.id.login)
-        val scrittaRegistrati = findViewById<TextView>(R.id.signup)
+        val loginButton = findViewById<Button>(R.id.login_button_index)
+        val signupButton = findViewById<Button>(R.id.signup_button_index)
 
-        scrittaAccedi.setOnClickListener{
-            val intentAccedi = Intent(this, login::class.java)
-            startActivity(intentAccedi)
+        loginButton.setOnClickListener{
+            val intentLogin = Intent(this, login::class.java)
+            startActivity(intentLogin)
         }
 
-        scrittaRegistrati.setOnClickListener{
-            val intentRegistrati = Intent(this, signup::class.java)
-            startActivity(intentRegistrati)
+        signupButton.setOnClickListener{
+            val intentSignup = Intent(this, signup::class.java)
+            startActivity(intentSignup)
         }
 
     }

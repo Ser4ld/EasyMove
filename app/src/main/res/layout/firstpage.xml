@@ -16,13 +16,14 @@
 
     <ImageView
         android:id="@+id/imageView"
-        android:layout_width="283dp"
-        android:layout_height="229dp"
+        android:layout_width="344dp"
+        android:layout_height="266dp"
         app:layout_constraintBottom_toTopOf="@+id/guideline_index"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.451"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.19999999"
+        app:layout_constraintVertical_bias="0.204"
         app:srcCompat="@drawable/logo_color" />
 
     <TextView
@@ -31,33 +32,36 @@
         android:layout_height="wrap_content"
         android:text="Benvenuto in EasyMove"
         android:textColor="@color/white"
-        android:textSize="24sp"
+        android:textSize="32sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_index"
+        app:layout_constraintBottom_toTopOf="@+id/textView_sub_header"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imageView"
-        app:layout_constraintVertical_bias="0.19999999" />
+        app:layout_constraintVertical_bias="1.0" />
 
     <TextView
         android:id="@+id/textView_sub_header"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
         android:text="Scegli una delle due opzioni per proseguire"
         android:textColor="@color/white"
-        android:textSize="16sp"
+        android:textSize="15sp"
         android:textStyle="bold"
         app:layout_constraintBottom_toTopOf="@+id/guideline_index"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView_header"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintStart_toStartOf="parent" />
 
     <com.google.android.material.card.MaterialCardView
         style="@style/custom_card_view_style"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:background="@color/white"
+        app:cardBackgroundColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline_index">
 
         <androidx.constraintlayout.widget.ConstraintLayout
@@ -71,27 +75,31 @@
                 android:orientation="horizontal"></LinearLayout>
 
             <Button
-                android:id="@+id/button3"
+                android:id="@+id/signup_button_index"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="Registrati"
+                android:textColor="@color/white"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button2"
+                app:layout_constraintTop_toBottomOf="@+id/login_button_index"
                 app:layout_constraintVertical_bias="0.100000024" />
 
             <Button
-                android:id="@+id/button2"
+                android:id="@+id/login_button_index"
                 android:layout_width="0dp"
                 android:layout_height="60dp"
                 android:layout_marginLeft="20dp"
                 android:layout_marginRight="20dp"
                 android:text="Accedi"
+                android:textColor="@color/white"
+                android:textSize="16sp"
                 android:textStyle="bold"
                 app:cornerRadius="12dp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -107,7 +115,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/button3">
+                app:layout_constraintTop_toBottomOf="@+id/signup_button_index">
 
                 <TextView
                     android:id="@+id/textView6"
