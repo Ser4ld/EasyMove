@@ -7,11 +7,18 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 
 class signup : AppCompatActivity() {
+
+    private lateinit var firebaseAuth: FirebaseAuth
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.signup)
+
+        firebaseAuth = FirebaseAuth.getInstance()
 
         val backButton =
             findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.floatingActionButton)
@@ -38,17 +45,31 @@ class signup : AppCompatActivity() {
 
         signupbtn.setOnClickListener {
 
-            if (nome.getText().toString().isNotEmpty() && cognome.getText().toString()
-                    .isNotEmpty() && user.getText().toString().isNotEmpty() && pass.getText()
-                    .toString().isNotEmpty() && repPass.getText().toString().isNotEmpty())
-            {
-                val intentHome = Intent(this, signup::class.java)
-                startActivity(intentHome) /** modificare firstpage con home*/
+            if (user.getText().toString().isNotEmpty() && pass.getText()
+                    .toString().isNotEmpty() && repPass.getText().toString().isNotEmpty()) {
 
-            } else {
-                Toast.makeText(this, "Alcuni dati mancanti", Toast.LENGTH_SHORT).show()
+                if(pass.getText().toString() == repPass.getText().toString()){
+
+                    firebaseAuth.createUserWithEmailAndPassword(user.getText().toString(), pass.getText().toString()).addOnCompleteListener{
+                        if(it.isSuccessful){
+                            val intent = Intent(this, login::class.java)
+                            startActivity(intent)
+                        }
+                        else{
+                            Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+
+                        }
+                    }
+
+                }
+                else{
+                    Toast.makeText(this, "Le Password non sono uguali", Toast.LENGTH_SHORT).show()
+                }
+
             }
-
+            else{
+                Toast.makeText(this, "Username o Password non inseriti", Toast.LENGTH_SHORT).show()
+            }
         }
 
 

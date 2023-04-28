@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "198669042179",
+    "project_id": "easymove-8c51c",
+    "storage_bucket": "easymove-8c51c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:198669042179:android:0d33f3c285eb00daaa8436",
+        "android_client_info": {
+          "package_name": "com.example.easymove"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "198669042179-5jcfifflshplo5t8vm836rv6ive4hvt4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvxhqD0I6EtspQyCyZ8FIDKfJSA46p68k"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "198669042179-5jcfifflshplo5t8vm836rv6ive4hvt4.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

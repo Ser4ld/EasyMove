@@ -7,11 +7,18 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.google.firebase.auth.FirebaseAuth
 
 class login : AppCompatActivity() {
+
+    private lateinit var firebaseAuth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
+
+        firebaseAuth = FirebaseAuth.getInstance()
+
 
         val backbutton= findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.floatingActionButton)
         val scrittaRegistrati = findViewById<TextView>(R.id.text_sing_up_2)
@@ -32,19 +39,22 @@ class login : AppCompatActivity() {
         loginbtn.setOnClickListener {
 
             if (user.getText().toString().isNotEmpty() && pass.getText().toString().isNotEmpty()) {
-                if (user.getText().toString().equals("admin") && pass.getText().toString()
-                        .equals("pass")
-                ) {
-                    val intentHome = Intent(this, firstpage::class.java)
-                    startActivity(intentHome)  /** modificare firstpage con home*/
-                } else {
-                    Toast.makeText(this, "Username o Password errati", Toast.LENGTH_SHORT).show()
+
+
+                firebaseAuth.signInWithEmailAndPassword(user.getText().toString(), pass.getText().toString()).addOnCompleteListener{
+                    if(it.isSuccessful){
+                        val intent = Intent(this, home::class.java)
+                        startActivity(intent)
+                    }
+                    else{
+                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+
+                    }
                 }
             }
             else{
                 Toast.makeText(this, "Username o Password non inseriti", Toast.LENGTH_SHORT).show()
             }
-
         }
 
     }
