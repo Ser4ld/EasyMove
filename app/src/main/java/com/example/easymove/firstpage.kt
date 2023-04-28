@@ -4,13 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Button
-import android.widget.TextView
+import android.widget.Toast
 
 class firstpage : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContentView(R.layout.firstpage)
 
         val loginButton = findViewById<Button>(R.id.login_button_index)
@@ -22,7 +21,7 @@ class firstpage : AppCompatActivity() {
         }
 
         signupButton.setOnClickListener{
-            val intentSignup = Intent(this, signup::class.java)
+            val intentSignup = Intent(this, SignupActivity::class.java)
             startActivity(intentSignup)
         }
 

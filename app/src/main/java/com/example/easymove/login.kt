@@ -37,7 +37,7 @@ class login : AppCompatActivity() {
             startActivity(intentBack)
         }
         scrittaRegistrati.setOnClickListener{
-            val intentSignUp = Intent(this, signup::class.java)
+            val intentSignUp = Intent(this, SignupActivity::class.java)
             startActivity(intentSignUp)
         }
 

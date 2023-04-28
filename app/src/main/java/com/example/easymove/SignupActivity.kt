@@ -9,7 +9,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 
-class signup : AppCompatActivity() {
+class SignupActivity : AppCompatActivity() {
 
     private lateinit var firebaseAuth: FirebaseAuth
 
