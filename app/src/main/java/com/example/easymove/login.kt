@@ -22,18 +22,23 @@ class login : AppCompatActivity() {
 
         val backbutton= findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.floatingActionButton)
         val scrittaRegistrati = findViewById<TextView>(R.id.text_sing_up_2)
+        val passwordDimenticata = findViewById<TextView>(R.id.passwordDimenticata)
         val loginbtn = findViewById<Button>(R.id.login)
         val user = findViewById<EditText>(R.id.Email)
         val pass = findViewById<EditText>(R.id.Password)
 
 
+        passwordDimenticata.setOnClickListener{
+            val intentPassDimenticata= Intent(this, resetpassword::class.java)
+            startActivity(intentPassDimenticata)
+        }
        backbutton.setOnClickListener{
-            val IntentBack= Intent(this, firstpage::class.java)
-            startActivity(IntentBack)
+            val intentBack= Intent(this, firstpage::class.java)
+            startActivity(intentBack)
         }
         scrittaRegistrati.setOnClickListener{
-            val IntentSignUp = Intent(this, signup::class.java)
-            startActivity(IntentSignUp)
+            val intentSignUp = Intent(this, signup::class.java)
+            startActivity(intentSignUp)
         }
 
         loginbtn.setOnClickListener {
