@@ -8,7 +8,7 @@
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
-        android:icon="@mipmap/logo"
+        android:icon="@mipmap/logo_color"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyMove"
@@ -16,7 +16,9 @@
 
         <activity
             android:name=".firstpage"
+            android:screenOrientation="portrait"
             android:exported="true">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,18 +28,20 @@
 
         <activity
             android:name=".signup"
+            android:screenOrientation="portrait"
             android:exported="true">
         </activity>
 
         <activity
             android:name=".home"
+            android:screenOrientation="portrait"
             android:exported="true">
         </activity>
 
         <activity
             android:name=".login"
+            android:screenOrientation="portrait"
             android:exported="true">
-
         </activity>
     </application>
 
