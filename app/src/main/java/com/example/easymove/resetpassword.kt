@@ -3,6 +3,8 @@ package com.example.easymove
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -29,15 +31,21 @@ class resetpassword : AppCompatActivity() {
             auth.sendPasswordResetEmail(sPassword)
                 .addOnSuccessListener {
                     Toast.makeText(this, "Controlla la tua Email", Toast.LENGTH_SHORT).show()
+
+                    Handler(Looper.getMainLooper()).postDelayed({
+                        finish()
+                    }, 3000)
+
                 }
                 .addOnFailureListener {
-                    Toast.makeText(this, it.toString(), Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this, "La Email inserita non è corretta", Toast.LENGTH_SHORT).show()
                 }
         }
 
         backbutton.setOnClickListener{
             val intentBack= Intent(this, login::class.java)
             startActivity(intentBack)
+            finish()
         }
     }
 }

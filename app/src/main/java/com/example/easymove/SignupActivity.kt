@@ -36,11 +36,13 @@ class SignupActivity : AppCompatActivity() {
         backButton.setOnClickListener {
             val intentBack = Intent(this, firstpage::class.java)
             startActivity(intentBack)
+            finish()
         }
 
         scrittaAccedi.setOnClickListener {
             val intentSignUp = Intent(this, login::class.java)
             startActivity(intentSignUp)
+            finish()
         }
 
         signupbtn.setOnClickListener {

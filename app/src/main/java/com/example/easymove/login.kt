@@ -1,13 +1,16 @@
 package com.example.easymove
 
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.text.method.PasswordTransformationMethod
+import android.text.method.SingleLineTransformationMethod
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
+
 
 class login : AppCompatActivity() {
 
@@ -52,13 +55,13 @@ class login : AppCompatActivity() {
                         startActivity(intent)
                     }
                     else{
-                        Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT).show()
+                        Toast.makeText(this, "Email o Password non corretti", Toast.LENGTH_SHORT).show()
 
                     }
                 }
             }
             else{
-                Toast.makeText(this, "Username o Password non inseriti", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Email o Password non inseriti", Toast.LENGTH_SHORT).show()
             }
         }
 
