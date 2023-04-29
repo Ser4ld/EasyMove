@@ -1,13 +1,18 @@
 package com.example.easymove
 
+import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 
 class SignupActivity : AppCompatActivity() {
 
@@ -18,7 +23,9 @@ class SignupActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.signup)
 
+
         firebaseAuth = FirebaseAuth.getInstance()
+        val db = Firebase.firestore
 
         val backButton =
             findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.floatingActionButton)
@@ -54,6 +61,20 @@ class SignupActivity : AppCompatActivity() {
 
                     firebaseAuth.createUserWithEmailAndPassword(user.getText().toString(), pass.getText().toString()).addOnCompleteListener{
                         if(it.isSuccessful){
+                            val user = hashMapOf(
+                                "nome" to nome.getText().toString(),
+                                "cognome" to cognome.getText().toString(),
+                            )
+
+                            db.collection("users")
+                                .add(user)
+                                .addOnSuccessListener { documentReference ->
+                                    Log.d(TAG, "DocumentSnapshot added with ID: ${12345}")
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.w(TAG, "Error adding document", e)
+                                }
+
                             val intent = Intent(this, login::class.java)
                             startActivity(intent)
                         }

@@ -12,12 +12,13 @@ import com.google.firebase.auth.FirebaseAuth
 
 class resetpassword : AppCompatActivity() {
 
+    private lateinit var auth: FirebaseAuth
+
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.resetpassword)
 
-        lateinit var auth: FirebaseAuth
 
         val backbutton= findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.floatingActionButton)
         val etPassword = findViewById<TextView>(R.id.Email)
