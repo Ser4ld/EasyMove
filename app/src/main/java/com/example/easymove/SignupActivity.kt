@@ -27,8 +27,7 @@ class SignupActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
         val db = Firebase.firestore
 
-        val backButton =
-            findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.floatingActionButton)
+        val backButton = findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.floatingActionButton)
         val signupbtn = findViewById<Button>(R.id.signup)
 
         val nome = findViewById<EditText>(R.id.Nome)
