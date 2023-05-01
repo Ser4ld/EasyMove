@@ -10,7 +10,6 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
 
@@ -40,13 +39,13 @@ class SignupActivity : AppCompatActivity() {
 
 
         backButton.setOnClickListener {
-            val intentBack = Intent(this, firstpage::class.java)
+            val intentBack = Intent(this, SplashPageActivity::class.java)
             startActivity(intentBack)
             finish()
         }
 
         scrittaAccedi.setOnClickListener {
-            val intentSignUp = Intent(this, login::class.java)
+            val intentSignUp = Intent(this, LoginActivity::class.java)
             startActivity(intentSignUp)
             finish()
         }
@@ -74,7 +73,7 @@ class SignupActivity : AppCompatActivity() {
                                     Log.w(TAG, "Error adding document", e)
                                 }
 
-                            val intent = Intent(this, login::class.java)
+                            val intent = Intent(this, LoginActivity::class.java)
                             startActivity(intent)
                         }
                         else{

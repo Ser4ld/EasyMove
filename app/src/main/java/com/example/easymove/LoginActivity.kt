@@ -2,19 +2,15 @@ package com.example.easymove
 
 import android.content.Intent
 import android.os.Bundle
-import android.text.method.PasswordTransformationMethod
-import android.text.method.SingleLineTransformationMethod
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 
-class login : AppCompatActivity() {
+class LoginActivity : AppCompatActivity() {
 
     private lateinit var firebaseAuth: FirebaseAuth
 
@@ -34,11 +30,11 @@ class login : AppCompatActivity() {
 
 
         passwordDimenticata.setOnClickListener{
-            val intentPassDimenticata= Intent(this, resetpassword::class.java)
+            val intentPassDimenticata= Intent(this, ResetPasswordActivity::class.java)
             startActivity(intentPassDimenticata)
         }
        backbutton.setOnClickListener{
-            val intentBack= Intent(this, firstpage::class.java)
+            val intentBack= Intent(this, SplashPageActivity::class.java)
             startActivity(intentBack)
         }
         scrittaRegistrati.setOnClickListener{
@@ -53,7 +49,7 @@ class login : AppCompatActivity() {
 
                 firebaseAuth.signInWithEmailAndPassword(user.getText().toString(), pass.getText().toString()).addOnCompleteListener{
                     if(it.isSuccessful){
-                        val intent = Intent(this, home::class.java)
+                        val intent = Intent(this, HomeActivity::class.java)
                         startActivity(intent)
                     }
                     else{

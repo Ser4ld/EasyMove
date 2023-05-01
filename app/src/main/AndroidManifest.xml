@@ -16,7 +16,7 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".firstpage"
+            android:name=".SplashPageActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
@@ -32,15 +32,15 @@
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".home"
+            android:name=".HomeActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".login"
+            android:name=".LoginActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".resetpassword"
+            android:name=".ResetPasswordActivity"
             android:exported="true"
             android:screenOrientation="portrait" />
     </application>

@@ -7,14 +7,13 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.cardview.widget.CardView
 import com.google.android.material.card.MaterialCardView
 
-class firstpage : AppCompatActivity() {
+class SplashPageActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.firstpage)
+        setContentView(R.layout.splashpage)
 
         val loginButton = findViewById<Button>(R.id.login_button_index)
         val signupButton = findViewById<Button>(R.id.signup_button_index)
@@ -37,7 +36,7 @@ class firstpage : AppCompatActivity() {
         text_sub_header.startAnimation(animation_4)
 
         loginButton.setOnClickListener{
-            val intentLogin = Intent(this, login::class.java)
+            val intentLogin = Intent(this, LoginActivity::class.java)
             startActivity(intentLogin)
         }
 

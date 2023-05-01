@@ -5,13 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.telecom.Call
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import com.google.firebase.auth.FirebaseAuth
 
-class resetpassword : AppCompatActivity() {
+class ResetPasswordActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
 
@@ -46,7 +45,7 @@ class resetpassword : AppCompatActivity() {
         }
 
         backbutton.setOnClickListener{
-            val intentBack= Intent(this, login::class.java)
+            val intentBack= Intent(this, LoginActivity::class.java)
             startActivity(intentBack)
             finish()
         }
