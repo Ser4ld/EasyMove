@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.telecom.Call
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
@@ -34,7 +35,8 @@ class resetpassword : AppCompatActivity() {
                     Toast.makeText(this, "Controlla la tua Email", Toast.LENGTH_SHORT).show()
 
                     Handler(Looper.getMainLooper()).postDelayed({
-                        finish()
+                        finish();
+                       /** overridePendingTransition(0, R.anim.animation_1);*/
                     }, 3000)
 
                 }
