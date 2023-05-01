@@ -27,6 +27,7 @@ android {
     }
 
     buildFeatures{
+        dataBinding true
         viewBinding true
     }
 
@@ -62,6 +63,10 @@ dependencies {
 
 dependencies {
 
+
+    implementation 'androidx.fragment:fragment:1.5.7'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.5.3'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.5.3'
     implementation 'com.google.firebase:firebase-auth:21.0.3'
     implementation 'com.google.firebase:firebase-auth-ktx:21.3.0'
     // Import the Firebase BoM

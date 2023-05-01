@@ -2,6 +2,11 @@ package com.example.easymove
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.fragment.app.Fragment
+import androidx.navigation.NavController
+import androidx.navigation.findNavController
+import androidx.navigation.ui.NavigationUI.setupWithNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.easymove.databinding.HomeBinding
 
 class HomeActivity : AppCompatActivity() {
@@ -12,5 +17,26 @@ class HomeActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.home)
 
+        binding=HomeBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+        replaceFragment(HomeFragment())
+
+        binding.bottomNavigationView.setOnItemSelectedListener {
+
+            when(it.itemId){
+                R.id.homeItem -> replaceFragment(HomeFragment())
+                R.id.profileItem -> replaceFragment(ProfileFragment())
+            }
+
+            true
+        }
+
+    }
+
+    private fun replaceFragment(fragment: Fragment){
+val fragmentManager=supportFragmentManager
+        val fragmentTransaction = fragmentManager.beginTransaction()
+        fragmentTransaction.replace(R.id.frameLayout, fragment)
+        fragmentTransaction.commit()
     }
 }
