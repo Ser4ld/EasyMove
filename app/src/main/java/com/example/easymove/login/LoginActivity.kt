@@ -1,4 +1,4 @@
-package com.example.easymove
+package com.example.easymove.login
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,6 +7,9 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.example.easymove.home.HomeActivity
+import com.example.easymove.R
+import com.example.easymove.registrazione.SignupActivity
 import com.google.firebase.auth.FirebaseAuth
 
 
@@ -21,7 +24,9 @@ class LoginActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
 
-        val backbutton= findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.floatingActionButton)
+        val backbutton= findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(
+            R.id.floatingActionButton
+        )
         val scrittaRegistrati = findViewById<TextView>(R.id.text_sing_up_2)
         val passwordDimenticata = findViewById<TextView>(R.id.passwordDimenticata)
         val loginbtn = findViewById<Button>(R.id.login)

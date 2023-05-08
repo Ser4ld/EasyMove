@@ -1,4 +1,4 @@
-package com.example.easymove
+package com.example.easymove.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -8,6 +8,7 @@ import android.os.Looper
 import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
+import com.example.easymove.R
 import com.google.firebase.auth.FirebaseAuth
 
 class ResetPasswordActivity : AppCompatActivity() {
@@ -20,7 +21,9 @@ class ResetPasswordActivity : AppCompatActivity() {
         setContentView(R.layout.resetpassword)
 
 
-        val backbutton= findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(R.id.floatingActionButton)
+        val backbutton= findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(
+            R.id.floatingActionButton
+        )
         val etPassword = findViewById<TextView>(R.id.Email)
         val resetbtn = findViewById<Button>(R.id.resetbtn)
 

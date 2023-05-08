@@ -1,8 +1,10 @@
-package com.example.easymove
+package com.example.easymove.home
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
+import com.example.easymove.profilo.ProfileFragment
+import com.example.easymove.R
 import com.example.easymove.databinding.HomeBinding
 
 class HomeActivity : AppCompatActivity() {

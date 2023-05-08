@@ -1,4 +1,4 @@
-package com.example.easymove
+package com.example.easymove.login
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -7,6 +7,8 @@ import android.view.animation.AnimationUtils
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import com.example.easymove.R
+import com.example.easymove.registrazione.SignupActivity
 import com.google.android.material.card.MaterialCardView
 
 class SplashPageActivity : AppCompatActivity() {

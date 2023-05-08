@@ -1,19 +1,20 @@
-package com.example.easymove
+package com.example.easymove.registrazione
 
 import android.content.ContentValues.TAG
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
+import com.example.easymove.home.HomeActivity
 import com.example.easymove.databinding.SignupBinding
+import com.example.easymove.login.LoginActivity
+import com.example.easymove.R
+import com.example.easymove.login.SplashPageActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 
 const val TAG = "FIRESTORE"
@@ -22,7 +23,6 @@ const val TAG = "FIRESTORE"
 class SignupActivity : AppCompatActivity() {
 
     private lateinit var fireStoreDatabase: FirebaseFirestore
-
     private lateinit var firebaseAuth: FirebaseAuth
     private var binding: SignupBinding? = null
 
@@ -41,7 +41,7 @@ class SignupActivity : AppCompatActivity() {
             )
 
 
-        val user = findViewById<EditText>(R.id.Email)
+        val email = findViewById<EditText>(R.id.Email)
         val pass = findViewById<EditText>(R.id.Password)
         val repPass = findViewById<EditText>(R.id.RepeatPassword)
 
@@ -62,18 +62,18 @@ class SignupActivity : AppCompatActivity() {
 
         binding!!.signup.setOnClickListener {
 
-            if (user.getText().toString().isNotEmpty() && pass.getText()
+            if (email.getText().toString().isNotEmpty() && pass.getText()
                     .toString().isNotEmpty() && repPass.getText().toString().isNotEmpty()
             ) {
 
                 if (pass.getText().toString() == repPass.getText().toString()) {
 
                     firebaseAuth.createUserWithEmailAndPassword(
-                        user.getText().toString(),
+                        email.getText().toString(),
                         pass.getText().toString()
                     ).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            uploadData()
+                            uploadData(email.getText().toString())
                             val intent = Intent(this, HomeActivity::class.java)
                             startActivity(intent)
                         } else {
@@ -96,17 +96,16 @@ class SignupActivity : AppCompatActivity() {
 
 
     }
-    private fun uploadData() {
+    private fun uploadData(email: String) {
         val nome = findViewById<EditText>(R.id.Nome)
         val cognome = findViewById<EditText>(R.id.Cognome)
-
-        println(nome.getText().toString()+" "+cognome.getText().toString())
 
 
             // create a dummy data
         val hashMap = hashMapOf<String, Any>(
             "name" to nome.getText().toString(),
             "surname" to cognome.getText().toString(),
+            "Email" to email,
         )
 
             // use the add() method to create a document inside users collection
@@ -119,6 +118,5 @@ class SignupActivity : AppCompatActivity() {
                 Log.w(TAG, "Error adding document $exception")
             }
     }
-
 
 }
