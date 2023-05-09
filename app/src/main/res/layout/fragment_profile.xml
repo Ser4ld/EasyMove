@@ -19,7 +19,7 @@
             app:layout_constraintGuide_percent="0.1" />
 
         <com.google.android.material.card.MaterialCardView
-            android:id="@+id/materialCardView3"
+            android:id="@+id/materialCardBenvenuto"
             style="@style/custom_card_view_profile_style"
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -51,17 +51,18 @@
         </com.google.android.material.card.MaterialCardView>
 
         <ImageView
-            android:id="@+id/imageView2"
+            android:id="@+id/imageUser"
             android:layout_width="138dp"
             android:layout_height="108dp"
             android:src="@drawable/account_circle_app_theme"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/materialCardView3"
+            app:layout_constraintTop_toBottomOf="@+id/materialCardBenvenuto"
             app:layout_constraintVertical_bias="0.100000024" />
 
         <androidx.cardview.widget.CardView
+            android:id="@+id/cardInformazioniPersonali"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
@@ -73,7 +74,7 @@
             app:contentPadding="20dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageView2">
+            app:layout_constraintTop_toBottomOf="@+id/imageUser">
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -180,6 +181,28 @@
                     app:cornerRadius="10dp" />
 
             </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginRight="15dp"
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="25dp"
+            app:contentPadding="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cardInformazioniPersonali">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/white"
+                android:orientation="vertical"/>
         </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
