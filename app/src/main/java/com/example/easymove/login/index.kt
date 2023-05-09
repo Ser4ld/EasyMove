@@ -11,11 +11,11 @@ import com.example.easymove.R
 import com.example.easymove.registrazione.SignupActivity
 import com.google.android.material.card.MaterialCardView
 
-class SplashPageActivity : AppCompatActivity() {
+class index : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.splashpage)
+        setContentView(R.layout.index)
 
         val loginButton = findViewById<Button>(R.id.login_button_index)
         val signupButton = findViewById<Button>(R.id.signup_button_index)

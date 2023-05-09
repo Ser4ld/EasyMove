@@ -39,7 +39,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intentPassDimenticata)
         }
        backbutton.setOnClickListener{
-            val intentBack= Intent(this, SplashPageActivity::class.java)
+            val intentBack= Intent(this, index::class.java)
             startActivity(intentBack)
         }
         scrittaRegistrati.setOnClickListener{

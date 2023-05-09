@@ -12,7 +12,7 @@ import com.example.easymove.home.HomeActivity
 import com.example.easymove.databinding.SignupBinding
 import com.example.easymove.login.LoginActivity
 import com.example.easymove.R
-import com.example.easymove.login.SplashPageActivity
+import com.example.easymove.login.index
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
@@ -49,7 +49,7 @@ class SignupActivity : AppCompatActivity() {
 
 
         backButton.setOnClickListener {
-            val intentBack = Intent(this, SplashPageActivity::class.java)
+            val intentBack = Intent(this, index::class.java)
             startActivity(intentBack)
             finish()
         }
