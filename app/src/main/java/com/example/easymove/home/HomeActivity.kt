@@ -3,9 +3,10 @@ package com.example.easymove.home
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.example.easymove.profilo.ProfileFragment
 import com.example.easymove.R
 import com.example.easymove.databinding.HomeBinding
+import com.example.easymove.profilo.ProfileFragment
+
 
 class HomeActivity : AppCompatActivity() {
 
@@ -21,6 +22,7 @@ class HomeActivity : AppCompatActivity() {
 
         binding.bottomNavigationView.setOnItemSelectedListener {
 
+            /*quando viene cliccato un pulsante della bottomNavigationView, si effettua il controllo dell'id del pulsante e si passa il fragment corrispondente alla funzione ReplaceFragment*/
             when(it.itemId){
                 R.id.homeItem -> replaceFragment(HomeFragment())
                 R.id.profileItem -> replaceFragment(ProfileFragment())
@@ -30,6 +32,7 @@ class HomeActivity : AppCompatActivity() {
 
     }
 
+    /*funziona replaceFragment viene utilizzato per visualizzare un fragment*/
     private fun replaceFragment(fragment: Fragment){
         val fragmentManager=supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()

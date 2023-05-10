@@ -10,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity
 import com.example.easymove.home.HomeActivity
 import com.example.easymove.R
 import com.example.easymove.databinding.SignupBinding
+import com.example.easymove.profilo.ProfileFragment
 import com.example.easymove.registrazione.SignupActivity
 import com.google.firebase.auth.FirebaseAuth
 
@@ -36,6 +37,11 @@ class LoginActivity : AppCompatActivity() {
         val user = findViewById<EditText>(R.id.Email)
         val pass = findViewById<EditText>(R.id.Password)
 
+        val fragmentProfile = ProfileFragment()
+        val bundle = Bundle()
+
+
+        /*intent per passare alle schermate di RecuperoPassword, index (cliccando il backbutton) e pagina di registrazione */
 
         passwordDimenticata.setOnClickListener{
             val intentPassDimenticata= Intent(this, ResetPasswordActivity::class.java)
@@ -50,6 +56,7 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intentSignUp)
         }
 
+        /*esecuzione login quando clicco sul pulsante loginbtn (autenticazione firebase)*/
         loginbtn.setOnClickListener {
 
             if (user.getText().toString().isNotEmpty() && pass.getText().toString().isNotEmpty()) {
@@ -72,4 +79,6 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
+
+
 }
