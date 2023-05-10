@@ -80,6 +80,7 @@ class SignupActivity : AppCompatActivity() {
                             Log.d("ID DELLO USER", userId.toString())
                             val intent = Intent(this, HomeActivity::class.java)
                             startActivity(intent)
+                            startActivity(intent)
                         } else {
                             Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT)
                                 .show()

@@ -33,7 +33,7 @@
                 android:layout_height="match_parent">
 
                 <TextView
-                    android:id="@+id/textView3"
+                    android:id="@+id/benvenutoTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="Benvenuto User"
@@ -111,7 +111,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Mario"
+                        android:text=" "
                         android:textAlignment="viewEnd"
                         android:textColor="@color/black"
                         android:textSize="18dp" />
@@ -136,7 +136,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="Rossi"
+                        android:text=" "
                         android:textAlignment="viewEnd"
                         android:textColor="@color/black"
                         android:textSize="18dp" />
@@ -162,7 +162,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="example@gmail.com"
+                        android:text=" "
                         android:textAlignment="viewEnd"
                         android:textColor="@color/black"
                         android:textSize="18dp" />
