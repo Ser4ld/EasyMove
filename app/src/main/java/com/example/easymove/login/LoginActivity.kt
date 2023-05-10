@@ -9,6 +9,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.easymove.home.HomeActivity
 import com.example.easymove.R
+import com.example.easymove.databinding.SignupBinding
 import com.example.easymove.registrazione.SignupActivity
 import com.google.firebase.auth.FirebaseAuth
 
@@ -17,9 +18,11 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var firebaseAuth: FirebaseAuth
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
+
 
         firebaseAuth = FirebaseAuth.getInstance()
 
