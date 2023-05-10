@@ -73,7 +73,11 @@ class SignupActivity : AppCompatActivity() {
                         pass.getText().toString()
                     ).addOnCompleteListener {
                         if (it.isSuccessful) {
-                            uploadData(email.getText().toString())
+                            val user = FirebaseAuth.getInstance().currentUser
+                            val userId = user?.uid
+                            uploadData(email.getText().toString(), userId.toString())
+
+                            Log.d("ID DELLO USER", userId.toString())
                             val intent = Intent(this, HomeActivity::class.java)
                             startActivity(intent)
                         } else {
@@ -96,7 +100,7 @@ class SignupActivity : AppCompatActivity() {
 
 
     }
-    private fun uploadData(email: String) {
+    private fun uploadData(email: String, uid : String) {
         val nome = findViewById<EditText>(R.id.Nome)
         val cognome = findViewById<EditText>(R.id.Cognome)
 
@@ -110,9 +114,10 @@ class SignupActivity : AppCompatActivity() {
 
             // use the add() method to create a document inside users collection
         fireStoreDatabase.collection("users")
-            .add(hashMap)
+            .document(uid)
+            .set(hashMap)
             .addOnSuccessListener {
-                Log.d(TAG, "Added document with ID ${it.id}")
+                Log.d(TAG, "Added document with ID ${uid}")
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error adding document $exception")
