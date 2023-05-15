@@ -1,17 +1,17 @@
 package com.example.easymove.profilo
 
+import android.app.AlertDialog
 import android.content.ContentValues.TAG
-import android.content.Intent
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
+import android.widget.EditText
 import com.example.easymove.R
 import com.example.easymove.databinding.FragmentProfileBinding
-import com.example.easymove.databinding.SignupBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -70,8 +70,54 @@ class ProfileFragment : Fragment() {
                 Log.d(TAG, "get failed with ", exception)
             }
 
+        binding.modificabtn.setOnClickListener{
+            if (userId != null) {
+                showEditNamePopup(userId)
+            }
+        }
 
 
+
+
+    }
+
+    private fun showEditNamePopup(userId: String) {
+        // Crea un nuovo AlertDialog
+        val builder = AlertDialog.Builder(requireContext())
+
+        // Imposta la vista del popup
+        val view = layoutInflater.inflate(R.layout.popup_edit_data, null)
+        builder.setView(view)
+
+        // Trova i riferimenti ai due EditText
+        val editTextName = view.findViewById<EditText>(R.id.edit_text_email)
+
+        // Aggiungi i pulsanti "OK" e "Annulla"
+        builder.setPositiveButton("OK") { dialog: DialogInterface, _: Int ->
+            // Leggi i valori dai campi EditText
+            val newEmail = editTextName.text.toString()
+            // Aggiorna l'email nel Firestore database
+            val userDocRef = FirebaseFirestore.getInstance().collection("users").document(userId)
+            userDocRef.update("Email", newEmail)
+                .addOnSuccessListener {
+                    Log.d(TAG, "Email aggiornata nel Firestore database")
+                }
+                .addOnFailureListener { e ->
+                    Log.w(
+                        TAG,
+                        "Errore durante l'aggiornamento dell'email nel Firestore database",
+                        e
+                    )
+                }
+            binding.emailTV.text = newEmail
+            // Aggiorna l'email nel Firestore Authentication
+            val user = FirebaseAuth.getInstance().currentUser
+            user?.updateEmail(newEmail)?.addOnSuccessListener { Log.d(TAG, "Email aggiornata nel Firestore Authentication") }?.addOnFailureListener { e -> Log.w(TAG, "Errore durante l'aggiornamento dell'email nel Firestore Authentication", e) }
+        }
+        builder.setNegativeButton("Annulla", null)
+
+        // Mostra il popup
+        builder.show()
 
     }
 
