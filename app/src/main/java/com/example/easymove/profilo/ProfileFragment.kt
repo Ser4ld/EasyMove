@@ -89,7 +89,7 @@ class ProfileFragment : Fragment() {
         val view = layoutInflater.inflate(R.layout.popup_edit_data, null)
         builder.setView(view)
 
-        // Trova i riferimenti ai due EditText
+        // Trova i riferimenti all' EditText
         val editTextName = view.findViewById<EditText>(R.id.edit_text_email)
 
         // Aggiungi i pulsanti "OK" e "Annulla"
