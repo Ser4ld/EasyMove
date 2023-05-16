@@ -64,6 +64,10 @@ class ProfileFragment : Fragment() {
             binding.cognomeTV.text = surname
         }
 
+        binding.modificabtn.setOnClickListener {
+            showEditNamePopup(prova.getUserId())
+        }
+
         binding.modificaPasswordbtn.setOnClickListener{
             val intentModificaPass = Intent(requireActivity(), ResetPasswordActivity::class.java)
             startActivity(intentModificaPass)
