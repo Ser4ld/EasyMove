@@ -44,20 +44,7 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fireStoreDatabase = FirebaseFirestore.getInstance()
-        val user = FirebaseAuth.getInstance().currentUser
-        var credenziali:String = ""
-        val userId = user?.uid
-        val docRef = db.collection("users").document(userId.toString())
-        docRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    credenziali = document.data.toString()
-                    val split1 = credenziali.split(",")
-                    val splitEmail =split1[0].split("=")
-                    val splitNome =split1[2].split("=")
-                    val result = splitNome[1].substring(0, splitNome[1].length-1)
-                    val splitCognome =split1[1].split("=")
+
 
         val userEmailTask = prova.getUserEmail()
         val userNameTask = prova.getUserName()
