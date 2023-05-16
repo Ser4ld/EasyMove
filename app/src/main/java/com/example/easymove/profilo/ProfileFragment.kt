@@ -3,6 +3,7 @@ package com.example.easymove.profilo
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import com.example.easymove.R
 import com.example.easymove.databinding.FragmentProfileBinding
+import com.example.easymove.login.ResetPasswordActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -42,6 +44,20 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        fireStoreDatabase = FirebaseFirestore.getInstance()
+        val user = FirebaseAuth.getInstance().currentUser
+        var credenziali:String = ""
+        val userId = user?.uid
+        val docRef = db.collection("users").document(userId.toString())
+        docRef.get()
+            .addOnSuccessListener { document ->
+                if (document != null) {
+                    credenziali = document.data.toString()
+                    val split1 = credenziali.split(",")
+                    val splitEmail =split1[0].split("=")
+                    val splitNome =split1[2].split("=")
+                    val result = splitNome[1].substring(0, splitNome[1].length-1)
+                    val splitCognome =split1[1].split("=")
 
         val userEmailTask = prova.getUserEmail()
         val userNameTask = prova.getUserName()
@@ -61,7 +77,13 @@ class ProfileFragment : Fragment() {
             binding.cognomeTV.text = surname
         }
 
+        binding.modificaPasswordbtn.setOnClickListener{
+            val intentModificaPass = Intent(requireActivity(), ResetPasswordActivity::class.java)
+            startActivity(intentModificaPass)
+        }
+
     }
+
 
     private fun showEditNamePopup(userId: String) {
         // Crea un nuovo AlertDialog

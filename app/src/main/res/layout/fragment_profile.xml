@@ -168,7 +168,18 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="MODIFICA DATI "
+                    android:text="MODIFICA EMAIL "
+                    android:textColor="@color/white"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    app:cornerRadius="10dp" />
+
+                <Button
+                    android:id="@+id/modificaPasswordbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:text="MODIFICA PASSWORD "
                     android:textColor="@color/white"
                     android:textSize="18dp"
                     android:textStyle="bold"
