@@ -27,6 +27,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var fireStoreDatabase: FirebaseFirestore
+    val prova = ProfileRepository()
 
 
     override fun onCreateView(
@@ -43,39 +44,28 @@ class ProfileFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        fireStoreDatabase = FirebaseFirestore.getInstance()
-        val user = FirebaseAuth.getInstance().currentUser
-        var credenziali:String = ""
-        val userId = user?.uid
-        val docRef = db.collection("users").document(userId.toString())
-        docRef.get()
-            .addOnSuccessListener { document ->
-                if (document != null) {
-                    credenziali = document.data.toString()
-                    val split1 = credenziali.split(",")
-                    val splitEmail =split1[0].split("=")
-                    val splitNome =split1[2].split("=")
-                    val result = splitNome[1].substring(0, splitNome[1].length-1)
-                    val splitCognome =split1[1].split("=")
 
-                    binding.emailTV.text = splitEmail[1]
-                    binding.nomeTV.text = result
-                    binding.cognomeTV.text = splitCognome[1]
-                    binding.benvenutoTV.text = "Benvenuto " + result
 
-                    Log.d(TAG, "DocumentSnapshot data: ${document.data}")
-                } else {
-                    Log.d(TAG, "No such document")
-                }
-            }
-            .addOnFailureListener { exception ->
-                Log.d(TAG, "get failed with ", exception)
-            }
+        val userEmailTask = prova.getUserEmail()
+        val userNameTask = prova.getUserName()
+        val userSurnameTask = prova.getUserSurname()
 
-        binding.modificabtn.setOnClickListener{
-            if (userId != null) {
-                showEditNamePopup(userId)
-            }
+        userEmailTask.addOnSuccessListener { email ->
+            binding.emailTV.text = email
+
+        }
+
+        userNameTask.addOnSuccessListener { name ->
+            binding.nomeTV.text = name
+            binding.benvenutoTV.text = "Benvenuto "+ name
+        }
+
+        userSurnameTask.addOnSuccessListener { surname ->
+            binding.cognomeTV.text = surname
+        }
+
+        binding.modificabtn.setOnClickListener {
+            showEditNamePopup(prova.getUserId())
         }
 
         binding.modificaPasswordbtn.setOnClickListener{
