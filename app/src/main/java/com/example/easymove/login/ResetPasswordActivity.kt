@@ -48,9 +48,14 @@ class ResetPasswordActivity : AppCompatActivity() {
         }
 
         backbutton.setOnClickListener{
-            val intentBack= Intent(this, LoginActivity::class.java)
-            startActivity(intentBack)
-            finish()
+            onBackPressed()
         }
+
+
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        finish()
     }
 }
