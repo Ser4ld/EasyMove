@@ -3,6 +3,7 @@ package com.example.easymove.profilo
 import android.app.AlertDialog
 import android.content.ContentValues.TAG
 import android.content.DialogInterface
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -12,6 +13,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import com.example.easymove.R
 import com.example.easymove.databinding.FragmentProfileBinding
+import com.example.easymove.login.ResetPasswordActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -76,10 +78,13 @@ class ProfileFragment : Fragment() {
             }
         }
 
-
-
+        binding.modificaPasswordbtn.setOnClickListener{
+            val intentModificaPass = Intent(requireActivity(), ResetPasswordActivity::class.java)
+            startActivity(intentModificaPass)
+        }
 
     }
+
 
     private fun showEditNamePopup(userId: String) {
         // Crea un nuovo AlertDialog

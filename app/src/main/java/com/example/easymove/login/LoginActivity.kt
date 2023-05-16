@@ -15,19 +15,12 @@ import com.example.easymove.registrazione.SignupActivity
 import com.google.firebase.auth.FirebaseAuth
 
 
-class LoginActivity : AppCompatActivity() {
+open class LoginActivity : AppCompatActivity() {
 
-    private lateinit var firebaseAuth: FirebaseAuth
-
-
+    val loginRepository = LoginRepository(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.login)
-
-
-        firebaseAuth = FirebaseAuth.getInstance()
-
-
         val backbutton= findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(
             R.id.floatingActionButton
         )
@@ -36,9 +29,6 @@ class LoginActivity : AppCompatActivity() {
         val loginbtn = findViewById<Button>(R.id.login)
         val user = findViewById<EditText>(R.id.Email)
         val pass = findViewById<EditText>(R.id.Password)
-
-        val fragmentProfile = ProfileFragment()
-        val bundle = Bundle()
 
 
         /*intent per passare alle schermate di RecuperoPassword, index (cliccando il backbutton) e pagina di registrazione */
@@ -56,22 +46,10 @@ class LoginActivity : AppCompatActivity() {
             startActivity(intentSignUp)
         }
 
-        /*esecuzione login quando clicco sul pulsante loginbtn (autenticazione firebase)*/
         loginbtn.setOnClickListener {
 
             if (user.getText().toString().isNotEmpty() && pass.getText().toString().isNotEmpty()) {
-
-
-                firebaseAuth.signInWithEmailAndPassword(user.getText().toString(), pass.getText().toString()).addOnCompleteListener{
-                    if(it.isSuccessful){
-                        val intent = Intent(this, HomeActivity::class.java)
-                        startActivity(intent)
-                    }
-                    else{
-                        Toast.makeText(this, "Email o Password non corretti", Toast.LENGTH_SHORT).show()
-
-                    }
-                }
+                loginRepository.autenticazione(user.getText().toString(), pass.getText().toString())
             }
             else{
                 Toast.makeText(this, "Email o Password non inseriti", Toast.LENGTH_SHORT).show()
@@ -79,6 +57,5 @@ class LoginActivity : AppCompatActivity() {
         }
 
     }
-
 
 }
