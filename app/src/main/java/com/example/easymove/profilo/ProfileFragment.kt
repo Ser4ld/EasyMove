@@ -39,11 +39,8 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
 
         _binding= FragmentProfileBinding.inflate(inflater, container, false)
-
-
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
 
-        // Osserva il LiveData per gli aggiornamenti dei dati
         // Osserva i valori nell'HashMap per gli aggiornamenti
         viewModel.getData().forEach { (key, value) ->
             value.observe(viewLifecycleOwner, Observer { data ->
@@ -51,31 +48,22 @@ class ProfileFragment : Fragment() {
                 // Puoi utilizzare la chiave per identificare quale valore aggiornare
                 when (key) {
                     "email" -> {
-                        // Aggiorna il valore per "key1" nell'interfaccia utente
                         binding.emailTV.text = data
                     }
                     "name" -> {
-                        // Aggiorna il valore per "key2" nell'interfaccia utente
-                        // Ad esempio, puoi impostare il testo di una TextView con il nuovo valore
                         binding.nomeTV.text = data
                         binding.benvenutoTV.text= "Benvenuto " + data
                     }
                     "surname" -> {
-                        // Aggiorna il valore per "key2" nell'interfaccia utente
-                        // Ad esempio, puoi impostare il testo di una TextView con il nuovo valore
                         binding.cognomeTV.text = data
                     }
                 }
             })
         }
-
-
         // Richiamo la funzione fetchData() per ottenere i dati desiderati
         viewModel.fetchData()
 
         return binding.root
-
-
     }
 
  /*   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

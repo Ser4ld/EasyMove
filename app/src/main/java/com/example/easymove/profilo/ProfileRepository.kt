@@ -27,6 +27,20 @@ class ProfileRepository {
 
     }
 
+    fun updateMail(key: String, newValue: String) {
+        val docRef = db.collection("users").document(getUserId())
+
+        docRef.update(key , newValue)
+            .addOnSuccessListener {
+                Log.d("Email Modificata", "successo")
+            }
+            .addOnFailureListener { e ->
+                Log.d("Email Modificata", "fallito")
+            }
+
+
+    }
+
 
 
 
