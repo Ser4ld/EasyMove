@@ -19,32 +19,38 @@ class ProfileViewModel: ViewModel() {
     private val data: HashMap<String, MutableLiveData<String?>> = hashMapOf(
         "email" to MutableLiveData(),
         "name" to MutableLiveData(),
-        "surname" to MutableLiveData()
+        "surname" to MutableLiveData(),
+        "id" to MutableLiveData()
     )
 
     fun fetchData() {
-        viewModelScope.launch {
-            withContext(Dispatchers.IO) {
 
-                repository.getDataFromFirestore().addOnCompleteListener(OnCompleteListener { task ->
-                    if (task.isSuccessful) {
-                        val result: DocumentSnapshot? = task.result
-                        val email =
-                            result?.getString("Email") // Sostituisci "your_field" con il nome del campo che desideri ottenere dal documento
-                        val name = result?.getString("name")
-                        val surname = result?.getString("surname")
 
-                        data["email"]?.value = email
-                        data["name"]?.value = name
-                        data["surname"]?.value = surname
+        repository.getDataFromFirestore().addOnCompleteListener(OnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val result: DocumentSnapshot? = task.result
+                val email =
+                    result?.getString("Email") // Sostituisci "your_field" con il nome del campo che desideri ottenere dal documento
+                val name = result?.getString("name")
+                val surname = result?.getString("surname")
 
-                    }
-                })
+                data["email"]?.value = email
+                data["name"]?.value = name
+                data["surname"]?.value = surname
+                data["id"]?.value= repository.getUserId()
+
             }
-        }
+        })
     }
+
+
+
     fun getData(): HashMap<String, MutableLiveData<String?>> {
         return data
+    }
+
+    fun updateEmail(key: String, newValue: String) {
+        repository.updateMail(key, newValue)
     }
 
 }

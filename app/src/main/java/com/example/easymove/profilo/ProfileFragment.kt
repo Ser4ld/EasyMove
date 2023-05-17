@@ -54,11 +54,17 @@ class ProfileFragment : Fragment() {
                     }
                     "name" -> {
                         binding.nomeTV.text = data
-                        binding.benvenutoTV.append(" $data")
+                        binding.benvenutoTV.text = "Benvenuto $data"
                     }
                     "surname" -> {
                         binding.cognomeTV.text = data
                     }
+                    "id" -> {
+                        binding.modificabtn.setOnClickListener {
+                            showEditNamePopup(data.toString())
+                        }
+                    }
+
                 }
             })
         }
@@ -66,39 +72,15 @@ class ProfileFragment : Fragment() {
         // Richiamo la funzione fetchData() per ottenere i dati desiderati
         viewModel.fetchData()
 
-        return binding.root
-    }
-
- /*   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-
-        val userEmailTask = prova.getUserEmail()
-        val userNameTask = prova.getUserName()
-        val userSurnameTask = prova.getUserSurname()
-
-        userEmailTask.addOnSuccessListener { email ->
-            binding.emailTV.text = email
-
-        }
-
-        userNameTask.addOnSuccessListener { name ->
-            binding.nomeTV.text = name
-            binding.benvenutoTV.text = "Benvenuto "+ name
-        }
-
-        userSurnameTask.addOnSuccessListener { surname ->
-            binding.cognomeTV.text = surname
-        }
-
-        binding.modificabtn.setOnClickListener {
-            showEditNamePopup(prova.getUserId())
-        }
-
         binding.modificaPasswordbtn.setOnClickListener{
             val intentModificaPass = Intent(requireActivity(), ResetPasswordActivity::class.java)
             startActivity(intentModificaPass)
         }
+
+        return binding.root
+
+
+
 
     }
 
@@ -116,31 +98,15 @@ class ProfileFragment : Fragment() {
 
         // Aggiungi i pulsanti "OK" e "Annulla"
         builder.setPositiveButton("OK") { dialog: DialogInterface, _: Int ->
-            // Leggi i valori dai campi EditText
-            val newEmail = editTextName.text.toString()
-            // Aggiorna l'email nel Firestore database
-            val userDocRef = FirebaseFirestore.getInstance().collection("users").document(userId)
-            userDocRef.update("Email", newEmail)
-                .addOnSuccessListener {
-                    Log.d(TAG, "Email aggiornata nel Firestore database")
-                }
-                .addOnFailureListener { e ->
-                    Log.w(
-                        TAG,
-                        "Errore durante l'aggiornamento dell'email nel Firestore database",
-                        e
-                    )
-                }
-            binding.emailTV.text = newEmail
-            // Aggiorna l'email nel Firestore Authentication
-            val user = FirebaseAuth.getInstance().currentUser
-            user?.updateEmail(newEmail)?.addOnSuccessListener { Log.d(TAG, "Email aggiornata nel Firestore Authentication") }?.addOnFailureListener { e -> Log.w(TAG, "Errore durante l'aggiornamento dell'email nel Firestore Authentication", e) }
+
+            viewModel.updateEmail("Email", editTextName.text.toString())
+            viewModel.fetchData()
         }
         builder.setNegativeButton("Annulla", null)
 
         // Mostra il popup
         builder.show()
 
-    }*/
+    }
 
 }
