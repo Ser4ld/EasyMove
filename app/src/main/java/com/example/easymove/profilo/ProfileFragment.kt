@@ -11,6 +11,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.R
 import com.example.easymove.databinding.FragmentProfileBinding
 import com.example.easymove.login.ResetPasswordActivity
@@ -27,7 +29,7 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var fireStoreDatabase: FirebaseFirestore
-    val prova = ProfileRepository()
+    private lateinit var viewModel: ProfileViewModel
 
 
     override fun onCreateView(
@@ -37,12 +39,46 @@ class ProfileFragment : Fragment() {
         // Inflate the layout for this fragment
 
         _binding= FragmentProfileBinding.inflate(inflater, container, false)
+
+
+        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+
+        // Osserva il LiveData per gli aggiornamenti dei dati
+        // Osserva i valori nell'HashMap per gli aggiornamenti
+        viewModel.getData().forEach { (key, value) ->
+            value.observe(viewLifecycleOwner, Observer { data ->
+                // Aggiorna l'interfaccia utente con i nuovi dati
+                // Puoi utilizzare la chiave per identificare quale valore aggiornare
+                when (key) {
+                    "email" -> {
+                        // Aggiorna il valore per "key1" nell'interfaccia utente
+                        binding.emailTV.text = data
+                    }
+                    "name" -> {
+                        // Aggiorna il valore per "key2" nell'interfaccia utente
+                        // Ad esempio, puoi impostare il testo di una TextView con il nuovo valore
+                        binding.nomeTV.text = data
+                        binding.benvenutoTV.text= "Benvenuto " + data
+                    }
+                    "surname" -> {
+                        // Aggiorna il valore per "key2" nell'interfaccia utente
+                        // Ad esempio, puoi impostare il testo di una TextView con il nuovo valore
+                        binding.cognomeTV.text = data
+                    }
+                }
+            })
+        }
+
+
+        // Richiamo la funzione fetchData() per ottenere i dati desiderati
+        viewModel.fetchData()
+
         return binding.root
 
 
     }
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+ /*   override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
 
@@ -114,6 +150,6 @@ class ProfileFragment : Fragment() {
         // Mostra il popup
         builder.show()
 
-    }
+    }*/
 
 }
