@@ -50,9 +50,11 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
 
             // Esegui altre operazioni sulla mappa
             // ...
-            val position = LatLng(43.58685879237719, 13.516592134589143)
-            it.addMarker(MarkerOptions().position(position).title("Marker"))
-            it.moveCamera(CameraUpdateFactory.newLatLng(position))
+
+            val startPoint = LatLng(43.58685879237719, 13.516592134589143)
+            val endPoint = LatLng(42.86820613903017, 13.921166498128718)
+            googleMap.addMarker(MarkerOptions().position(startPoint).title("Punto di partenza"))
+            googleMap.addMarker(MarkerOptions().position(endPoint).title("Punto di arrivo"))
         }
     }
 
