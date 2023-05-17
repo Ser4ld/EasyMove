@@ -36,7 +36,7 @@
                     android:id="@+id/benvenutoTV"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Benvenuto User"
+                    android:text="Benvenuto"
                     android:textColor="@color/white"
                     android:textSize="30dp"
                     android:textStyle="bold"

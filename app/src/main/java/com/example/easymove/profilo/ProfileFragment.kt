@@ -41,6 +41,8 @@ class ProfileFragment : Fragment() {
         _binding= FragmentProfileBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
 
+
+
         // Osserva i valori nell'HashMap per gli aggiornamenti
         viewModel.getData().forEach { (key, value) ->
             value.observe(viewLifecycleOwner, Observer { data ->
@@ -52,7 +54,7 @@ class ProfileFragment : Fragment() {
                     }
                     "name" -> {
                         binding.nomeTV.text = data
-                        binding.benvenutoTV.text= "Benvenuto " + data
+                        binding.benvenutoTV.append(" $data")
                     }
                     "surname" -> {
                         binding.cognomeTV.text = data
@@ -60,6 +62,7 @@ class ProfileFragment : Fragment() {
                 }
             })
         }
+
         // Richiamo la funzione fetchData() per ottenere i dati desiderati
         viewModel.fetchData()
 
