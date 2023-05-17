@@ -2,60 +2,44 @@ package com.example.easymove.login
 
 import android.content.Intent
 import android.os.Bundle
-import android.widget.Button
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import com.example.easymove.home.HomeActivity
-import com.example.easymove.R
-import com.example.easymove.databinding.SignupBinding
-import com.example.easymove.profilo.ProfileFragment
+import com.example.easymove.databinding.LoginBinding
 import com.example.easymove.registrazione.SignupActivity
-import com.google.firebase.auth.FirebaseAuth
 
+class LoginActivity : AppCompatActivity() {
 
-open class LoginActivity : AppCompatActivity() {
+    private lateinit var binding: LoginBinding
+    private val loginRepository = LoginRepository(this)
 
-    val loginRepository = LoginRepository(this)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.login)
-        val backbutton= findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(
-            R.id.floatingActionButton
-        )
-        val scrittaRegistrati = findViewById<TextView>(R.id.text_sing_up_2)
-        val passwordDimenticata = findViewById<TextView>(R.id.passwordDimenticata)
-        val loginbtn = findViewById<Button>(R.id.login)
-        val user = findViewById<EditText>(R.id.Email)
-        val pass = findViewById<EditText>(R.id.Password)
+        binding = LoginBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         /*intent per passare alle schermate di RecuperoPassword, index (cliccando il backbutton) e pagina di registrazione */
 
-        passwordDimenticata.setOnClickListener{
+        binding.passwordDimenticata.setOnClickListener{
             val intentPassDimenticata= Intent(this, ResetPasswordActivity::class.java)
             startActivity(intentPassDimenticata)
         }
-       backbutton.setOnClickListener{
-            val intentBack= Intent(this, index::class.java)
-            startActivity(intentBack)
+        binding.floatingActionButton.setOnClickListener{
+            onBackPressed()
         }
-        scrittaRegistrati.setOnClickListener{
+        binding.textSingUp2.setOnClickListener{
             val intentSignUp = Intent(this, SignupActivity::class.java)
             startActivity(intentSignUp)
         }
 
-        loginbtn.setOnClickListener {
+        binding.login.setOnClickListener {
 
-            if (user.getText().toString().isNotEmpty() && pass.getText().toString().isNotEmpty()) {
-                loginRepository.autenticazione(user.getText().toString(), pass.getText().toString())
+            if (binding.Email.text.toString().isNotEmpty() && binding.Password.text.toString().isNotEmpty()) {
+                loginRepository.autenticazione(binding.Email.text.toString(), binding.Password.text.toString())
             }
             else{
                 Toast.makeText(this, "Email o Password non inseriti", Toast.LENGTH_SHORT).show()
             }
         }
-
     }
-
 }

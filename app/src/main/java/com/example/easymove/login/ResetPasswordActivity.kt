@@ -1,44 +1,36 @@
 package com.example.easymove.login
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.widget.Button
-import android.widget.TextView
 import android.widget.Toast
-import com.example.easymove.R
+import com.example.easymove.databinding.ResetpasswordBinding
 import com.google.firebase.auth.FirebaseAuth
 
 class ResetPasswordActivity : AppCompatActivity() {
 
     private lateinit var auth: FirebaseAuth
+    private lateinit var binding: ResetpasswordBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.resetpassword)
-
-
-        val backbutton= findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(
-            R.id.floatingActionButton
-        )
-        val etPassword = findViewById<TextView>(R.id.Email)
-        val resetbtn = findViewById<Button>(R.id.resetbtn)
+        binding = ResetpasswordBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
         auth= FirebaseAuth.getInstance()
 
-        resetbtn.setOnClickListener{
+        binding.resetbtn.setOnClickListener{
 
-            val sPassword= etPassword.text.toString()
-            auth.sendPasswordResetEmail(sPassword)
+
+            auth.sendPasswordResetEmail(binding.Email.text.toString())
                 .addOnSuccessListener {
                     Toast.makeText(this, "Controlla la tua Email", Toast.LENGTH_SHORT).show()
 
                     Handler(Looper.getMainLooper()).postDelayed({
                         finish();
-                       /** overridePendingTransition(0, R.anim.animation_1);*/
+                        /** overridePendingTransition(0, R.anim.animation_1);*/
                     }, 3000)
 
                 }
@@ -47,11 +39,9 @@ class ResetPasswordActivity : AppCompatActivity() {
                 }
         }
 
-        backbutton.setOnClickListener{
+        binding.floatingActionButton.setOnClickListener{
             onBackPressed()
         }
-
-
     }
 
     override fun onBackPressed() {

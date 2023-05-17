@@ -4,25 +4,20 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.animation.AnimationUtils
-import android.widget.Button
-import android.widget.ImageView
-import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import com.example.easymove.R
+import com.example.easymove.databinding.IndexBinding
 import com.example.easymove.registrazione.SignupActivity
 import com.google.android.material.card.MaterialCardView
 
 class index : AppCompatActivity() {
 
+    private lateinit var binding: IndexBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.index)
-
-        val loginButton = findViewById<Button>(R.id.login_button_index)
-        val signupButton = findViewById<Button>(R.id.signup_button_index)
-        val logo = findViewById<ImageView>(R.id.EasyMoveLogo)
-        val cardview = findViewById<MaterialCardView>(R.id.cardview_index)
-        val text_header = findViewById<TextView>(R.id.textView_header)
-        val text_sub_header = findViewById<TextView>(R.id.textView_sub_header)
+        binding = IndexBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
 
         val animation_1 = AnimationUtils.loadAnimation(this, R.anim.animation_1)
@@ -30,24 +25,23 @@ class index : AppCompatActivity() {
         val animation_3 = AnimationUtils.loadAnimation(this, R.anim.animation_3)
         val animation_4 = AnimationUtils.loadAnimation(this, R.anim.animation_4)
 
-        logo.startAnimation(animation_1)
-        cardview.startAnimation(animation_2)
-        loginButton.startAnimation(animation_3)
-        signupButton.startAnimation(animation_3)
-        text_header.startAnimation(animation_4)
-        text_sub_header.startAnimation(animation_4)
+        binding.loginButtonIndex.startAnimation(animation_1)
+        binding.cardviewIndex.startAnimation(animation_2)
+        binding.loginButtonIndex.startAnimation(animation_3)
+        binding.signupButtonIndex.startAnimation(animation_3)
+        binding.textViewHeader.startAnimation(animation_4)
+        binding.textViewSubHeader.startAnimation(animation_4)
 
-        loginButton.setOnClickListener{
+        binding.loginButtonIndex.setOnClickListener{
             val intentLogin = Intent(this, LoginActivity::class.java)
             startActivity(intentLogin)
         }
 
-        signupButton.setOnClickListener{
+        binding.signupButtonIndex.setOnClickListener{
             val intentSignup = Intent(this, SignupActivity::class.java)
             startActivity(intentSignup)
         }
 
     }
-
 
 }

@@ -5,8 +5,6 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
 import com.example.easymove.home.HomeActivity
 import com.example.easymove.databinding.SignupBinding
@@ -16,113 +14,84 @@ import com.example.easymove.login.index
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
-
 const val TAG = "FIRESTORE"
-
 
 class SignupActivity : AppCompatActivity() {
 
     private lateinit var fireStoreDatabase: FirebaseFirestore
     private lateinit var firebaseAuth: FirebaseAuth
-    private var binding: SignupBinding? = null
+    private lateinit var binding: SignupBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = SignupBinding.inflate(layoutInflater)
-        setContentView(binding?.root)
-
+        setContentView(binding.root)
 
         fireStoreDatabase = FirebaseFirestore.getInstance()
         firebaseAuth = FirebaseAuth.getInstance()
 
-        val backButton =
-            findViewById<com.google.android.material.floatingactionbutton.FloatingActionButton>(
-                R.id.floatingActionButton
-            )
-
-
-        val email = findViewById<EditText>(R.id.Email)
-        val pass = findViewById<EditText>(R.id.Password)
-        val repPass = findViewById<EditText>(R.id.RepeatPassword)
-
-        val scrittaAccedi = findViewById<TextView>(R.id.text_login_2)
-
-
-        backButton.setOnClickListener {
+        binding.floatingActionButton.setOnClickListener {
             val intentBack = Intent(this, index::class.java)
             startActivity(intentBack)
             finish()
         }
 
-        scrittaAccedi.setOnClickListener {
+        binding.textLogin2.setOnClickListener {
             val intentSignUp = Intent(this, LoginActivity::class.java)
             startActivity(intentSignUp)
             finish()
         }
 
-        binding!!.signup.setOnClickListener {
+        binding.signup.setOnClickListener {
 
-            if (email.getText().toString().isNotEmpty() && pass.getText()
-                    .toString().isNotEmpty() && repPass.getText().toString().isNotEmpty()
-            ) {
+            if (binding.Email.text.toString().isNotEmpty() && binding.Password.text.toString().isNotEmpty() && binding.RepeatPassword.text.toString().isNotEmpty()) {
+                if (binding.Password.text.toString() == binding.RepeatPassword.text.toString()) {
+                    firebaseAuth.createUserWithEmailAndPassword(binding.Email.text.toString(), binding.Password.text.toString())
+                        .addOnCompleteListener { task ->
+                            if (task.isSuccessful) {
+                                val user = FirebaseAuth.getInstance().currentUser
+                                val userId = user?.uid
+                                uploadData(binding.Email.text.toString(), userId.toString(), binding.Nome.text.toString(), binding.Cognome.text.toString())
 
-                if (pass.getText().toString() == repPass.getText().toString()) {
-
-                    firebaseAuth.createUserWithEmailAndPassword(
-                        email.getText().toString(),
-                        pass.getText().toString()
-                    ).addOnCompleteListener {
-                        if (it.isSuccessful) {
-                            val user = FirebaseAuth.getInstance().currentUser
-                            val userId = user?.uid
-                            uploadData(email.getText().toString(), userId.toString())
-
-                            Log.d("ID DELLO USER", userId.toString())
-                            val intent = Intent(this, HomeActivity::class.java)
-                            startActivity(intent)
-                            startActivity(intent)
-                        } else {
-                            Toast.makeText(this, it.exception.toString(), Toast.LENGTH_SHORT)
-                                .show()
-
+                                Log.d("ID DELLO USER", userId.toString())
+                                val intent = Intent(this, HomeActivity::class.java)
+                                startActivity(intent)
+                                finish()
+                            } else {
+                                Toast.makeText(
+                                    this,
+                                    task.exception?.message,
+                                    Toast.LENGTH_SHORT
+                                ).show()
+                            }
                         }
-                    }
-
                 } else {
                     Toast.makeText(this, "Le Password non sono uguali", Toast.LENGTH_SHORT)
                         .show()
                 }
-
             } else {
                 Toast.makeText(this, "Username o Password non inseriti", Toast.LENGTH_SHORT)
                     .show()
             }
         }
-
-
     }
-    private fun uploadData(email: String, uid : String) {
-        val nome = findViewById<EditText>(R.id.Nome)
-        val cognome = findViewById<EditText>(R.id.Cognome)
 
-
-            // create a dummy data
+    private fun uploadData(email: String, uid: String, nome: String, cognome: String) {
         val hashMap = hashMapOf<String, Any>(
-            "name" to nome.getText().toString(),
-            "surname" to cognome.getText().toString(),
-            "Email" to email,
+            "name" to nome,
+            "surname" to cognome,
+            "Email" to email
         )
 
-            // use the add() method to create a document inside users collection
         fireStoreDatabase.collection("users")
             .document(uid)
             .set(hashMap)
             .addOnSuccessListener {
-                Log.d(TAG, "Added document with ID ${uid}")
+                Log.d(TAG, "Added document with ID $uid")
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error adding document $exception")
             }
     }
-
 }
+
