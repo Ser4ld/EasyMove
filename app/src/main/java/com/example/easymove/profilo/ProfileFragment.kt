@@ -11,11 +11,13 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.EditText
+import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.R
 import com.example.easymove.databinding.FragmentProfileBinding
 import com.example.easymove.login.ResetPasswordActivity
+import com.example.easymove.login.index
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -77,6 +79,10 @@ class ProfileFragment : Fragment() {
             startActivity(intentModificaPass)
         }
 
+
+        binding.logout.setOnClickListener{
+            logout()
+        }
         return binding.root
 
 
@@ -106,7 +112,34 @@ class ProfileFragment : Fragment() {
 
         // Mostra il popup
         builder.show()
+    }
+
+    private fun logout() {
+
+        // Crea un nuovo AlertDialog
+        val builder = AlertDialog.Builder(requireContext())
+
+        builder.setMessage("Clicca 'conferma' per effettuare il logout:")
+
+        // Aggiungi i pulsanti "Conferma" e "Annulla"
+        builder.setPositiveButton("Conferma") { dialog: DialogInterface, _: Int ->
+
+            FirebaseAuth.getInstance().signOut()
+            Toast.makeText(requireContext(), "Logout effettuato", Toast.LENGTH_SHORT).show()
+            val intentLogout = Intent(requireContext(), index::class.java)
+            startActivity(intentLogout)
+            requireActivity().finish()
+
+        }
+        builder.setNegativeButton("Annulla", null)
+
+        // Mostra il popup
+        builder.show()
+
 
     }
+
+
+
 
 }

@@ -13,6 +13,7 @@ import com.google.android.material.card.MaterialCardView
 class index : AppCompatActivity() {
 
     private lateinit var binding: IndexBinding
+    private val loginRepository = LoginRepository(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,6 +34,7 @@ class index : AppCompatActivity() {
         binding.textViewSubHeader.startAnimation(animation_4)
 
         binding.loginButtonIndex.setOnClickListener{
+
             val intentLogin = Intent(this, LoginActivity::class.java)
             startActivity(intentLogin)
         }
@@ -41,6 +43,7 @@ class index : AppCompatActivity() {
             val intentSignup = Intent(this, SignupActivity::class.java)
             startActivity(intentSignup)
         }
+
 
     }
 

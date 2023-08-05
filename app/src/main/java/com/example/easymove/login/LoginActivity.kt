@@ -17,7 +17,7 @@ class LoginActivity : AppCompatActivity() {
         binding = LoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
+        loginRepository.autoLogin()
         /*intent per passare alle schermate di RecuperoPassword, index (cliccando il backbutton) e pagina di registrazione */
 
         binding.passwordDimenticata.setOnClickListener{
