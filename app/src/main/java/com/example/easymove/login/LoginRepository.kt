@@ -11,11 +11,17 @@ class LoginRepository(private val activity: AppCompatActivity) {
 
     private val firebaseAuth = FirebaseAuth.getInstance()
 
+    fun goHome(){
+        val intentAutoLogin = Intent(activity, HomeActivity::class.java)
+        activity.startActivity(intentAutoLogin)
+        activity.finish()
+
+    }
+
     fun autenticazione(user:String ,pass:String){
         firebaseAuth.signInWithEmailAndPassword(user, pass).addOnCompleteListener{
             if(it.isSuccessful){
-                val intent = Intent(activity, HomeActivity::class.java)
-                activity.startActivity(intent)
+                goHome()
             }
             else{
                 Toast.makeText(activity, "Email o Password non corretti", Toast.LENGTH_SHORT).show()
@@ -26,10 +32,11 @@ class LoginRepository(private val activity: AppCompatActivity) {
 
     fun autoLogin() {
         val currentUser = firebaseAuth.currentUser
-
         if (currentUser != null) {
-            val intentAutoLogin = Intent(activity, HomeActivity::class.java)
-            activity.startActivity(intentAutoLogin)
+            goHome()
         }
     }
+
+
+
 }

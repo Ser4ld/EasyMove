@@ -41,4 +41,10 @@ class HomeActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
     }
+
+    override fun onBackPressed() {
+        // Non fare nulla quando viene premuto il pulsante "Indietro"
+        // in modo che l'utente non possa tornare alla schermata di login
+    }
 }
+
