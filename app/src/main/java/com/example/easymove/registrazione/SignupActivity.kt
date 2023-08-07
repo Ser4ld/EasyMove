@@ -105,7 +105,8 @@ class SignupActivity : AppCompatActivity() {
 
 
     private fun selezionaTipoUtente(isChecked: Boolean) {
-        if (isChecked) tipoutente="guidatore"
+        tipoutente= if (isChecked) "guidatore"
+        else "consumatore"
 
     }
 

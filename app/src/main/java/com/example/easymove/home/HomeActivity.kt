@@ -16,7 +16,7 @@ import com.example.easymove.CreaAnnuncioActivity
 class HomeActivity : AppCompatActivity() {
 
     private lateinit var binding: HomeBinding
-    private var tipoutente: String = "guidatore" //da cambiare e implementare bene quando sistemiamo pattern mvvm
+    private var tipoutente: String = "consumatore" //da cambiare e implementare bene quando sistemiamo pattern mvvm
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
