@@ -1,16 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <item android:title="home"
+    <item
         android:id="@+id/homeItem"
         android:icon="@drawable/baseline_home_24"
-
+        android:title="Home"
         />
 
     <item
         android:id="@+id/profileItem"
         android:icon="@drawable/baseline_person_24"
-        android:title="profile"
+        android:title="Profile"
         />
+
+
+
 
 </menu>

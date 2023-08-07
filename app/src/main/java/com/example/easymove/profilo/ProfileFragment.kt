@@ -84,10 +84,6 @@ class ProfileFragment : Fragment() {
             logout()
         }
         return binding.root
-
-
-
-
     }
 
 

@@ -20,11 +20,12 @@ class ProfileViewModel: ViewModel() {
         "email" to MutableLiveData(),
         "name" to MutableLiveData(),
         "surname" to MutableLiveData(),
-        "id" to MutableLiveData()
+        "id" to MutableLiveData(),
+        "tipoutente" to MutableLiveData()
+
     )
 
     fun fetchData() {
-
 
         repository.getDataFromFirestore().addOnCompleteListener(OnCompleteListener { task ->
             if (task.isSuccessful) {

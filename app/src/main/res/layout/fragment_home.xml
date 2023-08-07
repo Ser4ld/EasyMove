@@ -13,8 +13,10 @@
         android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="1.0" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline"
@@ -26,12 +28,13 @@
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/materialCardView"
         style="@style/custom_card_view_style"
-        android:clickable="true"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:backgroundTint="@color/white"
+        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline"
         app:layout_constraintVertical_bias="1.0">
@@ -40,50 +43,61 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
 
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Punto di partenza"
+                android:textColor="@color/app_theme"
+                app:layout_constraintBottom_toTopOf="@+id/punto_partenza"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.131"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="1.0" />
+
             <androidx.cardview.widget.CardView
                 android:id="@+id/punto_partenza"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:cardCornerRadius="20dp"
-                app:cardBackgroundColor="@color/white"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="20dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:cardElevation="5dp">
+                app:layout_constraintTop_toTopOf="parent">
 
                 <fragment
                     android:id="@+id/autocomplete_fragment"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-                    />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
             </androidx.cardview.widget.CardView>
 
+
             <androidx.cardview.widget.CardView
+                android:id="@+id/punto_arrivo"
                 android:layout_width="match_parent"
                 android:layout_height="50dp"
-                app:cardCornerRadius="20dp"
-                android:id="@+id/punto_arrivo"
-                app:cardBackgroundColor="@color/white"
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginRight="20dp"
+                app:cardBackgroundColor="@color/white"
+                app:cardCornerRadius="20dp"
+                app:cardElevation="5dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/punto_partenza"
-                app:cardElevation="5dp"
-                >
+                app:layout_constraintTop_toBottomOf="@+id/punto_partenza">
 
                 <fragment
                     android:id="@+id/autocomplete_fragment2"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
                     android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
-                    />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent" />
 
             </androidx.cardview.widget.CardView>
 
