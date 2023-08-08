@@ -6,8 +6,8 @@
         <item name="colorPrimaryVariant">@color/app_theme</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
-        <item name="colorSecondary">@color/teal_200</item>
-        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorSecondary">#008FBF</item>
+        <item name="colorSecondaryVariant">#008FBF</item>
         <item name="colorOnSecondary">@color/black</item>
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorPrimaryVariant</item>
@@ -27,7 +27,6 @@
         <item name="cornerSizeBottomRight">0dp</item>
     </style>
 
-
     <style name="custom_card_view_profile_style" parent="Widget.MaterialComponents.CardView">
         <item name="shapeAppearanceOverlay">@style/custom_card_view_profile</item>
     </style>
@@ -39,6 +38,34 @@
         <item name="cornerSizeTopRight">0dp</item>
         <item name="cornerSizeBottomLeft">30dp</item>
         <item name="cornerSizeBottomRight">30dp</item>
+    </style>
+
+    <style name="Theme.SearchWithMaps" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="colorControlNormal">@color/colorPrimary</item>
+        <item name="android:windowBackground">@color/white</item>
+    </style>
+
+    <style name="CustomTheme" parent="Theme.EasyMove">
+
+        <item name="mapboxSearchSdkTheme">@style/CustomSearchSdkTheme</item>
+
+    </style>
+
+    <style name="CustomSearchSdkTheme" parent="">
+        <item name="mapboxSearchSdkPrimaryTextColor">@color/dark</item>
+        <item name="mapboxSearchSdkPrimaryTextInactiveColor">@color/app_theme</item>
+        <item name="mapboxSearchSdkPrimaryAccentColor">@color/app_theme</item>
+        <item name="mapboxSearchSdkOnPrimaryAccentColor">#D3C9A6</item>
+        <item name="mapboxSearchSdkDistanceColor">#A1AE7E</item>
+        <item name="mapboxSearchSdkIconTintColor">@color/dark</item>
+        <item name="mapboxSearchSdkBackgroundColor">#F5F4EC</item>
+        <item name="mapboxSearchSdkBackgroundSecondaryColor">#AFC3AD</item>
+        <item name="mapboxSearchSdkPopulateArrowColor">#D3C9A6</item>
+        <item name="mapboxSearchSdkProgressColor">@color/app_theme</item>
+        <item name="mapboxSearchSdkErrorIconColor">#653030</item>
     </style>
 </resources>
 

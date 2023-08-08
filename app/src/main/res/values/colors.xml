@@ -9,8 +9,14 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
 
+    <color name="colorPrimary">#007AFF</color>
+    <color name="colorPrimaryDark">#000000</color>
+    <color name="colorAccent">#9B9B9B</color>
+    <color name="windowBackground">#6E8BF7</color>
 
     <color name="app_theme">#00bfff</color>
     <color name="app_theme_light">#1A00bfff</color>
     <color name="placeholder">#65000000</color>
+    <color name="dark">#9E000000</color>
+
 </resources>

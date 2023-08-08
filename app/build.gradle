@@ -66,4 +66,6 @@ dependencies {
     implementation 'com.mapbox.search:offline:1.0.0-rc.6'
     implementation 'com.mapbox.search:mapbox-search-android:1.0.0-rc.6'
     implementation 'com.mapbox.search:mapbox-search-android-ui:1.0.0-rc.6'
+    implementation 'com.mapbox.mapboxsdk:mapbox-sdk-turf:6.13.0'
+
 }
