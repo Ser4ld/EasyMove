@@ -22,12 +22,8 @@ import com.google.android.gms.common.api.Status
 import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 
-class HomeFragment : Fragment(), OnMapReadyCallback {
+class HomeFragment : Fragment(){
 
-
-    private var mGoogleMap: GoogleMap? = null
-    private lateinit var placesClient: PlacesClient
-    private lateinit var autocompleteFragment:AutocompleteSupportFragment
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -35,42 +31,9 @@ class HomeFragment : Fragment(), OnMapReadyCallback {
         val view = inflater.inflate(R.layout.fragment_home, container, false)
 
 
-        val mapFragment= childFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
-        mapFragment.getMapAsync(this)
-
-        // Inizializza il Places SDK
-        Places.initialize(requireActivity().applicationContext, getString(R.string.google_map_api_key) )
-
-        // Inizializza l'AutocompleteSupportFragment per il Punto di Partenza
-        val autocompleteFragment = childFragmentManager.findFragmentById(R.id.autocomplete_fragment)
-                    as AutocompleteSupportFragment
-        autocompleteFragment.setHint("Punto di partenza")
-
-        // Inizializza l'AutocompleteSupportFragment per il Punto di Arrivo
-        val autocompleteFragment2 = childFragmentManager.findFragmentById(R.id.autocomplete_fragment2)
-                as AutocompleteSupportFragment
-        autocompleteFragment2.setHint("Punto di arrivo")
-
-        // Specify the types of place data to return.
-        autocompleteFragment.setPlaceFields(listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG, Place.Field.ADDRESS))
-
-        // Set up a PlaceSelectionListener to handle the response.
-        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-            override fun onPlaceSelected(place: Place) {
-                val latLng = place.latLng
-            }
-
-            override fun onError(status: Status) {
-                Log.e("AutocompleteFragment", "Error in place selection: ${status.statusMessage}")
-                Toast.makeText(requireContext(), "Errore in Cerca", Toast.LENGTH_SHORT).show()
-            }
-        })
-
         return view
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        mGoogleMap=googleMap    }
 
 
 

@@ -1,55 +1,98 @@
 package com.example.easymove.home
-import android.os.Bundle
-import android.util.Log
-import android.widget.Toast
+
 import androidx.appcompat.app.AppCompatActivity
 import com.example.easymove.R
-import com.google.android.gms.common.api.Status
-import com.google.android.gms.maps.GoogleMap
-import com.google.android.gms.maps.OnMapReadyCallback
-import com.google.android.gms.maps.SupportMapFragment
-import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.Place
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import com.mapbox.maps.MapView
+import com.mapbox.maps.Style
+import android.content.Context
+import android.graphics.Bitmap
+import android.graphics.Canvas
+import android.graphics.drawable.BitmapDrawable
+import android.graphics.drawable.Drawable
+import android.os.Bundle
+import androidx.annotation.DrawableRes
+import androidx.appcompat.content.res.AppCompatResources
+import com.mapbox.geojson.Point
+import com.mapbox.maps.CameraOptions
+import com.mapbox.maps.MapInitOptions
+import com.mapbox.maps.plugin.annotation.annotations
+import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
+import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
+import com.mapbox.search.autocomplete.PlaceAutocomplete
 
-class prova : AppCompatActivity(), OnMapReadyCallback {
 
-    private var mGoogleMap: GoogleMap? = null
+class prova : AppCompatActivity() {
+    private var mapView: MapView? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.provamappa)
 
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.mapFragment) as SupportMapFragment
-        mapFragment.getMapAsync(this)
+        mapView = findViewById(R.id.mapView)
 
-        // Inizializza l'API di Places
-        Places.initialize(applicationContext, getString(R.string.google_map_api_key))
-
-        // Configura l'AutocompleteSupportFragment
-        val autocompleteFragment =
-            supportFragmentManager.findFragmentById(R.id.autocomplete_fragment) as AutocompleteSupportFragment
-        autocompleteFragment.setPlaceFields(
-            listOf(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG)
+        val placeAutocomplete = PlaceAutocomplete.create(
+            accessToken = getString(R.string.mapbox_access_token),
         )
+        mapView?.getMapboxMap()?.loadStyleUri(
+            Style.MAPBOX_STREETS
+        ) { addAnnotationToMap() }
 
-        // Gestisci i risultati dell'autocompletamento
-        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
-            override fun onPlaceSelected(place: Place) {
-                Toast.makeText(this@prova, "YES", Toast.LENGTH_SHORT).show()
-            }
 
-            override fun onError(status: Status) {
-                val errorMessage = "Errore in Cerca: ${status.statusMessage}"
-                Toast.makeText(this@prova, errorMessage, Toast.LENGTH_SHORT).show()
-                Log.e("AutocompleteError", errorMessage) // Aggiungi questo log per visualizzare l'errore nel logcat
-            }
 
-        })
     }
 
-    override fun onMapReady(googleMap: GoogleMap) {
-        mGoogleMap = googleMap
+    private fun addAnnotationToMap() {
+        // Create an instance of the Annotation API and get the PointAnnotationManager.
+        bitmapFromDrawableRes(
+            this@prova,
+            R.drawable.red_marker
+        )?.let {
+            val annotationApi = mapView?.annotations
+            val pointAnnotationManager = annotationApi?.createPointAnnotationManager(mapView!!)
+
+            val markerCoordinates = Point.fromLngLat(13.516573404028886, 43.586914714970085)
+
+            val pointAnnotationOptions: PointAnnotationOptions = PointAnnotationOptions()
+                // Define a geographic coordinate.
+                .withPoint(markerCoordinates)
+                // Specify the bitmap you assigned to the point annotation
+                // The bitmap will be added to map style automatically.
+                .withIconImage(it)
+            // Add the resulting pointAnnotation to the map.
+            pointAnnotationManager?.create(pointAnnotationOptions)
+
+            // Opzioni della telecamera per centrarla sul marker
+            val cameraOptions = CameraOptions.Builder()
+                .center(markerCoordinates)
+                .zoom(9.0) // Imposta il livello di zoom desiderato
+                .build()
+
+            // Sposta la telecamera sulla posizione del marker
+            mapView?.getMapboxMap()?.setCamera(cameraOptions)
+        }
+    }
+
+    private fun bitmapFromDrawableRes(context: Context, @DrawableRes resourceId: Int) =
+        convertDrawableToBitmap(AppCompatResources.getDrawable(context, resourceId))
+
+    private fun convertDrawableToBitmap(sourceDrawable: Drawable?): Bitmap? {
+        if (sourceDrawable == null) {
+            return null
+        }
+        return if (sourceDrawable is BitmapDrawable) {
+            sourceDrawable.bitmap
+        } else {
+            // copying drawable object to not manipulate on the same reference
+            val constantState = sourceDrawable.constantState ?: return null
+            val drawable = constantState.newDrawable().mutate()
+            val bitmap: Bitmap = Bitmap.createBitmap(
+                drawable.intrinsicWidth, drawable.intrinsicHeight,
+                Bitmap.Config.ARGB_8888
+            )
+            val canvas = Canvas(bitmap)
+            drawable.setBounds(0, 0, canvas.width, canvas.height)
+            drawable.draw(canvas)
+            bitmap
+        }
     }
 }

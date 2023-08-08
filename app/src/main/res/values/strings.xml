@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">EasyMove</string>
-    <string name="google_map_api_key">AIzaSyArDIoNtC2jjWW5p7jcIdMVrRgreZIqbOg</string>
+    <string name="mapbox_access_token">pk.eyJ1IjoiZGF2aWRldGljY2hpYXJlbGxpIiwiYSI6ImNsbDFhbDl2bzA1d2IzZXBid3JhZjh4YWQifQ.6ZREqJy5Me58hI4QsgWmWA</string>
+    <string name="toolbar_title">Search demo</string>
+    <string name="query_hint">Where to?</string>
+
 </resources>
