@@ -29,6 +29,26 @@
 
         />
 
+    <EditText
+        android:id="@+id/query_text2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:autofillHints="@null"
+        android:background="@drawable/card_background"
+        android:elevation="4dp"
+        android:hint="@string/address_autofill_query_hint"
+        android:textColorHint="@color/placeholder"
+        android:inputType="text"
+        android:minHeight="?actionBarSize"
+        android:paddingHorizontal="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/query_text"
+        android:textColor="@color/black"
+
+        />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/containercard"
         android:layout_width="0dp"
@@ -40,7 +60,7 @@
         android:padding="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/query_text"
+        app:layout_constraintTop_toBottomOf="@+id/query_text2"
         >
 
         <TextView
@@ -71,6 +91,34 @@
             android:background="@drawable/textview_outline"
             />
 
+        <TextView
+            android:id="@+id/address_apartment2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:text="Punto di arrivo"
+            android:inputType="text"
+            android:gravity="left"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/full_address"
+            android:textColor="@color/black"
+            />
+
+        <TextView
+            android:id="@+id/full_address2"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="16dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/address_apartment2"
+            tools:visibility="visible"
+            android:textColor="@color/black"
+            android:background="@drawable/textview_outline"
+            />
+
 
         <TextView
             android:id="@+id/provadistanza"
@@ -79,7 +127,7 @@
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/full_address"
+            app:layout_constraintTop_toBottomOf="@+id/full_address2"
             android:textColor="@color/black"
 
             />
@@ -103,7 +151,7 @@
         <com.mapbox.maps.MapView
             android:id="@+id/map"
             android:layout_width="0dp"
-            android:layout_height="150dp"
+            android:layout_height="200dp"
             android:layout_margin="8dp"
             android:gravity="bottom"
             app:layout_constraintEnd_toEndOf="parent"
@@ -111,17 +159,6 @@
             app:layout_constraintTop_toBottomOf="@+id/pin_correction_note"
             />
 
-        <ImageView
-            android:id="@+id/map_pin"
-            android:layout_width="wrap_content"
-            android:layout_height="36dp"
-            android:adjustViewBounds="true"
-            android:src="@drawable/red_marker"
-            android:visibility="gone"
-            app:layout_constraintBottom_toTopOf="@+id/map_center"
-            app:layout_constraintEnd_toEndOf="@+id/map"
-            app:layout_constraintStart_toStartOf="@+id/map"
-            />
 
         <Space
             android:id="@+id/map_center"
@@ -150,7 +187,27 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/query_text"
-           />
+        />
+
+
+    <com.mapbox.search.ui.view.SearchResultsView
+        android:theme="@style/CustomTheme"
+        android:id="@+id/search_results_view2"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/card_background"
+        android:clipToPadding="false"
+        android:elevation="4dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="22dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/query_text2"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
