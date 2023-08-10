@@ -121,6 +121,16 @@ class main: AppCompatActivity() {
         searchResultsView = findViewById(R.id.search_results_view)
         searchResultsView2 = findViewById(R.id.search_results_view2)
 
+        if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    Manifest.permission.ACCESS_FINE_LOCATION,
+                    Manifest.permission.ACCESS_COARSE_LOCATION
+                ),
+                PERMISSIONS_REQUEST_LOCATION
+            )
+        }
 
         searchResultsView.initialize(
             SearchResultsView.Configuration(
@@ -265,16 +275,7 @@ class main: AppCompatActivity() {
             }
         })
 
-        if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            ActivityCompat.requestPermissions(
-                this,
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                PERMISSIONS_REQUEST_LOCATION
-            )
-        }
+
     }
 
     /**private fun findAddress(point: Point) {
