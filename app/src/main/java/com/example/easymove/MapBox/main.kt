@@ -90,7 +90,7 @@ class main: AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_boxmap)
+        setContentView(R.layout.fragment_home)
 
         addressAutofill = AddressAutofill.create(getString(R.string.mapbox_access_token))
         addressAutofill2 = AddressAutofill.create(getString(R.string.mapbox_access_token))
@@ -102,7 +102,6 @@ class main: AppCompatActivity() {
         queryEditText2 = findViewById(R.id.query_text2)
         fullAddress2 = findViewById(R.id.full_address2)
 
-        pinCorrectionNote = findViewById(R.id.pin_correction_note)
         mapView = findViewById(R.id.map)
         mapboxMap = mapView.getMapboxMap()
 

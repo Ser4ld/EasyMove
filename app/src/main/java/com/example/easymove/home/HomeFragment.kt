@@ -256,11 +256,6 @@ class HomeFragment : Fragment() {
             )
         }
 
-        binding.searchButton.setOnClickListener {
-            if(binding.fullAddress.text.toString()!="") Toast.makeText(requireContext(), binding.provaText.text.toString(), Toast.LENGTH_SHORT).show()
-            else Toast.makeText(requireContext(), "ciao", Toast.LENGTH_SHORT).show()
-
-        }
     }
 
     /**private fun findAddress(point: Point) {
@@ -363,9 +358,6 @@ class HomeFragment : Fragment() {
         }*/
         textView.isVisible = true
         textView.text = result.suggestion.formattedAddress
-        binding.provaText.text = result.suggestion.coordinate.latitude().toString()
-
-        binding.pinCorrectionNote.isVisible = true
 
         if (!fromReverseGeocoding) {
             binding.map.getMapboxMap().setCamera(
