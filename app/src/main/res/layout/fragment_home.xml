@@ -63,80 +63,24 @@
         app:layout_constraintTop_toBottomOf="@+id/query_text2"
         >
 
-        <TextView
-            android:id="@+id/address_apartment"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Punto di partenza"
-            android:inputType="text"
-            android:gravity="left"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/containercard"
-            android:textColor="@color/black"
-            />
-
-        <TextView
-            android:id="@+id/full_address"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="16dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/address_apartment"
-            tools:visibility="visible"
-            android:textColor="@color/black"
-            android:background="@drawable/textview_outline"
-            />
-
-        <TextView
-            android:id="@+id/address_apartment2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:text="Punto di arrivo"
-            android:inputType="text"
-            android:gravity="left"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/full_address"
-            android:textColor="@color/black"
-            />
-
-        <TextView
-            android:id="@+id/full_address2"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:padding="16dp"
-            android:visibility="gone"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/address_apartment2"
-            tools:visibility="visible"
-            android:textColor="@color/black"
-            android:background="@drawable/textview_outline"
-            />
-
 
         <TextView
             android:id="@+id/provadistanza"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
+            android:textSize="20dp"
             android:gravity="center"
+            android:textColor="@color/black"
+            app:layout_constraintTop_toTopOf="@id/containercard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/full_address2"
-            android:textColor="@color/black"
-            />
+            tools:layout_editor_absoluteY="166dp" />
 
 
         <com.mapbox.maps.MapView
             android:id="@+id/map"
             android:layout_width="0dp"
-            android:layout_height="200dp"
+            android:layout_height="420dp"
             android:layout_margin="8dp"
             android:gravity="bottom"
             app:layout_constraintEnd_toEndOf="parent"

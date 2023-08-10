@@ -144,7 +144,7 @@ class HomeFragment : Fragment() {
                     binding.queryText,
                     addressAutofill,
                     binding.searchResultsView,
-                    binding.fullAddress
+                    //binding.fullAddress
                 )
             }
 
@@ -166,8 +166,8 @@ class HomeFragment : Fragment() {
                     fromReverseGeocoding = false,
                     binding.queryText2,
                     addressAutofill2,
-                    binding.searchResultsView2,
-                    binding.fullAddress2
+                    binding.searchResultsView2
+                    //binding.fullAddress2
                 )
             }
 
@@ -288,14 +288,14 @@ class HomeFragment : Fragment() {
         fromReverseGeocoding: Boolean,
         editText: EditText,
         Autofill: AddressAutofill,
-        searchResults: SearchResultsView,
-        textView: TextView
+        searchResults: SearchResultsView
+        //, textView: TextView
 
     ) {
         lifecycleScope.launchWhenStarted {
             val response = Autofill.select(suggestion)
             response.onValue { result ->
-                showAddressAutofillResult(result, fromReverseGeocoding,editText,searchResults,textView)
+                showAddressAutofillResult(result, fromReverseGeocoding,editText,searchResults)
             }.onError {
                 Toast.makeText(requireContext(), R.string.address_autofill_error_select, Toast.LENGTH_SHORT).show()
             }
@@ -306,8 +306,7 @@ class HomeFragment : Fragment() {
         result: AddressAutofillResult,
         fromReverseGeocoding: Boolean,
         editText: EditText,
-        searchResults: SearchResultsView,
-        textView: TextView) {
+        searchResults: SearchResultsView) {
 
         var address = result.address
         coordinate = result.suggestion.coordinate
@@ -353,8 +352,8 @@ class HomeFragment : Fragment() {
                     "Destinazione - Lat: ${destinationCoordinate!!.latitude()}, Lng: ${destinationCoordinate!!.longitude()}"
             Toast.makeText(requireContext(), coordinateText, Toast.LENGTH_SHORT).show()
         }*/
-        textView.isVisible = true
-        textView.text = result.suggestion.formattedAddress
+        //textView.isVisible = true
+        //textView.text = result.suggestion.formattedAddress
 
         if (!fromReverseGeocoding) {
             binding.map.getMapboxMap().setCamera(

@@ -96,11 +96,9 @@ class main: AppCompatActivity() {
         addressAutofill2 = AddressAutofill.create(getString(R.string.mapbox_access_token))
 
         queryEditText = findViewById(R.id.query_text)
-        fullAddress = findViewById(R.id.full_address)
         textViewDistanza = findViewById(R.id.provadistanza)
 
         queryEditText2 = findViewById(R.id.query_text2)
-        fullAddress2 = findViewById(R.id.full_address2)
 
         mapView = findViewById(R.id.map)
         mapboxMap = mapView.getMapboxMap()
@@ -176,9 +174,7 @@ class main: AppCompatActivity() {
                     fromReverseGeocoding = false,
                     queryEditText,
                     addressAutofill,
-                    searchResultsView,
-                    fullAddress
-                )
+                    searchResultsView)
             }
 
             override fun onSuggestionsShown(suggestions: List<AddressAutofillSuggestion>) {
@@ -199,9 +195,7 @@ class main: AppCompatActivity() {
                     fromReverseGeocoding = false,
                     queryEditText2,
                     addressAutofill2,
-                    searchResultsView2,
-                    fullAddress2
-                )
+                    searchResultsView2)
             }
 
             override fun onSuggestionsShown(suggestions: List<AddressAutofillSuggestion>) {
@@ -311,14 +305,11 @@ class main: AppCompatActivity() {
         fromReverseGeocoding: Boolean,
         editText: EditText,
         Autofill: AddressAutofill,
-        searchResults: SearchResultsView,
-        textView: TextView
-
-    ) {
+        searchResults: SearchResultsView) {
         lifecycleScope.launchWhenStarted {
             val response = Autofill.select(suggestion)
             response.onValue { result ->
-                showAddressAutofillResult(result, fromReverseGeocoding,editText,searchResults,textView)
+                showAddressAutofillResult(result, fromReverseGeocoding,editText,searchResults)
             }.onError {
                 showToast(R.string.address_autofill_error_select)
             }
@@ -329,13 +320,12 @@ class main: AppCompatActivity() {
         result: AddressAutofillResult,
         fromReverseGeocoding: Boolean,
         editText: EditText,
-        searchResults: SearchResultsView,
-        textView: TextView) {
+        searchResults: SearchResultsView) {
 
         var address = result.address
         coordinate = result.suggestion.coordinate
 
-        if(textView==queryEditText){
+        if(editText==queryEditText){
             originCoordinate = coordinate
             cordinate = "Lat: ${coordinate.latitude()}, Lng: ${coordinate.longitude()}"
             streetOrigin = address.street
@@ -352,7 +342,7 @@ class main: AppCompatActivity() {
                 ).joinToString()
             );
         }
-        if(textView==queryEditText2){
+        if(editText==queryEditText2){
             destinationCoordinate = coordinate
             streetDestination = address.street
             houseNumberDestination = address.houseNumber
@@ -374,8 +364,8 @@ class main: AppCompatActivity() {
                     "Destinazione - Lat: ${destinationCoordinate!!.latitude()}, Lng: ${destinationCoordinate!!.longitude()}"
             Toast.makeText(this, coordinateText, Toast.LENGTH_SHORT).show()
         }
-        textView.isVisible = true
-        textView.text = result.suggestion.formattedAddress
+        //textView.isVisible = true
+        //textView.text = result.suggestion.formattedAddress
 
         pinCorrectionNote.isVisible = true
 
