@@ -77,6 +77,7 @@ class HomeFragment : Fragment() {
     private var cityDestination: String? = null
     private var regionDestination: String? = null
     private var postcodeDestination: String? = null
+    private val POLO_MONTEDAGO = Point.fromLngLat(13.516539114888866, 43.586912987628324)
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -124,18 +125,14 @@ class HomeFragment : Fragment() {
             addressAutofill = addressAutofill2
         )
 
-        LocationEngineProvider.getBestLocationEngine(requireContext())
-            .lastKnownLocation(requireActivity()) { point ->
-                point?.let {
-                    mapboxMap.setCamera(
-                        CameraOptions.Builder()
-                            .center(point)
-                            .zoom(9.0)
-                            .build()
-                    )
-                    ignoreNextMapIdleEvent = true
-                }
-            }
+
+        mapboxMap.setCamera(
+            CameraOptions.Builder()
+                .center(POLO_MONTEDAGO)
+                .zoom(9.0)
+                .build()
+        )
+
 
         addressAutofillUiAdapter.addSearchListener(object :
             AddressAutofillUiAdapter.SearchListener {
