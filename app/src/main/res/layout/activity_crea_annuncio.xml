@@ -9,33 +9,171 @@
     tools:context=".MapBox.main"
     >
 
+
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="179dp"
+        android:layout_height="142dp"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/containercard"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.52"
+        app:srcCompat="@drawable/baseline_car_rental_24" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/containercard"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
+        android:layout_width="382dp"
+        android:layout_height="522dp"
         android:layout_marginHorizontal="16dp"
         android:background="@drawable/card_background"
         android:elevation="4dp"
-        android:layout_marginTop="70dp"
-        android:layout_marginBottom="70dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.482"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.842">
+
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:text="CREA ANNUNCIO"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Larghezzacassone"
+            app:layout_constraintVertical_bias="0.448" />
 
         <EditText
-            android:id="@+id/campo1"
+            android:id="@+id/Altezzacassone"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="45dp"
+            android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/text_form_background"
-            android:drawableLeft="@drawable/mail_icon"
+            android:drawableLeft="@drawable/baseline_height_24"
             android:drawablePadding="5dp"
             android:drawableTint="@color/app_theme"
             android:ems="10"
-            android:hint="Nome annuncio"
+            android:hint="Altezza Cassone"
+            android:inputType="text"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/placeholder"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/NumeroCivico" />
+
+        <EditText
+            android:id="@+id/Larghezzacassone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/text_form_background"
+            android:drawableLeft="@drawable/baseline_close_fullscreen_24"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/app_theme"
+            android:ems="10"
+            android:hint="Larghezza Cassone"
+            android:inputType="text"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/placeholder"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.4"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Lunghezzacassone" />
+
+        <EditText
+            android:id="@+id/Lunghezzacassone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/text_form_background"
+            android:drawableLeft="@drawable/baseline_compare_arrows_24"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/app_theme"
+            android:ems="10"
+            android:hint="Lunghezza Cassone"
+            android:inputType="text"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/placeholder"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Altezzacassone" />
+
+        <EditText
+            android:id="@+id/CittaVeicolo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/text_form_background"
+            android:drawableLeft="@drawable/baseline_location_city_24"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/app_theme"
+            android:ems="10"
+            android:hint="Città di locazione del veicolo"
+            android:inputType="text"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/placeholder"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Targa" />
+
+        <EditText
+            android:id="@+id/Indirizzo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/text_form_background"
+            android:drawableLeft="@drawable/baseline_cottage_24"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/app_theme"
+            android:ems="10"
+            android:hint="Indirizzo di locazione del veicolo"
+            android:inputType="text"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/placeholder"
+            android:textSize="18dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.6"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/CittaVeicolo" />
+
+        <EditText
+            android:id="@+id/NomeVeicolo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/text_form_background"
+            android:drawableLeft="@drawable/baseline_airport_shuttle_24"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/app_theme"
+            android:ems="10"
+            android:hint="Nome veicolo"
             android:inputType="text"
             android:padding="5dp"
             android:textColor="@color/black"
@@ -46,18 +184,18 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <EditText
-            android:id="@+id/campo2"
+            android:id="@+id/Targa"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
+            android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
             android:background="@drawable/text_form_background"
-            android:drawableLeft="@drawable/mail_icon"
+            android:drawableLeft="@drawable/baseline_calendar_view_day_24"
             android:drawablePadding="5dp"
             android:drawableTint="@color/app_theme"
             android:ems="10"
-            android:hint="Nome annuncio"
+            android:hint="Targa"
             android:inputType="text"
             android:padding="5dp"
             android:textColor="@color/black"
@@ -65,24 +203,32 @@
             android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/campo1" />
+            app:layout_constraintTop_toBottomOf="@id/NomeVeicolo" />
 
-
-        <Button
-            android:id="@+id/search_button"
+        <EditText
+            android:id="@+id/NumeroCivico"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:text="CERCA "
-            app:layout_constraintBottom_toBottomOf="@+id/containercard"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginRight="20dp"
+            android:background="@drawable/text_form_background"
+            android:drawableLeft="@drawable/baseline_format_list_numbered_24"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/app_theme"
+            android:ems="10"
+            android:hint="Numero Civico indirizzo"
+            android:inputType="text"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/placeholder"
+            android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/Indirizzo" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
