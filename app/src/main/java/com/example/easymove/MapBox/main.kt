@@ -26,9 +26,6 @@ import com.mapbox.search.ui.adapter.autofill.AddressAutofillUiAdapter
 import com.mapbox.search.ui.view.CommonSearchViewConfiguration
 import com.mapbox.search.ui.view.DistanceUnitType
 import com.mapbox.search.ui.view.SearchResultsView
-import com.mapbox.turf.TurfConstants
-import com.mapbox.turf.TurfMeasurement
-import java.util.Locale
 import android.content.Context
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -64,18 +61,15 @@ class main: AppCompatActivity() {
 
     private lateinit var queryEditText2: EditText
     private lateinit var fullAddress2: TextView
-    private lateinit var mapPin2: View
-    private lateinit var textViewDistanza2: TextView
-    private lateinit var coordinate2: Point
 
     private var ignoreNextMapIdleEvent: Boolean = false
     private var ignoreNextQueryTextUpdate: Boolean = false
 
     private lateinit var coordinate: Point
+    var originCoordinate: Point? = null
+    var destinationCoordinate: Point? = null
 
-    private lateinit var origin: Point
-    private lateinit var destination: Point
-
+    private lateinit var cordinate: String
     var streetOrigin:String? = null
     var houseNumberOrigin:String? = null
     var cityOrigin:String?= null
@@ -282,7 +276,6 @@ class main: AppCompatActivity() {
                 PERMISSIONS_REQUEST_LOCATION
             )
         }
-
     }
 
     /**private fun findAddress(point: Point) {
@@ -340,11 +333,11 @@ class main: AppCompatActivity() {
         textView: TextView) {
 
         var address = result.address
-
-
         coordinate = result.suggestion.coordinate
 
         if(textView==queryEditText){
+            originCoordinate = coordinate
+            cordinate = "Lat: ${coordinate.latitude()}, Lng: ${coordinate.longitude()}"
             streetOrigin = address.street
             houseNumberOrigin = address.houseNumber
             cityOrigin= address.place
@@ -353,12 +346,14 @@ class main: AppCompatActivity() {
 
             editText.setText(
                 listOfNotNull(
-                    "$streetOrigin $houseNumberOrigin",
+                    streetOrigin,
+                    houseNumberOrigin,
                     cityOrigin
-                ).joinToString(", ")
+                ).joinToString()
             );
         }
         if(textView==queryEditText2){
+            destinationCoordinate = coordinate
             streetDestination = address.street
             houseNumberDestination = address.houseNumber
             cityDestination= address.place
@@ -367,10 +362,17 @@ class main: AppCompatActivity() {
 
             editText.setText(
                 listOfNotNull(
-                    "$streetDestination $houseNumberDestination",
+                    streetDestination,
+                    houseNumberDestination,
                     cityDestination
-                ).joinToString(", ")
+                ).joinToString()
             );
+        }
+
+        if (originCoordinate != null && destinationCoordinate != null) {
+            val coordinateText = "Origine - Lat: ${originCoordinate!!.latitude()}, Lng: ${originCoordinate!!.longitude()}\n" +
+                    "Destinazione - Lat: ${destinationCoordinate!!.latitude()}, Lng: ${destinationCoordinate!!.longitude()}"
+            Toast.makeText(this, coordinateText, Toast.LENGTH_SHORT).show()
         }
         textView.isVisible = true
         textView.text = result.suggestion.formattedAddress
@@ -387,19 +389,18 @@ class main: AppCompatActivity() {
             ignoreNextMapIdleEvent = true
             //mapPin.isVisible = true
             addMarkerToMap(coordinate)
+
         }
 
         ignoreNextQueryTextUpdate = true
-
 
         editText.clearFocus()
 
         searchResults.isVisible = false
         searchResults.hideKeyboard()
 
-        val duration = Toast.LENGTH_SHORT
-        val toast = Toast.makeText(applicationContext, cityOrigin+cityDestination, duration)
-        toast.show()
+
+        //getDistancePoints()
 
     }
 
@@ -450,13 +451,14 @@ class main: AppCompatActivity() {
         }
     }
 
-    private fun getDistancePoints(){
-        if(streetOrigin?.isNotEmpty()==true  && streetDestination?.isNotEmpty()==true ){
-            var distanza = TurfMeasurement.distance(origin, destination, TurfConstants.UNIT_KILOMETERS)
-            var distanzaFormattata = String.format(Locale.getDefault(), "%.2f", distanza)
-            var distanzaStringa = "$distanzaFormattata chilometri dal polo montedago"
 
-
+   /** private fun getDistancePoints() {
+        if ( origin.latitude() != 0.0 && origin.longitude()!=0.0 && destination.latitude() != 0.0 && destination.longitude()!=0.0){
+            val distanza = TurfMeasurement.distance(origin, destination, TurfConstants.UNIT_KILOMETERS)
+            val distanzaFormattata = String.format(Locale.getDefault(), "%.2f", distanza)
+            var distanzaStringa = "$distanzaFormattata chilometri"
+            textViewDistanza.text = distanzaStringa
         }
-    }
+    }*/
+
 }

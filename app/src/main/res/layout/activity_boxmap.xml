@@ -37,7 +37,7 @@
         android:autofillHints="@null"
         android:background="@drawable/card_background"
         android:elevation="4dp"
-        android:hint="@string/address_autofill_query_hint"
+        android:hint="@string/address_autofill_query_hint2"
         android:textColorHint="@color/placeholder"
         android:inputType="text"
         android:minHeight="?actionBarSize"
@@ -169,6 +169,21 @@
             app:layout_constraintStart_toStartOf="@+id/map"
             app:layout_constraintTop_toTopOf="@+id/map"
             />
+
+        <Button
+            android:id="@+id/search_button"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="CERCA "
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
+            app:layout_constraintBottom_toBottomOf="@+id/containercard"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/map" />
+
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.mapbox.search.ui.view.SearchResultsView

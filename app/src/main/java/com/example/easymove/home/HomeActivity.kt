@@ -1,6 +1,5 @@
 package com.example.easymove.home
 
-import HomeFragment
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -10,7 +9,7 @@ import com.example.easymove.profilo.ProfileFragment
 import android.content.Intent
 import android.view.View
 import com.example.easymove.CreaAnnuncioActivity
-
+import com.example.easymove.MapBox.HomeFragment
 
 
 class HomeActivity : AppCompatActivity() {
