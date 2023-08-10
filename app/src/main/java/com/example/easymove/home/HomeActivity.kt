@@ -9,7 +9,6 @@ import com.example.easymove.profilo.ProfileFragment
 import android.content.Intent
 import android.view.View
 import com.example.easymove.CreaAnnuncioActivity
-import com.example.easymove.MapBox.HomeFragment
 
 
 class HomeActivity : AppCompatActivity() {

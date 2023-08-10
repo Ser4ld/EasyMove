@@ -1,4 +1,4 @@
-package com.example.easymove.MapBox
+package com.example.easymove.home
 
 import android.Manifest
 import android.content.Context
@@ -18,22 +18,21 @@ import android.widget.EditText
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.DrawableRes
-import androidx.annotation.StringRes
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
+import com.example.easymove.MapBox.inputMethodManager
+import com.example.easymove.MapBox.lastKnownLocation
 import com.example.easymove.R
 import com.example.easymove.databinding.FragmentHomeBinding
 import com.mapbox.android.core.location.LocationEngineProvider
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
-import com.mapbox.maps.MapView
 import com.mapbox.maps.MapboxMap
 import com.mapbox.maps.Style
-import com.mapbox.maps.extension.style.utils.toValue
 import com.mapbox.maps.plugin.annotation.annotations
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
 import com.mapbox.maps.plugin.annotation.generated.createPointAnnotationManager
@@ -45,6 +44,9 @@ import com.mapbox.search.ui.adapter.autofill.AddressAutofillUiAdapter
 import com.mapbox.search.ui.view.CommonSearchViewConfiguration
 import com.mapbox.search.ui.view.DistanceUnitType
 import com.mapbox.search.ui.view.SearchResultsView
+import com.mapbox.turf.TurfConstants
+import com.mapbox.turf.TurfMeasurement
+import java.util.Locale
 
 class HomeFragment : Fragment() {
 
@@ -61,10 +63,9 @@ class HomeFragment : Fragment() {
     private var ignoreNextQueryTextUpdate: Boolean = false
 
     private lateinit var coordinate: Point
-    private var originLat: Double? = null
-    private var originLon: Double? = null
+    private var origin: Point = Point.fromLngLat(0.0, 0.0)
+    private var destination : Point = Point.fromLngLat(0.0, 0.0)
 
-    private lateinit var cordinate: String
     private var streetOrigin: String? = null
     private var houseNumberOrigin: String? = null
     private var cityOrigin: String? = null
@@ -90,22 +91,7 @@ class HomeFragment : Fragment() {
 
         mapboxMap = binding.map.getMapboxMap()
 
-        //queryEditText = rootView.findViewById(R.id.query_text)
-        //fullAddress = rootView.findViewById(R.id.full_address)
-        //textViewDistanza = rootView.findViewById(R.id.provadistanza)
-
-        //queryEditText2 = rootView.findViewById(R.id.query_text2)
-        //fullAddress2 = rootView.findViewById(R.id.full_address2)
-
-        //pinCorrectionNote = rootView.findViewById(R.id.pin_correction_note)
-        //mapView = rootView.findViewById(R.id.map)
-
-        mapboxMap = binding.map.getMapboxMap()
-
         mapboxMap.loadStyleUri(Style.MAPBOX_STREETS)
-
-        // Set up other UI components and listeners
-        // ...
 
         return rootView
     }
@@ -334,15 +320,14 @@ class HomeFragment : Fragment() {
         var address = result.address
         coordinate = result.suggestion.coordinate
 
-        if(textView==binding.queryText){
-            cordinate = "Lat: ${coordinate.latitude()}, Lng: ${coordinate.longitude()}"
+        if(editText==binding.queryText){
+            origin=coordinate
             streetOrigin = address.street
             houseNumberOrigin = address.houseNumber
             cityOrigin= address.place
             regionOrigin= address.region
             postcodeOrigin= address.postcode
-            originLat = coordinate.latitude()
-            originLat = coordinate.longitude()
+
 
             editText.setText(
                 listOfNotNull(
@@ -352,7 +337,8 @@ class HomeFragment : Fragment() {
                 ).joinToString()
             );
         }
-        if(textView==binding.queryText2){
+        if(editText==binding.queryText2){
+            destination=coordinate
             streetDestination = address.street
             houseNumberDestination = address.houseNumber
             cityDestination= address.place
@@ -377,7 +363,7 @@ class HomeFragment : Fragment() {
         }*/
         textView.isVisible = true
         textView.text = result.suggestion.formattedAddress
-        binding.provaText.text = result.suggestion.coordinate.toString()
+        binding.provaText.text = result.suggestion.coordinate.latitude().toString()
 
         binding.pinCorrectionNote.isVisible = true
 
@@ -402,7 +388,7 @@ class HomeFragment : Fragment() {
         searchResults.hideKeyboard()
 
 
-        //getDistancePoints()
+        getDistancePoints()
 
     }
     private companion object {
@@ -450,14 +436,14 @@ class HomeFragment : Fragment() {
         }
     }
 
-    /** private fun getDistancePoints() {
+    private fun getDistancePoints() {
     if ( origin.latitude() != 0.0 && origin.longitude()!=0.0 && destination.latitude() != 0.0 && destination.longitude()!=0.0){
     val distanza = TurfMeasurement.distance(origin, destination, TurfConstants.UNIT_KILOMETERS)
     val distanzaFormattata = String.format(Locale.getDefault(), "%.2f", distanza)
     var distanzaStringa = "$distanzaFormattata chilometri"
-    textViewDistanza.text = distanzaStringa
+    binding.provadistanza.text = distanzaStringa
     }
-    }*/
+    }
 
     private fun isPermissionGranted(permission: String): Boolean {
         return ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
