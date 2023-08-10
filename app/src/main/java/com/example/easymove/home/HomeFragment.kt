@@ -428,7 +428,7 @@ class HomeFragment : Fragment() {
     if ( origin.latitude() != 0.0 && origin.longitude()!=0.0 && destination.latitude() != 0.0 && destination.longitude()!=0.0){
     val distanza = TurfMeasurement.distance(origin, destination, TurfConstants.UNIT_KILOMETERS)
     val distanzaFormattata = String.format(Locale.getDefault(), "%.2f", distanza)
-    var distanzaStringa = "$distanzaFormattata chilometri"
+    var distanzaStringa = "$distanzaFormattata Km"
     binding.provadistanza.text = distanzaStringa
     }
     }
