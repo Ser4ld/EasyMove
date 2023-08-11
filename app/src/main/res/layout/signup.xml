@@ -25,7 +25,8 @@
             app:layout_constraintHorizontal_bias="0.04"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
+            app:srcCompat="@drawable/baseline_arrow_back_ios_new_24"
+            />
 
 
         <TextView

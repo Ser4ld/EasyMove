@@ -25,10 +25,8 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.easymove.MapBox.inputMethodManager
-import com.example.easymove.MapBox.lastKnownLocation
 import com.example.easymove.R
 import com.example.easymove.databinding.FragmentHomeBinding
-import com.mapbox.android.core.location.LocationEngineProvider
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapboxMap
@@ -102,6 +100,9 @@ class HomeFragment : Fragment() {
 
         //binding.searchResultsView = view.findViewById(R.id.search_results_view)
         //searchResultsView2 = view.findViewById(R.id.search_results_view2)
+        var isFirstTyping1 = true
+        var isFirstTyping2 = true
+
 
         binding.searchResultsView.initialize(
             SearchResultsView.Configuration(
@@ -194,6 +195,10 @@ class HomeFragment : Fragment() {
         binding.queryText.addTextChangedListener(object : TextWatcher {
 
             override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
+                if (isFirstTyping1) {
+                    Toast.makeText(requireContext(), "Formato: Via, Numero, Città", Toast.LENGTH_SHORT).show()
+                    isFirstTyping1 = false
+                }
                 if (ignoreNextQueryTextUpdate) {
                     ignoreNextQueryTextUpdate = false
                     return
@@ -217,8 +222,15 @@ class HomeFragment : Fragment() {
             }
         })
 
+
         binding.queryText2.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
+
+                if (isFirstTyping2) {
+                    Toast.makeText(requireContext(), "Formato: Via, Numero, Città", Toast.LENGTH_SHORT).show()
+                    isFirstTyping2 = false
+                }
+
                 if (ignoreNextQueryTextUpdate) {
                     ignoreNextQueryTextUpdate = false
                     return
