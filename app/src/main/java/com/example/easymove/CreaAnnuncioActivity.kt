@@ -31,6 +31,8 @@ import com.mapbox.search.ui.adapter.autofill.AddressAutofillUiAdapter
 import com.mapbox.search.ui.view.CommonSearchViewConfiguration
 import com.mapbox.search.ui.view.DistanceUnitType
 import com.mapbox.search.ui.view.SearchResultsView
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.tasks.await
 
 class CreaAnnuncioActivity : AppCompatActivity() {
 
@@ -60,7 +62,7 @@ class CreaAnnuncioActivity : AppCompatActivity() {
         fireStoreDatabase = FirebaseFirestore.getInstance()
 
 
-       /** addressAutofill = AddressAutofill.create(getString(R.string.mapbox_access_token))
+        addressAutofill = AddressAutofill.create(getString(R.string.mapbox_access_token))
         var isFirstTyping = true
 
         binding.searchResultsView.initialize(
@@ -99,10 +101,10 @@ class CreaAnnuncioActivity : AppCompatActivity() {
 
             override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
 
-//                if (isFirstTyping) {
-//                    Toast.makeText(applicationContext, "Formato: Via, Numero, Città", Toast.LENGTH_SHORT).show()
-//                    isFirstTyping = false
-//                }
+                if (isFirstTyping) {
+                    Toast.makeText(applicationContext, "Formato: Via, Numero, Città", Toast.LENGTH_SHORT).show()
+                    isFirstTyping = false
+                }
 
                 if (ignoreNextQueryTextUpdate) {
                     ignoreNextQueryTextUpdate = false
@@ -136,7 +138,7 @@ class CreaAnnuncioActivity : AppCompatActivity() {
                 ),
                 PERMISSIONS_REQUEST_LOCATION
             )
-        }*/
+        }
 
 
         binding.floatingActionButton.setOnClickListener{
@@ -146,52 +148,61 @@ class CreaAnnuncioActivity : AppCompatActivity() {
 
         binding.searchButton.setOnClickListener{
 
-            if (binding.NomeVeicolo.text.toString().isNotEmpty() && binding.Targa.text.toString().isNotEmpty()
-                && //binding.LocazioneVeicolo.text.toString().isNotEmpty() &&
-                binding.Lunghezzacassone.toString().isNotEmpty() &&
-                binding.Larghezzacassone.toString().isNotEmpty() && binding.Altezzacassone.toString().isNotEmpty())
-            {
+            //Metodo di gestione delle chiamate asincrone del dbms
+            lifecycleScope.launch {
+                val targaExists = checkTargaExists(binding.Targa.text.toString())
 
-                val lunghezza = binding.Lunghezzacassone.text.toString().toDouble()
-                val altezza = binding.Altezzacassone.text.toString().toDouble()
-                val larghezza = binding.Larghezzacassone.text.toString().toDouble()
-
-                val capienza = calcoloCapienza(lunghezza, altezza, larghezza)
-
-                /*val indirizzoCompletoVerificato = fullAddress ?: ""
-                val viaVerificato = streetMezzo?: ""
-                val numeroCivicoVerificato = houseNumberMezzo ?: ""
-                val cityVerificata = cityMezzo ?: ""
-                val regioneVerificata = regionMezzo ?: ""
-                val codicePostaleVerificato = postcodeMezzo ?: ""*/
-
-                val user = FirebaseAuth.getInstance().currentUser
-                val userEmail = user?.email
-
-                val hashMap = hashMapOf<String, Any>(
-                    "1) Modello" to binding.NomeVeicolo.text.toString(),
-                    "2) Targa" to binding.Targa.text.toString(),
-                    "3) Capienza" to capienza,
-                    //"4) IndirizzoCompleto" to indirizzoCompletoVerificato,
-                    //"5) Via" to viaVerificato,
-                    //"6) NumeroCivico" to numeroCivicoVerificato,
-                    //"7) Città" to cityVerificata,
-                    //"8) Regione" to regioneVerificata,
-                    //"9) CodicePostale" to codicePostaleVerificato,
-                    "10) Email" to userEmail.toString()
-                )
-
-                if (userEmail != null) {
-                    val signupActivity = SignupActivity() // Non è il modo ideale per ottenere l'istanza di SignupActivity!
-                    signupActivity.uploadData(hashMap, "vans", binding.Targa.text.toString(), fireStoreDatabase)
+                if (targaExists) {
+                    Toast.makeText(this@CreaAnnuncioActivity, "Targa già esistente", Toast.LENGTH_SHORT).show()
+                    return@launch
                 }
 
-                val intent = Intent(this, HomeActivity::class.java)
-                startActivity(intent)
-                finish()
-            } else {
-                Toast.makeText(this, "Errore", Toast.LENGTH_SHORT)
-                    .show()
+                if (binding.NomeVeicolo.text.toString().isNotEmpty() &&
+                    binding.Targa.text.toString().isNotEmpty() &&
+                    binding.LocazioneVeicolo.text.toString().isNotEmpty() &&
+                    binding.Lunghezzacassone.toString().isNotEmpty() &&
+                    binding.Larghezzacassone.toString().isNotEmpty() &&
+                    binding.Altezzacassone.toString().isNotEmpty()) {
+
+                    val lunghezza = binding.Lunghezzacassone.text.toString().toDouble()
+                    val altezza = binding.Altezzacassone.text.toString().toDouble()
+                    val larghezza = binding.Larghezzacassone.text.toString().toDouble()
+                    val capienza = calcoloCapienza(lunghezza, altezza, larghezza)
+
+                    val indirizzoCompletoVerificato = fullAddress ?: ""
+                    val viaVerificato = streetMezzo ?: ""
+                    val numeroCivicoVerificato = houseNumberMezzo ?: ""
+                    val cityVerificata = cityMezzo ?: ""
+                    val regioneVerificata = regionMezzo ?: ""
+                    val codicePostaleVerificato = postcodeMezzo ?: ""
+
+                    val user = FirebaseAuth.getInstance().currentUser
+                    val userEmail = user?.email
+
+                    val hashMap = hashMapOf<String, Any>(
+                        "Modello" to binding.NomeVeicolo.text.toString(),
+                        "Targa" to binding.Targa.text.toString(),
+                        "Capienza" to capienza,
+                        "IndirizzoCompleto" to indirizzoCompletoVerificato,
+                        "Via" to viaVerificato,
+                        "NumeroCivico" to numeroCivicoVerificato,
+                        "Città" to cityVerificata,
+                        "Regione" to regioneVerificata,
+                        "CodicePostale" to codicePostaleVerificato,
+                        "Email" to userEmail.toString()
+                    )
+
+                    if (userEmail != null) {
+                        val signupActivity = SignupActivity() // RIVEDERE
+                        signupActivity.uploadData(hashMap, "vans", binding.Targa.text.toString(), fireStoreDatabase)
+                    }
+
+                    val intent = Intent(this@CreaAnnuncioActivity, HomeActivity::class.java)
+                    startActivity(intent)
+                    finish()
+                } else {
+                    Toast.makeText(this@CreaAnnuncioActivity, "Errore", Toast.LENGTH_SHORT).show()
+                }
             }
         }
 
@@ -262,44 +273,21 @@ class CreaAnnuncioActivity : AppCompatActivity() {
     }
 
 
-    /*private fun uploadData(
-        nomeVeicolo: String,
-        targa: String,
-        indirizzoCompleto: String?,
-        via: String?,
-        numeroCivico: String?,
-        city: String?,
-        regione: String?,
-        codicePostale: String?
-    ) {
-        val indirizzoCompletoVerificato = indirizzoCompleto ?: ""
-        val viaVerificato = via ?: ""
-        val numeroCivicoVerificato = numeroCivico ?: ""
-        val cityVerificata = city ?: ""
-        val regioneVerificata = regione ?: ""
-        val codicePostaleVerificato = codicePostale ?: ""
+    //Funzione utilizzata per controllare tramite una query se esiste un altro veicolo con la stessa targa
+    // appena immessa
 
-        val hashMap = hashMapOf<String, Any>(
-            "NomeVeicolo" to nomeVeicolo,
-            "Targa" to targa,
-            "IndirizzoCompleto" to indirizzoCompletoVerificato,
-            "Via" to viaVerificato,
-            "NumeroCivico" to numeroCivicoVerificato,
-            "Città" to cityVerificata,
-            "Regione" to regioneVerificata,
-            "CodicePostale" to codicePostaleVerificato
-        )
+    private suspend fun checkTargaExists(targa: String): Boolean {
+        val snapshot = fireStoreDatabase.collection("vans")
+            .whereEqualTo("Targa", targa)
+            .get()
+            .await()
 
-       fireStoreDatabase.collection("users")
-            .document(uid)
-            .set(hashMap)
-            .addOnSuccessListener {
-                Log.d(ContentValues.TAG, "Added document with ID $uid")
-            }
-            .addOnFailureListener { exception ->
-                Log.w(ContentValues.TAG, "Error adding document $exception")
-            }
-    } */
+        return !snapshot.isEmpty
+    }
+
+
+
+
 }
 
 
