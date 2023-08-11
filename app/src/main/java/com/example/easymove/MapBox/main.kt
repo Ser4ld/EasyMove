@@ -152,18 +152,14 @@ class main: AppCompatActivity() {
             addressAutofill = addressAutofill2
         )
 
-        LocationEngineProvider.getBestLocationEngine(applicationContext)
-            .lastKnownLocation(this) { point ->
-                point?.let {
                     mapView.getMapboxMap().setCamera(
                         CameraOptions.Builder()
-                            .center(point)
+                            .center(TOWER_BRIDGE)
                             .zoom(9.0)
                             .build()
                     )
                     ignoreNextMapIdleEvent = true
-                }
-            }
+
 
         addressAutofillUiAdapter.addSearchListener(object :
             AddressAutofillUiAdapter.SearchListener {
