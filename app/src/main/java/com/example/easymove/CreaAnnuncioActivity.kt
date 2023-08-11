@@ -1,12 +1,15 @@
 package com.example.easymove
 
 import android.Manifest
+import android.content.ContentValues
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Point
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -15,6 +18,9 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.example.easymove.MapBox.inputMethodManager
 import com.example.easymove.databinding.ActivityCreaAnnuncioBinding
+import com.example.easymove.home.HomeActivity
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.firestore.FirebaseFirestore
 import com.mapbox.search.autofill.AddressAutofill
 import com.mapbox.search.autofill.AddressAutofillResult
 import com.mapbox.search.autofill.AddressAutofillSuggestion
@@ -26,8 +32,10 @@ import com.mapbox.search.ui.view.SearchResultsView
 
 class CreaAnnuncioActivity : AppCompatActivity() {
 
+
     private lateinit var binding: ActivityCreaAnnuncioBinding
 
+    private lateinit var fireStoreDatabase: FirebaseFirestore
 
     private lateinit var addressAutofill: AddressAutofill
     private lateinit var addressAutofillUiAdapter: AddressAutofillUiAdapter
@@ -124,7 +132,23 @@ class CreaAnnuncioActivity : AppCompatActivity() {
                 PERMISSIONS_REQUEST_LOCATION
             )
         }
+
+
+       /* if (binding.NomeVeicolo.text.toString().isNotEmpty() && binding.Targa.text.toString().isNotEmpty()
+            && binding.LocazioneVeicolo.text.toString().isNotEmpty() && binding.Altezzacassone.text.toString().isNotEmpty()
+            && binding.Larghezzacassone.text.toString().isNotEmpty() && binding.Lunghezzacassone.text.toString().isNotEmpty())
+        {
+
+            uploadData(binding.NomeVeicolo.text.toString(), binding.Targa.text.toString(), fullAddress, streetMezzo, houseNumberMezzo, cityMezzo, regionMezzo, postcodeMezzo )
+            val intent = Intent(this, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        } else {
+            Toast.makeText(this, "Errore", Toast.LENGTH_SHORT)
+                .show()
+        }*/
     }
+
 
     private fun selectSuggestion(
         suggestion: AddressAutofillSuggestion,
@@ -182,7 +206,52 @@ class CreaAnnuncioActivity : AppCompatActivity() {
     private fun View.hideKeyboard() {
         context.inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
     }
+
+
+    /*private fun uploadData(
+        nomeVeicolo: String,
+        targa: String,
+        indirizzoCompleto: String?,
+        via: String?,
+        numeroCivico: String?,
+        city: String?,
+        regione: String?,
+        codicePostale: String?
+    ) {
+        val indirizzoCompletoVerificato = indirizzoCompleto ?: ""
+        val viaVerificato = via ?: ""
+        val numeroCivicoVerificato = numeroCivico ?: ""
+        val cityVerificata = city ?: ""
+        val regioneVerificata = regione ?: ""
+        val codicePostaleVerificato = codicePostale ?: ""
+
+        val hashMap = hashMapOf<String, Any>(
+            "NomeVeicolo" to nomeVeicolo,
+            "Targa" to targa,
+            "IndirizzoCompleto" to indirizzoCompletoVerificato,
+            "Via" to viaVerificato,
+            "NumeroCivico" to numeroCivicoVerificato,
+            "Città" to cityVerificata,
+            "Regione" to regioneVerificata,
+            "CodicePostale" to codicePostaleVerificato
+        )
+
+       fireStoreDatabase.collection("users")
+            .document(uid)
+            .set(hashMap)
+            .addOnSuccessListener {
+                Log.d(ContentValues.TAG, "Added document with ID $uid")
+            }
+            .addOnFailureListener { exception ->
+                Log.w(ContentValues.TAG, "Error adding document $exception")
+            }
+    } */
 }
+
+
+
+
+
 
 
 
