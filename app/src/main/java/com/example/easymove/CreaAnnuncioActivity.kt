@@ -60,7 +60,7 @@ class CreaAnnuncioActivity : AppCompatActivity() {
         fireStoreDatabase = FirebaseFirestore.getInstance()
 
 
-        addressAutofill = AddressAutofill.create(getString(R.string.mapbox_access_token))
+       /** addressAutofill = AddressAutofill.create(getString(R.string.mapbox_access_token))
         var isFirstTyping = true
 
         binding.searchResultsView.initialize(
@@ -136,32 +136,52 @@ class CreaAnnuncioActivity : AppCompatActivity() {
                 ),
                 PERMISSIONS_REQUEST_LOCATION
             )
+        }*/
+
+
+        binding.floatingActionButton.setOnClickListener{
+
+            startActivity(Intent(this, HomeActivity::class.java))
         }
-
-
-
-
 
         binding.searchButton.setOnClickListener{
 
             if (binding.NomeVeicolo.text.toString().isNotEmpty() && binding.Targa.text.toString().isNotEmpty()
-                && binding.LocazioneVeicolo.text.toString().isNotEmpty() && binding.Lunghezzacassone.toString().isNotEmpty() &&
+                && //binding.LocazioneVeicolo.text.toString().isNotEmpty() &&
+                binding.Lunghezzacassone.toString().isNotEmpty() &&
                 binding.Larghezzacassone.toString().isNotEmpty() && binding.Altezzacassone.toString().isNotEmpty())
             {
 
-                var Capienza = calcoloCapienza(Integer.parseInt(binding.Lunghezzacassone.text.toString()), Integer.parseInt(binding.Altezzacassone.text.toString()) , Integer.parseInt(binding.Larghezzacassone.text.toString()))
-                val User = FirebaseAuth.getInstance().currentUser
-                val UserEmail = User?.email
+                val lunghezza = binding.Lunghezzacassone.text.toString().toDouble()
+                val altezza = binding.Altezzacassone.text.toString().toDouble()
+                val larghezza = binding.Larghezzacassone.text.toString().toDouble()
+
+                val capienza = calcoloCapienza(lunghezza, altezza, larghezza)
+
+                /*val indirizzoCompletoVerificato = fullAddress ?: ""
+                val viaVerificato = streetMezzo?: ""
+                val numeroCivicoVerificato = houseNumberMezzo ?: ""
+                val cityVerificata = cityMezzo ?: ""
+                val regioneVerificata = regionMezzo ?: ""
+                val codicePostaleVerificato = postcodeMezzo ?: ""*/
+
+                val user = FirebaseAuth.getInstance().currentUser
+                val userEmail = user?.email
 
                 val hashMap = hashMapOf<String, Any>(
-                    "Modello" to binding.NomeVeicolo.text.toString(),
-                    "Targa" to binding.Targa.text.toString(),
-                    "Locazione" to binding.LocazioneVeicolo.text.toString(),
-                    "Capienza" to Capienza,
-                    "Email" to UserEmail.toString()
+                    "1) Modello" to binding.NomeVeicolo.text.toString(),
+                    "2) Targa" to binding.Targa.text.toString(),
+                    "3) Capienza" to capienza,
+                    //"4) IndirizzoCompleto" to indirizzoCompletoVerificato,
+                    //"5) Via" to viaVerificato,
+                    //"6) NumeroCivico" to numeroCivicoVerificato,
+                    //"7) Città" to cityVerificata,
+                    //"8) Regione" to regioneVerificata,
+                    //"9) CodicePostale" to codicePostaleVerificato,
+                    "10) Email" to userEmail.toString()
                 )
 
-                if (UserEmail != null) {
+                if (userEmail != null) {
                     val signupActivity = SignupActivity() // Non è il modo ideale per ottenere l'istanza di SignupActivity!
                     signupActivity.uploadData(hashMap, "vans", binding.Targa.text.toString(), fireStoreDatabase)
                 }
@@ -177,8 +197,8 @@ class CreaAnnuncioActivity : AppCompatActivity() {
 
     }
 
-    private fun calcoloCapienza(Lunghezza: Int, Altezza: Int, Larghezza: Int): String {
-        val capienza = ((Lunghezza * Altezza * Larghezza)/1000000).toDouble()
+    private fun calcoloCapienza(lunghezza: Double, altezza: Double, larghezza: Double): String {
+        val capienza = ((lunghezza * altezza * larghezza)/1000000)
         val formattedCapienza = String.format("%.2f", capienza)
         return "$formattedCapienza m³"
     }

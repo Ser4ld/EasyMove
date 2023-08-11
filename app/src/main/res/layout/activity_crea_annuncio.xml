@@ -50,11 +50,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.842">
 
-
-
-
-
-
         <EditText
             android:id="@+id/LocazioneVeicolo"
             android:layout_width="match_parent"
@@ -115,11 +110,11 @@
             android:drawableTint="@color/app_theme"
             android:ems="10"
             android:hint="Targa"
-            android:inputType="text"
             android:padding="5dp"
             android:textColor="@color/black"
             android:textColorHint="@color/placeholder"
             android:textSize="18dp"
+            android:inputType="textCapCharacters"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@id/NomeVeicolo" />

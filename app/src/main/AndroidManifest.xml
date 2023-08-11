@@ -17,9 +17,11 @@
         android:usesCleartextTraffic="true"
         tools:targetApi="31">
         <activity
+            android:name=".annunci.AnnunciActivity"
+            android:exported="false" />
+        <activity
             android:name=".CreaAnnuncioActivity"
             android:exported="false" />
-
         <activity
             android:name=".login.index"
             android:exported="true"
