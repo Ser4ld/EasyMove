@@ -23,6 +23,9 @@ class SignupActivity : AppCompatActivity() {
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var binding: SignupBinding
     private var tipoutente: String = "consumatore"
+    private lateinit var nome: String
+    private lateinit var cognome: String
+    private lateinit var email: String
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,7 +56,17 @@ class SignupActivity : AppCompatActivity() {
                             if (task.isSuccessful) {
                                 val user = FirebaseAuth.getInstance().currentUser
                                 val userId = user?.uid
-                                uploadData(binding.Email.text.toString(), userId.toString(), binding.Nome.text.toString(), binding.Cognome.text.toString(), tipoutente )
+
+                                val hashMap = hashMapOf<String, Any>(
+                                    "name" to binding.Nome.text.toString(),
+                                    "surname" to binding.Cognome.text.toString(),
+                                    "Email" to binding.Email.text.toString(),
+                                    "tipoutente" to tipoutente
+                                )
+
+                                if (userId != null) {
+                                    uploadData(hashMap, "users", userId)
+                                }
 
                                 Log.d("ID DELLO USER", userId.toString())
                                 val intent = Intent(this, HomeActivity::class.java)
@@ -84,19 +97,13 @@ class SignupActivity : AppCompatActivity() {
 
     }
 
-    private fun uploadData(email: String, uid: String, nome: String, cognome: String, tipoutente: String) {
-        val hashMap = hashMapOf<String, Any>(
-            "name" to nome,
-            "surname" to cognome,
-            "Email" to email,
-            "tipoutente" to tipoutente
-        )
+    private fun uploadData(hashMap:  HashMap<String, Any>, nomeTabella: String, id: String) {
 
-        fireStoreDatabase.collection("users")
-            .document(uid)
+        fireStoreDatabase.collection(nomeTabella)
+            .document(id)
             .set(hashMap)
             .addOnSuccessListener {
-                Log.d(TAG, "Added document with ID $uid")
+                Log.d(TAG, "Added document with ID $id")
             }
             .addOnFailureListener { exception ->
                 Log.w(TAG, "Error adding document $exception")
