@@ -18,7 +18,9 @@ import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
 import com.example.easymove.MapBox.inputMethodManager
 import com.example.easymove.databinding.ActivityCreaAnnuncioBinding
+import com.example.easymove.databinding.SignupBinding
 import com.example.easymove.home.HomeActivity
+import com.example.easymove.registrazione.SignupActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mapbox.search.autofill.AddressAutofill
@@ -54,6 +56,9 @@ class CreaAnnuncioActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityCreaAnnuncioBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        fireStoreDatabase = FirebaseFirestore.getInstance()
+
 
         addressAutofill = AddressAutofill.create(getString(R.string.mapbox_access_token))
         var isFirstTyping = true
@@ -94,10 +99,10 @@ class CreaAnnuncioActivity : AppCompatActivity() {
 
             override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
 
-                if (isFirstTyping) {
-                    Toast.makeText(applicationContext, "Formato: Via, Numero, Città", Toast.LENGTH_SHORT).show()
-                    isFirstTyping = false
-                }
+//                if (isFirstTyping) {
+//                    Toast.makeText(applicationContext, "Formato: Via, Numero, Città", Toast.LENGTH_SHORT).show()
+//                    isFirstTyping = false
+//                }
 
                 if (ignoreNextQueryTextUpdate) {
                     ignoreNextQueryTextUpdate = false
@@ -134,19 +139,48 @@ class CreaAnnuncioActivity : AppCompatActivity() {
         }
 
 
-       /* if (binding.NomeVeicolo.text.toString().isNotEmpty() && binding.Targa.text.toString().isNotEmpty()
-            && binding.LocazioneVeicolo.text.toString().isNotEmpty() && binding.Altezzacassone.text.toString().isNotEmpty()
-            && binding.Larghezzacassone.text.toString().isNotEmpty() && binding.Lunghezzacassone.text.toString().isNotEmpty())
-        {
 
-            uploadData(binding.NomeVeicolo.text.toString(), binding.Targa.text.toString(), fullAddress, streetMezzo, houseNumberMezzo, cityMezzo, regionMezzo, postcodeMezzo )
-            val intent = Intent(this, HomeActivity::class.java)
-            startActivity(intent)
-            finish()
-        } else {
-            Toast.makeText(this, "Errore", Toast.LENGTH_SHORT)
-                .show()
-        }*/
+
+
+        binding.searchButton.setOnClickListener{
+
+            if (binding.NomeVeicolo.text.toString().isNotEmpty() && binding.Targa.text.toString().isNotEmpty()
+                && binding.LocazioneVeicolo.text.toString().isNotEmpty() && binding.Lunghezzacassone.toString().isNotEmpty() &&
+                binding.Larghezzacassone.toString().isNotEmpty() && binding.Altezzacassone.toString().isNotEmpty())
+            {
+
+                var Capienza = calcoloCapienza(Integer.parseInt(binding.Lunghezzacassone.text.toString()), Integer.parseInt(binding.Altezzacassone.text.toString()) , Integer.parseInt(binding.Larghezzacassone.text.toString()))
+                val User = FirebaseAuth.getInstance().currentUser
+                val UserEmail = User?.email
+
+                val hashMap = hashMapOf<String, Any>(
+                    "Modello" to binding.NomeVeicolo.text.toString(),
+                    "Targa" to binding.Targa.text.toString(),
+                    "Locazione" to binding.LocazioneVeicolo.text.toString(),
+                    "Capienza" to Capienza,
+                    "Email" to UserEmail.toString()
+                )
+
+                if (UserEmail != null) {
+                    val signupActivity = SignupActivity() // Non è il modo ideale per ottenere l'istanza di SignupActivity!
+                    signupActivity.uploadData(hashMap, "vans", binding.Targa.text.toString(), fireStoreDatabase)
+                }
+
+                val intent = Intent(this, HomeActivity::class.java)
+                startActivity(intent)
+                finish()
+            } else {
+                Toast.makeText(this, "Errore", Toast.LENGTH_SHORT)
+                    .show()
+            }
+        }
+
+    }
+
+    private fun calcoloCapienza(Lunghezza: Int, Altezza: Int, Larghezza: Int): String {
+        val capienza = ((Lunghezza * Altezza * Larghezza)/1000000).toDouble()
+        val formattedCapienza = String.format("%.2f", capienza)
+        return "$formattedCapienza m³"
     }
 
 

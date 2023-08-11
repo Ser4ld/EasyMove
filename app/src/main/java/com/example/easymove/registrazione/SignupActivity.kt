@@ -65,7 +65,7 @@ class SignupActivity : AppCompatActivity() {
                                 )
 
                                 if (userId != null) {
-                                    uploadData(hashMap, "users", userId)
+                                    uploadData(hashMap, "users", userId, fireStoreDatabase)
                                 }
 
                                 Log.d("ID DELLO USER", userId.toString())
@@ -97,7 +97,7 @@ class SignupActivity : AppCompatActivity() {
 
     }
 
-    private fun uploadData(hashMap:  HashMap<String, Any>, nomeTabella: String, id: String) {
+    fun uploadData(hashMap:  HashMap<String, Any>, nomeTabella: String, id: String, fireStoreDatabase: FirebaseFirestore) {
 
         fireStoreDatabase.collection(nomeTabella)
             .document(id)
