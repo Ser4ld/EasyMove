@@ -359,14 +359,6 @@ class HomeFragment : Fragment() {
             );
         }
 
-        /**if (originCoordinate != null && destinationCoordinate != null) {
-            val coordinateText = "Origine - Lat: ${originCoordinate!!.latitude()}, Lng: ${originCoordinate!!.longitude()}\n" +
-                    "Destinazione - Lat: ${destinationCoordinate!!.latitude()}, Lng: ${destinationCoordinate!!.longitude()}"
-            Toast.makeText(requireContext(), coordinateText, Toast.LENGTH_SHORT).show()
-        }*/
-        //textView.isVisible = true
-        //textView.text = result.suggestion.formattedAddress
-
         if (!fromReverseGeocoding) {
             binding.map.getMapboxMap().setCamera(
                 CameraOptions.Builder()
@@ -375,7 +367,6 @@ class HomeFragment : Fragment() {
                     .build()
             )
             ignoreNextMapIdleEvent = true
-            //mapPin.isVisible = true
             addMarkerToMap(coordinate)
 
         }
@@ -440,7 +431,7 @@ class HomeFragment : Fragment() {
     if ( origin.latitude() != 0.0 && origin.longitude()!=0.0 && destination.latitude() != 0.0 && destination.longitude()!=0.0){
     val distanza = TurfMeasurement.distance(origin, destination, TurfConstants.UNIT_KILOMETERS)
     val distanzaFormattata = String.format(Locale.getDefault(), "%.2f", distanza)
-    var distanzaStringa = "$distanzaFormattata Km"
+    var distanzaStringa = "Distanza: $distanzaFormattata Km"
     binding.provadistanza.text = distanzaStringa
     }
     }
