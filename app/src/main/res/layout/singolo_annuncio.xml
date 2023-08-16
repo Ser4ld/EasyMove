@@ -119,6 +119,22 @@
                 android:textColor="@color/black"/>
         </LinearLayout>
 
+        <Button
+            android:id="@+id/richieditrasporto"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp"
+            android:backgroundTint="@color/app_theme"
+            android:text="Richiedi trasporto"
+            android:textColor="@color/white"
+            android:textSize="12dp"
+            android:textStyle="bold"
+            app:cornerRadius="25dp"
+            android:layout_gravity="center_horizontal"
+            />
+
+
     </LinearLayout>
+
+
 
 </androidx.cardview.widget.CardView>
