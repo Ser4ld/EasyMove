@@ -115,10 +115,10 @@ class ProfileFragment : Fragment() {
         // Crea un nuovo AlertDialog
         val builder = AlertDialog.Builder(requireContext())
 
-        builder.setMessage("Clicca 'conferma' per effettuare il logout:")
+        builder.setMessage("Clicca 'Conferma' per effettuare il logout")
 
         // Aggiungi i pulsanti "Conferma" e "Annulla"
-        builder.setPositiveButton("Conferma") { dialog: DialogInterface, _: Int ->
+        builder.setPositiveButton("Conferma") { _: DialogInterface, _: Int ->
 
             FirebaseAuth.getInstance().signOut()
             Toast.makeText(requireContext(), "Logout effettuato", Toast.LENGTH_SHORT).show()

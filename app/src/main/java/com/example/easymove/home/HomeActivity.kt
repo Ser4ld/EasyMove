@@ -34,7 +34,8 @@ class HomeActivity : AppCompatActivity() {
         binding.bottomNavigationView.background = null
 
         binding.addItem.setOnClickListener {
-            intentAnnuncio()
+            val intent = Intent(this, CreaAnnuncioActivity::class.java)
+            startActivity(intent)
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
@@ -73,11 +74,6 @@ class HomeActivity : AppCompatActivity() {
             }
     }
 
-    private fun intentAnnuncio() {
-        val intent = Intent(this, CreaAnnuncioActivity::class.java)
-        startActivity(intent)
-    }
-
     private fun replaceFragment(fragment: Fragment) {
         val fragmentManager = supportFragmentManager
         val fragmentTransaction = fragmentManager.beginTransaction()
@@ -86,7 +82,6 @@ class HomeActivity : AppCompatActivity() {
     }
 
     override fun onBackPressed() {
-        // Non fare nulla quando viene premuto il pulsante "Indietro"
-        // in modo che l'utente non possa tornare alla schermata di login
+        // Non fa nulla quando viene premuto il pulsante "Indietro"
     }
 }

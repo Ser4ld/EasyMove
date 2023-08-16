@@ -5,14 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.example.easymove.R
 import com.example.easymove.databinding.ActivityAnnunciBinding
 import com.example.easymove.home.HomeActivity
 import com.example.easymove.model.Annuncio
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.firestore.ktx.toObject
 import com.google.firebase.ktx.Firebase
 
 class AnnunciActivity : AppCompatActivity() {
@@ -29,6 +27,8 @@ class AnnunciActivity : AppCompatActivity() {
 
         val binding = ActivityAnnunciBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //prelevo la città di partenza dall'activity (precedente) per la ricerca
         cityOrigin = intent.getStringExtra("cityOrigin")
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
@@ -52,7 +52,7 @@ class AnnunciActivity : AppCompatActivity() {
                 }
             }
 
-            binding.recyclerView.adapter = MyAdapter(list)
+            binding.recyclerView.adapter = MyAdapterAnnunci(list)
         }
             .addOnFailureListener { exception ->
                 Toast.makeText(this, exception.toString(), Toast.LENGTH_SHORT).show()

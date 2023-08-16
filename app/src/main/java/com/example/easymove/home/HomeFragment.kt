@@ -270,15 +270,15 @@ class HomeFragment : Fragment() {
         }
 
         binding.searchButton.setOnClickListener() {
-            if (!binding.queryText.text.isNullOrBlank() && !binding.queryText2.text.isNullOrBlank() ) {
+            //if (!binding.queryText.text.isNullOrBlank() && !binding.queryText2.text.isNullOrBlank() ) {
                     val intentSearch = Intent(requireContext(), AnnunciActivity::class.java)
                     intentSearch.putExtra(
                         "cityOrigin",
                         cityOrigin
                     ) // Pass the city of departure to the next activity
                     startActivity(intentSearch)
-                }
-            else Toast.makeText(requireContext(), "Inserire punto di partenza e di destinazione", Toast.LENGTH_SHORT).show()
+                //}
+           // else Toast.makeText(requireContext(), "Inserire punto di partenza e di destinazione", Toast.LENGTH_SHORT).show()
 
         }
 

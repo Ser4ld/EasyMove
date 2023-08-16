@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.easymove.R
 import com.example.easymove.model.Annuncio
 
-class MyAdapter(private val list:ArrayList<Annuncio>):RecyclerView.Adapter<MyAdapter.MyViewHolder>() {
+class MyAdapterAnnunci(private val list:ArrayList<Annuncio>):RecyclerView.Adapter<MyAdapterAnnunci.MyViewHolder>() {
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
         val modello: TextView= itemView.findViewById(R.id.modello)
