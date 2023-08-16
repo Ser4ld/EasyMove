@@ -18,10 +18,10 @@ import com.google.firebase.ktx.Firebase
 class AnnunciActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAnnunciBinding
-    private lateinit var recyclerView: RecyclerView
     private lateinit var list: ArrayList<Annuncio>
     private var db = Firebase.firestore
-    private var cityOrigin: String? = null // Declare a variable to hold the city of departure
+    private var cityOrigin: String? = null
+    private var postcodeOrigin: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +29,7 @@ class AnnunciActivity : AppCompatActivity() {
 
         val binding = ActivityAnnunciBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        cityOrigin = intent.getStringExtra("cityOrigin")
 
         binding.recyclerView.layoutManager = LinearLayoutManager(this)
 
@@ -44,10 +45,10 @@ class AnnunciActivity : AppCompatActivity() {
             if (!snapshot.isEmpty) {
                 for (data in snapshot.documents) {
                     val van: Annuncio? = data.toObject(Annuncio::class.java)
-                    if (van != null && van.Città == "Ancona") {
+                    if (van != null && van.Città == cityOrigin) {
                         list.add(van)
                     }
-                    else Toast.makeText(this, "Empty", Toast.LENGTH_SHORT).show()
+                    else Toast.makeText(this, "Non ci sono annunci", Toast.LENGTH_SHORT).show()
                 }
             }
 
