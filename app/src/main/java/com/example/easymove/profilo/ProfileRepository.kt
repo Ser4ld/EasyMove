@@ -1,7 +1,7 @@
 package com.example.easymove.profilo
 
+import android.content.ContentValues.TAG
 import android.util.Log
-import com.example.easymove.registrazione.TAG
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.DocumentSnapshot

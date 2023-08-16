@@ -20,7 +20,7 @@ import com.example.easymove.MapBox.inputMethodManager
 import com.example.easymove.databinding.ActivityCreaAnnuncioBinding
 import com.example.easymove.databinding.SignupBinding
 import com.example.easymove.home.HomeActivity
-import com.example.easymove.registrazione.SignupActivity
+import com.example.easymove.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.mapbox.search.autofill.AddressAutofill
@@ -193,8 +193,8 @@ class CreaAnnuncioActivity : AppCompatActivity() {
                     )
 
                     if (userEmail != null) {
-                        val signupActivity = SignupActivity() // RIVEDERE
-                        signupActivity.uploadData(hashMap, "vans", binding.Targa.text.toString(), fireStoreDatabase)
+                        val user = User(FirebaseFirestore.getInstance()) // RIVEDERE
+                        user.uploadData(hashMap, "vans", binding.Targa.text.toString())
                     }
 
                     val intent = Intent(this@CreaAnnuncioActivity, HomeActivity::class.java)
