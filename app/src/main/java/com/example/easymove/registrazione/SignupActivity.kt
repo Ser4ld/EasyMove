@@ -29,13 +29,11 @@ class SignupActivity : AppCompatActivity() {
         binding.floatingActionButton.setOnClickListener {
             val intentBack = Intent(this, index::class.java)
             startActivity(intentBack)
-            finish()
         }
 
         binding.textLogin2.setOnClickListener {
             val intentSignUp = Intent(this, LoginActivity::class.java)
             startActivity(intentSignUp)
-            finish()
         }
 
 
@@ -58,7 +56,6 @@ class SignupActivity : AppCompatActivity() {
                 if (success) {
                     val intent = Intent(this@SignupActivity, HomeActivity::class.java)
                     startActivity(intent)
-                    finish()
                 } else {
                     Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
                 }
