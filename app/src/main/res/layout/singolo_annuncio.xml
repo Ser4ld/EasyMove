@@ -3,28 +3,120 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:backgroundTint="@color/white"
     app:cardElevation="8dp"
     app:cardCornerRadius="8dp"
     android:layout_margin="16dp"
     >
 
-
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="10dp"
         android:orientation="vertical">
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_marginTop="5dp"
+            android:layout_marginBottom="5dp">
 
             <TextView
-                android:layout_width="wrap_content"
+                android:id="@+id/modellolabel"
+                android:layout_width="100dp"
                 android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Modello:"
+                android:textSize="18dp"
+                android:textColor="@color/app_theme"
+                android:paddingEnd="16dp"
                 />
+
+            <TextView
+                android:id="@+id/modello"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="16dp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/targalabel"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Targa:"
+                android:layout_marginLeft="5dp"
+
+                android:textSize="18dp"
+                android:textColor="@color/app_theme"
+                android:paddingEnd="16dp"/>
+
+            <TextView
+                android:id="@+id/targa"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="16dp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/capienzalabel"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Capienza:"
+                android:layout_marginLeft="5dp"
+
+                android:textSize="18dp"
+                android:textColor="@color/app_theme"
+                android:paddingEnd="16dp"/>
+
+            <TextView
+                android:id="@+id/capienza"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="16dp"
+                android:textColor="@color/black"/>
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginBottom="5dp">
+
+            <TextView
+                android:id="@+id/locazionelabel"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Locazione:"
+                android:layout_marginLeft="5dp"
+                android:textSize="18dp"
+                android:textColor="@color/app_theme"
+                />
+
+            <TextView
+                android:id="@+id/locazione"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textSize="16dp"
+                android:textColor="@color/black"/>
         </LinearLayout>
 
     </LinearLayout>

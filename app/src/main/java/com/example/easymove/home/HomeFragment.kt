@@ -2,6 +2,7 @@ package com.example.easymove.home
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.Canvas
@@ -26,7 +27,9 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.lifecycleScope
 import com.example.easymove.MapBox.inputMethodManager
 import com.example.easymove.R
+import com.example.easymove.annunci.AnnunciActivity
 import com.example.easymove.databinding.FragmentHomeBinding
+import com.example.easymove.login.LoginActivity
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapboxMap
@@ -75,6 +78,7 @@ class HomeFragment : Fragment() {
     private var cityDestination: String? = null
     private var regionDestination: String? = null
     private var postcodeDestination: String? = null
+
     private val POLO_MONTEDAGO = Point.fromLngLat(13.516539114888866, 43.586912987628324)
 
     override fun onCreateView(
@@ -263,6 +267,11 @@ class HomeFragment : Fragment() {
                 ),
                 PERMISSIONS_REQUEST_LOCATION
             )
+        }
+
+        binding.searchButton.setOnClickListener() {
+                val intentSearch = Intent(requireContext(), AnnunciActivity::class.java)
+                startActivity(intentSearch)
         }
 
     }
