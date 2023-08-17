@@ -16,18 +16,16 @@ class LoginActivity : AppCompatActivity() {
 
     private lateinit var binding: LoginBinding
     private lateinit var LogViewModel: LoginViewModel
-    private val loginRepository = LoginRepository(this)
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = LoginBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        LogViewModel = LoginViewModel(User(FirebaseFirestore.getInstance()))
+        LogViewModel = LoginViewModel(this ,User(FirebaseFirestore.getInstance()))
 
-        loginRepository.autoLogin()
+
         /*intent per passare alle schermate di RecuperoPassword, index (cliccando il backbutton) e pagina di registrazione */
-
         binding.passwordDimenticata.setOnClickListener{
             val intentPassDimenticata= Intent(this, ResetPasswordActivity::class.java)
             startActivity(intentPassDimenticata)

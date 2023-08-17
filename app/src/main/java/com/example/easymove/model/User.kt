@@ -1,9 +1,13 @@
 package com.example.easymove.model
 
+import android.content.Intent
+import com.example.easymove.home.HomeActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class User(private val fireStoreDatabase: FirebaseFirestore) {
+
+
 
     fun createUser(
         email: String,
@@ -66,6 +70,8 @@ class User(private val fireStoreDatabase: FirebaseFirestore) {
                 }
             }
     }
+
+
 
 
 }
