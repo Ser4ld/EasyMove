@@ -2,6 +2,7 @@ package com.example.easymove.registrazione
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.easymove.ViewModel.SignupViewModel
@@ -64,7 +65,7 @@ class SignupActivity : AppCompatActivity() {
 
         }
 
-        binding.toggleButton.setOnCheckedChangeListener { _, isChecked ->
+        binding.checkguidatore.setOnCheckedChangeListener { _, isChecked ->
             tipoutente = if (isChecked) {
                 "guidatore"
             } else {
