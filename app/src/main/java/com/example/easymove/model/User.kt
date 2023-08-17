@@ -48,4 +48,25 @@ class User(private val fireStoreDatabase: FirebaseFirestore) {
                 // Logica in caso di fallimento
             }
     }
+
+    /*autenticazione utente */
+    fun authenticateUser(
+        email: String,
+        password: String,
+        callback: (Boolean, String?) -> Unit
+    ) {
+        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val user = FirebaseAuth.getInstance().currentUser
+                    // Qui puoi ottenere informazioni sull'utente loggato, se necessario
+                    callback(true, null)
+                } else {
+                    callback(false, task.exception?.message)
+                }
+            }
+    }
+
+
 }
+
