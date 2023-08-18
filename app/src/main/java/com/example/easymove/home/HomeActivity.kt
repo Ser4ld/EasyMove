@@ -66,10 +66,7 @@ class HomeActivity : AppCompatActivity() {
         fragmentTransaction.replace(R.id.frameLayout, fragment)
         fragmentTransaction.commit()
     }
-
     override fun onBackPressed() {
         // Non fa nulla quando viene premuto il pulsante "Indietro"
     }
-
-
 }

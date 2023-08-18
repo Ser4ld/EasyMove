@@ -24,9 +24,11 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.easymove.MapBox.inputMethodManager
 import com.example.easymove.R
+import com.example.easymove.ViewModel.HomeViewModel
 import com.example.easymove.annunci.AnnunciActivity
 import com.example.easymove.databinding.FragmentHomeBinding
 import com.example.easymove.login.LoginActivity
@@ -52,6 +54,9 @@ import java.util.Locale
 class HomeFragment : Fragment() {
 
     private lateinit var binding: FragmentHomeBinding
+
+    private lateinit var homeViewModel: HomeViewModel
+
 
     private lateinit var addressAutofill: AddressAutofill
     private lateinit var addressAutofill2: AddressAutofill
@@ -95,6 +100,8 @@ class HomeFragment : Fragment() {
         mapboxMap = binding.map.getMapboxMap()
 
         mapboxMap.loadStyleUri(Style.MAPBOX_STREETS)
+
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
         return rootView
     }
@@ -183,17 +190,13 @@ class HomeFragment : Fragment() {
             override fun onError(e: Exception) {
                 // Nothing to do
             }
-        })
+            })
 
         //listener che impedisce di scendere nella queryEditText2 se si preme invio sulla tastiera
        binding.queryText.setOnEditorActionListener { _, actionId, _ ->
-            if (actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_DONE) {
-                // Consume the event, preventing the default action
-                true
-            } else {
-                false
-            }
+           homeViewModel.checkActionId(actionId)
         }
+
 
 
         binding.queryText.addTextChangedListener(object : TextWatcher {
@@ -225,7 +228,6 @@ class HomeFragment : Fragment() {
                 // Nothing to do
             }
         })
-
 
         binding.queryText2.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
@@ -270,47 +272,13 @@ class HomeFragment : Fragment() {
         }
 
         binding.searchButton.setOnClickListener() {
-            //if (!binding.queryText.text.isNullOrBlank() && !binding.queryText2.text.isNullOrBlank() ) {
-                    val intentSearch = Intent(requireContext(), AnnunciActivity::class.java)
-                    intentSearch.putExtra(
-                        "cityOrigin",
-                        cityOrigin
-                    ) // Pass the city of departure to the next activity
-                    startActivity(intentSearch)
-                //}
-           // else Toast.makeText(requireContext(), "Inserire punto di partenza e di destinazione", Toast.LENGTH_SHORT).show()
-
+            val intentSearch = Intent(requireContext(), AnnunciActivity::class.java)
+            // Pass the city of departure to the next activity
+            intentSearch.putExtra("cityOrigin", cityOrigin)
+            startActivity(intentSearch)
         }
 
     }
-
-    /**private fun findAddress(point: Point) {
-    // Avvia una coroutine quando l'Activity è nello stato "started"
-    lifecycleScope.launchWhenStarted {
-    // Chiede all'API di autocompletamento di restituire suggerimenti per l'indirizzo alla coordinata geografica specificata
-    val response = addressAutofill.suggestions(point, AddressAutofillOptions())
-
-    // Gestisce il risultato positivo della chiamata
-    response.onValue { suggestions ->
-    // Se non ci sono suggerimenti, mostra un messaggio di toast per chiedere all'utente di inserire un indirizzo
-    if (suggestions.isEmpty()) {
-    showToast("Inserisci un indirizzo")
-    } else {
-    // Se ci sono suggerimenti, seleziona il primo suggerimento e visualizza i dettagli dell'indirizzo
-    selectSuggestion(
-    suggestions.first(),
-    fromReverseGeocoding = true
-    )
-    }
-    }
-    // Gestisce eventuali errori durante la chiamata
-    .onError {
-    // Mostra un messaggio di toast per segnalare un errore di correzione del pin
-    showToast(R.string.address_autofill_error_pin_correction)
-    }
-    }
-    }*/
-
 
     private fun selectSuggestion(
         suggestion: AddressAutofillSuggestion,
@@ -396,67 +364,35 @@ class HomeFragment : Fragment() {
         searchResults.hideKeyboard()
 
 
-        getDistancePoints()
+        binding.provadistanza.text = homeViewModel.getDistancePoints()
 
     }
     private companion object {
         const val PERMISSIONS_REQUEST_LOCATION = 0
     }
 
+    private fun View.hideKeyboard() {
+        context.inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
+    }
 
-    private fun addMarkerToMap(point: Point) {
-// Create an instance of the Annotation API and get the PointAnnotationManager.
-        bitmapFromDrawableRes(requireContext(), R.drawable.red_marker)?.let {
+    fun addMarkerToMap(point: Point) {
+        // Create an instance of the Annotation API and get the PointAnnotationManager.
+        homeViewModel.bitmapFromDrawableRes(requireContext(), R.drawable.red_marker)?.let {
             val annotationApi = binding.map?.annotations
             val pointAnnotationManager = annotationApi?.createPointAnnotationManager(binding.map!!)
-// Set options for the resulting symbol layer.
+            // Set options for the resulting symbol layer.
             val pointAnnotationOptions: PointAnnotationOptions = PointAnnotationOptions()
-// Define a geographic coordinate.
+                // Define a geographic coordinate.
                 .withPoint(point)
-// Specify the bitmap you assigned to the point annotation
-// The bitmap will be added to map style automatically.
+                // Specify the bitmap you assigned to the point annotation
+                // The bitmap will be added to map style automatically.
                 .withIconImage(it)
-// Add the resulting pointAnnotation to the map.
+            // Add the resulting pointAnnotation to the map.
             pointAnnotationManager?.create(pointAnnotationOptions)
         }
     }
-    private fun bitmapFromDrawableRes(context: Context, @DrawableRes resourceId: Int) =
-        convertDrawableToBitmap(AppCompatResources.getDrawable(context, resourceId))
 
-    private fun convertDrawableToBitmap(sourceDrawable: Drawable?): Bitmap? {
-        if (sourceDrawable == null) {
-            return null
-        }
-        return if (sourceDrawable is BitmapDrawable) {
-            sourceDrawable.bitmap
-        } else {
-// copying drawable object to not manipulate on the same reference
-            val constantState = sourceDrawable.constantState ?: return null
-            val drawable = constantState.newDrawable().mutate()
-            val bitmap: Bitmap = Bitmap.createBitmap(
-                drawable.intrinsicWidth, drawable.intrinsicHeight,
-                Bitmap.Config.ARGB_8888
-            )
-            val canvas = Canvas(bitmap)
-            drawable.setBounds(0, 0, canvas.width, canvas.height)
-            drawable.draw(canvas)
-            bitmap
-        }
-    }
-
-    private fun getDistancePoints() {
-    if ( origin.latitude() != 0.0 && origin.longitude()!=0.0 && destination.latitude() != 0.0 && destination.longitude()!=0.0){
-    val distanza = TurfMeasurement.distance(origin, destination, TurfConstants.UNIT_KILOMETERS)
-    val distanzaFormattata = String.format(Locale.getDefault(), "%.2f", distanza)
-    var distanzaStringa = "Distanza: $distanzaFormattata Km"
-    binding.provadistanza.text = distanzaStringa
-    }
-    }
-
-    private fun isPermissionGranted(permission: String): Boolean {
+    fun isPermissionGranted(permission: String): Boolean {
         return ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
-    }
-    private fun View.hideKeyboard() {
-        context.inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
     }
 }
