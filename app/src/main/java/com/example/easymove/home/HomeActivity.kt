@@ -10,25 +10,29 @@ import android.content.Intent
 import android.util.Log
 import android.view.View
 import com.example.easymove.CreaAnnuncioActivity
+import com.example.easymove.ViewModel.HomeViewModel
 import com.example.easymove.databinding.FragmentProfileBinding
+import com.example.easymove.model.User
 import com.example.easymove.profilo.ProfileViewModel
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class HomeActivity : AppCompatActivity() {
 
+    private lateinit var homeViewModel: HomeViewModel
     private lateinit var binding: HomeBinding
-    private lateinit var firestore: FirebaseFirestore
-    private val user = FirebaseAuth.getInstance().currentUser
+    private lateinit var user: User
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = HomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        firestore = FirebaseFirestore.getInstance()
-
+        user = User(FirebaseFirestore.getInstance()) // Inizializza la proprietà user
         replaceFragment(HomeFragment())
+        homeViewModel = HomeViewModel()
+
 
         binding.bottomAppBar.setBackgroundColor(resources.getColor(R.color.white))
         binding.bottomNavigationView.background = null
@@ -47,31 +51,13 @@ class HomeActivity : AppCompatActivity() {
         }
 
         // Qui chiamiamo la funzione per ottenere il valore di "tipoutente"
-        fetchAndSetTipoutente()
-    }
-    fun getUserId(): String {
-        val userId = user?.uid
-        return userId.toString()
-    }
-
-    private fun fetchAndSetTipoutente() {
-        val userId = getUserId() // Sostituisci con l'ID dell'utente corrente
-
-        firestore.collection("users").document(userId)
-            .get()
-            .addOnSuccessListener { documentSnapshot ->
-                if (documentSnapshot.exists()) {
-                    val tipoutente = documentSnapshot.getString("tipoutente")
-                    if (tipoutente == "guidatore") {
-                        binding.addItem.visibility = View.VISIBLE
-                    } else {
-                        binding.addItem.visibility = View.GONE
-                    }
-                }
+        homeViewModel.fetchAndSetTipoutente(user.getUserId()) { isGuidatore ->
+            if (isGuidatore) {
+                binding.addItem.visibility = View.VISIBLE
+            } else {
+                binding.addItem.visibility = View.GONE
             }
-            .addOnFailureListener { exception ->
-                Log.e("FirestoreError", "Errore durante la lettura dal Firestore", exception)
-            }
+        }
     }
 
     private fun replaceFragment(fragment: Fragment) {
@@ -84,4 +70,6 @@ class HomeActivity : AppCompatActivity() {
     override fun onBackPressed() {
         // Non fa nulla quando viene premuto il pulsante "Indietro"
     }
+
+
 }

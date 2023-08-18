@@ -5,9 +5,15 @@ import com.example.easymove.home.HomeActivity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
+
+private val user = FirebaseAuth.getInstance().currentUser
+
 class User(private val fireStoreDatabase: FirebaseFirestore) {
 
 
+    fun getUserId(): String? {
+        return FirebaseAuth.getInstance().currentUser?.uid
+    }
 
     fun createUser(
         email: String,
