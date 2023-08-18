@@ -45,7 +45,9 @@ class AnnunciActivity : AppCompatActivity() {
             if (!snapshot.isEmpty) {
                 for (data in snapshot.documents) {
                     val van: Annuncio? = data.toObject(Annuncio::class.java)
-                    if (van != null && van.Città == cityOrigin) {
+                    if (van != null
+                        // && van.citta == cityOrigin
+                        ) {
                         list.add(van)
                     }
                     else Toast.makeText(this, "Non ci sono annunci", Toast.LENGTH_SHORT).show()

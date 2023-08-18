@@ -28,10 +28,10 @@ class MyAdapterAnnunci(private val list:ArrayList<Annuncio>):RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.modello.text=list[position].Modello
-        holder.targa.text=list[position].Targa
-        holder.capienza.text=list[position].Capienza
-        holder.locazione.text=list[position].IndirizzoCompleto
+        holder.modello.text=list[position].modello
+        holder.targa.text=list[position].targa
+        holder.capienza.text=list[position].capienza
+        holder.locazione.text=list[position].indirizzoCompleto
 
     }
 }

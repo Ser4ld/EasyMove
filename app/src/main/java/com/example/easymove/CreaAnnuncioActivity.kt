@@ -33,9 +33,9 @@ import com.mapbox.search.ui.view.DistanceUnitType
 import com.mapbox.search.ui.view.SearchResultsView
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
+import kotlin.properties.Delegates
 
 class CreaAnnuncioActivity : AppCompatActivity() {
-
 
     private lateinit var binding: ActivityCreaAnnuncioBinding
 
@@ -47,6 +47,10 @@ class CreaAnnuncioActivity : AppCompatActivity() {
     private var ignoreNextQueryTextUpdate: Boolean = false
 
     private lateinit var coordinate: com.mapbox.geojson.Point
+
+    private var latitude: Double? = null
+    private var longitude: Double? = null
+
     private var streetMezzo: String? = null
     private var houseNumberMezzo: String? = null
     private var cityMezzo: String? = null
@@ -162,7 +166,8 @@ class CreaAnnuncioActivity : AppCompatActivity() {
                     binding.LocazioneVeicolo.text.toString().isNotEmpty() &&
                     binding.Lunghezzacassone.toString().isNotEmpty() &&
                     binding.Larghezzacassone.toString().isNotEmpty() &&
-                    binding.Altezzacassone.toString().isNotEmpty()) {
+                    binding.Altezzacassone.toString().isNotEmpty()&&
+                    binding.TariffaKm.toString().isNotEmpty()) {
 
                     val lunghezza = binding.Lunghezzacassone.text.toString().toDouble()
                     val altezza = binding.Altezzacassone.text.toString().toDouble()
@@ -180,16 +185,19 @@ class CreaAnnuncioActivity : AppCompatActivity() {
                     val userEmail = user?.email
 
                     val hashMap = hashMapOf<String, Any>(
-                        "Modello" to binding.NomeVeicolo.text.toString(),
-                        "Targa" to binding.Targa.text.toString(),
-                        "Capienza" to capienza,
-                        "IndirizzoCompleto" to indirizzoCompletoVerificato,
-                        "Via" to viaVerificato,
-                        "NumeroCivico" to numeroCivicoVerificato,
-                        "Città" to cityVerificata,
-                        "Regione" to regioneVerificata,
-                        "CodicePostale" to codicePostaleVerificato,
-                        "Email" to userEmail.toString()
+                        "modello" to binding.NomeVeicolo.text.toString(),
+                        "targa" to binding.Targa.text.toString(),
+                        "capienza" to capienza,
+                        "tariffaKm" to binding.TariffaKm.text.toString(),
+                        "indirizzoCompleto" to indirizzoCompletoVerificato,
+                        "via" to viaVerificato,
+                        "numeroCivico" to numeroCivicoVerificato,
+                        "citta" to cityVerificata,
+                        "regione" to regioneVerificata,
+                        "codicePostale" to codicePostaleVerificato,
+                        "email" to userEmail.toString(),
+                        "latitudine" to latitude.toString(),
+                        "longitudine" to longitude.toString(),
                     )
 
                     if (userEmail != null) {
@@ -236,7 +244,11 @@ class CreaAnnuncioActivity : AppCompatActivity() {
         searchResults: SearchResultsView) {
 
         var address = result.address
+
         coordinate = result.suggestion.coordinate
+        latitude=coordinate.latitude()
+        longitude=coordinate.longitude()
+
         fullAddress = result.suggestion.formattedAddress
 
         streetMezzo = address.street

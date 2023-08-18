@@ -18,8 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="5dp"
-            android:layout_marginBottom="5dp">
+            android:layout_margin="5dp">
 
             <TextView
                 android:id="@+id/modellolabel"
@@ -45,7 +44,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="5dp">
+            android:layout_margin="5dp">
 
             <TextView
                 android:id="@+id/targalabel"
@@ -71,7 +70,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="5dp">
+            android:layout_margin="5dp">
 
             <TextView
                 android:id="@+id/capienzalabel"
@@ -98,7 +97,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginBottom="5dp">
+            android:layout_margin="5dp">
 
             <TextView
                 android:id="@+id/locazionelabel"
@@ -123,6 +122,7 @@
             android:id="@+id/richieditrasporto"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
+            android:layout_margin="5dp"
             android:backgroundTint="@color/app_theme"
             android:text="Richiedi trasporto"
             android:textColor="@color/white"

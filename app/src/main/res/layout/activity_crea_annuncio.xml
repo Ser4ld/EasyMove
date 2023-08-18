@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/app_theme"
-    tools:context=".CreaAnnuncioActivity"
-    >
+    android:background="@color/app_theme">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/app_theme"
+            tools:context=".CreaAnnuncioActivity">
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
@@ -24,22 +34,26 @@
         />
 
 
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="179dp"
-        android:layout_height="142dp"
-        android:layout_marginTop="16dp"
-        app:layout_constraintBottom_toTopOf="@+id/containercard"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.52"
-        app:srcCompat="@drawable/baseline_car_rental_24" />
+        <ImageView
+            android:id="@+id/imageView"
+            android:layout_width="179dp"
+            android:layout_height="142dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginBottom="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.5"
+            app:srcCompat="@drawable/baseline_car_rental_24" />
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/containercard"
-        android:layout_width="382dp"
-        android:layout_height="522dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginHorizontal="16dp"
         android:background="@drawable/card_background"
         android:elevation="4dp"
@@ -75,6 +89,7 @@
             app:layout_constraintTop_toBottomOf="@+id/Targa"
             />
 
+
         <EditText
             android:id="@+id/NomeVeicolo"
             android:layout_width="match_parent"
@@ -88,7 +103,7 @@
             android:drawableTint="@color/app_theme"
             android:ems="10"
             android:hint="Nome veicolo"
-            android:inputType="text"
+            android:inputType="textCapSentences"
             android:padding="5dp"
             android:textColor="@color/black"
             android:textColorHint="@color/placeholder"
@@ -186,20 +201,43 @@
             app:layout_constraintTop_toBottomOf="@+id/Lunghezzacassone" />
 
 
-
-        <Button
-            android:id="@+id/search_button"
+        <EditText
+            android:id="@+id/TariffaKm"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:text="CREA ANNUNCIO"
-            android:layout_margin="20dp"
+            android:layout_height="50dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="20dp"
             android:layout_marginRight="20dp"
-            android:textColor="@color/white"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:background="@drawable/text_form_background"
+            android:drawableLeft="@drawable/baseline_euro_24"
+            android:drawablePadding="5dp"
+            android:drawableTint="@color/app_theme"
+            android:ems="10"
+            android:hint="Tariffa €/Km"
+            android:inputType="numberDecimal|numberSigned"
+            android:padding="5dp"
+            android:textColor="@color/black"
+            android:textColorHint="@color/placeholder"
+            android:textSize="18dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Larghezzacassone" />
+
+
+            <Button
+                android:id="@+id/search_button"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_margin="20dp"
+                android:layout_marginRight="20dp"
+                android:text="CREA ANNUNCIO"
+                android:textColor="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/TariffaKm"/>
+
+
 
         <com.mapbox.search.ui.view.SearchResultsView
             android:theme="@style/CustomTheme"
@@ -219,11 +257,13 @@
             app:layout_constraintTop_toBottomOf="@+id/LocazioneVeicolo"
             />
 
+
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+</LinearLayout>
 
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>
 
 

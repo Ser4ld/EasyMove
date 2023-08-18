@@ -1,14 +1,16 @@
 package com.example.easymove.model
 
 data class Annuncio(
-    val Capienza: String? = null,
-    val Città:String? = null,
-    val CodicePostale: String? = null,
-    val Email: String? = null,
-    val IndirizzoCompleto:String? = null,
-    val Modello: String? = null,
-    val NumeroCivico: String? = null,
-    val Regione: String? = null,
-    val Targa: String? = null,
-    val Via: String? = null
+    val capienza: String? = null,
+    val citta:String? = null,
+    val codicePostale: String? = null,
+    val email: String? = null,
+    val indirizzoCompleto:String? = null,
+    val modello: String? = null,
+    val numeroCivico: String? = null,
+    val regione: String? = null,
+    val targa: String? = null,
+    val via: String? = null,
+    val latitudine: String? = null,
+    val longitudine: String? = null
 )
