@@ -57,6 +57,7 @@
         android:layout_marginHorizontal="16dp"
         android:background="@drawable/card_background"
         android:elevation="4dp"
+            android:layout_margin="5dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.482"
@@ -223,19 +224,56 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Larghezzacassone" />
 
+            <TextView
+                android:id="@+id/disclaimerFormato"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="Seleziona un'immagine in formato PNG"
+                android:textColor="@color/app_theme"
+                app:layout_constraintTop_toBottomOf="@id/TariffaKm"
+                app:layout_constraintBottom_toTopOf="@+id/imageFirebase"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <ImageView
+                android:id="@+id/imageFirebase"
+                android:layout_width="200dp"
+                android:layout_height="200dp"
+                android:scaleType="fitCenter"
+                app:layout_constraintTop_toBottomOf="@+id/disclaimerFormato"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                app:srcCompat="@drawable/baseline_image_24"/>
+
+
+
+            <Button
+                android:id="@+id/image_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="60dp"
+                android:layout_marginHorizontal="15dp"
+                android:layout_marginBottom="30dp"
+                android:text="Seleziona Immagine"
+                android:background="@color/app_theme"
+                android:textColor="@color/white"
+                app:layout_constraintTop_toBottomOf="@+id/imageFirebase"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
             <Button
                 android:id="@+id/search_button"
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:layout_margin="20dp"
-                android:layout_marginRight="20dp"
                 android:text="CREA ANNUNCIO"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/TariffaKm"/>
+                app:layout_constraintTop_toBottomOf="@id/image_btn"/>
 
 
 

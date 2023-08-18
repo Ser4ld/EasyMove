@@ -5,6 +5,7 @@ import android.content.ContentValues
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Point
+import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -12,6 +13,7 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.widget.Toast
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -23,6 +25,8 @@ import com.example.easymove.home.HomeActivity
 import com.example.easymove.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
+import com.google.firebase.storage.StorageReference
 import com.mapbox.search.autofill.AddressAutofill
 import com.mapbox.search.autofill.AddressAutofillResult
 import com.mapbox.search.autofill.AddressAutofillSuggestion
@@ -36,6 +40,7 @@ import kotlinx.coroutines.tasks.await
 import kotlin.properties.Delegates
 
 class CreaAnnuncioActivity : AppCompatActivity() {
+
 
     private lateinit var binding: ActivityCreaAnnuncioBinding
 
@@ -58,13 +63,21 @@ class CreaAnnuncioActivity : AppCompatActivity() {
     private var postcodeMezzo: String? = null
     private var fullAddress: String? = null
 
+
+    private var imageUri: Uri? = null
+    private lateinit var storageReference: StorageReference
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityCreaAnnuncioBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
         fireStoreDatabase = FirebaseFirestore.getInstance()
+        storageReference = FirebaseStorage.getInstance().reference.child("uploads")
 
+        binding.imageBtn.setOnClickListener {
+            openFileChooser()
+        }
 
         addressAutofill = AddressAutofill.create(getString(R.string.mapbox_access_token))
         var isFirstTyping = true
@@ -296,6 +309,47 @@ class CreaAnnuncioActivity : AppCompatActivity() {
 
         return !snapshot.isEmpty
     }
+
+    private val PICK_IMAGE_REQUEST = 1
+
+    private fun openFileChooser() {
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/*"
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
+            val selectedImageUri: Uri = data.data!!
+
+            // Verifica l'estensione del file
+            val contentResolver = contentResolver
+            val mime = contentResolver.getType(selectedImageUri)
+            if (mime != null && mime == "image/png") {
+                // Il file selezionato è un PNG
+                imageUri = selectedImageUri
+                binding.imageFirebase.setImageURI(imageUri)
+                binding.disclaimerFormato.visibility = View.GONE
+
+            } else {
+                // Il file selezionato non è un PNG
+                Toast.makeText(this, "Seleziona un'immagine in formato PNG", Toast.LENGTH_SHORT).show()
+            }
+        }
+    }
+
+    //versione senza vincolo sull'immagine png in ingresso
+  /*  override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
+            imageUri = data.data
+            binding.imageFirebase.setImageURI(imageUri)
+        }
+    }*/
+
 
 
 

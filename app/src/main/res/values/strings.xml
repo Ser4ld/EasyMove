@@ -17,5 +17,8 @@
     <string name="address_autofill_pin_correction_note">Trascina per correggere la posizione</string>
     <string name="address_autofill_error_pin_correction">Unable to locate selected coordinate</string>
     <string name="address_autofill_error_select">Unable to resolve selected suggestion</string>
+
+    <dimen name="image_size">250dp</dimen>
+
 </resources>
 
