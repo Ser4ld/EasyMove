@@ -7,14 +7,10 @@ import com.example.easymove.R
 import com.example.easymove.databinding.HomeBinding
 import com.example.easymove.profilo.ProfileFragment
 import android.content.Intent
-import android.util.Log
 import android.view.View
 import com.example.easymove.CreaAnnuncioActivity
 import com.example.easymove.ViewModel.HomeViewModel
-import com.example.easymove.databinding.FragmentProfileBinding
 import com.example.easymove.model.User
-import com.example.easymove.profilo.ProfileViewModel
-import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 
 class HomeActivity : AppCompatActivity() {
