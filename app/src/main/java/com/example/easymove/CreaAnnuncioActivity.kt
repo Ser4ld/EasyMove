@@ -163,70 +163,102 @@ class CreaAnnuncioActivity : AppCompatActivity() {
             startActivity(Intent(this, HomeActivity::class.java))
         }
 
-        binding.searchButton.setOnClickListener{
+        binding.searchButton.setOnClickListener {
+            // Verifica se sono stati inseriti tutti i dati necessari
+            if (binding.NomeVeicolo.text.toString().isEmpty() ||
+                binding.Targa.text.toString().isEmpty() ||
+                //binding.LocazioneVeicolo.text.toString().isEmpty() ||
+                binding.Lunghezzacassone.text.toString().isEmpty() ||
+                binding.Larghezzacassone.text.toString().isEmpty() ||
+                binding.Altezzacassone.text.toString().isEmpty() ||
+                binding.TariffaKm.text.toString().isEmpty()) {
+                Toast.makeText(this@CreaAnnuncioActivity, "Compila tutti i campi", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-            //Metodo di gestione delle chiamate asincrone del dbms
+            // Verifica se è stata selezionata un'immagine
+            if (imageUri == null) {
+                Toast.makeText(this@CreaAnnuncioActivity, "Seleziona un'immagine prima di creare l'annuncio", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            // Verifica se la targa esiste già
+            val targa = binding.Targa.text.toString()
             lifecycleScope.launch {
-                val targaExists = checkTargaExists(binding.Targa.text.toString())
+                val targaExists = checkTargaExists(targa)
 
                 if (targaExists) {
                     Toast.makeText(this@CreaAnnuncioActivity, "Targa già esistente", Toast.LENGTH_SHORT).show()
                     return@launch
                 }
 
-                if (binding.NomeVeicolo.text.toString().isNotEmpty() &&
-                    binding.Targa.text.toString().isNotEmpty() &&
-                    binding.LocazioneVeicolo.text.toString().isNotEmpty() &&
-                    binding.Lunghezzacassone.toString().isNotEmpty() &&
-                    binding.Larghezzacassone.toString().isNotEmpty() &&
-                    binding.Altezzacassone.toString().isNotEmpty()&&
-                    binding.TariffaKm.toString().isNotEmpty()) {
+                // Esegue il caricamento dell'immagine su Firebase Storage
+                val storageRef = FirebaseStorage.getInstance().reference.child("images")
+                val imageName = "${System.currentTimeMillis()}.png"
+                val imageRef = storageRef.child(imageName)
 
-                    val lunghezza = binding.Lunghezzacassone.text.toString().toDouble()
-                    val altezza = binding.Altezzacassone.text.toString().toDouble()
-                    val larghezza = binding.Larghezzacassone.text.toString().toDouble()
-                    val capienza = calcoloCapienza(lunghezza, altezza, larghezza)
-
-                    val indirizzoCompletoVerificato = fullAddress ?: ""
-                    val viaVerificato = streetMezzo ?: ""
-                    val numeroCivicoVerificato = houseNumberMezzo ?: ""
-                    val cityVerificata = cityMezzo ?: ""
-                    val regioneVerificata = regionMezzo ?: ""
-                    val codicePostaleVerificato = postcodeMezzo ?: ""
-
-                    val user = FirebaseAuth.getInstance().currentUser
-                    val userEmail = user?.email
-
-                    val hashMap = hashMapOf<String, Any>(
-                        "modello" to binding.NomeVeicolo.text.toString(),
-                        "targa" to binding.Targa.text.toString(),
-                        "capienza" to capienza,
-                        "tariffaKm" to binding.TariffaKm.text.toString(),
-                        "indirizzoCompleto" to indirizzoCompletoVerificato,
-                        "via" to viaVerificato,
-                        "numeroCivico" to numeroCivicoVerificato,
-                        "citta" to cityVerificata,
-                        "regione" to regioneVerificata,
-                        "codicePostale" to codicePostaleVerificato,
-                        "email" to userEmail.toString(),
-                        "latitudine" to latitude.toString(),
-                        "longitudine" to longitude.toString(),
-                    )
-
-                    if (userEmail != null) {
-                        val user = User(FirebaseFirestore.getInstance()) // RIVEDERE
-                        user.uploadData(hashMap, "vans", binding.Targa.text.toString())
+                imageRef.putFile(imageUri!!)
+                    .addOnSuccessListener { taskSnapshot ->
+                        // Caricamento completato con successo
+                        imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                            val imageUrl = downloadUri.toString()
+                            // Continua con il processo di creazione dell'annuncio e salva l'URL dell'immagine nel database
+                            saveAnnouncementWithImage(imageUrl)
+                        }
                     }
-
-                    val intent = Intent(this@CreaAnnuncioActivity, HomeActivity::class.java)
-                    startActivity(intent)
-                    finish()
-                } else {
-                    Toast.makeText(this@CreaAnnuncioActivity, "Errore", Toast.LENGTH_SHORT).show()
-                }
+                    .addOnFailureListener { exception ->
+                        // Errore durante il caricamento dell'immagine
+                        Toast.makeText(this@CreaAnnuncioActivity, "${exception.message}", Toast.LENGTH_SHORT).show()
+                    }
             }
         }
+    }
 
+    private fun saveAnnouncementWithImage(imageUrl: String) {
+        val lunghezza = binding.Lunghezzacassone.text.toString().toDouble()
+        val altezza = binding.Altezzacassone.text.toString().toDouble()
+        val larghezza = binding.Larghezzacassone.text.toString().toDouble()
+        val capienza = calcoloCapienza(lunghezza, altezza, larghezza)
+
+        // Altri dati dell'annuncio
+        val modello = binding.NomeVeicolo.text.toString()
+        val targa = binding.Targa.text.toString()
+        val tariffaKm = binding.TariffaKm.text.toString()
+        /*val indirizzoCompleto = fullAddress ?: ""
+        val via = streetMezzo ?: ""
+        val numeroCivico = houseNumberMezzo ?: ""
+        val citta = cityMezzo ?: ""
+        val regione = regionMezzo ?: ""
+        val codicePostale = postcodeMezzo ?: ""*/
+
+        val user = FirebaseAuth.getInstance().currentUser
+        val userEmail = user?.email
+
+        val hashMap = hashMapOf<String, Any>(
+            "modello" to modello,
+            "targa" to targa,
+            "capienza" to capienza,
+            "tariffaKm" to tariffaKm,
+            /*"indirizzoCompleto" to indirizzoCompleto,
+            "via" to via,
+            "numeroCivico" to numeroCivico,
+            "citta" to citta,
+            "regione" to regione,
+            "codicePostale" to codicePostale,*/
+            "email" to userEmail.toString(),
+           /* "latitudine" to latitude.toString(),
+            "longitudine" to longitude.toString(),*/
+            "imageUrl" to imageUrl // Aggiungi l'URL dell'immagine
+        )
+
+        if (userEmail != null) {
+            val user = User(FirebaseFirestore.getInstance()) // RIVEDERE
+            user.uploadData(hashMap, "vans", targa)
+        }
+
+        val intent = Intent(this@CreaAnnuncioActivity, HomeActivity::class.java)
+        startActivity(intent)
+        finish()
     }
 
     private fun calcoloCapienza(lunghezza: Double, altezza: Double, larghezza: Double): String {

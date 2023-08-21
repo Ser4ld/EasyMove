@@ -3,10 +3,14 @@ package com.example.easymove.annunci
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.easymove.R
 import com.example.easymove.model.Annuncio
+
+
 
 class MyAdapterAnnunci(private val list:ArrayList<Annuncio>):RecyclerView.Adapter<MyAdapterAnnunci.MyViewHolder>() {
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -15,6 +19,8 @@ class MyAdapterAnnunci(private val list:ArrayList<Annuncio>):RecyclerView.Adapte
         val targa: TextView= itemView.findViewById(R.id.targa)
         val capienza: TextView= itemView.findViewById(R.id.capienza)
         val locazione: TextView = itemView.findViewById(R.id.locazione)
+        val annuncioImageView: ImageView = itemView.findViewById(R.id.annuncioImageView)
+
 
     }
 
@@ -28,10 +34,22 @@ class MyAdapterAnnunci(private val list:ArrayList<Annuncio>):RecyclerView.Adapte
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.modello.text=list[position].modello
-        holder.targa.text=list[position].targa
-        holder.capienza.text=list[position].capienza
-        holder.locazione.text=list[position].indirizzoCompleto
+        holder.modello.text = list[position].modello
+        holder.targa.text = list[position].targa
+        holder.capienza.text = list[position].capienza
+        holder.locazione.text = list[position].indirizzoCompleto
 
+        if (!list[position].imageUrl.isNullOrEmpty()) {
+
+            // Carica l'immagine relativa all'Url (firebase storage) utilizzando la libreria Glide
+            Glide.with(holder.itemView.context)
+                .load(list[position].imageUrl)
+                .into(holder.annuncioImageView)
+        } else {
+            // Carica l'immagine di default
+            holder.annuncioImageView.setImageResource(R.drawable.baseline_image_24)
+        }
     }
+
+
 }
