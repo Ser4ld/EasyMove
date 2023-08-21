@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.R
 import com.example.easymove.ViewModel.ProfileViewModel
+import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.databinding.FragmentProfileBinding
 import com.example.easymove.login.ResetPasswordActivity
 import com.example.easymove.login.index
@@ -31,7 +32,8 @@ class ProfileFragment : Fragment(), MessageListener {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var fireStoreDatabase: FirebaseFirestore
-    private lateinit var viewModel: ProfileViewModel
+    private lateinit var profileviewModel: ProfileViewModel
+    private lateinit var userViewModel: UserViewModel
 
 
     override fun onCreateView(
@@ -39,12 +41,11 @@ class ProfileFragment : Fragment(), MessageListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this).get(ProfileViewModel::class.java)
+        /*viewModel = ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)*/
+        userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
-        // Richiamo la funzione fetchData() per ottenere i dati desiderati
-        viewModel.fetchData()
 
-        // Collega il LiveData dei dati dell'utente al layout tramite databinding
+     /*   // Collega il LiveData dei dati dell'utente al layout tramite databinding
         viewModel.getData()["name"]?.observe(viewLifecycleOwner, Observer { name ->
             binding.nomeTV.text = name
         })
@@ -55,7 +56,30 @@ class ProfileFragment : Fragment(), MessageListener {
 
         viewModel.getData()["email"]?.observe(viewLifecycleOwner, Observer { email ->
             binding.emailTV.text = email
-        })
+        })*/
+
+        return binding.root
+    }
+
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+
+
+        userViewModel.fetchUserData()
+
+        userViewModel.userDataLiveData.observe(
+            viewLifecycleOwner,
+        ) { userData ->
+            if (userData != null) {
+                binding.nomeTV.text = userData.name
+                binding.cognomeTV.text = userData.surname
+                binding.emailTV.text = userData.email
+                binding.benvenutoTV.text = "Benvenuto " + userData.name
+
+            }
+        }
 
         binding.modificaPasswordbtn.setOnClickListener {
             val intentModificaPass = Intent(requireActivity(), ResetPasswordActivity::class.java)
@@ -67,15 +91,13 @@ class ProfileFragment : Fragment(), MessageListener {
         }
 
         binding.modificabtn.setOnClickListener {
-            val idData = viewModel.getData()["id"]?.value
+            val idData = profileviewModel.getData()["id"]?.value
             if (idData != null) {
                 showEditNamePopup(idData.toString())
             }
         }
 
-        return binding.root
     }
-
 
 
     private fun showEditNamePopup(userId: String) {
@@ -100,8 +122,8 @@ class ProfileFragment : Fragment(), MessageListener {
                 }
                 else{
                     // Callback chiamata dopo aver ottenuto la password dall'utente
-                    viewModel.updateEmailWithReauthentication("Email", editTextEmail.text.toString(), password, this)
-                    viewModel.fetchData()
+                    profileviewModel.updateEmailWithReauthentication("Email", editTextEmail.text.toString(), password, this)
+                    profileviewModel.fetchData()
                 }
             }
         }

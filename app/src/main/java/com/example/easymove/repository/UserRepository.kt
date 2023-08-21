@@ -1,5 +1,7 @@
 package com.example.easymove.repository
 
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.example.easymove.model.User
 import com.example.easymove.profilo.db
 import com.google.android.gms.tasks.Task
@@ -12,6 +14,8 @@ private val firebaseAuth = FirebaseAuth.getInstance()
 private val firestoreDatabase = FirebaseFirestore.getInstance()
 
 class UserRepository() {
+    private val _userDataLiveData = MutableLiveData<User?>()
+    val userDataLiveData: LiveData<User?> = _userDataLiveData
 
     fun createUser(
         email: String,
@@ -60,6 +64,7 @@ class UserRepository() {
                 if (task.isSuccessful) {
                     val user = FirebaseAuth.getInstance().currentUser
                     // Qui puoi ottenere informazioni sull'utente loggato, se necessario
+                    fetchUserDataFromFirestore()
                     callback(true, null)
                 } else {
                     callback(false, task.exception?.message)
@@ -117,6 +122,27 @@ class UserRepository() {
             }
         } else {
             callback(null)
+        }
+    }
+
+    fun fetchUserDataFromFirestore() {
+        val userId = getCurrentUserId()
+
+        if (userId != null) {
+            val docRef = firestoreDatabase.collection("users").document(userId)
+            docRef.addSnapshotListener { documentSnapshot, error ->
+                if (error != null) {
+                    // Gestisci l'errore
+                    return@addSnapshotListener
+                }
+
+                if (documentSnapshot != null && documentSnapshot.exists()) {
+                    val userData = documentSnapshot.toObject(User::class.java)
+                    _userDataLiveData.postValue(userData)
+                } else {
+                    _userDataLiveData.postValue(null)
+                }
+            }
         }
     }
 
