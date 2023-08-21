@@ -1,40 +1,46 @@
-package com.example.easymove.home
+package com.example.easymove.View
 
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
-import com.example.easymove.R
-import com.example.easymove.databinding.HomeBinding
-import com.example.easymove.profilo.ProfileFragment
-import android.content.Intent
+import android.view.LayoutInflater
 import android.view.View
+import android.view.ViewGroup
 import com.example.easymove.CreaAnnuncioActivity
+import com.example.easymove.R
 import com.example.easymove.ViewModel.HomeViewModel
-import com.example.easymove.model.User
+import com.example.easymove.databinding.FragmentIndexBinding
+import com.example.easymove.databinding.FragmentMainBinding
+import com.example.easymove.home.HomeFragment
+import com.example.easymove.profilo.ProfileFragment
 import com.example.easymove.repository.UserRepository
-import com.google.firebase.firestore.FirebaseFirestore
 
-class HomeActivity : AppCompatActivity() {
 
+class MainFragment : Fragment() {
+    private var _binding: FragmentMainBinding? = null
+    private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
-    private lateinit var binding: HomeBinding
-    private lateinit var userRepository: UserRepository
 
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-        binding = HomeBinding.inflate(layoutInflater)
-        setContentView(binding.root)
+    override fun onCreateView(
+        inflater: LayoutInflater, container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        _binding = FragmentMainBinding.inflate(inflater, container, false)
+        return binding.root
+    }
 
-        replaceFragment(HomeFragment())
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
         homeViewModel = HomeViewModel()
-
+        replaceFragment(HomeFragment())
 
         binding.bottomAppBar.setBackgroundColor(resources.getColor(R.color.white))
         binding.bottomNavigationView.background = null
 
         binding.addItem.setOnClickListener {
-            val intent = Intent(this, CreaAnnuncioActivity::class.java)
+            val intent = Intent(requireContext(), CreaAnnuncioActivity::class.java)
             startActivity(intent)
         }
 
@@ -57,12 +63,10 @@ class HomeActivity : AppCompatActivity() {
     }
 
     private fun replaceFragment(fragment: Fragment) {
-        val fragmentManager = supportFragmentManager
-        val fragmentTransaction = fragmentManager.beginTransaction()
-        fragmentTransaction.replace(R.id.frameLayout, fragment)
-        fragmentTransaction.commit()
+        childFragmentManager.beginTransaction()
+            .replace(R.id.frameLayout, fragment)
+            .commit()
     }
-    override fun onBackPressed() {
-        // Non fa nulla quando viene premuto il pulsante "Indietro"
+
     }
-}
+

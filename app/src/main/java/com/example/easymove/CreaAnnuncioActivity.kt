@@ -250,12 +250,12 @@ class CreaAnnuncioActivity : AppCompatActivity() {
             "longitudine" to longitude.toString(),*/
             "imageUrl" to imageUrl // Aggiungi l'URL dell'immagine
         )
-
+/*
         if (userEmail != null) {
             val user = User(FirebaseFirestore.getInstance()) // RIVEDERE
             user.uploadData(hashMap, "vans", targa)
         }
-
+*/
         val intent = Intent(this@CreaAnnuncioActivity, HomeActivity::class.java)
         startActivity(intent)
         finish()

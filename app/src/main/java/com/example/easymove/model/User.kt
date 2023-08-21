@@ -9,12 +9,25 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import java.io.Serializable
 
 
+data class User(
+    val id: String,
+    val name: String,
+    val surname: String,
+    val email: String,
+    val userType: String
+) {
+    constructor() : this("", "", "", "", "")
+}
+
+/*
 private val db: FirebaseFirestore = FirebaseFirestore.getInstance()
 private val user: FirebaseUser? = FirebaseAuth.getInstance().currentUser
 
 class User(private val fireStoreDatabase: FirebaseFirestore) {
+
 
 
     fun getUserId(): String? {
@@ -93,3 +106,4 @@ class User(private val fireStoreDatabase: FirebaseFirestore) {
 
 }
 
+*/

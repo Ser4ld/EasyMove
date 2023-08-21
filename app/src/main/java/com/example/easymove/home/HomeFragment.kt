@@ -1,25 +1,16 @@
 package com.example.easymove.home
 
 import android.Manifest
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.Canvas
-import android.graphics.drawable.BitmapDrawable
-import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.EditorInfo
 import android.widget.EditText
-import android.widget.TextView
 import android.widget.Toast
-import androidx.annotation.DrawableRes
-import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.isVisible
@@ -31,7 +22,6 @@ import com.example.easymove.R
 import com.example.easymove.ViewModel.HomeViewModel
 import com.example.easymove.annunci.AnnunciActivity
 import com.example.easymove.databinding.FragmentHomeBinding
-import com.example.easymove.login.LoginActivity
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapboxMap
@@ -47,9 +37,6 @@ import com.mapbox.search.ui.adapter.autofill.AddressAutofillUiAdapter
 import com.mapbox.search.ui.view.CommonSearchViewConfiguration
 import com.mapbox.search.ui.view.DistanceUnitType
 import com.mapbox.search.ui.view.SearchResultsView
-import com.mapbox.turf.TurfConstants
-import com.mapbox.turf.TurfMeasurement
-import java.util.Locale
 
 class HomeFragment : Fragment() {
 
@@ -101,14 +88,14 @@ class HomeFragment : Fragment() {
 
         mapboxMap.loadStyleUri(Style.MAPBOX_STREETS)
 
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
 
         return rootView
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
         //binding.searchResultsView = view.findViewById(R.id.search_results_view)
         //searchResultsView2 = view.findViewById(R.id.search_results_view2)
         var isFirstTyping1 = true

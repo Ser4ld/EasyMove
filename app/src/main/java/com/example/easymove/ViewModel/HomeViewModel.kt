@@ -18,7 +18,9 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import com.example.easymove.MapBox.inputMethodManager
 import com.example.easymove.R
+import com.example.easymove.repository.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.auth.User
 import com.mapbox.geojson.Point
 import com.mapbox.maps.plugin.annotation.annotations
 import com.mapbox.maps.plugin.annotation.generated.PointAnnotationOptions
@@ -30,30 +32,22 @@ import com.mapbox.turf.TurfConstants
 import com.mapbox.turf.TurfMeasurement
 import java.util.*
 
-class HomeViewModel : ViewModel() {
+class HomeViewModel () : ViewModel() {
 
+    private var userRepository = UserRepository()
     private var origin: Point = Point.fromLngLat(0.0, 0.0)
     private var destination : Point = Point.fromLngLat(0.0, 0.0)
 
     private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
 
-    fun fetchAndSetTipoutente(userId: String?, callback: (Boolean) -> Unit) {
-        if (userId != null) {
-            firestore.collection("users").document(userId)
-                .get()
-                .addOnSuccessListener { documentSnapshot ->
-                    if (documentSnapshot.exists()) {
-                        val tipoutente = documentSnapshot.getString("tipoutente")
-                        val isGuidatore = tipoutente == "guidatore"
-                        callback(isGuidatore)
-                    } else {
-                        callback(false)
-                    }
-                }
-                .addOnFailureListener { exception ->
-                    Log.e("FirestoreError", "Errore durante la lettura dal Firestore", exception)
-                    callback(false)
-                }
+    fun fetchAndSetTipoutente( callback: (Boolean) -> Unit) {
+        userRepository.getUserData { userData ->
+            if (userData != null) {
+                val isGuidatore = userData.userType == "guidatore"
+                callback(isGuidatore)
+            } else {
+                callback(false)
+            }
         }
     }
 
