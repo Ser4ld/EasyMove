@@ -30,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:drawablePadding="4dp"
-            android:text="Reset Password"
+            android:text="Modifica Email"
             android:textColor="@color/white"
             android:textColorLink="@color/white"
             android:textSize="42dp"
@@ -64,59 +64,82 @@
 
                 <TextView
                     android:id="@+id/text_desclaimer"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
                     android:layout_marginLeft="20dp"
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="20dp"
-                    android:text="Inserisci la tua Email per ricevere la mail di modifica"
                     android:gravity="center"
+                    android:text="Modifica la tua mail e inserisci la password per aggiornarla"
                     android:textColor="@color/app_theme"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintBottom_toTopOf="@id/text_email"
+                    app:layout_constraintEnd_toEndOf="parent"
 
-                    />
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
                 <EditText
                     android:id="@+id/text_email"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:layout_marginTop="10dp"
-
                     android:layout_marginLeft="20dp"
+
+                    android:layout_marginTop="10dp"
                     android:layout_marginRight="20dp"
                     android:background="@drawable/text_form_background"
                     android:drawableLeft="@drawable/mail_icon"
                     android:drawablePadding="5dp"
                     android:drawableTint="@color/app_theme"
                     android:ems="10"
-                    android:hint="Email"
+                    android:hint="Inserisci la nuova mail"
                     android:inputType="textEmailAddress"
                     android:padding="5dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/placeholder"
-                    app:layout_constraintTop_toBottomOf="@+id/text_desclaimer"
+                    app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_desclaimer" />
 
+
+                <EditText
+                    android:id="@+id/text_email3"
+                    android:layout_width="match_parent"
+                    android:layout_height="50dp"
+                    android:layout_marginLeft="20dp"
+
+                    android:layout_marginTop="10dp"
+                    android:layout_marginRight="20dp"
+                    android:background="@drawable/text_form_background"
+                    android:drawableLeft="@drawable/lock_icon"
+                    android:drawablePadding="5dp"
+                    android:drawableTint="@color/app_theme"
+                    android:ems="10"
+                    android:hint="Password"
+                    android:inputType="textEmailAddress"
+                    android:padding="5dp"
+                    android:textColor="@color/black"
+                    android:textColorHint="@color/placeholder"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/text_email" />
 
                 <Button
                     android:id="@+id/resetbtn"
                     android:layout_width="0dp"
                     android:layout_height="60dp"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_marginTop="15dp"
                     android:layout_marginRight="20dp"
                     android:backgroundTint="@color/app_theme"
-                    android:text="RESET PASSWORD"
+                    android:text="AGGIORNA EMAIL"
                     android:textColor="@color/white"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:cornerRadius="20dp"
                     app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.4"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_email" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_email3" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -130,7 +153,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:srcCompat="@drawable/reset_password_icon"/>
+            app:srcCompat="@drawable/baseline_mail_outline_24_white" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

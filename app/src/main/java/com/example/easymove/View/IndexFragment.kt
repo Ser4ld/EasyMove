@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import com.example.easymove.R
 import com.example.easymove.databinding.FragmentIndexBinding
-import com.example.easymove.view.LoginFragment
+import com.example.easymove.View.LoginFragment
 
 class IndexFragment : Fragment() {
 

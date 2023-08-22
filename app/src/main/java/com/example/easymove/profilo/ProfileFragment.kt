@@ -14,11 +14,12 @@ import android.widget.Toast
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.R
+import com.example.easymove.View.MainFragment
 import com.example.easymove.ViewModel.ProfileViewModel
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.databinding.FragmentProfileBinding
-import com.example.easymove.login.ResetPasswordActivity
 import com.example.easymove.login.index
+import com.example.easymove.View.ResetPasswordFragment
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
@@ -82,8 +83,11 @@ class ProfileFragment : Fragment(), MessageListener {
         }
 
         binding.modificaPasswordbtn.setOnClickListener {
-            val intentModificaPass = Intent(requireActivity(), ResetPasswordActivity::class.java)
-            startActivity(intentModificaPass)
+            binding.modificaPasswordbtn.setOnClickListener {
+                requireFragmentManager().beginTransaction()
+                    .replace(R.id.fragmentContainer, ResetPasswordFragment())
+                    .commit()
+            }
         }
 
         binding.logout.setOnClickListener {
