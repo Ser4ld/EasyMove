@@ -3,6 +3,8 @@ package com.example.easymove.profilo
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.text.InputType
 import androidx.fragment.app.Fragment
@@ -98,6 +100,9 @@ class ProfileFragment : Fragment(), MessageListener {
         val customView = LayoutInflater.from(requireContext()).inflate(R.layout.custom_layout_dialog, null)
         builder.setView(customView)
         val dialog = builder.create()
+
+        //imposto lo sfodo del dialog a trasparente per poter applicare un background con i bordi arrotondati
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
         customView.findViewById<Button>(R.id.btn_yes).setOnClickListener{
 

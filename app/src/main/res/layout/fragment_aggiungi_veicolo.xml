@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".View.AggiungiVeicoloFragment">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ConstraitLayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/app_theme">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:clickable="true"
+                app:backgroundTint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.045"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:text="Aggiungi Veicolo"
+                android:textColor="@color/white"
+                android:textColorLink="@color/white"
+                android:textSize="42dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/mail_icon"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.23" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/materialCardView2"
+                style="@style/custom_card_view_style"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:backgroundTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+
+                    <EditText
+                        android:id="@+id/LocazioneVeicolo"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        android:autofillHints="@null"
+                        android:background="@drawable/text_form_background"
+                        android:drawableLeft="@drawable/baseline_location_on_24"
+                        android:drawablePadding="5dp"
+                        android:drawableTint="@color/app_theme"
+                        android:ems="10"
+                        android:hint="Locazione del veicolo"
+                        android:inputType="text"
+                        android:minHeight="?actionBarSize"
+                        android:padding="5dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/placeholder"
+                        android:textSize="18dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/Targa" />
+
+
+                    <EditText
+                        android:id="@+id/NomeVeicolo"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/text_form_background"
+                        android:drawableLeft="@drawable/baseline_airport_shuttle_24"
+                        android:drawablePadding="5dp"
+                        android:drawableTint="@color/app_theme"
+                        android:ems="10"
+                        android:hint="Nome veicolo"
+                        android:inputType="textCapSentences"
+                        android:padding="5dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/placeholder"
+                        android:textSize="18dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <EditText
+                        android:id="@+id/Targa"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/text_form_background"
+                        android:drawableLeft="@drawable/baseline_calendar_view_day_24"
+                        android:drawablePadding="5dp"
+                        android:drawableTint="@color/app_theme"
+                        android:ems="10"
+                        android:hint="Targa"
+                        android:inputType="textCapCharacters"
+                        android:padding="5dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/placeholder"
+                        android:textSize="18dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/NomeVeicolo" />
+
+                    <EditText
+                        android:id="@+id/Altezzacassone"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_margin="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/text_form_background"
+                        android:drawableLeft="@drawable/baseline_height_24"
+                        android:drawablePadding="5dp"
+                        android:drawableTint="@color/app_theme"
+                        android:ems="10"
+                        android:hint="Altezza Cassone in cm"
+                        android:inputType="numberDecimal|numberSigned"
+                        android:padding="5dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/placeholder"
+                        android:textSize="18dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/LocazioneVeicolo" />
+
+                    <EditText
+                        android:id="@+id/Lunghezzacassone"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/text_form_background"
+                        android:drawableLeft="@drawable/baseline_compare_arrows_24"
+                        android:drawablePadding="5dp"
+                        android:drawableTint="@color/app_theme"
+                        android:ems="10"
+                        android:hint="Lunghezza Cassone in cm"
+                        android:inputType="numberDecimal|numberSigned"
+                        android:padding="5dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/placeholder"
+                        android:textSize="18dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/Altezzacassone" />
+
+
+                    <EditText
+                        android:id="@+id/Larghezzacassone"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/text_form_background"
+                        android:drawableLeft="@drawable/baseline_close_fullscreen_24"
+                        android:drawablePadding="5dp"
+                        android:drawableTint="@color/app_theme"
+                        android:ems="10"
+                        android:hint="Larghezza Cassone in cm"
+                        android:inputType="numberDecimal|numberSigned"
+                        android:padding="5dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/placeholder"
+                        android:textSize="18dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/Lunghezzacassone" />
+
+
+                    <EditText
+                        android:id="@+id/TariffaKm"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginRight="20dp"
+                        android:background="@drawable/text_form_background"
+                        android:drawableLeft="@drawable/baseline_euro_24"
+                        android:drawablePadding="5dp"
+                        android:drawableTint="@color/app_theme"
+                        android:ems="10"
+                        android:hint="Tariffa €/Km"
+                        android:inputType="numberDecimal|numberSigned"
+                        android:padding="5dp"
+                        android:textColor="@color/black"
+                        android:textColorHint="@color/placeholder"
+                        android:textSize="18dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/Larghezzacassone" />
+
+                    <TextView
+                        android:id="@+id/disclaimerFormato"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:text="Seleziona un'immagine in formato PNG"
+                        android:textColor="@color/app_theme"
+                        app:layout_constraintBottom_toTopOf="@+id/imageFirebase"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/TariffaKm" />
+
+                    <ImageView
+                        android:id="@+id/imageFirebase"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginRight="20dp"
+                        android:scaleType="fitCenter"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/disclaimerFormato"
+                        app:srcCompat="@drawable/baseline_image_24" />
+
+
+                    <Button
+                        android:id="@+id/image_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="60dp"
+                        android:layout_marginHorizontal="15dp"
+                        android:background="@color/app_theme"
+                        android:text="Seleziona Immagine"
+                        android:textColor="@color/white"
+                        app:cornerRadius="20dp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/imageFirebase" />
+
+                    <Button
+                        android:id="@+id/search_button"
+                        android:layout_width="match_parent"
+                        android:layout_height="60dp"
+                        android:layout_margin="20dp"
+                        android:text="CREA ANNUNCIO"
+                        android:textColor="@color/white"
+                        app:cornerRadius="20dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@id/image_btn" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <ImageView
+                android:id="@+id/mail_icon"
+                android:layout_width="154dp"
+                android:layout_height="118dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.57"
+                app:srcCompat="@drawable/baseline_car_rental_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
+
+
+</FrameLayout>

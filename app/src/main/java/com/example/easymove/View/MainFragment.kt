@@ -44,8 +44,7 @@ class MainFragment : Fragment() {
         binding.bottomNavigationView.background = null
 
         binding.addItem.setOnClickListener {
-            val intent = Intent(requireContext(), CreaAnnuncioActivity::class.java)
-            startActivity(intent)
+            parentFragmentManager.beginTransaction().replace(R.id.fragmentContainer, AggiungiVeicoloFragment()).addToBackStack(null).commit()
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->

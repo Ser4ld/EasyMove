@@ -22,7 +22,6 @@ class index : AppCompatActivity() {
 
             supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, initialFragment)
-                .addToBackStack(null)
                 .commit()
 
         }
