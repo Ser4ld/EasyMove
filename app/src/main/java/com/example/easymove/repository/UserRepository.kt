@@ -5,6 +5,7 @@ import androidx.lifecycle.MutableLiveData
 import com.example.easymove.model.User
 import com.example.easymove.profilo.db
 import com.google.android.gms.tasks.Task
+import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
@@ -161,6 +162,52 @@ class UserRepository() {
     fun getDataFromFirestore(): Task<DocumentSnapshot>? {
         val docRef = getCurrentUserId()?.let { db.collection("users").document(it) }
         return docRef?.get()
+    }
+
+
+    /*Modifica email*/
+    fun reauthenticateAndUpdateEmail(
+        user: FirebaseUser,
+        currentMail: String,
+        newMail: String,
+        password: String,
+        callback: (Boolean, String?) -> Unit
+    ) {
+        val credential = EmailAuthProvider.getCredential(currentMail, password)
+
+        user.reauthenticate(credential).addOnCompleteListener { reauthTask ->
+            if (reauthTask.isSuccessful) {
+                user.updateEmail(newMail).addOnCompleteListener { updateEmailTask ->
+                    if (updateEmailTask.isSuccessful) {
+                        updateUserDocument(user.uid, newMail) { updateSuccess, updateMessage ->
+                            if (updateSuccess) {
+                                callback(true, "Indirizzo email aggiornato con successo")
+                            } else {
+                                callback(false, updateMessage)
+                            }
+                        }
+                    } else {
+                        callback(false, "Errore durante l'aggiornamento dell'indirizzo email")
+                    }
+                }
+            } else {
+                callback(false, "Errore durante la riautenticazione")
+            }
+        }
+    }
+
+    private fun updateUserDocument(userId: String, newEmail: String, callback: (Boolean, String?) -> Unit) {
+
+        val userDocRef = firestoreDatabase.collection("users").document(userId)
+
+        userDocRef.update("email", newEmail)
+            .addOnCompleteListener { updateTask ->
+                if (updateTask.isSuccessful) {
+                    callback(true, null)
+                } else {
+                    callback(false, "Errore durante l'aggiornamento dell'indirizzo email nel documento")
+                }
+            }
     }
 
 }

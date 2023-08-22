@@ -38,7 +38,7 @@
             app:layout_constraintBottom_toTopOf="@+id/guideline"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/reset_password_icon"
+            app:layout_constraintTop_toBottomOf="@+id/mail_icon"
             app:layout_constraintVertical_bias="0.0" />
 
         <androidx.constraintlayout.widget.Guideline
@@ -102,7 +102,7 @@
 
 
                 <EditText
-                    android:id="@+id/text_email3"
+                    android:id="@+id/text_password"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:layout_marginLeft="20dp"
@@ -115,7 +115,7 @@
                     android:drawableTint="@color/app_theme"
                     android:ems="10"
                     android:hint="Password"
-                    android:inputType="textEmailAddress"
+                    android:inputType="textPassword"
                     android:padding="5dp"
                     android:textColor="@color/black"
                     android:textColorHint="@color/placeholder"
@@ -139,14 +139,14 @@
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.4"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/text_email3" />
+                    app:layout_constraintTop_toBottomOf="@+id/text_password" />
 
             </androidx.constraintlayout.widget.ConstraintLayout>
 
         </com.google.android.material.card.MaterialCardView>
 
         <ImageView
-            android:id="@+id/reset_password_icon"
+            android:id="@+id/mail_icon"
             android:layout_width="154dp"
             android:layout_height="118dp"
             app:layout_constraintBottom_toTopOf="@+id/guideline"

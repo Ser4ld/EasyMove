@@ -53,7 +53,9 @@ class ProfileViewModel(private val userRepository: UserRepository): ViewModel() 
         return data
     }
 
-    fun updateEmailWithReauthentication(key: String, newEmail: String, password: String, messageListener: MessageListener) {
+
+
+   /* fun updateEmailWithReauthentication(key: String, newEmail: String, password: String, messageListener: MessageListener) {
         val user = FirebaseAuth.getInstance().currentUser
 
         if (user != null) {
@@ -151,7 +153,7 @@ class ProfileViewModel(private val userRepository: UserRepository): ViewModel() 
                     }
                 }
         }
-    }
+    }*/
 
     private fun isValidEmail(email: String): Boolean {
         return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()

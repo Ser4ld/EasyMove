@@ -15,6 +15,7 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.R
 import com.example.easymove.View.MainFragment
+import com.example.easymove.View.ModificaEmailFragment
 import com.example.easymove.ViewModel.ProfileViewModel
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.databinding.FragmentProfileBinding
@@ -95,17 +96,19 @@ class ProfileFragment : Fragment(), MessageListener {
             logout()
         }
 
+
+
         binding.modificabtn.setOnClickListener {
-            val idData = profileviewModel.getData()["id"]?.value
-            if (idData != null) {
-                showEditNamePopup(idData.toString())
-            }
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, ModificaEmailFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
     }
 
 
-    private fun showEditNamePopup(userId: String) {
+ /*   private fun showEditNamePopup(userId: String) {
         // Crea un nuovo AlertDialog
         val builder = AlertDialog.Builder(requireContext())
 
@@ -157,7 +160,7 @@ class ProfileFragment : Fragment(), MessageListener {
         }
 
         passwordInputDialog.show()
-    }
+    }*/
 
     private fun logout() {
 
