@@ -31,7 +31,7 @@ class ResetPasswordFragment : Fragment() {
         userViewModel = UserViewModel()
 
         binding.floatingActionButton.setOnClickListener{
-            requireFragmentManager().popBackStack()
+            parentFragmentManager.popBackStack()
         }
 
         binding.resetbtn.setOnClickListener(){

@@ -83,11 +83,13 @@ class ProfileFragment : Fragment(), MessageListener {
         }
 
         binding.modificaPasswordbtn.setOnClickListener {
-
-            requireFragmentManager().beginTransaction()
-                    .replace(R.id.frameLayout, ResetPasswordFragment())
+            requireActivity().supportFragmentManager.beginTransaction()
+                    .replace(R.id.fragmentContainer, ResetPasswordFragment())
+                    .addToBackStack(null)
                     .commit()
         }
+
+
 
         binding.logout.setOnClickListener {
             logout()

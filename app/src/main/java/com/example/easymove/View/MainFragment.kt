@@ -65,6 +65,7 @@ class MainFragment : Fragment() {
     private fun replaceFragment(fragment: Fragment) {
         childFragmentManager.beginTransaction()
             .replace(R.id.frameLayout, fragment)
+            .addToBackStack(null)
             .commit()
     }
 
