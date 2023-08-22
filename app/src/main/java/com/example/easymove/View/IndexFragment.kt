@@ -4,15 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.animation.AnimationUtils
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentTransaction
 import com.example.easymove.R
-import com.example.easymove.ViewModel.LoginViewModel
 import com.example.easymove.databinding.FragmentIndexBinding
-import com.example.easymove.databinding.FragmentProfileBinding
-import com.example.easymove.databinding.IndexBinding
-import com.example.easymove.repository.UserRepository
+import com.example.easymove.view.LoginFragment
 
 class IndexFragment : Fragment() {
 

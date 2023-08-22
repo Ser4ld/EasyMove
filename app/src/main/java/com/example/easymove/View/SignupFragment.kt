@@ -12,6 +12,7 @@ import com.example.easymove.ViewModel.SignupViewModel
 import com.example.easymove.databinding.FragmentSignupBinding
 import com.example.easymove.home.HomeActivity
 import com.example.easymove.repository.UserRepository
+import com.example.easymove.view.LoginFragment
 
 
 class SignupFragment : Fragment() {

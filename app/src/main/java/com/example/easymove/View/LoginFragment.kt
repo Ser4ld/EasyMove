@@ -1,6 +1,5 @@
-package com.example.easymove.View
+package com.example.easymove.view
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -8,9 +7,10 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import com.example.easymove.R
+import com.example.easymove.View.MainFragment
+import com.example.easymove.View.SignupFragment
 import com.example.easymove.ViewModel.LoginViewModel
 import com.example.easymove.databinding.FragmentLoginBinding
-import com.example.easymove.home.HomeActivity
 import com.example.easymove.repository.UserRepository
 
 
@@ -61,10 +61,16 @@ class LoginFragment : Fragment() {
             }
         }
 
+        binding.passwordDimenticata.setOnClickListener{
+            requireFragmentManager().beginTransaction()
+                .replace(R.id.fragmentContainer, ResetPasswordFragment())
+                .addToBackStack(null)
+                .commit()
+        }
 
     }
 
-    fun replaceFragment (fragment: Fragment){
+    private fun replaceFragment (fragment: Fragment){
         requireFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit()
 
     }

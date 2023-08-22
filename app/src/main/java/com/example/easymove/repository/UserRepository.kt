@@ -59,10 +59,10 @@ class UserRepository() {
         password: String,
         callback: (Boolean, String?) -> Unit
     ) {
-        FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+        firebaseAuth.signInWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
-                    val user = FirebaseAuth.getInstance().currentUser
+                    val user = firebaseAuth.currentUser
                     // Qui puoi ottenere informazioni sull'utente loggato, se necessario
                     fetchUserDataFromFirestore()
                     callback(true, null)
@@ -71,6 +71,18 @@ class UserRepository() {
                 }
             }
     }
+
+    fun sendModifyPassword(email:String, callback: (Boolean, String?) -> Unit){
+        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                callback(true, null)
+            }
+            else{
+                callback(false, task.exception?.message)
+            }
+        }
+    }
+
 
     fun getCurrentUser(): FirebaseUser? {
         return firebaseAuth.currentUser
