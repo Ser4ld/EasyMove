@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
 import androidx.lifecycle.Observer
@@ -43,23 +44,6 @@ class ProfileFragment : Fragment(), MessageListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        /*viewModel = ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
-        userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)*/
-
-
-     /*   // Collega il LiveData dei dati dell'utente al layout tramite databinding
-        viewModel.getData()["name"]?.observe(viewLifecycleOwner, Observer { name ->
-            binding.nomeTV.text = name
-        })
-
-        viewModel.getData()["surname"]?.observe(viewLifecycleOwner, Observer { surname ->
-            binding.cognomeTV.text = surname
-        })
-
-        viewModel.getData()["email"]?.observe(viewLifecycleOwner, Observer { email ->
-            binding.emailTV.text = email
-        })*/
-
         return binding.root
     }
 
@@ -107,70 +91,31 @@ class ProfileFragment : Fragment(), MessageListener {
 
     }
 
-
- /*   private fun showEditNamePopup(userId: String) {
-        // Crea un nuovo AlertDialog
-        val builder = AlertDialog.Builder(requireContext())
-
-        // Imposta la vista del popup
-        val view = layoutInflater.inflate(R.layout.popup_modifica_email, null)
-        builder.setView(view)
-
-        // Trova i riferimenti all'EditText
-        val editTextEmail = view.findViewById<EditText>(R.id.edit_text_email)
-
-        // Aggiungi i pulsanti "OK" e "Annulla"
-        builder.setPositiveButton("OK") { dialog: DialogInterface, _: Int ->
-
-            // Richiedi all'utente di rieffettuare l'accesso con la password attuale
-            showPasswordInputDialog { password ->
-                // Callback chiamata dopo aver ottenuto la password dall'utente
-                if(editTextEmail.text.toString().isEmpty()){
-                    dialog.dismiss()
-                }
-                else{
-                    // Callback chiamata dopo aver ottenuto la password dall'utente
-                    profileviewModel.updateEmailWithReauthentication("Email", editTextEmail.text.toString(), password, this)
-                    profileviewModel.fetchData()
-                }
-            }
-        }
-        builder.setNegativeButton("Annulla", null)
-
-        // Mostra il popup
-        builder.show()
-    }
-
-    private fun showPasswordInputDialog(callback: (password: String) -> Unit) {
-        val passwordInputDialog = AlertDialog.Builder(requireContext())
-
-        // Imposta la vista del popup
-        val view = layoutInflater.inflate(R.layout.popup_password_modifica_email, null)
-        val input = view.findViewById<EditText>(R.id.edit_text_email)
-        passwordInputDialog.setView(view)
-
-        passwordInputDialog.setPositiveButton("OK") { dialog, _ ->
-            val password = input.text.toString()
-            callback(password)
-            dialog.dismiss()
-        }
-
-        passwordInputDialog.setNegativeButton("Cancel") { dialog, _ ->
-            dialog.cancel()
-        }
-
-        passwordInputDialog.show()
-    }*/
-
     private fun logout() {
 
         // Crea un nuovo AlertDialog
         val builder = AlertDialog.Builder(requireContext())
+        val customView = LayoutInflater.from(requireContext()).inflate(R.layout.custom_layout_dialog, null)
+        builder.setView(customView)
+        val dialog = builder.create()
 
-        builder.setMessage("Clicca 'Conferma' per effettuare il logout")
+        customView.findViewById<Button>(R.id.btn_yes).setOnClickListener{
+
+            FirebaseAuth.getInstance().signOut()
+            Toast.makeText(requireContext(), "Logout effettuato", Toast.LENGTH_SHORT).show()
+            val intentLogout = Intent(requireContext(), index::class.java)
+            startActivity(intentLogout)
+            requireActivity().finish()
+            dialog.dismiss()
+        }
+
+        customView.findViewById<Button>(R.id.btn_no).setOnClickListener{
+            dialog.dismiss()
+        }
+        //builder.setMessage("Clicca 'Conferma' per effettuare il logout")
 
         // Aggiungi i pulsanti "Conferma" e "Annulla"
-        builder.setPositiveButton("Conferma") { _: DialogInterface, _: Int ->
+        /*builder.setPositiveButton("Conferma") { _: DialogInterface, _: Int ->
 
             FirebaseAuth.getInstance().signOut()
             Toast.makeText(requireContext(), "Logout effettuato", Toast.LENGTH_SHORT).show()
@@ -178,11 +123,11 @@ class ProfileFragment : Fragment(), MessageListener {
             startActivity(intentLogout)
             requireActivity().finish()
 
-        }
-        builder.setNegativeButton("Annulla", null)
+        }*/
+        //builder.setNegativeButton("Annulla", null)
 
         // Mostra il popup
-        builder.show()
+        dialog.show()
 
 
     }
