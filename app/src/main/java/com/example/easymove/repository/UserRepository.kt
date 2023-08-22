@@ -77,7 +77,7 @@ class UserRepository() {
     }
 
     fun getCurrentUserId(): String? {
-        return FirebaseAuth.getInstance().currentUser?.uid
+        return firebaseAuth.currentUser?.uid
     }
 
     fun checkUser (id: String, collection: String, callback: (Boolean, String?) -> Unit) {
