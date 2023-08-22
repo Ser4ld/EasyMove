@@ -34,7 +34,11 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         homeViewModel = HomeViewModel()
-        replaceFragment(HomeFragment())
+
+        //controllo se il frameLayout è vuoto
+        if (childFragmentManager.findFragmentById(R.id.frameLayout) == null) {
+            replaceFragment(HomeFragment())
+        }
 
         binding.bottomAppBar.setBackgroundColor(resources.getColor(R.color.white))
         binding.bottomNavigationView.background = null
