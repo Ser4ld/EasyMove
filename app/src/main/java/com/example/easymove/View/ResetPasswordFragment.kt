@@ -37,7 +37,7 @@ class ResetPasswordFragment : Fragment() {
         binding.resetbtn.setOnClickListener(){
 
             userViewModel.sendPasswordResetEmail(
-                binding.textEmail.toString(),
+                binding.textEmail.text.toString(),
                 {
                     Toast.makeText(requireContext(), "Controlla la tua Email", Toast.LENGTH_SHORT).show()
                 },
