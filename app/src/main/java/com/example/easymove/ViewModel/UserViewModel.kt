@@ -14,5 +14,12 @@ class UserViewModel: ViewModel() {
         userRepository.fetchUserDataFromFirestore()
     }
 
+    fun sendPasswordResetEmail(
+        email: String,
+        onSuccess: () -> Unit,
+        onFailure: () -> Unit
+    ) {
+        userRepository.sendPasswordResetEmail(email, onSuccess, onFailure)
+    }
 
 }

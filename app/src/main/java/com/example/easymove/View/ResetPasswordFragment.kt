@@ -5,17 +5,16 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.easymove.ViewModel.LoginViewModel
+import android.widget.Toast
+import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.databinding.FragmentResetPasswordBinding
-import com.example.easymove.repository.UserRepository
-import com.example.easymove.viewmodel.ResetPasswordViewModel
 
 
 class ResetPasswordFragment : Fragment() {
 
     private var _binding: FragmentResetPasswordBinding? = null
     private val binding get() = _binding!!
-    private lateinit var ResetPasswordViewModel: ResetPasswordViewModel
+    private lateinit var userViewModel: UserViewModel
 
 
     override fun onCreateView(
@@ -29,14 +28,25 @@ class ResetPasswordFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ResetPasswordViewModel = ResetPasswordViewModel(UserRepository())
+        userViewModel = UserViewModel()
 
         binding.floatingActionButton.setOnClickListener{
             requireFragmentManager().popBackStack()
         }
 
         binding.resetbtn.setOnClickListener(){
+
+            userViewModel.sendPasswordResetEmail(
+                binding.textEmail.toString(),
+                {
+                    Toast.makeText(requireContext(), "Controlla la tua Email", Toast.LENGTH_SHORT).show()
+                },
+                {
+                    Toast.makeText(requireContext(), "La Email inserita non è corretta", Toast.LENGTH_SHORT).show()
+                }
+            )
         }
+
 
     }
 

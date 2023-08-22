@@ -30,7 +30,7 @@ class ProfileViewModel(private val userRepository: UserRepository): ViewModel() 
     )
 
 
-    fun fetchData() {
+   fun fetchData() {
 
         userRepository.getDataFromFirestore()?.addOnCompleteListener(OnCompleteListener { task ->
             if (task.isSuccessful) {

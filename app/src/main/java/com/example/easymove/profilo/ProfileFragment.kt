@@ -41,8 +41,8 @@ class ProfileFragment : Fragment(), MessageListener {
         savedInstanceState: Bundle?
     ): View {
         _binding = FragmentProfileBinding.inflate(inflater, container, false)
-        /*viewModel = ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)*/
-        userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        /*viewModel = ViewModelProvider(requireActivity()).get(ProfileViewModel::class.java)
+        userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)*/
 
 
      /*   // Collega il LiveData dei dati dell'utente al layout tramite databinding

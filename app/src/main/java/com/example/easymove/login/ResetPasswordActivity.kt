@@ -23,7 +23,6 @@ class ResetPasswordActivity : AppCompatActivity() {
 
         binding.resetbtn.setOnClickListener{
 
-
             auth.sendPasswordResetEmail(binding.Email.text.toString())
                 .addOnSuccessListener {
                     Toast.makeText(this, "Controlla la tua Email", Toast.LENGTH_SHORT).show()

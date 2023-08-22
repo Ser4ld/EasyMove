@@ -72,15 +72,14 @@ class UserRepository() {
             }
     }
 
-    fun sendModifyPassword(email:String, callback: (Boolean, String?) -> Unit){
-        firebaseAuth.sendPasswordResetEmail(email).addOnCompleteListener { task ->
-            if (task.isSuccessful) {
-                callback(true, null)
+    fun sendPasswordResetEmail(email: String, onSuccess: () -> Unit, onFailure: () -> Unit) {
+        firebaseAuth.sendPasswordResetEmail(email)
+            .addOnSuccessListener {
+                onSuccess()
             }
-            else{
-                callback(false, task.exception?.message)
+            .addOnFailureListener {
+                onFailure()
             }
-        }
     }
 
 
