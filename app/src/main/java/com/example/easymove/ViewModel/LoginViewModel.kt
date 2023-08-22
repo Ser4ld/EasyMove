@@ -26,19 +26,22 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
         }
     }
 
+
+
     fun autologin(callback: (Boolean, String?) -> Unit) {
         val currentUser = userRepository.getCurrentUser()
+
         if (currentUser != null) {
             val userId = currentUser.uid
             userRepository.checkUser(userId, "users") { userExists, errorMessage ->
                 if (userExists) {
-                   callback(true, "autologin effettuato")
+                    callback(true, "Autologin effettuato")
                 } else {
                     callback(false, "Errore sconosciuto")
                 }
-
             }
+        } else {
+            callback(false, "Utente non autenticato")
         }
-
     }
 }

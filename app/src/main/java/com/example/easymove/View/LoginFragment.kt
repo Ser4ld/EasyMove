@@ -36,10 +36,11 @@ class LoginFragment : Fragment() {
         LogViewModel = LoginViewModel(UserRepository())
 
         binding.floatingActionButton.setOnClickListener{
-            childFragmentManager.popBackStack()
+            requireFragmentManager().popBackStack()
         }
+
         binding.textSingUp2.setOnClickListener{
-            childFragmentManager.beginTransaction()
+            requireFragmentManager().beginTransaction()
                 .replace(R.id.fragmentContainer, SignupFragment())
                 .commit()
         }

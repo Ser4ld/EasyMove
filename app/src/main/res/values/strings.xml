@@ -19,10 +19,6 @@
     <string name="address_autofill_error_select">Unable to resolve selected suggestion</string>
 
     <dimen name="image_size">250dp</dimen>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="dummy_button">Dummy Button</string>
-    <string name="dummy_content">DUMMY\nCONTENT</string>
 
 </resources>
 
