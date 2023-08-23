@@ -7,7 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.easymove.Adapter.MyAdapterAnnunci
+import com.example.easymove.adapter.MyAdapterAnnunci
 import com.example.easymove.databinding.FragmentListaVeicoliBinding
 import com.example.easymove.model.Annuncio
 import com.google.firebase.firestore.FirebaseFirestore
