@@ -1,4 +1,4 @@
-package com.example.easymove.view
+package com.example.easymove.View
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -42,14 +42,20 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.tasks.await
 import kotlin.properties.Delegates
 import androidx.core.view.isVisible
+import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.easymove.MapBox.inputMethodManager
-
+import com.example.easymove.ViewModel.HomeViewModel
+import com.example.easymove.ViewModel.UserViewModel
+import com.example.easymove.ViewModel.VeicoliViewModel
 
 
 class AggiungiVeicoloFragment : Fragment() {
     private var _binding: FragmentAggiungiVeicoloBinding? = null
     private val binding get() = _binding!!
+    private lateinit var veicoliViewModel: VeicoliViewModel
+    private lateinit var userViewModel: UserViewModel
+    private lateinit var userId: String
 
     private lateinit var fireStoreDatabase: FirebaseFirestore
 
@@ -63,12 +69,12 @@ class AggiungiVeicoloFragment : Fragment() {
     private var latitude: Double? = null
     private var longitude: Double? = null
 
-    private var streetMezzo: String? = null
-    private var houseNumberMezzo: String? = null
-    private var cityMezzo: String? = null
-    private var regionMezzo: String? = null
-    private var postcodeMezzo: String? = null
-    private var fullAddress: String? = null
+    private lateinit var streetMezzo: String
+    private lateinit var houseNumberMezzo: String
+    private lateinit var cityMezzo: String
+    private lateinit var regionMezzo: String
+    private lateinit var postcodeMezzo: String
+    private lateinit var fullAddress: String
 
     private val PICK_IMAGE_REQUEST = 1
     private var imageUri: Uri? = null
@@ -86,20 +92,50 @@ class AggiungiVeicoloFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        veicoliViewModel = VeicoliViewModel()
+        userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+
+        //caratteri editText uppercase
+        binding.Targa.addTextChangedListener(object : TextWatcher {
+            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+                // Non è necessario implementare nulla qui
+            }
+
+            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+                // Non è necessario implementare nulla qui
+            }
+
+            override fun afterTextChanged(s: Editable?) {
+                // Converte il testo in maiuscolo
+                //s?.let se s != null viene eseguito il codice tra le parentesi
+                s?.let {
+                    val upperCaseText = it.toString().toUpperCase()
+                    if (it.toString() != upperCaseText) {
+                        //it.replace(startIndex, endIndex, testodasostituire), startIndex indice da cui iniziare a sostituire, endIndex indice fino al quale sostituire
+                        it.replace(0, it.length, upperCaseText)
+                    }
+                }
+            }
+        })
 
         binding.floatingActionButton.setOnClickListener{
             parentFragmentManager.popBackStack()
         }
 
-        fireStoreDatabase = FirebaseFirestore.getInstance()
-        storageReference = FirebaseStorage.getInstance().reference.child("uploads")
+        userViewModel.userDataLiveData.observe(
+            viewLifecycleOwner,
+        ) { userData ->
+            if (userData != null) {
+                userId = userData.id
+            }
+        }
 
         binding.imageBtn.setOnClickListener {
             openFileChooser()
         }
 
         addressAutofill = AddressAutofill.create(getString(R.string.mapbox_access_token))
-        var isFirstTyping = true
+        //var isFirstTyping = true da eliminare
 
         binding.searchResultsView.initialize(
             SearchResultsView.Configuration(
@@ -137,10 +173,6 @@ class AggiungiVeicoloFragment : Fragment() {
 
             override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
 
-                if (isFirstTyping) {
-                    Toast.makeText(requireContext(), "Formato: Via, Numero, Città", Toast.LENGTH_SHORT).show()
-                    isFirstTyping = false
-                }
 
                 if (ignoreNextQueryTextUpdate) {
                     ignoreNextQueryTextUpdate = false
@@ -178,110 +210,38 @@ class AggiungiVeicoloFragment : Fragment() {
 
 
 
-        binding.searchButton.setOnClickListener {
+        binding.addVeicoloButton.setOnClickListener {
             // Verifica se sono stati inseriti tutti i dati necessari
-            if (binding.NomeVeicolo.text.toString().isEmpty() ||
-                binding.Targa.text.toString().isEmpty() ||
-                //binding.LocazioneVeicolo.text.toString().isEmpty() ||
-                binding.Lunghezzacassone.text.toString().isEmpty() ||
-                binding.Larghezzacassone.text.toString().isEmpty() ||
-                binding.Altezzacassone.text.toString().isEmpty() ||
-                binding.TariffaKm.text.toString().isEmpty()) {
-                Toast.makeText(requireContext(), "Compila tutti i campi", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
 
-            // Verifica se è stata selezionata un'immagine
-            if (imageUri == null) {
-                Toast.makeText(requireContext(), "Seleziona un'immagine prima di creare l'annuncio", Toast.LENGTH_SHORT).show()
-                return@setOnClickListener
-            }
 
-            // Verifica se la targa esiste già
-            val targa = binding.Targa.text.toString()
-            lifecycleScope.launch {
-                val targaExists = checkTargaExists(targa)
-
-                if (targaExists) {
-                    Toast.makeText(requireContext(), "Targa già esistente", Toast.LENGTH_SHORT).show()
-                    return@launch
+            veicoliViewModel.storeVehicle(
+                userId,
+                binding.NomeVeicolo.text.toString(),
+                binding.Targa.text.toString(),
+                "chieti",
+                "via dei tintori",
+                "2",
+                "66100",
+                binding.Altezzacassone.text.toString(),
+                binding.Lunghezzacassone.text.toString(),
+                binding.Larghezzacassone.text.toString(),
+                binding.TariffaKm.text.toString(),
+                imageUri,
+                viewModelScope = viewLifecycleOwner.lifecycleScope
+            ){success, message ->
+                if(success){
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                }else{
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                //no success
                 }
 
-                // Esegue il caricamento dell'immagine su Firebase Storage
-                val storageRef = FirebaseStorage.getInstance().reference.child("images")
-                val imageName = "${System.currentTimeMillis()}.png"
-                val imageRef = storageRef.child(imageName)
-
-                imageRef.putFile(imageUri!!)
-                    .addOnSuccessListener { taskSnapshot ->
-                        // Caricamento completato con successo
-                        imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
-                            val imageUrl = downloadUri.toString()
-                            // Continua con il processo di creazione dell'annuncio e salva l'URL dell'immagine nel database
-                            saveAnnouncementWithImage(imageUrl)
-                        }
-                    }
-                    .addOnFailureListener { exception ->
-                        // Errore durante il caricamento dell'immagine
-                        Toast.makeText(requireContext(), "${exception.message}", Toast.LENGTH_SHORT).show()
-                    }
             }
+
         }
 
     }
 
-    private fun saveAnnouncementWithImage(imageUrl: String) {
-        val lunghezza = binding.Lunghezzacassone.text.toString().toDouble()
-        val altezza = binding.Altezzacassone.text.toString().toDouble()
-        val larghezza = binding.Larghezzacassone.text.toString().toDouble()
-        val capienza = calcoloCapienza(lunghezza, altezza, larghezza)
-
-        // Altri dati dell'annuncio
-        val modello = binding.NomeVeicolo.text.toString()
-        val targa = binding.Targa.text.toString()
-        val tariffaKm = binding.TariffaKm.text.toString()
-        /*val indirizzoCompleto = fullAddress ?: ""
-        val via = streetMezzo ?: ""
-        val numeroCivico = houseNumberMezzo ?: ""
-        val citta = cityMezzo ?: ""
-        val regione = regionMezzo ?: ""
-        val codicePostale = postcodeMezzo ?: ""*/
-
-        val user = FirebaseAuth.getInstance().currentUser
-        val userEmail = user?.email
-
-        val hashMap = hashMapOf<String, Any>(
-            "modello" to modello,
-            "targa" to targa,
-            "capienza" to capienza,
-            "tariffaKm" to tariffaKm,
-            /*"indirizzoCompleto" to indirizzoCompleto,
-            "via" to via,
-            "numeroCivico" to numeroCivico,
-            "citta" to citta,
-            "regione" to regione,
-            "codicePostale" to codicePostale,*/
-            "email" to userEmail.toString(),
-            /* "latitudine" to latitude.toString(),
-             "longitudine" to longitude.toString(),*/
-            "imageUrl" to imageUrl // Aggiungi l'URL dell'immagine
-        )
-        /*
-                if (userEmail != null) {
-                    val user = User(FirebaseFirestore.getInstance()) // RIVEDERE
-                    user.uploadData(hashMap, "vans", targa)
-                }
-        */
-       /* val intent = Intent(this@CreaAnnuncioActivity, HomeActivity::class.java)
-        startActivity(intent)
-        finish()*/
-    }
-
-    private fun calcoloCapienza(lunghezza: Double, altezza: Double, larghezza: Double): String {
-        val capienza = ((lunghezza * altezza * larghezza)/1000000)
-        val formattedCapienza = String.format("%.2f", capienza)
-        return "$formattedCapienza m³"
-    }
 
 
     private fun selectSuggestion(
@@ -312,11 +272,11 @@ class AggiungiVeicoloFragment : Fragment() {
 
         fullAddress = result.suggestion.formattedAddress
 
-        streetMezzo = address.street
-        houseNumberMezzo = address.houseNumber
-        cityMezzo= address.place
-        regionMezzo= address.region
-        postcodeMezzo= address.postcode
+        streetMezzo = address.street.toString()
+        houseNumberMezzo = address.houseNumber.toString()
+        cityMezzo= address.place.toString()
+        regionMezzo= address.region.toString()
+        postcodeMezzo= address.postcode.toString()
 
         binding.LocazioneVeicolo.setText(
             listOfNotNull(
@@ -392,7 +352,7 @@ class AggiungiVeicoloFragment : Fragment() {
           super.onActivityResult(requestCode, resultCode, data)
 
           if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
-              imageUri = data.data
+              imageUri = data.data!!
               binding.imageFirebase.setImageURI(imageUri)
           }
       }

@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".view.AggiungiVeicoloFragment">
+    tools:context=".View.AggiungiVeicoloFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -268,11 +268,11 @@
                         app:layout_constraintTop_toBottomOf="@+id/imageFirebase" />
 
                     <Button
-                        android:id="@+id/search_button"
+                        android:id="@+id/add_veicolo_button"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_margin="20dp"
-                        android:text="CREA ANNUNCIO"
+                        android:text="AGGIUNGI VEICOLO"
                         android:textColor="@color/white"
                         app:cornerRadius="20dp"
                         app:layout_constraintBottom_toBottomOf="parent"

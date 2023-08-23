@@ -32,24 +32,31 @@ class UserRepository() {
                     val userId = user?.uid
 
                     val userObj = User(userId.orEmpty(), nome, cognome, email, tipoutente)
-                    uploadUserData(userObj)
+                    uploadUserData(userObj){ success, Errmsg ->
+                        if(success){
+                            callback(true, null)
+                        }else{
+                            callback(false, Errmsg)
+                        }
 
-                    callback(true, null)
+                    }
+
+
                 } else {
                     callback(false, task.exception?.message)
                 }
             }
     }
 
-    private fun uploadUserData(user: User) {
+    private fun uploadUserData(user: User,callback: (Boolean, String) -> Unit) {
         firestoreDatabase.collection("users")
             .document(user.id)
             .set(user)
             .addOnSuccessListener {
-                // Logica in caso di successo
+                callback(true, "registrazione effettuata")
             }
             .addOnFailureListener { exception ->
-                // Logica in caso di fallimento
+                callback(false, "Errore registrazione")
             }
     }
 

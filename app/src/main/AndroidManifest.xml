@@ -19,7 +19,7 @@
         tools:targetApi="31">
 
         <activity
-            android:name=".view.IndexActivity"
+            android:name=".View.IndexActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>

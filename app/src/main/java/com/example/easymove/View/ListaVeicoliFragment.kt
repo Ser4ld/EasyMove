@@ -1,4 +1,4 @@
-package com.example.easymove.view
+package com.example.easymove.View
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -9,7 +9,7 @@ import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.easymove.adapter.MyAdapterVeicoli
 import com.example.easymove.databinding.FragmentListaVeicoliBinding
-import com.example.easymove.model.Veicoli
+import com.example.easymove.model.Veicolo
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -19,7 +19,7 @@ class ListaVeicoliFragment : Fragment() {
     private var _binding:FragmentListaVeicoliBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var list: ArrayList<Veicoli>
+    private lateinit var list: ArrayList<Veicolo>
     private var db = Firebase.firestore
 
     override fun onCreateView(
@@ -48,7 +48,7 @@ class ListaVeicoliFragment : Fragment() {
 
             if (!snapshot.isEmpty) {
                 for (data in snapshot.documents) {
-                    val van: Veicoli? = data.toObject(Veicoli::class.java)
+                    val van: Veicolo? = data.toObject(Veicolo::class.java)
                     if (van != null
                     // && van.citta == cityOrigin
                     ) {

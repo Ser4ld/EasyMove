@@ -5,18 +5,21 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.R
 import com.example.easymove.ViewModel.HomeViewModel
 import com.example.easymove.databinding.FragmentMainBinding
-import com.example.easymove.view.AggiungiVeicoloFragment
-import com.example.easymove.view.HomeFragment
-import com.example.easymove.view.ProfileFragment
+import com.example.easymove.View.AggiungiVeicoloFragment
+import com.example.easymove.View.HomeFragment
+import com.example.easymove.View.ProfileFragment
+import com.example.easymove.ViewModel.UserViewModel
 
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
     private lateinit var homeViewModel: HomeViewModel
+    private lateinit var userViewModel: UserViewModel
 
 
     override fun onCreateView(
@@ -31,6 +34,9 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         homeViewModel = HomeViewModel()
+        userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+
+        userViewModel.fetchUserData()
 
         //controllo se il frameLayout è vuoto
         if (childFragmentManager.findFragmentById(R.id.frameLayout) == null) {

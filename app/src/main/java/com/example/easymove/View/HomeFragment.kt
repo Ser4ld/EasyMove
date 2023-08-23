@@ -1,4 +1,4 @@
-package com.example.easymove.view
+package com.example.easymove.View
 
 import android.Manifest
 import android.content.Intent
@@ -19,7 +19,6 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.easymove.MapBox.inputMethodManager
 import com.example.easymove.R
-import com.example.easymove.View.ResetPasswordFragment
 import com.example.easymove.ViewModel.HomeViewModel
 import com.example.easymove.databinding.FragmentHomeBinding
 import com.mapbox.geojson.Point

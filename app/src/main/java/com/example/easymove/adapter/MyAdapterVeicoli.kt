@@ -8,11 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.easymove.R
-import com.example.easymove.model.Veicoli
+import com.example.easymove.model.Veicolo
 
 
 
-class MyAdapterVeicoli(private val list:ArrayList<Veicoli>):RecyclerView.Adapter<MyAdapterVeicoli.MyViewHolder>() {
+class MyAdapterVeicoli(private val list:ArrayList<Veicolo>):RecyclerView.Adapter<MyAdapterVeicoli.MyViewHolder>() {
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
         val modello: TextView= itemView.findViewById(R.id.modello)
@@ -37,7 +37,7 @@ class MyAdapterVeicoli(private val list:ArrayList<Veicoli>):RecyclerView.Adapter
         holder.modello.text = list[position].modello
         holder.targa.text = list[position].targa
         holder.capienza.text = list[position].capienza
-        holder.locazione.text = list[position].indirizzoCompleto
+        holder.locazione.text = list[position].citta
 
         if (!list[position].imageUrl.isNullOrEmpty()) {
 

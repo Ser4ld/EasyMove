@@ -1,4 +1,4 @@
-package com.example.easymove.view
+package com.example.easymove.View
 
 import android.app.AlertDialog
 import android.content.Intent
@@ -13,11 +13,12 @@ import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.R
-import com.example.easymove.View.ModificaEmailFragment
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.databinding.FragmentProfileBinding
-import com.example.easymove.View.ResetPasswordFragment
 import com.google.firebase.auth.FirebaseAuth
+import com.example.easymove.View.ModificaEmailFragment
+import com.example.easymove.View.ResetPasswordFragment
+import com.example.easymove.View.IndexActivity
 
 class ProfileFragment : Fragment() {
 
@@ -40,7 +41,7 @@ class ProfileFragment : Fragment() {
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
 
-        userViewModel.fetchUserData()
+        //userViewModel.fetchUserData()
 
         userViewModel.userDataLiveData.observe(
             viewLifecycleOwner,
