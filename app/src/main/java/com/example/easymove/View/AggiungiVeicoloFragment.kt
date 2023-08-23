@@ -231,6 +231,8 @@ class AggiungiVeicoloFragment : Fragment() {
             ){success, message ->
                 if(success){
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    parentFragmentManager.popBackStack()
+
                 }else{
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 //no success
@@ -239,6 +241,7 @@ class AggiungiVeicoloFragment : Fragment() {
             }
 
         }
+
 
     }
 
@@ -318,44 +321,33 @@ class AggiungiVeicoloFragment : Fragment() {
         return !snapshot.isEmpty
     }
 
-
     private fun openFileChooser() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
-        intent.type = "image/*"
+        intent.type = "image/png" // Set the MIME type to restrict to PNG images
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
-   /* override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
-            val selectedImageUri: Uri = data.data!!
+            val selectedImageUri = data.data!!
 
-            // Verifica l'estensione del file
-            val contentResolver = contentResolver
+            // Verifying the MIME type of the selected file
+            val contentResolver = requireContext().contentResolver
             val mime = contentResolver.getType(selectedImageUri)
-            if (mime != null && mime == "image/png") {
-                // Il file selezionato è un PNG
+            if (mime == "image/png") {
+                // The selected file is a PNG image
                 imageUri = selectedImageUri
                 binding.imageFirebase.setImageURI(imageUri)
-                binding.disclaimerFormato.visibility = View.GONE
-
             } else {
-                // Il file selezionato non è un PNG
-                Toast.makeText(requireContext(), "Seleziona un'immagine in formato PNG", Toast.LENGTH_SHORT).show()
+                // The selected file is not a PNG image, handle the error
+                Toast.makeText(requireContext(), "Please select a PNG image", Toast.LENGTH_SHORT).show()
             }
         }
-    }*/
+    }
 
-    //versione senza vincolo sull'immagine png in ingresso
-      override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-          super.onActivityResult(requestCode, resultCode, data)
 
-          if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
-              imageUri = data.data!!
-              binding.imageFirebase.setImageURI(imageUri)
-          }
-      }
 }
 
 
