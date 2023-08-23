@@ -7,8 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.easymove.R
-import com.example.easymove.annunci.MyAdapterAnnunci
+import com.example.easymove.Adapter.MyAdapterAnnunci
 import com.example.easymove.databinding.FragmentListaVeicoliBinding
 import com.example.easymove.model.Annuncio
 import com.google.firebase.firestore.FirebaseFirestore
@@ -35,6 +34,7 @@ class ListaVeicoliFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val cityOrigin = arguments?.getString("cityOrigin")
 
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 

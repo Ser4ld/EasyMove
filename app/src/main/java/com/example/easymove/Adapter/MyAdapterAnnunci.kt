@@ -1,4 +1,4 @@
-package com.example.easymove.annunci
+package com.example.easymove.Adapter
 
 import android.view.LayoutInflater
 import android.view.View
