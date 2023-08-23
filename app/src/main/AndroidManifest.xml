@@ -21,27 +21,17 @@
         <activity
             android:name=".annunci.AnnunciActivity"
             android:exported="false" />
+
         <activity
-            android:name=".CreaAnnuncioActivity"
-            android:exported="false" />
-        <activity
-            android:name=".login.index"
+            android:name=".view.IndexActivity"
             android:exported="true"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".home.HomeActivity"
-            android:exported="true"
-            android:screenOrientation="portrait" />
-        <activity
-            android:name=".login.ResetPasswordActivity"
-            android:exported="true"
-            android:screenOrientation="portrait" />
+
     </application>
 
 </manifest>

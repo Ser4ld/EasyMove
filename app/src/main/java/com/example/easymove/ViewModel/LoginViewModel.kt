@@ -1,13 +1,6 @@
 package com.example.easymove.ViewModel
 
-import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
-import com.example.easymove.R
-import com.example.easymove.View.IndexFragment
-import com.example.easymove.View.MainFragment
-import com.example.easymove.home.HomeActivity
 import com.example.easymove.repository.UserRepository
 
 class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {

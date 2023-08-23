@@ -1,4 +1,4 @@
-package com.example.easymove.home
+package com.example.easymove.view
 
 import android.Manifest
 import android.content.Intent
@@ -19,8 +19,8 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.example.easymove.MapBox.inputMethodManager
 import com.example.easymove.R
+import com.example.easymove.View.ResetPasswordFragment
 import com.example.easymove.ViewModel.HomeViewModel
-import com.example.easymove.annunci.AnnunciActivity
 import com.example.easymove.databinding.FragmentHomeBinding
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
@@ -43,7 +43,6 @@ class HomeFragment : Fragment() {
     private lateinit var binding: FragmentHomeBinding
 
     private lateinit var homeViewModel: HomeViewModel
-
 
     private lateinit var addressAutofill: AddressAutofill
     private lateinit var addressAutofill2: AddressAutofill
@@ -78,8 +77,21 @@ class HomeFragment : Fragment() {
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-        val rootView = binding.root
+
+        return binding.root
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+
+        //binding.searchResultsView = view.findViewById(R.id.search_results_view)
+        //searchResultsView2 = view.findViewById(R.id.search_results_view2)
+        //var isFirstTyping1 = true
+        //var isFirstTyping2 = true
 
         addressAutofill = AddressAutofill.create(getString(R.string.mapbox_access_token))
         addressAutofill2 = AddressAutofill.create(getString(R.string.mapbox_access_token))
@@ -87,19 +99,6 @@ class HomeFragment : Fragment() {
         mapboxMap = binding.map.getMapboxMap()
 
         mapboxMap.loadStyleUri(Style.MAPBOX_STREETS)
-
-
-
-        return rootView
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
-        //binding.searchResultsView = view.findViewById(R.id.search_results_view)
-        //searchResultsView2 = view.findViewById(R.id.search_results_view2)
-        var isFirstTyping1 = true
-        var isFirstTyping2 = true
 
 
         binding.searchResultsView.initialize(
@@ -189,10 +188,10 @@ class HomeFragment : Fragment() {
         binding.queryText.addTextChangedListener(object : TextWatcher {
 
             override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
-                if (isFirstTyping1) {
+            /*    if (isFirstTyping1) {
                     Toast.makeText(requireContext(), "Formato: Via, Numero, Città", Toast.LENGTH_SHORT).show()
                     isFirstTyping1 = false
-                }
+                }*/
                 if (ignoreNextQueryTextUpdate) {
                     ignoreNextQueryTextUpdate = false
                     return
@@ -219,10 +218,10 @@ class HomeFragment : Fragment() {
         binding.queryText2.addTextChangedListener(object : TextWatcher {
             override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
 
-                if (isFirstTyping2) {
+                /*if (isFirstTyping2) {
                     Toast.makeText(requireContext(), "Formato: Via, Numero, Città", Toast.LENGTH_SHORT).show()
                     isFirstTyping2 = false
-                }
+                }*/
 
                 if (ignoreNextQueryTextUpdate) {
                     ignoreNextQueryTextUpdate = false
@@ -259,10 +258,16 @@ class HomeFragment : Fragment() {
         }
 
         binding.searchButton.setOnClickListener() {
-            val intentSearch = Intent(requireContext(), AnnunciActivity::class.java)
-            // Pass the city of departure to the next activity
-            intentSearch.putExtra("cityOrigin", cityOrigin)
-            startActivity(intentSearch)
+
+            val args = Bundle()
+            args.putString("cityOrigin", cityOrigin)
+            ListaVeicoliFragment().arguments = args
+
+
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, ListaVeicoliFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
     }
@@ -350,7 +355,6 @@ class HomeFragment : Fragment() {
         searchResults.isVisible = false
         searchResults.hideKeyboard()
 
-
         binding.provadistanza.text = homeViewModel.getDistancePoints()
 
     }
@@ -362,7 +366,7 @@ class HomeFragment : Fragment() {
         context.inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
     }
 
-    fun addMarkerToMap(point: Point) {
+    private fun addMarkerToMap(point: Point) {
         // Create an instance of the Annotation API and get the PointAnnotationManager.
         homeViewModel.bitmapFromDrawableRes(requireContext(), R.drawable.red_marker)?.let {
             val annotationApi = binding.map?.annotations
@@ -379,7 +383,7 @@ class HomeFragment : Fragment() {
         }
     }
 
-    fun isPermissionGranted(permission: String): Boolean {
+    private fun isPermissionGranted(permission: String): Boolean {
         return ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
     }
 }

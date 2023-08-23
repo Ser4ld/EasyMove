@@ -10,9 +10,7 @@ import android.widget.Toast
 import com.example.easymove.R
 import com.example.easymove.ViewModel.SignupViewModel
 import com.example.easymove.databinding.FragmentSignupBinding
-import com.example.easymove.home.HomeActivity
 import com.example.easymove.repository.UserRepository
-import com.example.easymove.View.LoginFragment
 
 
 class SignupFragment : Fragment() {
@@ -37,11 +35,11 @@ class SignupFragment : Fragment() {
         viewModel = SignupViewModel(UserRepository())
 
         binding.floatingActionButton.setOnClickListener {
-            requireFragmentManager().popBackStack()
+            parentFragmentManager.popBackStack()
         }
 
         binding.textLogin2.setOnClickListener {
-            requireFragmentManager().beginTransaction()
+            parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, LoginFragment())
                 .commit()
         }
@@ -64,8 +62,9 @@ class SignupFragment : Fragment() {
                 tipoutente
             ) { success, message ->
                 if (success) {
-                    val intent = Intent(requireContext(), HomeActivity::class.java)
-                    startActivity(intent)
+                    parentFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, MainFragment())
+                        .commit()
                 } else {
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 }
@@ -82,5 +81,4 @@ class SignupFragment : Fragment() {
             }
         }
     }
-
 }

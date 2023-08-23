@@ -1,19 +1,15 @@
 package com.example.easymove.View
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.easymove.CreaAnnuncioActivity
 import com.example.easymove.R
 import com.example.easymove.ViewModel.HomeViewModel
-import com.example.easymove.databinding.FragmentIndexBinding
 import com.example.easymove.databinding.FragmentMainBinding
-import com.example.easymove.home.HomeFragment
-import com.example.easymove.profilo.ProfileFragment
-import com.example.easymove.repository.UserRepository
+import com.example.easymove.view.HomeFragment
+import com.example.easymove.view.ProfileFragment
 
 
 class MainFragment : Fragment() {
@@ -44,7 +40,10 @@ class MainFragment : Fragment() {
         binding.bottomNavigationView.background = null
 
         binding.addItem.setOnClickListener {
-            parentFragmentManager.beginTransaction().replace(R.id.fragmentContainer, AggiungiVeicoloFragment()).addToBackStack(null).commit()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, AggiungiVeicoloFragment())
+                .addToBackStack(null)
+                .commit()
         }
 
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->

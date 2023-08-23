@@ -46,10 +46,5 @@ class ResetPasswordFragment : Fragment() {
                 }
             )
         }
-
-
     }
-
-
-
-    }
+}

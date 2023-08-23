@@ -1,43 +1,28 @@
-package com.example.easymove.profilo
+package com.example.easymove.view
 
 import android.app.AlertDialog
-import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
-import android.text.InputType
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
-import android.widget.EditText
 import android.widget.Toast
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.R
-import com.example.easymove.View.MainFragment
 import com.example.easymove.View.ModificaEmailFragment
-import com.example.easymove.ViewModel.ProfileViewModel
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.databinding.FragmentProfileBinding
-import com.example.easymove.login.index
 import com.example.easymove.View.ResetPasswordFragment
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
-val db = Firebase.firestore
-
-
-class ProfileFragment : Fragment(), MessageListener {
+class ProfileFragment : Fragment() {
 
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
-    private lateinit var fireStoreDatabase: FirebaseFirestore
-    private lateinit var profileviewModel: ProfileViewModel
     private lateinit var userViewModel: UserViewModel
 
 
@@ -108,7 +93,7 @@ class ProfileFragment : Fragment(), MessageListener {
 
             FirebaseAuth.getInstance().signOut()
             Toast.makeText(requireContext(), "Logout effettuato", Toast.LENGTH_SHORT).show()
-            val intentLogout = Intent(requireContext(), index::class.java)
+            val intentLogout = Intent(requireContext(), IndexActivity::class.java)
             startActivity(intentLogout)
             requireActivity().finish()
             dialog.dismiss()
@@ -117,6 +102,7 @@ class ProfileFragment : Fragment(), MessageListener {
         customView.findViewById<Button>(R.id.btn_no).setOnClickListener{
             dialog.dismiss()
         }
+
         //builder.setMessage("Clicca 'Conferma' per effettuare il logout")
 
         // Aggiungi i pulsanti "Conferma" e "Annulla"
@@ -136,12 +122,4 @@ class ProfileFragment : Fragment(), MessageListener {
 
 
     }
-
-    // override metodo presente nell'interfaccia messagelistener per far visualizzare messaggi
-    // generati nel viewmodelprofile per segnalare all'utente eventuali errori della modifica della mail
-    override fun showMessage(message: String) {
-        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-    }
-
-
 }

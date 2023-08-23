@@ -1,4 +1,4 @@
-package com.example.easymove.View
+package com.example.easymove.view
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import com.example.easymove.R
 import com.example.easymove.databinding.FragmentIndexBinding
 import com.example.easymove.View.LoginFragment
+import com.example.easymove.View.SignupFragment
 
 class IndexFragment : Fragment() {
 

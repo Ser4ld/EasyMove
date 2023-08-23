@@ -3,7 +3,6 @@ package com.example.easymove.repository
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.easymove.model.User
-import com.example.easymove.profilo.db
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.EmailAuthProvider
 import com.google.firebase.auth.FirebaseAuth
@@ -160,7 +159,7 @@ class UserRepository() {
 
 
     fun getDataFromFirestore(): Task<DocumentSnapshot>? {
-        val docRef = getCurrentUserId()?.let { db.collection("users").document(it) }
+        val docRef = getCurrentUserId()?.let { firestoreDatabase.collection("users").document(it) }
         return docRef?.get()
     }
 

@@ -25,7 +25,7 @@ class MyAdapterAnnunci(private val list:ArrayList<Annuncio>):RecyclerView.Adapte
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-    val itemView = LayoutInflater.from(parent.context).inflate(R.layout.singolo_annuncio, parent, false)
+    val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_singolo_annuncio, parent, false)
     return MyViewHolder(itemView)
     }
 
