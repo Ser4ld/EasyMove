@@ -1,4 +1,4 @@
-package com.example.easymove.Adapter
+package com.example.easymove.adapter
 
 import android.view.LayoutInflater
 import android.view.View

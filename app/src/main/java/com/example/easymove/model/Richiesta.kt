@@ -1,6 +1,6 @@
 package com.example.easymove.model
 
-import com.example.easymove.Enum.StatoRichiesta
+import com.example.easymove.enum.StatoRichiesta
 
 data class Richiesta(
     val annuncioId: String? = null,
