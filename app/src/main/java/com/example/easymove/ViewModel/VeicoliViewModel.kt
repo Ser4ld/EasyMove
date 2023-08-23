@@ -2,7 +2,9 @@ package com.example.easymove.ViewModel
 
 import android.net.Uri
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
+import com.example.easymove.model.Veicolo
 import com.example.easymove.repository.UserRepository
 import com.example.easymove.repository.VeicoliRepository
 import kotlinx.coroutines.CoroutineScope

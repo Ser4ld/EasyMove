@@ -13,6 +13,11 @@ import com.example.easymove.model.Veicolo
 
 
 class MyAdapterVeicoli(private val list:ArrayList<Veicolo>):RecyclerView.Adapter<MyAdapterVeicoli.MyViewHolder>() {
+
+    init {
+        // Ordina la lista in base al nome del modello all'inizio
+        list.sortBy { it.modello }
+    }
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
         val modello: TextView= itemView.findViewById(R.id.modello)
@@ -37,7 +42,7 @@ class MyAdapterVeicoli(private val list:ArrayList<Veicolo>):RecyclerView.Adapter
         holder.modello.text = list[position].modello
         holder.targa.text = list[position].targa
         holder.capienza.text = list[position].capienza
-        holder.locazione.text = list[position].citta
+        holder.locazione.text = list[position].via +" "+list[position].numeroCivico+", "+list[position].citta+", "+list[position].codicePostale
 
         if (!list[position].imageUrl.isNullOrEmpty()) {
 

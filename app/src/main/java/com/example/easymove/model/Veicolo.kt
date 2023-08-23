@@ -15,5 +15,8 @@ data class Veicolo(
     //val longitudine: String? = null,
     val Tariffakm: String,
     val imageUrl: String // URL dell'immagine
-)
+){// Aggiungi un costruttore senza argomenti richiesto da Firestore
+constructor() : this(
+    "", "", "", "", "", "",
+    "", "", "", "")}
 

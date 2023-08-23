@@ -1,6 +1,9 @@
 package com.example.easymove.repository
 
 import android.net.Uri
+import androidx.core.net.toFile
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
@@ -27,7 +30,7 @@ class VeicoliRepository {
         callback: (Boolean, String?) -> Unit
     ) {
         val storageRef = firebaseStorage.reference.child("images")
-        val imageName = "${System.currentTimeMillis()}.png"
+        val imageName = "$UserId."+imageUri?.lastPathSegment ?: "${System.currentTimeMillis()}.png"
         val imageRef = storageRef.child(imageName)
 
         imageRef.putFile(imageUri!!)
@@ -72,7 +75,4 @@ class VeicoliRepository {
                 callback(false, "Errore registrazione veicolo")
             }
     }
-
-
-
 }

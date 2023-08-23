@@ -11,16 +11,14 @@ import com.example.easymove.adapter.MyAdapterVeicoli
 import com.example.easymove.databinding.FragmentListaVeicoliBinding
 import com.example.easymove.model.Veicolo
 import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.firestore.ktx.firestore
-import com.google.firebase.ktx.Firebase
 
 class ListaVeicoliFragment : Fragment() {
 
-    private var _binding:FragmentListaVeicoliBinding? = null
+    private var _binding: FragmentListaVeicoliBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var list: ArrayList<Veicolo>
-    private var db = Firebase.firestore
+    private lateinit var db: FirebaseFirestore
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,42 +28,35 @@ class ListaVeicoliFragment : Fragment() {
         return binding.root
     }
 
-
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val cityOrigin = arguments?.getString("cityOrigin")
-
-        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
-
-        binding.fabButton.setOnClickListener{
+        binding.fabButton.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
+        binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
         list = arrayListOf()
 
         db = FirebaseFirestore.getInstance()
-        db.collection("vans").get().addOnSuccessListener { snapshot ->
 
-            if (!snapshot.isEmpty) {
-                for (data in snapshot.documents) {
-                    val van: Veicolo? = data.toObject(Veicolo::class.java)
-                    if (van != null
-                    // && van.citta == cityOrigin
-                    ) {
-                        list.add(van)
-                    }
-                    else Toast.makeText(requireContext(), "Non ci sono annunci", Toast.LENGTH_SHORT).show()
+        db.collection("vans").get().addOnSuccessListener { snapshot ->
+            for (document in snapshot.documents) {
+                val van = document.toObject(Veicolo::class.java)
+                if (van != null) {
+                    list.add(van)
                 }
             }
-
-            binding.recyclerView.adapter = MyAdapterVeicoli(list)
-        }
-            .addOnFailureListener { exception ->
-                Toast.makeText(requireContext(), exception.toString(), Toast.LENGTH_SHORT).show()
+            if (list.isEmpty()) {
+                Toast.makeText(requireContext(), "Non ci sono annunci", Toast.LENGTH_SHORT).show()
             }
-
+            binding.recyclerView.adapter = MyAdapterVeicoli(list)
+        }.addOnFailureListener { exception ->
+            Toast.makeText(requireContext(), exception.toString(), Toast.LENGTH_SHORT).show()
+        }
     }
 
-
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }
