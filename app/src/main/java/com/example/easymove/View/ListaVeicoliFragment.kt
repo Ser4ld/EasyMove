@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.easymove.adapter.MyAdapterAnnunci
+import com.example.easymove.adapter.MyAdapterVeicoli
 import com.example.easymove.databinding.FragmentListaVeicoliBinding
-import com.example.easymove.model.Annuncio
+import com.example.easymove.model.Veicoli
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
@@ -19,7 +19,7 @@ class ListaVeicoliFragment : Fragment() {
     private var _binding:FragmentListaVeicoliBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var list: ArrayList<Annuncio>
+    private lateinit var list: ArrayList<Veicoli>
     private var db = Firebase.firestore
 
     override fun onCreateView(
@@ -48,7 +48,7 @@ class ListaVeicoliFragment : Fragment() {
 
             if (!snapshot.isEmpty) {
                 for (data in snapshot.documents) {
-                    val van: Annuncio? = data.toObject(Annuncio::class.java)
+                    val van: Veicoli? = data.toObject(Veicoli::class.java)
                     if (van != null
                     // && van.citta == cityOrigin
                     ) {
@@ -58,7 +58,7 @@ class ListaVeicoliFragment : Fragment() {
                 }
             }
 
-            binding.recyclerView.adapter = MyAdapterAnnunci(list)
+            binding.recyclerView.adapter = MyAdapterVeicoli(list)
         }
             .addOnFailureListener { exception ->
                 Toast.makeText(requireContext(), exception.toString(), Toast.LENGTH_SHORT).show()

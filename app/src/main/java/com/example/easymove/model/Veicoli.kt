@@ -1,6 +1,6 @@
 package com.example.easymove.model
 
-data class Annuncio(
+data class Veicoli(
     val capienza: String? = null,
     val citta: String? = null,
     val codicePostale: String? = null,

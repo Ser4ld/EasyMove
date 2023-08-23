@@ -8,11 +8,11 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.easymove.R
-import com.example.easymove.model.Annuncio
+import com.example.easymove.model.Veicoli
 
 
 
-class MyAdapterAnnunci(private val list:ArrayList<Annuncio>):RecyclerView.Adapter<MyAdapterAnnunci.MyViewHolder>() {
+class MyAdapterVeicoli(private val list:ArrayList<Veicoli>):RecyclerView.Adapter<MyAdapterVeicoli.MyViewHolder>() {
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
         val modello: TextView= itemView.findViewById(R.id.modello)
