@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import com.example.easymove.R
 import com.example.easymove.ViewModel.HomeViewModel
 import com.example.easymove.databinding.FragmentMainBinding
+import com.example.easymove.view.AggiungiVeicoloFragment
 import com.example.easymove.view.HomeFragment
 import com.example.easymove.view.ProfileFragment
 
