@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".View.AggiungiVeicoloFragment">
+    tools:context=".view.AggiungiVeicoloFragment">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -61,7 +61,9 @@
                 android:layout_height="wrap_content"
                 android:backgroundTint="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/guideline">
+                app:layout_constraintTop_toTopOf="@+id/guideline"
+                app:layout_constraintVertical_bias="0.0"
+                tools:layout_editor_absoluteX="0dp">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -277,6 +279,24 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@id/image_btn" />
+
+                    <com.mapbox.search.ui.view.SearchResultsView
+                        android:theme="@style/CustomTheme"
+                        android:id="@+id/search_results_view"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginHorizontal="16dp"
+                        android:layout_marginTop="16dp"
+                        android:background="@drawable/card_background"
+                        android:clipToPadding="false"
+                        android:elevation="4dp"
+                        android:paddingTop="8dp"
+                        android:paddingBottom="22dp"
+                        android:visibility="gone"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="parent"
+                        app:layout_constraintTop_toBottomOf="@+id/LocazioneVeicolo"
+                        />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
