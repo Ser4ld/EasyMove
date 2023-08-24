@@ -14,9 +14,16 @@ import com.example.easymove.model.Veicolo
 
 class MyAdapterVeicoli(private val list:ArrayList<Veicolo>):RecyclerView.Adapter<MyAdapterVeicoli.MyViewHolder>() {
 
+
     init {
-        // Ordina la lista in base al nome del modello all'inizio
         list.sortBy { it.modello }
+    }
+
+    fun updateData(newDataList: ArrayList<Veicolo>) {
+        list.clear()
+        newDataList.sortBy { it.modello }
+        list.addAll(newDataList)
+        notifyDataSetChanged()
     }
     class MyViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
 
