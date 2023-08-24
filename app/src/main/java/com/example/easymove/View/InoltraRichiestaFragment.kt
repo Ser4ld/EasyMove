@@ -35,7 +35,7 @@ class InoltraRichiestaFragment : Fragment() {
         }
 
         binding.textData.setOnClickListener {
-            showDatePicker()
+            showCalendario()
         }
 
         val arguments = arguments
@@ -50,7 +50,7 @@ class InoltraRichiestaFragment : Fragment() {
         }
     }
 
-    private fun showDatePicker() {
+    private fun showCalendario() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)
         val month = calendar.get(Calendar.MONTH)
@@ -58,12 +58,17 @@ class InoltraRichiestaFragment : Fragment() {
 
         val datePickerDialog = DatePickerDialog(
             requireContext(),
+            //_ -> usato per ignorare il primo parametro che rappresenta il datePicker
             { _, selectedYear, selectedMonth, selectedDay ->
                 val selectedDate = Calendar.getInstance()
+                //setta la data scelta dall'utente
                 selectedDate.set(selectedYear, selectedMonth, selectedDay)
+                //formattazione data
                 val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedDate.time)
+                //impostazione data scelta nell'editText
                 binding.textData.setText(formattedDate)
             },
+            //rappresentano year -> anno corrente, month-> mese corrente, day -> giorno corrente (valori preimpostati quando viene aperto il DataPicker)
             year,
             month,
             day
