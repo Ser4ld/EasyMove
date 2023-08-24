@@ -9,9 +9,6 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.R
 import com.example.easymove.ViewModel.HomeViewModel
 import com.example.easymove.databinding.FragmentMainBinding
-import com.example.easymove.View.AggiungiVeicoloFragment
-import com.example.easymove.View.HomeFragment
-import com.example.easymove.View.ProfileFragment
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
 

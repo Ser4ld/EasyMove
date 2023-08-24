@@ -22,7 +22,6 @@ class ListaVeicoliFragment : Fragment() {
 
     private lateinit var veicoliViewModel: VeicoliViewModel
 
-    private lateinit var list: ArrayList<Veicolo>
 
 
     override fun onCreateView(
@@ -43,7 +42,6 @@ class ListaVeicoliFragment : Fragment() {
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
 
-        list = arrayListOf()
 
         /*db = FirebaseFirestore.getInstance()
 
