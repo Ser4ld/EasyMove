@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.easymove.R
 import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.adapter.MyAdapterVeicoli
 import com.example.easymove.databinding.FragmentListaVeicoliBinding
@@ -21,7 +22,6 @@ class ListaVeicoliFragment : Fragment() {
     private lateinit var veicoliViewModel: VeicoliViewModel
 
     private lateinit var adapter: MyAdapterVeicoli
-
     private val list: ArrayList<Veicolo> = arrayListOf()
 
     override fun onCreateView(

@@ -129,7 +129,7 @@
         </LinearLayout>
 
         <Button
-            android:id="@+id/richieditrasporto"
+            android:id="@+id/btnRichiediTrasporto"
             android:layout_width="wrap_content"
             android:layout_height="60dp"
             android:layout_margin="5dp"

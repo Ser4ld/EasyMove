@@ -258,11 +258,6 @@ class HomeFragment : Fragment() {
 
         binding.searchButton.setOnClickListener() {
 
-            val args = Bundle()
-            args.putString("cityOrigin", cityOrigin)
-            ListaVeicoliFragment().arguments = args
-
-
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, ListaVeicoliFragment())
                 .addToBackStack(null)
