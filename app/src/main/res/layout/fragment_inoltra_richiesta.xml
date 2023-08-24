@@ -36,7 +36,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
-                android:text="Crea Richiesta"
+                android:text="Invia Richiesta"
                 android:textColor="@color/white"
                 android:textColorLink="@color/white"
                 android:textSize="42dp"
@@ -176,7 +176,9 @@
                         android:textColorHint="@color/placeholder"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/layoutDestination" />
+                        app:layout_constraintTop_toBottomOf="@+id/layoutDestination"
+                        android:focusable="false"
+                        android:clickable="true"/>
 
                     <EditText
                         android:id="@+id/text_description"
@@ -229,7 +231,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:srcCompat="@drawable/baseline_mail_outline_24_white" />
+                app:srcCompat="@drawable/baseline_send_24" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
     </ScrollView>
