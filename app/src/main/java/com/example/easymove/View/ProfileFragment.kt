@@ -43,6 +43,8 @@ class ProfileFragment : Fragment() {
 
         //userViewModel.fetchUserData()
 
+
+
         userViewModel.userDataLiveData.observe(
             viewLifecycleOwner,
         ) { userData ->
@@ -51,7 +53,13 @@ class ProfileFragment : Fragment() {
                 binding.cognomeTV.text = userData.surname
                 binding.emailTV.text = userData.email
                 binding.benvenutoTV.text = "Benvenuto " + userData.name
+                if (userData.userType == "guidatore" ){
+                    childFragmentManager.beginTransaction()
+                        .replace(R.id.frameLayoutProfile, ProfileGuidatoreFragment())
+                        .commit()
+                }else{
 
+                }
             }
         }
 
@@ -61,6 +69,8 @@ class ProfileFragment : Fragment() {
                     .addToBackStack(null)
                     .commit()
         }
+
+
 
 
 
