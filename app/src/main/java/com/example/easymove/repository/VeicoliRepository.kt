@@ -1,18 +1,23 @@
 package com.example.easymove.repository
 
 import android.net.Uri
-import androidx.core.net.toFile
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import com.example.easymove.model.User
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import kotlinx.coroutines.tasks.await
 import com.example.easymove.model.Veicolo
+import com.google.firebase.firestore.ListenerRegistration
+import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 
 private val firebaseAuth = FirebaseAuth.getInstance()
 private val firestoreDatabase = FirebaseFirestore.getInstance()
 private val firebaseStorage = FirebaseStorage.getInstance()
+
+private var snapshotListener: ListenerRegistration? = null
+
 
 class VeicoliRepository {
 
@@ -75,4 +80,26 @@ class VeicoliRepository {
                 callback(false, "Errore registrazione veicolo")
             }
     }
+
+
+
+    fun getVeicoliListener(callback: (Boolean, String?, List<Veicolo>?) -> Unit): ListenerRegistration {
+        return firestoreDatabase.collection("vans")
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    callback(false, error.toString(), null)
+                    return@addSnapshotListener
+                }
+
+                val veicoliList = mutableListOf<Veicolo>()
+                for (document in snapshot?.documents ?: emptyList()) {
+                    val van = document.toObject(Veicolo::class.java)
+                    van?.let { veicoliList.add(it) }
+                }
+
+                callback(true, null, veicoliList)
+            }
+    }
+
+
 }

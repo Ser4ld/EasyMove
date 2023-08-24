@@ -13,14 +13,16 @@ import com.example.easymove.View.AggiungiVeicoloFragment
 import com.example.easymove.View.HomeFragment
 import com.example.easymove.View.ProfileFragment
 import com.example.easymove.ViewModel.UserViewModel
+import com.example.easymove.ViewModel.VeicoliViewModel
 
 
 class MainFragment : Fragment() {
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var userViewModel: UserViewModel
-
+    private lateinit var veicoliViewModel: VeicoliViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -33,10 +35,13 @@ class MainFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
         homeViewModel = HomeViewModel()
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
         userViewModel.fetchUserData()
+
+
 
         //controllo se il frameLayout è vuoto
         if (childFragmentManager.findFragmentById(R.id.frameLayout) == null) {

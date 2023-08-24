@@ -6,7 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.adapter.MyAdapterVeicoli
 import com.example.easymove.databinding.FragmentListaVeicoliBinding
 import com.example.easymove.model.Veicolo
@@ -17,8 +20,10 @@ class ListaVeicoliFragment : Fragment() {
     private var _binding: FragmentListaVeicoliBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var veicoliViewModel: VeicoliViewModel
+
     private lateinit var list: ArrayList<Veicolo>
-    private lateinit var db: FirebaseFirestore
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,13 +36,16 @@ class ListaVeicoliFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
+
         binding.fabButton.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
         binding.recyclerView.layoutManager = LinearLayoutManager(requireContext())
+
         list = arrayListOf()
 
-        db = FirebaseFirestore.getInstance()
+        /*db = FirebaseFirestore.getInstance()
 
         db.collection("vans").get().addOnSuccessListener { snapshot ->
             for (document in snapshot.documents) {
@@ -52,8 +60,31 @@ class ListaVeicoliFragment : Fragment() {
             binding.recyclerView.adapter = MyAdapterVeicoli(list)
         }.addOnFailureListener { exception ->
             Toast.makeText(requireContext(), exception.toString(), Toast.LENGTH_SHORT).show()
+        }*/
+
+        veicoliViewModel.startVeicoliListener()
+
+        veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
+
+            val layoutManager = binding.recyclerView.layoutManager as LinearLayoutManager
+            val currentPosition = layoutManager.findFirstVisibleItemPosition()
+            Toast.makeText(requireContext(), "Posizione corrente: $currentPosition", Toast.LENGTH_SHORT).show()
+
+            if (veicoliList.isEmpty()) {
+                Toast.makeText(requireContext(), "Si è verificato un errore", Toast.LENGTH_SHORT)
+                    .show()
+            } else {
+                binding.recyclerView.adapter = MyAdapterVeicoli(ArrayList(veicoliList))
+
+                if (currentPosition != RecyclerView.NO_POSITION) {
+                    layoutManager.scrollToPosition(currentPosition)
+                }
+
+            }
+            }
         }
-    }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
