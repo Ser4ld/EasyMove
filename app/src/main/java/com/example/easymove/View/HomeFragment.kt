@@ -57,17 +57,17 @@ class HomeFragment : Fragment() {
     private var origin: Point = Point.fromLngLat(0.0, 0.0)
     private var destination : Point = Point.fromLngLat(0.0, 0.0)
 
-    private var streetOrigin: String? = null
-    private var houseNumberOrigin: String? = null
-    private var cityOrigin: String? = null
-    private var regionOrigin: String? = null
-    private var postcodeOrigin: String? = null
+    private lateinit var streetOrigin: String
+    private lateinit var houseNumberOrigin: String
+    private lateinit var cityOrigin: String
+    private lateinit var regionOrigin: String
+    private lateinit var postcodeOrigin: String
 
-    private var streetDestination: String? = null
-    private var houseNumberDestination: String? = null
-    private var cityDestination: String? = null
-    private var regionDestination: String? = null
-    private var postcodeDestination: String? = null
+    private lateinit var streetDestination: String
+    private lateinit var houseNumberDestination: String
+    private lateinit var cityDestination: String
+    private lateinit var regionDestination: String
+    private lateinit var postcodeDestination: String
 
     private val POLO_MONTEDAGO = Point.fromLngLat(13.516539114888866, 43.586912987628324)
 
@@ -84,6 +84,7 @@ class HomeFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
 
         homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
 
@@ -257,9 +258,14 @@ class HomeFragment : Fragment() {
         }
 
         binding.searchButton.setOnClickListener() {
+            val bundle = Bundle()
+
+            bundle.putString("destinazione", "prova")
+            val listaveicoliFragment = ListaVeicoliFragment()
+            listaveicoliFragment.arguments = bundle
 
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, ListaVeicoliFragment())
+                .replace(R.id.fragmentContainer, listaveicoliFragment)
                 .addToBackStack(null)
                 .commit()
         }
@@ -296,11 +302,11 @@ class HomeFragment : Fragment() {
 
         if(editText==binding.queryText){
             origin=coordinate
-            streetOrigin = address.street
-            houseNumberOrigin = address.houseNumber
-            cityOrigin= address.place
-            regionOrigin= address.region
-            postcodeOrigin= address.postcode
+            streetOrigin = address.street.toString()
+            houseNumberOrigin = address.houseNumber.toString()
+            cityOrigin= address.place.toString()
+            regionOrigin= address.region.toString()
+            postcodeOrigin= address.postcode.toString()
 
 
             editText.setText(
@@ -313,11 +319,11 @@ class HomeFragment : Fragment() {
         }
         if(editText==binding.queryText2){
             destination=coordinate
-            streetDestination = address.street
-            houseNumberDestination = address.houseNumber
-            cityDestination= address.place
-            regionDestination= address.region
-            postcodeDestination= address.postcode
+            streetDestination = address.street.toString()
+            houseNumberDestination = address.houseNumber.toString()
+            cityDestination= address.place.toString()
+            regionDestination= address.region.toString()
+            postcodeDestination= address.postcode.toString()
 
 
 

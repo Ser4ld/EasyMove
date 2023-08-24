@@ -19,6 +19,9 @@ class VeicoliViewModel: ViewModel() {
 
     private val _veicoliLiveData: MutableLiveData<List<Veicolo>> = MutableLiveData()
     val veicoliLiveData: LiveData<List<Veicolo>> = _veicoliLiveData
+    //_veicoloClickedEvent LiveData utilizzato per gestire l'evento di click su un elemento del MyAdapterVeicoli
+    private val _richiestaClickedEvent = MutableLiveData<Int>()
+    val richiestaClickedEvent: LiveData<Int> = _richiestaClickedEvent
 
     private var veicoliListener: ListenerRegistration? = null
 
@@ -108,6 +111,14 @@ class VeicoliViewModel: ViewModel() {
                 _veicoliLiveData.postValue(emptyList())
             }
         }
+    }
+
+    fun onVeicoloClicked(position: Int) {
+        _richiestaClickedEvent.value = position
+    }
+
+    fun resetRichiestaClickedEvent() {
+        _richiestaClickedEvent.value = -1
     }
 
     override fun onCleared() {

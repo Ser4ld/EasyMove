@@ -2,6 +2,7 @@ package com.example.easymove.ViewModel
 
 import android.widget.Toast
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.easymove.model.User
 import com.example.easymove.repository.UserRepository
@@ -11,11 +12,14 @@ class UserViewModel: ViewModel() {
     private val userRepository = UserRepository()
 
     val userDataLiveData: LiveData<User?> = userRepository.userDataLiveData
-
+    val allUsersLiveData: LiveData<List<User>> = userRepository.allUsersLiveData
     fun fetchUserData() {
         userRepository.fetchUserDataFromFirestore()
     }
 
+    fun fetchAllUser(){
+        userRepository.fetchAllUsers()
+    }
     fun sendPasswordResetEmail(
         email: String,
         onSuccess: () -> Unit,

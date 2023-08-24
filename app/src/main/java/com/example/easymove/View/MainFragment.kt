@@ -35,10 +35,11 @@ class MainFragment : Fragment() {
 
         homeViewModel = HomeViewModel()
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
 
         userViewModel.fetchUserData()
-
-
+        userViewModel.fetchAllUser()
+        veicoliViewModel.startVeicoliListener()
 
         //controllo se il frameLayout è vuoto
         if (childFragmentManager.findFragmentById(R.id.frameLayout) == null) {

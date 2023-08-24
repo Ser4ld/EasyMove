@@ -1,23 +1,25 @@
 package com.example.easymove.adapter
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.easymove.R
 import com.example.easymove.View.InoltraRichiestaFragment
 import com.example.easymove.View.ListaVeicoliFragment
+import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.model.Veicolo
 
 
-class MyAdapterVeicoli(private val list:ArrayList<Veicolo>):RecyclerView.Adapter<MyAdapterVeicoli.MyViewHolder>() {
-
+class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private val list:ArrayList<Veicolo>):RecyclerView.Adapter<MyAdapterVeicoli.MyViewHolder>() {
 
     init {
         list.sortBy { it.modello }
@@ -39,8 +41,6 @@ class MyAdapterVeicoli(private val list:ArrayList<Veicolo>):RecyclerView.Adapter
 
         val button: Button = itemView.findViewById(R.id.btnRichiediTrasporto)
 
-
-
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -55,25 +55,8 @@ class MyAdapterVeicoli(private val list:ArrayList<Veicolo>):RecyclerView.Adapter
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         holder.button.setOnClickListener {
-            val selectedVehicle = list[position] // Get the selected vehicle
-
-            val bundle = Bundle()
-            bundle.putString("modello", selectedVehicle.modello)
-            bundle.putString("targa", selectedVehicle.targa)
-            bundle.putString("capienza", selectedVehicle.capienza)
-
-            val inoltraRichiestaFragment = InoltraRichiestaFragment()
-            inoltraRichiestaFragment.arguments = bundle
-
-            (holder.itemView.context as AppCompatActivity).supportFragmentManager
-                .beginTransaction()
-                .replace(R.id.fragmentContainer, inoltraRichiestaFragment)
-                .addToBackStack(null)
-                .commit()
+            veicoliViewModel.onVeicoloClicked(position)
         }
-
-
-
 
         holder.modello.text = list[position].modello
         holder.targa.text = list[position].targa

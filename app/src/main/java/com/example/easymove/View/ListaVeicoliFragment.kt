@@ -1,6 +1,7 @@
 package com.example.easymove.View
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -22,7 +23,6 @@ class ListaVeicoliFragment : Fragment() {
     private lateinit var veicoliViewModel: VeicoliViewModel
 
     private lateinit var adapter: MyAdapterVeicoli
-    private val list: ArrayList<Veicolo> = arrayListOf()
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -44,10 +44,62 @@ class ListaVeicoliFragment : Fragment() {
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = layoutManager
 
-        adapter = MyAdapterVeicoli(list)
+        adapter = MyAdapterVeicoli(veicoliViewModel,ArrayList())
         binding.recyclerView.adapter = adapter
 
-        veicoliViewModel.startVeicoliListener()
+        veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
+            if (veicoliList.isEmpty()) {
+                Toast.makeText(requireContext(), "Si è verificato un errore", Toast.LENGTH_SHORT).show()
+            } else {
+                val sortedVeicoliList = veicoliList.sortedBy { it.modello }
+                veicoliViewModel.richiestaClickedEvent.observe(viewLifecycleOwner) { position ->
+                    if (position != -1) {
+
+                        val selectedVehicle =
+                            sortedVeicoliList[position] // Usa la posizione per ottenere il veicolo dalla lista
+
+                        val bundle = Bundle()
+                        bundle.putString("modello", selectedVehicle.modello)
+                        bundle.putString("targa", selectedVehicle.targa)
+                        bundle.putString("capienza", selectedVehicle.capienza)
+                        bundle.putString("id_guidatore", selectedVehicle.id)
+
+                        //passaggio informazioni origine e destinazione
+                        val argument = arguments
+                        if (argument != null) {
+                            val destinazione = argument.getString("destinazione")
+                            Log.d("PROVAAAA", destinazione.toString())
+                            bundle.putString("destinazione", destinazione)
+                        }
+                        //reset valore liveData altrimenti rimane attivo l'evento di click
+
+
+                        val inoltraRichiestaFragment = InoltraRichiestaFragment()
+                        inoltraRichiestaFragment.arguments = bundle
+
+
+
+                        requireActivity().supportFragmentManager
+                            .beginTransaction()
+                            .replace(R.id.fragmentContainer, inoltraRichiestaFragment)
+                            .addToBackStack(null)
+                            .commit()
+                        // Esegui la transazione del fragment come desiderato
+                        veicoliViewModel.resetRichiestaClickedEvent()
+                    }
+                }
+            }
+        }
+
+        val argument = arguments
+        if (argument != null){
+            val prova=  argument.getString("destinazione").toString()
+            val bundle = Bundle()
+
+            bundle.putString("destinazione", prova)
+            val targetFragment = InoltraRichiestaFragment()
+            targetFragment.arguments = bundle
+        }
 
         veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
             if (veicoliList.isEmpty()) {

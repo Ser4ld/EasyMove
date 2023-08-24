@@ -15,7 +15,9 @@ private val firestoreDatabase = FirebaseFirestore.getInstance()
 
 class UserRepository() {
     private val _userDataLiveData = MutableLiveData<User?>()
+    private val _allUsersLiveData = MutableLiveData<List<User>>()
     val userDataLiveData: LiveData<User?> = _userDataLiveData
+    val allUsersLiveData: LiveData<List<User>> = _allUsersLiveData
 
     fun createUser(
         email: String,
@@ -162,6 +164,25 @@ class UserRepository() {
                 }
             }
         }
+    }
+
+    fun fetchAllUsers() {
+        firestoreDatabase.collection("users")
+            .get()
+            .addOnCompleteListener { task ->
+                if (task.isSuccessful) {
+                    val userList = mutableListOf<User>()
+
+                    for (document in task.result!!) {
+                        val userData = document.toObject(User::class.java)
+                        userList.add(userData)
+                    }
+
+                    _allUsersLiveData.postValue(userList)
+                } else {
+                    _allUsersLiveData.postValue(null)
+                }
+            }
     }
 
 

@@ -2,11 +2,14 @@ package com.example.easymove.View
 
 import android.app.DatePickerDialog
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.R
+import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.databinding.FragmentInoltraRichiestaBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -15,6 +18,13 @@ class InoltraRichiestaFragment : Fragment() {
 
     private var _binding: FragmentInoltraRichiestaBinding? = null
     private val binding get() = _binding!!
+    private lateinit var userViewModel: UserViewModel
+    private lateinit var modello: String
+    private lateinit var targa: String
+    private lateinit var capienza: String
+    private lateinit var idGuidatore: String
+    private lateinit var destinazione: String
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,6 +40,8 @@ class InoltraRichiestaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+
         binding.floatingActionButton.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
@@ -38,17 +50,32 @@ class InoltraRichiestaFragment : Fragment() {
             showCalendario()
         }
 
-        val arguments = arguments
-        if (arguments != null) {
-            val modello = arguments.getString("modello")
-            val targa = arguments.getString("targa")
-            val capienza = arguments.getString("capienza")
 
+
+
+        val argument = arguments
+        if (argument != null) {
+            modello = argument.getString("modello").toString()
+            targa = argument.getString("targa").toString()
+            capienza = argument.getString("capienza").toString()
+            idGuidatore = argument.getString("id_guidatore").toString()
+            destinazione = argument.getString("destinazione").toString()
             // Now you can use these values as needed
             binding.textViewVeicolo2.text = modello
+            binding.textViewDestination2.text = destinazione
             // Similarly, set other values to appropriate views
         }
-    }
+
+        userViewModel.allUsersLiveData.observe(
+            viewLifecycleOwner,
+        ) { userList ->
+            val foundUser = userList.firstOrNull { user -> user.id == idGuidatore }
+            if(foundUser!= null){
+                binding.textViewGuidatore2.text= "${foundUser.name} ${foundUser.surname}"
+            }
+            }
+        }
+
 
     private fun showCalendario() {
         val calendar = Calendar.getInstance()
