@@ -3,10 +3,12 @@ package com.example.easymove.ViewModel
 import android.net.Uri
 import android.util.Log
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.easymove.model.Veicolo
 import com.example.easymove.repository.UserRepository
 import com.example.easymove.repository.VeicoliRepository
+import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import javax.security.auth.callback.Callback
@@ -14,6 +16,11 @@ import javax.security.auth.callback.Callback
 
 class VeicoliViewModel: ViewModel() {
     private var veicoliRepository = VeicoliRepository()
+
+    private val _veicoliLiveData: MutableLiveData<List<Veicolo>> = MutableLiveData()
+    val veicoliLiveData: LiveData<List<Veicolo>> = _veicoliLiveData
+
+    private var veicoliListener: ListenerRegistration? = null
 
     fun storeVehicle(
         UserId: String,
@@ -90,4 +97,25 @@ class VeicoliViewModel: ViewModel() {
         val regex = Regex("^[A-Z]{2}\\d{3}[A-Z]{2}$")
         return regex.matches(targa)
     }
+
+
+
+    fun startVeicoliListener() {
+        veicoliListener = veicoliRepository.getVeicoliListener { success, error, veicoliList ->
+            if (success) {
+                _veicoliLiveData.postValue(veicoliList)
+            } else {
+                _veicoliLiveData.postValue(emptyList())
+            }
+        }
+    }
+
+    override fun onCleared() {
+        super.onCleared()
+        veicoliListener?.remove()
+    }
+
+
+
+
 }
