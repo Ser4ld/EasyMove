@@ -43,9 +43,9 @@ class ProfileGuidatoreFragment : Fragment() {
                     if (veicoliList.isNotEmpty()) {
                        binding.textVeicoliGuidatore2.text = " ${veicoliViewModel.countVeicoliByUserId(userData.id, veicoliList).toString()}"
                     }
-                    }
                 }
             }
+        }
 
 
 

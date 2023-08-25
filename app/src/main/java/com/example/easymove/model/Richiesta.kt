@@ -11,5 +11,10 @@ data class Richiesta(
     val puntoArrivo: String,
     val data: String,
     val descrizione: String,
-    val stato: StatoRichiesta = StatoRichiesta.IN_ATTESA
-)
+    val stato: String
+
+){// Aggiungi un costruttore senza argomenti richiesto da Firestore
+constructor() : this(
+    "", "", "", "", "", "",
+    "", "", "")
+}

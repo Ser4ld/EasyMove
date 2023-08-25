@@ -173,7 +173,6 @@ class ProfileFragment : Fragment() {
             if (mime == "image/png") {
                 // The selected file is a PNG image
                 imageUri = selectedImageUri
-                binding.imageUser.setImageURI(imageUri)
                 userViewModel.updateImageUrl(userId, imageUri!!) { success, errMsg ->
                     if (success) {
                         Toast.makeText(requireContext(), "Immagine aggiornata con successo", Toast.LENGTH_SHORT).show()

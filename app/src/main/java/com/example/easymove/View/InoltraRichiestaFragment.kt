@@ -7,9 +7,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.lifecycleScope
+import com.bumptech.glide.Glide
 import com.example.easymove.R
+import com.example.easymove.ViewModel.RichiestaViewModel
 import com.example.easymove.ViewModel.UserViewModel
+import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.databinding.FragmentInoltraRichiestaBinding
 import java.text.SimpleDateFormat
 import java.util.*
@@ -19,6 +24,9 @@ class InoltraRichiestaFragment : Fragment() {
     private var _binding: FragmentInoltraRichiestaBinding? = null
     private val binding get() = _binding!!
     private lateinit var userViewModel: UserViewModel
+    private lateinit var richiestaViewModel: RichiestaViewModel
+
+
     private lateinit var modello: String
     private lateinit var targa: String
     private lateinit var capienza: String
@@ -33,8 +41,6 @@ class InoltraRichiestaFragment : Fragment() {
     ): View {
         _binding = FragmentInoltraRichiestaBinding.inflate(inflater, container, false)
 
-
-
         return binding.root
     }
 
@@ -42,6 +48,8 @@ class InoltraRichiestaFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
+
 
         binding.floatingActionButton.setOnClickListener {
             parentFragmentManager.popBackStack()
@@ -70,13 +78,50 @@ class InoltraRichiestaFragment : Fragment() {
 
         userViewModel.allUsersLiveData.observe(
             viewLifecycleOwner,
-        ) { userList ->
+            ) { userList ->
             val foundUser = userList.firstOrNull { user -> user.id == idGuidatore }
             if(foundUser!= null){
                 binding.textViewGuidatore2.text= "${foundUser.name} ${foundUser.surname}"
             }
+        }
+
+        lateinit var userId: String
+
+        userViewModel.userDataLiveData.observe(
+            viewLifecycleOwner,
+        ) { userData ->
+            if (userData != null) {
+               userId= userData.id
             }
         }
+
+        binding.richiestabtn.setOnClickListener{
+                // Verifica se sono stati inseriti tutti i dati necessari
+            richiestaViewModel.inoltraRichiesta(
+                idGuidatore,
+                userId,
+                targa,
+                origin,
+                destination,
+                binding.textData.text.toString(),
+                binding.textDescription.text.toString(),
+                ){success, message ->
+                    if(success){
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                        parentFragmentManager.popBackStack()
+
+                    }else{
+                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                        //no success
+                    }
+
+                }
+
+            }
+
+
+
+    }
 
 
     private fun showCalendario() {

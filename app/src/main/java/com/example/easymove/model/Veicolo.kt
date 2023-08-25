@@ -18,5 +18,6 @@ data class Veicolo(
 ){// Aggiungi un costruttore senza argomenti richiesto da Firestore
 constructor() : this(
     "", "", "", "", "", "",
-    "", "", "", "")}
+    "", "", "", "")
+}
 
