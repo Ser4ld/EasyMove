@@ -3,7 +3,7 @@ package com.example.easymove.model
 import com.example.easymove.enum.StatoRichiesta
 
 data class Richiesta(
-    val annuncioId: String,
+    var annuncioId: String,
     val guidatoreId: String,
     val consumatoreId: String,
     val targaveicolo: String,
@@ -13,8 +13,4 @@ data class Richiesta(
     val descrizione: String,
     val stato: String
 
-){// Aggiungi un costruttore senza argomenti richiesto da Firestore
-constructor() : this(
-    "", "", "", "", "", "",
-    "", "", "")
-}
+)

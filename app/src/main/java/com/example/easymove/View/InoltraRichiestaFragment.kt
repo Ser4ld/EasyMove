@@ -33,6 +33,7 @@ class InoltraRichiestaFragment : Fragment() {
     private lateinit var idGuidatore: String
     private lateinit var destination: String
     private lateinit var origin: String
+    private lateinit var userId: String
 
 
     override fun onCreateView(
@@ -85,7 +86,7 @@ class InoltraRichiestaFragment : Fragment() {
             }
         }
 
-        lateinit var userId: String
+
 
         userViewModel.userDataLiveData.observe(
             viewLifecycleOwner,

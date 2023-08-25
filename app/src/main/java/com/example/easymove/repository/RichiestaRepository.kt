@@ -3,8 +3,10 @@ package com.example.easymove.repository
 import com.example.easymove.enum.StatoRichiesta
 import com.example.easymove.model.Richiesta
 import com.example.easymove.model.Veicolo
+import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.QuerySnapshot
 
 private val firebaseAuth = FirebaseAuth.getInstance()
 private val firestoreDatabase = FirebaseFirestore.getInstance()
@@ -44,7 +46,6 @@ class RichiestaRepository {
     }*/
 
     fun storeRequest(
-        richiestaId: String,
         guidatoreId: String,
         consumatoreId: String,
         targaveicolo: String,
@@ -55,8 +56,8 @@ class RichiestaRepository {
         statoRichiesta: String,
         callback: (success: Boolean, errorMessage: String?) -> Unit)
     {
-        val richiesta = Richiesta(richiestaId, guidatoreId, consumatoreId, targaveicolo, puntoPartenza, puntoArrivo, data, descrizione, statoRichiesta)
-        uploadRichiesta(richiesta,richiestaId){ success, Errmsg ->
+        var richiesta = Richiesta("", guidatoreId, consumatoreId, targaveicolo, puntoPartenza, puntoArrivo, data, descrizione, statoRichiesta)
+        uploadRichiesta(richiesta){ success, Errmsg ->
             if(success){
                 callback(true, null)
             }else{
@@ -65,10 +66,10 @@ class RichiestaRepository {
         }
     }
 
-    fun uploadRichiesta(richiesta: Richiesta, richiestaId : String, callback: (Boolean, String?) -> Unit) {
-        firestoreDatabase.collection("requests")
-            .document(richiestaId)
-            .set(richiesta)
+    fun uploadRichiesta(richiesta: Richiesta, callback: (Boolean, String?) -> Unit) {
+        val newRichiesta = firestoreDatabase.collection("requests").document()
+        richiesta.annuncioId = newRichiesta.id
+        newRichiesta.set(richiesta)
             .addOnSuccessListener {
                 callback(true, "Richiesta inoltrata correttamente")
             }
@@ -76,5 +77,6 @@ class RichiestaRepository {
                 callback(false, "Errore: ${exception.message}")
             }
     }
+
 
 }
