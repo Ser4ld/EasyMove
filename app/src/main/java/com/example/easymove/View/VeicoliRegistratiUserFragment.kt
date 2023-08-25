@@ -8,12 +8,11 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.example.easymove.R
 import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.adapter.MyAdapterVeicoli
-import com.example.easymove.databinding.FragmentProfileGuidatoreBinding
 import com.example.easymove.databinding.FragmentVeicoliRegistratiUserBinding
 import com.example.easymove.model.Veicolo
+import com.google.firebase.auth.FirebaseAuth
 
 class VeicoliRegistratiUserFragment : Fragment() {
 
@@ -24,6 +23,8 @@ class VeicoliRegistratiUserFragment : Fragment() {
 
     private lateinit var adapter: MyAdapterVeicoli
     private val list: ArrayList<Veicolo> = arrayListOf()
+    private val IdTemporaneo = FirebaseAuth.getInstance().currentUser?.uid
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -45,16 +46,18 @@ class VeicoliRegistratiUserFragment : Fragment() {
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = layoutManager
 
-        adapter = MyAdapterVeicoli(list)
+        adapter = MyAdapterVeicoli(veicoliViewModel,ArrayList())
         binding.recyclerView.adapter = adapter
 
-        veicoliViewModel.startVeicoliListener()
+        //veicoliViewModel.startVeicoliListener()
 
         veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
             if (veicoliList.isEmpty()) {
                 Toast.makeText(requireContext(), "Si è verificato un errore", Toast.LENGTH_SHORT).show()
             } else {
-                adapter.updateData(ArrayList(veicoliList))
+                if (IdTemporaneo != null) {
+                    adapter.updateData(veicoliViewModel.filterVeicoliByUserId(IdTemporaneo, veicoliList))
+                }
             }
         }
 

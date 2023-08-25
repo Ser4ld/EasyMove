@@ -13,7 +13,7 @@ import com.example.easymove.R
 import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.adapter.MyAdapterVeicoli
 import com.example.easymove.databinding.FragmentListaVeicoliBinding
-import com.example.easymove.model.Veicolo
+import com.google.firebase.auth.FirebaseAuth
 
 class ListaVeicoliFragment : Fragment() {
 
@@ -82,7 +82,6 @@ class ListaVeicoliFragment : Fragment() {
                         requireActivity().supportFragmentManager
                             .beginTransaction()
                             .replace(R.id.fragmentContainer, inoltraRichiestaFragment)
-                            .addToBackStack(null)
                             .commit()
                         // Esegui la transazione del fragment come desiderato
                         veicoliViewModel.resetRichiestaClickedEvent()

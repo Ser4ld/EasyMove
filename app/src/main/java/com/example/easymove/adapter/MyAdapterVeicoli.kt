@@ -1,19 +1,15 @@
 package com.example.easymove.adapter
 
-import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.easymove.R
-import com.example.easymove.View.InoltraRichiestaFragment
 import com.example.easymove.View.ListaVeicoliFragment
 import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.model.Veicolo
@@ -54,8 +50,18 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private va
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.button.setOnClickListener {
-            veicoliViewModel.onVeicoloClicked(position)
+
+        val currentFragment = (holder.itemView.context as AppCompatActivity)
+            .supportFragmentManager
+            .findFragmentById(R.id.fragmentContainer)
+
+        if (currentFragment is ListaVeicoliFragment) {
+            holder.button.setOnClickListener {
+                veicoliViewModel.onVeicoloClicked(position)
+            }
+        }
+        else {
+            holder.button.text= "Modifica Veicolo"
         }
 
         holder.modello.text = list[position].modello
