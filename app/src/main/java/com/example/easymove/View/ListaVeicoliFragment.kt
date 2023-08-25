@@ -77,11 +77,10 @@ class ListaVeicoliFragment : Fragment() {
                         val inoltraRichiestaFragment = InoltraRichiestaFragment()
                         inoltraRichiestaFragment.arguments = bundle
 
-
-
                         requireActivity().supportFragmentManager
                             .beginTransaction()
                             .replace(R.id.fragmentContainer, inoltraRichiestaFragment)
+                            .addToBackStack(null)
                             .commit()
                         // Esegui la transazione del fragment come desiderato
                         veicoliViewModel.resetRichiestaClickedEvent()

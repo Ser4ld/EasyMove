@@ -13,6 +13,7 @@ class UserViewModel: ViewModel() {
 
     val userDataLiveData: LiveData<User?> = userRepository.userDataLiveData
     val allUsersLiveData: LiveData<List<User>> = userRepository.allUsersLiveData
+
     fun fetchUserData() {
         userRepository.fetchUserDataFromFirestore()
     }

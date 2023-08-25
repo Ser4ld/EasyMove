@@ -126,6 +126,20 @@ class VeicoliViewModel: ViewModel() {
         veicoliListener?.remove()
     }
 
+    fun filterVeicoliByUserId(userId: String, veicoliList: List<Veicolo>): ArrayList<Veicolo> {
+        val filteredList = veicoliList.filter { veicolo -> veicolo.id == userId }
+        return ArrayList(filteredList)
+    }
+
+    fun countVeicoliByUserId(userId: String, veicoliList: List<Veicolo>): Int {
+        return filterVeicoliByUserId(userId, veicoliList).size
+    }
+
+    fun filterVeicoliByCittaAndCodicePostale(citta: String, codicePostale: String, veicoliList: List<Veicolo>): ArrayList<Veicolo> {
+        val filteredList = veicoliList.filter { veicolo -> veicolo.citta == citta && veicolo.codicePostale == codicePostale }
+        return ArrayList(filteredList)
+    }
+
 
 
 

@@ -43,8 +43,6 @@ class ProfileFragment : Fragment() {
 
         //userViewModel.fetchUserData()
 
-
-
         userViewModel.userDataLiveData.observe(
             viewLifecycleOwner,
         ) { userData ->
