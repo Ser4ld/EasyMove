@@ -1,5 +1,6 @@
 package com.example.easymove.ViewModel
 
+import android.net.Uri
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -21,6 +22,7 @@ class UserViewModel: ViewModel() {
     fun fetchAllUser(){
         userRepository.fetchAllUsers()
     }
+
     fun sendPasswordResetEmail(
         email: String,
         onSuccess: () -> Unit,
@@ -50,6 +52,16 @@ class UserViewModel: ViewModel() {
             }
         }
 
+    }
+
+    fun updateImageUrl(userId: String, imageUrl: Uri, callback: (Boolean, String?) -> Unit) {
+        userRepository.updateImageUrl(userId, imageUrl) { success, errMsg ->
+            if (success) {
+                callback(true, "URL dell'immagine aggiornato con successo.")
+            } else {
+                callback(false, errMsg)
+            }
+        }
     }
 
 }

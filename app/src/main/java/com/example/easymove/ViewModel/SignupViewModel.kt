@@ -33,7 +33,7 @@ class SignupViewModel(private val userRepository: UserRepository) : ViewModel() 
 
 
     fun checkPassword(password: String): Boolean {
-        val regex = Regex("^(?=.*[0-9])(?=.*[a-z])(?=.*[A-Z])(?=.*[@#$%^&+=])(?=\\S+$).{8,}$")
+        val regex = Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%^&*()\\-_=+{};:,<.>/?]).{8,}\$")
         return regex.matches(password)
     }
 
