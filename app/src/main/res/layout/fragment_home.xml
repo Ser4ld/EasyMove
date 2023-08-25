@@ -105,10 +105,12 @@
         <Button
             android:id="@+id/search_button"
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:text="CERCA "
             android:textColor="@color/white"
             android:layout_margin="8dp"
+            app:cornerRadius="20dp"
+
             app:layout_constraintBottom_toBottomOf="@+id/containercard"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"

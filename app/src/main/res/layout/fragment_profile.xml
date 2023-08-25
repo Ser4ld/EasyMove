@@ -94,7 +94,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Informazioni Personali"
-                        android:textAlignment="viewStart"
+                        android:textAlignment="center"
                         android:textColor="@color/black"
                         android:textSize="25dp"
                         android:textStyle="bold" />
@@ -109,7 +109,7 @@
                             android:id="@+id/textView15"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:text="Nome"
+                            android:text="Nome:"
                             android:textColor="@color/app_theme"
                             android:textSize="18dp" />
 
@@ -131,7 +131,7 @@
                             android:id="@+id/textView17"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:text="Cognome"
+                            android:text="Cognome:"
                             android:textColor="@color/app_theme"
                             android:textSize="18dp" />
 
@@ -154,7 +154,7 @@
                             android:id="@+id/textView13"
                             android:layout_width="100dp"
                             android:layout_height="wrap_content"
-                            android:text="Email"
+                            android:text="Email:"
                             android:textColor="@color/app_theme"
                             android:textSize="18dp" />
 
@@ -177,7 +177,8 @@
                         android:textColor="@color/white"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        app:cornerRadius="10dp" />
+                        app:cornerRadius="20dp"
+                        />
 
                     <Button
                         android:id="@+id/modificaPasswordbtn"
@@ -188,7 +189,7 @@
                         android:textColor="@color/white"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        app:cornerRadius="10dp" />
+                        app:cornerRadius="20dp" />
 
                     <Button
                         android:id="@+id/logout"
@@ -200,7 +201,7 @@
                         android:textColor="@android:color/white"
                         android:textSize="18dp"
                         android:textStyle="bold"
-                        app:cornerRadius="10dp" />
+                        app:cornerRadius="20dp" />
 
 
 
