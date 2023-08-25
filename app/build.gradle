@@ -70,6 +70,12 @@ dependencies {
     implementation 'com.mapbox.mapboxsdk:mapbox-sdk-services:6.13.0'
 
 
+    implementation "com.mapbox.navigation:android:2.10.1"
+    implementation "com.mapbox.navigation:ui-dropin:2.10.1"
+
+
+
+
     implementation 'com.github.bumptech.glide:glide:4.16.0'
 
 
