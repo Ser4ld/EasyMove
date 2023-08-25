@@ -2,13 +2,14 @@ package com.example.easymove.ViewModel
 
 import androidx.lifecycle.ViewModel
 import com.example.easymove.repository.RichiestaRepository
+import java.util.UUID
 import javax.security.auth.callback.Callback
 
 class RichiestaViewModel: ViewModel() {
 
     val richiestaRepository = RichiestaRepository()
 
-    fun validateRichiesta(
+    fun inoltraRichiesta(
         guidatoreId: String,
         consumatoreId: String,
         targaveicolo: String,
@@ -20,7 +21,7 @@ class RichiestaViewModel: ViewModel() {
     ){
         if(guidatoreId.isNotEmpty() && consumatoreId.isNotEmpty() && targaveicolo.isNotEmpty() && puntoPartenza.isNotEmpty() && puntoArrivo.isNotEmpty()){
             if(data.isNotEmpty() && descrizione.isNotEmpty()){
-                richiestaRepository.storeRequest(guidatoreId,consumatoreId,targaveicolo,puntoPartenza,puntoArrivo,data,descrizione){success,ErrMsg->
+                richiestaRepository.storeRequest(generateCustomId(),guidatoreId,consumatoreId,targaveicolo,puntoPartenza,puntoArrivo,data,descrizione, "inAttesa"){success,ErrMsg->
                 if(success){
                     callback(true, "Richiesta Inviata")
                 }else{
@@ -33,6 +34,11 @@ class RichiestaViewModel: ViewModel() {
         }else{
             callback(false, "Errore di sistema")
         }
+    }
+
+
+    fun generateCustomId(): String {
+        return UUID.randomUUID().toString()
     }
 
 }
