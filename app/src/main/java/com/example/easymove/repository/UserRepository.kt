@@ -65,7 +65,7 @@ class UserRepository() {
     }
 
     fun updateImageUrl(userId: String, imageUri: Uri, callback: (Boolean, String?) -> Unit) {
-        val storageRef = firebaseStorage.reference.child("profile_images/$userId.jpg")
+        val storageRef = firebaseStorage.reference.child("profile_images/$userId.png")
 
         val uploadTask = storageRef.putFile(imageUri)
         uploadTask.continueWithTask { task ->

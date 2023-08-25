@@ -62,9 +62,12 @@ class ProfileFragment : Fragment() {
 
                 userId= userData.id
 
-                Glide.with(requireContext())
-                    .load(userData.imageUrl)
-                    .into(binding.imageUser)
+                if(userData.imageUrl != ""){
+                    Glide.with(requireContext())
+                        .load(userData.imageUrl)
+                        .into(binding.imageUser)
+
+                }
 
                 if (userData.userType == "guidatore" ){
                     childFragmentManager.beginTransaction()
@@ -100,7 +103,7 @@ class ProfileFragment : Fragment() {
                 .commit()
         }
 
-        binding.textInserisciImg.setOnClickListener {
+        binding.floatingButtonUpdateImage.setOnClickListener {
             openFileChooser()
         }
 
@@ -153,7 +156,6 @@ class ProfileFragment : Fragment() {
     }
 
     private fun openFileChooser() {
-        binding.textInserisciImg.text="Modifica immagine di profilo"
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/png" // Set the MIME type to restrict to PNG images
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
