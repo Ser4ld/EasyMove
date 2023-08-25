@@ -26,6 +26,10 @@ class ProfileGuidatoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
+        binding.buttonVisualizzaVeicoli.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, VeicoliRegistratiUserFragment())
+                .addToBackStack(null)
+                .commit()}
     }
 }
