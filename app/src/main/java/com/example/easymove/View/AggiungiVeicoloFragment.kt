@@ -218,7 +218,7 @@ class AggiungiVeicoloFragment : Fragment() {
                 userId,
                 binding.NomeVeicolo.text.toString(),
                 binding.Targa.text.toString(),
-                "chieti",
+                "Chieti",
                 "via dei tintori",
                 "2",
                 "66100",

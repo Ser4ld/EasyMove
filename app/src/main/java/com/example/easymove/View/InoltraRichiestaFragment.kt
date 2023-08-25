@@ -23,7 +23,8 @@ class InoltraRichiestaFragment : Fragment() {
     private lateinit var targa: String
     private lateinit var capienza: String
     private lateinit var idGuidatore: String
-    private lateinit var destinazione: String
+    private lateinit var destination: String
+    private lateinit var origin: String
 
 
     override fun onCreateView(
@@ -59,10 +60,11 @@ class InoltraRichiestaFragment : Fragment() {
             targa = argument.getString("targa").toString()
             capienza = argument.getString("capienza").toString()
             idGuidatore = argument.getString("id_guidatore").toString()
-            destinazione = argument.getString("destinazione").toString()
+            destination = argument.getString("destination").toString()
+            origin =  argument.getString("origin").toString()
             // Now you can use these values as needed
             binding.textViewVeicolo2.text = modello
-            binding.textViewDestination2.text = destinazione
+            binding.textViewDestination2.text = destination
             // Similarly, set other values to appropriate views
         }
 

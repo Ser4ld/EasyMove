@@ -94,14 +94,16 @@
             android:layout_height="wrap_content"
             android:layout_margin="20dp"
 
-            android:layout_marginTop="20dp"
+            android:layout_marginBottom="239dp"
             android:backgroundTint="@color/white"
             app:cardCornerRadius="10dp"
             app:cardElevation="25dp"
             app:contentPadding="20dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageUser">
+            app:layout_constraintTop_toBottomOf="@+id/imageUser"
+            app:layout_constraintVertical_bias="0.050000012">
 
             <LinearLayout
                 android:layout_width="match_parent"

@@ -9,6 +9,7 @@ import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.webkit.WebStorage.Origin
 import android.widget.EditText
 import android.widget.Toast
 import androidx.core.app.ActivityCompat
@@ -62,12 +63,14 @@ class HomeFragment : Fragment() {
     private lateinit var cityOrigin: String
     private lateinit var regionOrigin: String
     private lateinit var postcodeOrigin: String
+    private lateinit var adressOrigin: String
 
     private lateinit var streetDestination: String
     private lateinit var houseNumberDestination: String
     private lateinit var cityDestination: String
     private lateinit var regionDestination: String
     private lateinit var postcodeDestination: String
+    private lateinit var addressDestination: String
 
     private val POLO_MONTEDAGO = Point.fromLngLat(13.516539114888866, 43.586912987628324)
 
@@ -258,16 +261,27 @@ class HomeFragment : Fragment() {
         }
 
         binding.searchButton.setOnClickListener() {
+
             val bundle = Bundle()
+            homeViewModel.checkFormMap(binding.queryText.text.toString(), binding.queryText2.text.toString()){success, message ->
+                if(success){
+                    bundle.putString("origin", "$streetOrigin $houseNumberOrigin, $cityOrigin, $postcodeOrigin")
+                    bundle.putString("originCity", cityOrigin)
+                    bundle.putString("postCodeOrigin", postcodeOrigin)
+                    bundle.putString("destination", "$streetDestination $houseNumberDestination, $cityDestination, $postcodeDestination")
 
-            bundle.putString("destinazione", "prova")
-            val listaveicoliFragment = ListaVeicoliFragment()
-            listaveicoliFragment.arguments = bundle
+                    val listaveicoliFragment = ListaVeicoliFragment()
+                    listaveicoliFragment.arguments = bundle
 
-            requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, listaveicoliFragment)
-                .addToBackStack(null)
-                .commit()
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, listaveicoliFragment)
+                        .addToBackStack(null)
+                        .commit()
+                }else{
+                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                }
+            }
+
         }
 
     }
@@ -358,6 +372,7 @@ class HomeFragment : Fragment() {
         binding.provadistanza.text = homeViewModel.getDistancePoints()
 
     }
+
     private companion object {
         const val PERMISSIONS_REQUEST_LOCATION = 0
     }

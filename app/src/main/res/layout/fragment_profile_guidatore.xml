@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingTop="20dp"
+    android:paddingTop="25dp"
     tools:context=".View.ProfileGuidatoreFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,7 +51,7 @@
                         android:id="@+id/textVeicoliGuidatore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
+                        android:layout_weight="0"
                         android:text="Numero veicoli registrati:"
                         android:textColor="@color/app_theme"
                         android:textSize="18dp" />
@@ -61,7 +61,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:text="TextView"
+                        android:textAlignment="viewStart"
+                        android:textColor="@color/black"
                         android:textSize="18dp" />
                 </LinearLayout>
 
@@ -87,8 +88,8 @@
             android:id="@+id/cardInformazioniPersonali"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
             android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="20dp"
             android:layout_marginBottom="32dp"
             android:backgroundTint="@color/white"
             app:cardCornerRadius="10dp"

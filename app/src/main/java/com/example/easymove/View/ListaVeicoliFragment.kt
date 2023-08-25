@@ -20,6 +20,11 @@ class ListaVeicoliFragment : Fragment() {
     private var _binding: FragmentListaVeicoliBinding? = null
     private val binding get() = _binding!!
 
+    private lateinit var origin: String
+    private lateinit var destination: String
+    private lateinit var cityOrigin: String
+    private lateinit var postCodeOrigin: String
+
     private lateinit var veicoliViewModel: VeicoliViewModel
 
     private lateinit var adapter: MyAdapterVeicoli
@@ -47,6 +52,14 @@ class ListaVeicoliFragment : Fragment() {
         adapter = MyAdapterVeicoli(veicoliViewModel,ArrayList())
         binding.recyclerView.adapter = adapter
 
+        val argument = arguments
+        if (argument != null){
+            origin = argument.getString("origin").toString()
+            destination = argument.getString("destination").toString()
+            cityOrigin = argument.getString("originCity").toString()
+            postCodeOrigin = argument.getString("postCodeOrigin").toString()
+        }
+
         veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
             if (veicoliList.isEmpty()) {
                 Toast.makeText(requireContext(), "Si è verificato un errore", Toast.LENGTH_SHORT).show()
@@ -63,14 +76,15 @@ class ListaVeicoliFragment : Fragment() {
                         bundle.putString("targa", selectedVehicle.targa)
                         bundle.putString("capienza", selectedVehicle.capienza)
                         bundle.putString("id_guidatore", selectedVehicle.id)
+                        bundle.putString("destination", destination)
+                        bundle.putString("origin", origin)
 
                         //passaggio informazioni origine e destinazione
-                        val argument = arguments
+                        /*val argument = arguments
                         if (argument != null) {
                             val destinazione = argument.getString("destinazione")
-                            Log.d("PROVAAAA", destinazione.toString())
                             bundle.putString("destinazione", destinazione)
-                        }
+                        }*/
                         //reset valore liveData altrimenti rimane attivo l'evento di click
 
 
@@ -89,21 +103,13 @@ class ListaVeicoliFragment : Fragment() {
             }
         }
 
-        val argument = arguments
-        if (argument != null){
-            val prova=  argument.getString("destinazione").toString()
-            val bundle = Bundle()
 
-            bundle.putString("destinazione", prova)
-            val targetFragment = InoltraRichiestaFragment()
-            targetFragment.arguments = bundle
-        }
 
         veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
             if (veicoliList.isEmpty()) {
                 Toast.makeText(requireContext(), "Si è verificato un errore", Toast.LENGTH_SHORT).show()
             } else {
-                adapter.updateData(ArrayList(veicoliList))
+                adapter.updateData(veicoliViewModel.filterVeicoliByCittaAndCodicePostale(cityOrigin, postCodeOrigin, veicoliList))
             }
         }
 

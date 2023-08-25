@@ -89,7 +89,18 @@ class HomeViewModel () : ViewModel() {
         return null
     }
 
+    fun checkFormMap(
+        origin: String,
+        destination: String,
+        callback: (Boolean, String?) -> Unit
+    ){
+        if(origin.isNotEmpty() && destination.isNotEmpty()){
+            callback(true, null)
+        }else{
+            callback(false, "Indirizzo di partenza e/o di destinazione non impostati")
+        }
 
+    }
 
 
 }
