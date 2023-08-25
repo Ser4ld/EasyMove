@@ -1,5 +1,6 @@
 package com.example.easymove.repository
 
+import android.net.Uri
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.easymove.model.User
@@ -9,10 +10,11 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.DocumentSnapshot
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.storage.FirebaseStorage
 
 private val firebaseAuth = FirebaseAuth.getInstance()
 private val firestoreDatabase = FirebaseFirestore.getInstance()
-
+private val firebaseStorage= FirebaseStorage.getInstance()
 class UserRepository() {
     private val _userDataLiveData = MutableLiveData<User?>()
     private val _allUsersLiveData = MutableLiveData<List<User>>()
@@ -33,7 +35,7 @@ class UserRepository() {
                     val user = FirebaseAuth.getInstance().currentUser
                     val userId = user?.uid
 
-                    val userObj = User(userId.orEmpty(), nome, cognome, email, tipoutente)
+                    val userObj = User(userId.orEmpty(), nome, cognome, email, tipoutente,"")
                     uploadUserData(userObj){ success, Errmsg ->
                         if(success){
                             callback(true, null)
@@ -61,6 +63,40 @@ class UserRepository() {
                 callback(false, "Errore registrazione")
             }
     }
+
+    fun updateImageUrl(userId: String, imageUri: Uri, callback: (Boolean, String?) -> Unit) {
+        val storageRef = firebaseStorage.reference.child("profile_images/$userId.jpg")
+
+        val uploadTask = storageRef.putFile(imageUri)
+        uploadTask.continueWithTask { task ->
+            if (!task.isSuccessful) {
+                task.exception?.let {
+                    throw it
+                }
+            }
+            storageRef.downloadUrl
+        }.addOnCompleteListener { task ->
+            if (task.isSuccessful) {
+                val imageUrl = task.result.toString()
+
+                val userRef = firestoreDatabase.collection("users").document(userId)
+
+                userRef.update("imageUrl", imageUrl)
+                    .addOnSuccessListener {
+                        callback(true, "Immagine caricata con successo.")
+                    }
+                    .addOnFailureListener { exception ->
+                        callback(false, "Errore durante il caricamento dell'immagine.")
+                    }
+            } else {
+                callback(false, "Errore durante il caricamento dell'immagine.")
+            }
+        }
+    }
+
+
+
+
 
     /*autenticazione utente */
     fun authenticateUser(

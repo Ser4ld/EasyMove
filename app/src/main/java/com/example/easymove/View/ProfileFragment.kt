@@ -1,9 +1,11 @@
 package com.example.easymove.View
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
+import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -12,6 +14,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
+import com.bumptech.glide.Glide
 import com.example.easymove.R
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.databinding.FragmentProfileBinding
@@ -25,6 +28,11 @@ class ProfileFragment : Fragment() {
     private var _binding: FragmentProfileBinding? = null
     private val binding get() = _binding!!
     private lateinit var userViewModel: UserViewModel
+
+    private val PICK_IMAGE_REQUEST = 1
+    private var imageUri: Uri? = null
+    private lateinit var userId:String
+
 
 
     override fun onCreateView(
@@ -51,6 +59,13 @@ class ProfileFragment : Fragment() {
                 binding.cognomeTV.text = userData.surname
                 binding.emailTV.text = userData.email
                 binding.benvenutoTV.text = "Benvenuto " + userData.name
+
+                userId= userData.id
+
+                Glide.with(requireContext())
+                    .load(userData.imageUrl)
+                    .into(binding.imageUser)
+
                 if (userData.userType == "guidatore" ){
                     childFragmentManager.beginTransaction()
                         .replace(R.id.frameLayoutProfile, ProfileGuidatoreFragment())
@@ -84,6 +99,11 @@ class ProfileFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        binding.textInserisciImg.setOnClickListener {
+            openFileChooser()
+        }
+
 
     }
 
@@ -130,5 +150,39 @@ class ProfileFragment : Fragment() {
         dialog.show()
 
 
+    }
+
+    private fun openFileChooser() {
+        binding.textInserisciImg.text="Modifica immagine di profilo"
+        val intent = Intent(Intent.ACTION_GET_CONTENT)
+        intent.type = "image/png" // Set the MIME type to restrict to PNG images
+        startActivityForResult(intent, PICK_IMAGE_REQUEST)
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == Activity.RESULT_OK && data != null && data.data != null) {
+            val selectedImageUri = data.data!!
+
+            // Verifying the MIME type of the selected file
+            val contentResolver = requireContext().contentResolver
+            val mime = contentResolver.getType(selectedImageUri)
+            if (mime == "image/png") {
+                // The selected file is a PNG image
+                imageUri = selectedImageUri
+                binding.imageUser.setImageURI(imageUri)
+                userViewModel.updateImageUrl(userId, imageUri!!) { success, errMsg ->
+                    if (success) {
+                        Toast.makeText(requireContext(), "Immagine aggiornata con successo", Toast.LENGTH_SHORT).show()
+                    } else {
+                        Toast.makeText(requireContext(), "Errore durante l'aggiornamento dell'immagine", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            } else {
+                // The selected file is not a PNG image, handle the error
+                Toast.makeText(requireContext(), "Please select a PNG image", Toast.LENGTH_SHORT).show()
+            }
+        }
     }
 }
