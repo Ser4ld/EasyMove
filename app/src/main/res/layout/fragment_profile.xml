@@ -53,174 +53,186 @@
     </com.google.android.material.card.MaterialCardView>
 
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
-            <ImageView
-                android:id="@+id/imageUser"
-                android:layout_width="138dp"
-                android:layout_height="108dp"
-                android:src="@drawable/account_circle_app_theme"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.133" />
+        <ImageView
+            android:id="@+id/imageUser"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:src="@drawable/account_circle_app_theme"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.133" />
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/cardInformazioniPersonali"
-                android:layout_width="0dp"
+        <TextView
+            android:id="@+id/textInserisciImg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="20dp"
+            android:clickable="true"
+            android:text="Inserisci immagine di profilo"
+            android:textColor="@color/app_theme"
+            app:layout_constraintBottom_toTopOf="@id/cardInformazioniPersonali"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/imageUser" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/cardInformazioniPersonali"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+
+            android:backgroundTint="@color/white"
+            app:cardCornerRadius="10dp"
+            app:cardElevation="25dp"
+            app:contentPadding="20dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textInserisciImg">
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="20dp"
-
                 android:backgroundTint="@color/white"
-                app:cardCornerRadius="10dp"
-                app:cardElevation="25dp"
-                app:contentPadding="20dp"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/imageUser">
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/textView12"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Informazioni Personali"
+                    android:textAlignment="center"
+                    android:textColor="@color/black"
+                    android:textSize="25dp"
+                    android:textStyle="bold" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:backgroundTint="@color/white"
-                    android:orientation="vertical">
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
 
                     <TextView
-                        android:id="@+id/textView12"
-                        android:layout_width="match_parent"
+                        android:id="@+id/textView15"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:text="Informazioni Personali"
-                        android:textAlignment="center"
+                        android:text="Nome:"
+                        android:textColor="@color/app_theme"
+                        android:textSize="18dp" />
+
+                    <TextView
+                        android:id="@+id/nomeTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
                         android:textColor="@color/black"
-                        android:textSize="25dp"
-                        android:textStyle="bold" />
+                        android:textSize="18dp" />
+                </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/textView17"
+                        android:layout_width="100dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
-                        android:orientation="horizontal">
+                        android:text="Cognome:"
+                        android:textColor="@color/app_theme"
+                        android:textSize="18dp" />
 
-                        <TextView
-                            android:id="@+id/textView15"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Nome:"
-                            android:textColor="@color/app_theme"
-                            android:textSize="18dp" />
-
-                        <TextView
-                            android:id="@+id/nomeTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:textColor="@color/black"
-                            android:textSize="18dp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
+                    <TextView
+                        android:id="@+id/cognomeTV"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/textView17"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Cognome:"
-                            android:textColor="@color/app_theme"
-                            android:textSize="18dp" />
-
-                        <TextView
-                            android:id="@+id/cognomeTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:textColor="@color/black"
-                            android:textSize="18dp" />
-
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:id="@+id/textView13"
-                            android:layout_width="100dp"
-                            android:layout_height="wrap_content"
-                            android:text="Email:"
-                            android:textColor="@color/app_theme"
-                            android:textSize="18dp" />
-
-                        <TextView
-                            android:id="@+id/emailTV"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:textColor="@color/black"
-                            android:textSize="18dp" />
-
-                    </LinearLayout>
-
-                    <Button
-                        android:id="@+id/modificabtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:text="MODIFICA EMAIL "
-                        android:textColor="@color/white"
-                        android:textSize="18dp"
-                        android:textStyle="bold"
-                        app:cornerRadius="20dp"
-                        />
-
-                    <Button
-                        android:id="@+id/modificaPasswordbtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:text="MODIFICA PASSWORD "
-                        android:textColor="@color/white"
-                        android:textSize="18dp"
-                        android:textStyle="bold"
-                        app:cornerRadius="20dp" />
-
-                    <Button
-                        android:id="@+id/logout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="0dp"
-                        android:backgroundTint="@color/red"
-                        android:text="Logout"
-                        android:textColor="@android:color/white"
-                        android:textSize="18dp"
-                        android:textStyle="bold"
-                        app:cornerRadius="20dp" />
-
-
-
-
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
 
                 </LinearLayout>
-            </androidx.cardview.widget.CardView>
 
-            <FrameLayout
-                android:id="@+id/frameLayoutProfile"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:layout_constraintTop_toBottomOf="@+id/cardInformazioniPersonali">
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginBottom="10dp">
 
-                <!-- Contenuto del FrameLayout -->
+                    <TextView
+                        android:id="@+id/textView13"
+                        android:layout_width="100dp"
+                        android:layout_height="wrap_content"
+                        android:text="Email:"
+                        android:textColor="@color/app_theme"
+                        android:textSize="18dp" />
 
-            </FrameLayout>
+                    <TextView
+                        android:id="@+id/emailTV"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:textColor="@color/black"
+                        android:textSize="18dp" />
 
-        </androidx.constraintlayout.widget.ConstraintLayout>
+                </LinearLayout>
+
+                <Button
+                    android:id="@+id/modificabtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="MODIFICA EMAIL "
+                    android:textColor="@color/white"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    app:cornerRadius="20dp" />
+
+                <Button
+                    android:id="@+id/modificaPasswordbtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="MODIFICA PASSWORD "
+                    android:textColor="@color/white"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    app:cornerRadius="20dp" />
+
+                <Button
+                    android:id="@+id/logout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="0dp"
+                    android:backgroundTint="@color/red"
+                    android:text="Logout"
+                    android:textColor="@android:color/white"
+                    android:textSize="18dp"
+                    android:textStyle="bold"
+                    app:cornerRadius="20dp" />
+
+
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+        <FrameLayout
+            android:id="@+id/frameLayoutProfile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/cardInformazioniPersonali">
+
+            <!-- Contenuto del FrameLayout -->
+
+        </FrameLayout>
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
