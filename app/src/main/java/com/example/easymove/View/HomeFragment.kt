@@ -3,20 +3,17 @@ package com.example.easymove.View
 import android.app.Activity
 import android.os.Bundle
 import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.FragmentManager.TAG
 import androidx.lifecycle.lifecycleScope
 import com.example.easymove.R
 import com.example.easymove.databinding.FragmentHomeBinding
-import com.google.android.gms.common.api.Status
+import com.example.easymove.model.MapData
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -24,14 +21,9 @@ import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.MarkerOptions
 import com.google.android.libraries.places.api.Places
-import com.google.android.libraries.places.api.model.AddressComponent
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
-import com.google.android.libraries.places.widget.AutocompleteSupportFragment
-import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
-import com.mapbox.maps.logD
-import com.mapbox.maps.plugin.logo.LogoView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -50,23 +42,9 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
     private var focusDestinationBool: Boolean= false
 
 
-    private  var addressOrigin = ""
-    private  var cityOrigin= ""
-    private  var provinceOrigin= ""
-    private  var regionOrigin= ""
-    private  var countryOrigin= ""
-    private  var postalCodeOrigin= ""
-    private  var latitudeOrigin= ""
-    private  var longitudeOrigin= ""
+    private var originData: MapData = MapData()
+    private var destinationData: MapData = MapData()
 
-    private  var addressDestination = ""
-    private  var cityDestination= ""
-    private  var provinceDestination= ""
-    private  var regionDestination= ""
-    private  var countryDestination= ""
-    private  var postalCodeDestination= ""
-    private  var latitudeDestination= ""
-    private  var longitudeDestination= ""
 
     private val startAutocomplete =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -76,11 +54,11 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                     val place = Autocomplete.getPlaceFromIntent(intent)
                     getAddressDetails(place)
                         var messaggio =
-                            "Indirizzo: $addressOrigin, Città: $cityOrigin, CAP: $postalCodeOrigin, Provincia: $provinceOrigin, Regione: $regionOrigin, Nazione: $countryOrigin, Coordinate: ($latitudeOrigin,$longitudeOrigin) "
+                            "Indirizzo: ${originData.address}, Città: ${originData.city}, CAP: ${originData.postalCode}, Provincia: ${originData.province}, Regione: ${originData.region}, Nazione: ${originData.country}, Coordinate: (${originData.latitude},${originData.longitude}) "
                         Log.i("Prova", messaggio)
 
                         var messaggio2 =
-                            "Indirizzo: $addressDestination, Città: $cityDestination, CAP: $postalCodeDestination, Provincia: $provinceDestination, Regione: $regionDestination, Nazione: $countryDestination, Coordinate: ($latitudeDestination,$longitudeDestination) "
+                            "Indirizzo: ${destinationData.address}, Città: ${destinationData.city}, CAP: ${destinationData.postalCode}, Provincia: ${destinationData.province}, Regione: ${destinationData.region}, Nazione: ${destinationData.country}, Coordinate: (${destinationData.latitude},${destinationData.longitude}) "
                         Log.i("Prova2", messaggio2)
 
                 }
@@ -164,23 +142,23 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
         val addressComponents = place.addressComponents.asList()
 
         if(focusOriginBool){
-            addressOrigin=place.address
+            originData.address =place.address
 
-            binding.editTextOrigin.text=Editable.Factory.getInstance().newEditable(addressOrigin)
+            binding.editTextOrigin.text=Editable.Factory.getInstance().newEditable(originData.address)
 
-            latitudeOrigin=place.latLng.latitude.toString()
-            longitudeOrigin=place.latLng.longitude.toString()
+            originData.latitude=place.latLng.latitude.toString()
+            originData.longitude=place.latLng.longitude.toString()
 
             for (component in addressComponents) {
                 val types = component.types
                 val name = component.name
 
                 when {
-                    "locality" in types -> cityOrigin = name
-                    "administrative_area_level_2" in types -> provinceOrigin= name
-                    "administrative_area_level_1" in types -> regionOrigin = name
-                    "country" in types -> countryOrigin = name
-                    "postal_code" in types -> postalCodeOrigin = name
+                    "locality" in types -> originData.city = name
+                    "administrative_area_level_2" in types -> originData.province= name
+                    "administrative_area_level_1" in types -> originData.region = name
+                    "country" in types -> originData.country = name
+                    "postal_code" in types -> originData.postalCode = name
                 }
 
                 focusOriginBool=false
@@ -189,23 +167,23 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
 
         } else if (focusDestinationBool) {
 
-            addressDestination=place.address
+            destinationData.address=place.address
 
-            binding.editTextDestination.text=Editable.Factory.getInstance().newEditable(addressDestination)
+            binding.editTextDestination.text=Editable.Factory.getInstance().newEditable(destinationData.address)
 
-            latitudeDestination=place.latLng.latitude.toString()
-            longitudeDestination=place.latLng.longitude.toString()
+            destinationData.latitude=place.latLng.latitude.toString()
+            destinationData.longitude=place.latLng.longitude.toString()
 
             for (component in addressComponents) {
                 val types = component.types
                 val name = component.name
 
                 when {
-                    "locality" in types -> cityDestination = name
-                    "administrative_area_level_2" in types -> provinceDestination= name
-                    "administrative_area_level_1" in types -> regionDestination = name
-                    "country" in types -> countryDestination = name
-                    "postal_code" in types -> postalCodeDestination = name
+                    "locality" in types -> destinationData.city = name
+                    "administrative_area_level_2" in types -> destinationData.province= name
+                    "administrative_area_level_1" in types -> destinationData.region = name
+                    "country" in types -> destinationData.country = name
+                    "postal_code" in types -> destinationData.postalCode = name
                 }
             }
             focusDestinationBool=false
@@ -214,8 +192,8 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
 
     fun HttpRequestDirections() {
         lifecycleScope.launch {
-            val origin = "$latitudeOrigin,$longitudeOrigin"
-            val destination = "$latitudeDestination,$longitudeDestination"
+            val origin = "${originData.latitude},${originData.longitude}"
+            val destination = "${destinationData.latitude},${destinationData.longitude}"
 
             val url = URL("https://maps.googleapis.com/maps/api/directions/json" +
                     "?origin=$origin" +
