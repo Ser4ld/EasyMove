@@ -38,14 +38,27 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var mMap: GoogleMap
 
-    private  var address = ""
-    private  var city= ""
-    private  var province= ""
-    private  var region= ""
-    private  var country= ""
-    private  var postalCode= ""
-    private  var latitude= ""
-    private  var longitude= ""
+    private var focusOriginBool: Boolean= false
+    private var focusDestinationBool: Boolean= false
+
+
+    private  var addressOrigin = ""
+    private  var cityOrigin= ""
+    private  var provinceOrigin= ""
+    private  var regionOrigin= ""
+    private  var countryOrigin= ""
+    private  var postalCodeOrigin= ""
+    private  var latitudeOrigin= ""
+    private  var longitudeOrigin= ""
+
+    private  var addressDestination = ""
+    private  var cityDestination= ""
+    private  var provinceDestination= ""
+    private  var regionDestination= ""
+    private  var countryDestination= ""
+    private  var postalCodeDestination= ""
+    private  var latitudeDestination= ""
+    private  var longitudeDestination= ""
 
     private val startAutocomplete =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -53,13 +66,20 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                 val intent = result.data
                 if (intent != null) {
                     val place = Autocomplete.getPlaceFromIntent(intent)
-                    Log.i(
-                        "ciao", "Place: ${place.name}, ${place.id}"
-                    )
+
+                        getAddressDetails(place)
+                        var messaggio =
+                            "Indirizzo: $addressOrigin, Città: $cityOrigin, CAP: $postalCodeOrigin, Provincia: $provinceOrigin, Regione: $regionOrigin, Nazione: $countryOrigin, Coordinate: ($latitudeOrigin,$longitudeOrigin) "
+                        Log.i("Prova", messaggio)
+
+                        val messaggio2 =
+                            "Indirizzo: $addressDestination, Città: $cityDestination, CAP: $postalCodeDestination, Provincia: $provinceDestination, Regione: $regionDestination, Nazione: $countryDestination, Coordinate: ($latitudeDestination,$longitudeDestination) "
+                        Log.i("Prova2", messaggio2)
+
                 }
             } else if (result.resultCode == Activity.RESULT_CANCELED) {
                 // The user canceled the operation.
-                Log.i("ciao", "User canceled autocomplete")
+                Log.i("Prova", "User canceled autocomplete")
             }
         }
 
@@ -83,7 +103,7 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
 
         // Set the fields to specify which types of place data to
         // return after the user has made a selection.
-        val fields = listOf( Place.Field.NAME, Place.Field.ADDRESS,  Place.Field.ADDRESS_COMPONENTS,Place.Field.LAT_LNG,)
+        val fields = listOf( Place.Field.NAME, Place.Field.ADDRESS,  Place.Field.ADDRESS_COMPONENTS,Place.Field.LAT_LNG)
 
         // Start the autocomplete intent.
         val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
@@ -91,7 +111,21 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
 
         binding.editTextOrigin.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
+                focusOriginBool=true
                 startAutocomplete.launch(intent)
+                binding.editTextOrigin.clearFocus()
+                binding.editTextOrigin.isCursorVisible = false
+
+            }
+        }
+
+        binding.editTextDestination.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                focusDestinationBool=true
+                startAutocomplete.launch(intent)
+                binding.editTextDestination.clearFocus()
+                binding.editTextDestination.isCursorVisible = false
+
             }
         }
 
@@ -114,29 +148,57 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
         mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
-
     fun getAddressDetails(place: Place){
-
-        address=place.address
-        latitude=place.latLng.latitude.toString()
-        longitude=place.latLng.longitude.toString()
 
         val addressComponents = place.addressComponents.asList()
 
-        for (component in addressComponents) {
-            val types = component.types
-            val name = component.name
+        if(focusOriginBool){
+            addressOrigin=place.address
 
-            when {
-                "locality" in types -> city = name
-                "administrative_area_level_2" in types -> province = name
-                "administrative_area_level_1" in types -> region = name
-                "country" in types -> country = name
-                "postal_code" in types -> postalCode = name
+            binding.editTextOrigin.text=Editable.Factory.getInstance().newEditable(addressOrigin)
+
+            latitudeOrigin=place.latLng.latitude.toString()
+            longitudeOrigin=place.latLng.longitude.toString()
+
+            for (component in addressComponents) {
+                val types = component.types
+                val name = component.name
+
+                when {
+                    "locality" in types -> cityOrigin = name
+                    "administrative_area_level_2" in types -> provinceOrigin= name
+                    "administrative_area_level_1" in types -> regionOrigin = name
+                    "country" in types -> countryOrigin = name
+                    "postal_code" in types -> postalCodeOrigin = name
+                }
+
+                focusOriginBool=false
             }
+
+
+        } else if (focusDestinationBool) {
+
+            addressDestination=place.address
+
+            binding.editTextDestination.text=Editable.Factory.getInstance().newEditable(addressDestination)
+
+            latitudeDestination=place.latLng.latitude.toString()
+            longitudeDestination=place.latLng.longitude.toString()
+
+            for (component in addressComponents) {
+                val types = component.types
+                val name = component.name
+
+                when {
+                    "locality" in types -> cityDestination = name
+                    "administrative_area_level_2" in types -> provinceDestination= name
+                    "administrative_area_level_1" in types -> regionDestination = name
+                    "country" in types -> countryDestination = name
+                    "postal_code" in types -> postalCodeDestination = name
+                }
+            }
+            focusDestinationBool=false
         }
-
     }
-
 
 }
