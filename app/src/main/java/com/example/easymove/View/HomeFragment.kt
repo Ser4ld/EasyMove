@@ -47,18 +47,6 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
     private  var latitude= ""
     private  var longitude= ""
 
-
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View? {
-
-        binding = FragmentHomeBinding.inflate(inflater, container, false)
-        return binding.root
-    }
-
     private val startAutocomplete =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
@@ -74,39 +62,38 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                 Log.i("ciao", "User canceled autocomplete")
             }
         }
+
+
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+
+        binding = FragmentHomeBinding.inflate(inflater, container, false)
+        return binding.root
+    }
+
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-
 
         // Inizializza l'SDK
         Places.initialize(requireContext(), getString(R.string.map_api_key) )
 
-
-
         // Set the fields to specify which types of place data to
         // return after the user has made a selection.
-        val fields = listOf(Place.Field.ID, Place.Field.NAME)
+        val fields = listOf( Place.Field.NAME, Place.Field.ADDRESS,  Place.Field.ADDRESS_COMPONENTS,Place.Field.LAT_LNG,)
 
         // Start the autocomplete intent.
         val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
             .build(requireContext())
 
-        binding.editTextOrigin.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                // Questo metodo viene chiamato prima che il testo nell'EditText venga modificato.
-            }
-
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                // Questo metodo viene chiamato quando il testo nell'EditText viene modificato.
-                // Avvia l'azione startAutocomplete.launch(intent) qui.
+        binding.editTextOrigin.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
                 startAutocomplete.launch(intent)
             }
-
-            override fun afterTextChanged(s: Editable?) {
-                // Questo metodo viene chiamato dopo che il testo nell'EditText è stato modificato.
-            }
-        })
-
+        }
 
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
