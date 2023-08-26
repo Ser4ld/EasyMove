@@ -1,5 +1,7 @@
 <resources>
     <string name="app_name">EasyMove</string>
+
+
     <string name="mapbox_access_token">pk.eyJ1IjoiZGF2aWRldGljY2hpYXJlbGxpIiwiYSI6ImNsbDFhbDl2bzA1d2IzZXBid3JhZjh4YWQifQ.6ZREqJy5Me58hI4QsgWmWA</string>
     <string name="toolbar_title">Search demo</string>
     <string name="query_hint">Where to?</string>
@@ -19,8 +21,8 @@
     <string name="address_autofill_error_select">Unable to resolve selected suggestion</string>
 
     <dimen name="image_size">250dp</dimen>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">MapsActivity</string>
+
 
 </resources>
 

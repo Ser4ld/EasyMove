@@ -6,6 +6,7 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,10 +19,22 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.easymove.BuildConfig.MAPS_API_KEY
 import com.example.easymove.MapBox.inputMethodManager
 import com.example.easymove.R
 import com.example.easymove.ViewModel.HomeViewModel
 import com.example.easymove.databinding.FragmentHomeBinding
+import com.google.android.gms.common.api.Status
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
+import com.google.android.gms.maps.model.LatLng
+import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import com.mapbox.geojson.Point
 import com.mapbox.maps.CameraOptions
 import com.mapbox.maps.MapboxMap
@@ -37,12 +50,13 @@ import com.mapbox.search.ui.adapter.autofill.AddressAutofillUiAdapter
 import com.mapbox.search.ui.view.CommonSearchViewConfiguration
 import com.mapbox.search.ui.view.DistanceUnitType
 import com.mapbox.search.ui.view.SearchResultsView
+import kotlin.properties.Delegates
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment() , OnMapReadyCallback {
 
     private lateinit var binding: FragmentHomeBinding
 
-    private lateinit var homeViewModel: HomeViewModel
+/*    private lateinit var homeViewModel: HomeViewModel
 
     private lateinit var addressAutofill: AddressAutofill
     private lateinit var addressAutofill2: AddressAutofill
@@ -74,6 +88,14 @@ class HomeFragment : Fragment() {
 
     private val POLO_MONTEDAGO = Point.fromLngLat(13.516539114888866, 43.586912987628324)
 
+    private var longitudine: Double = 0.0
+    private var latitudine: Double = 0.0*/
+
+
+    private lateinit var mMap: GoogleMap
+
+
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -81,7 +103,6 @@ class HomeFragment : Fragment() {
     ): View? {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false)
-
         return binding.root
     }
 
@@ -89,316 +110,79 @@ class HomeFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
 
-        homeViewModel = ViewModelProvider(this).get(HomeViewModel::class.java)
+        // Initialize the SDK
+        Places.initialize(requireContext(), "AIzaSyBy1Ck8fhL9cRuXdz_2DvZmiTV3FnNu0WQ")
 
-        //binding.searchResultsView = view.findViewById(R.id.search_results_view)
-        //searchResultsView2 = view.findViewById(R.id.search_results_view2)
-        //var isFirstTyping1 = true
-        //var isFirstTyping2 = true
-
-        addressAutofill = AddressAutofill.create(getString(R.string.mapbox_access_token))
-        addressAutofill2 = AddressAutofill.create(getString(R.string.mapbox_access_token))
-
-        mapboxMap = binding.map.getMapboxMap()
-
-        mapboxMap.loadStyleUri(Style.MAPBOX_STREETS)
+        // Create a new PlacesClient instance
+        val placesClient = Places.createClient(requireContext())
 
 
-        binding.searchResultsView.initialize(
-            SearchResultsView.Configuration(
-                commonConfiguration = CommonSearchViewConfiguration(DistanceUnitType.IMPERIAL)
-            )
-        )
 
-        binding.searchResultsView2.initialize(
-            SearchResultsView.Configuration(
-                commonConfiguration = CommonSearchViewConfiguration(DistanceUnitType.IMPERIAL)
-            )
-        )
+        val mapFragment = childFragmentManager
+            .findFragmentById(R.id.map) as SupportMapFragment
 
-        addressAutofillUiAdapter = AddressAutofillUiAdapter(
-            view = binding.searchResultsView,
-            addressAutofill = addressAutofill
-        )
-
-        addressAutofillUiAdapter2 = AddressAutofillUiAdapter(
-            view = binding.searchResultsView2,
-            addressAutofill = addressAutofill2
-        )
+        mapFragment.getMapAsync(this)
 
 
-        mapboxMap.setCamera(
-            CameraOptions.Builder()
-                .center(POLO_MONTEDAGO)
-                .zoom(9.0)
-                .build()
-        )
+        // Initialize the AutocompleteSupportFragment.
+        val autocompleteFragment =
+            childFragmentManager.findFragmentById(R.id.autocomplete_fragment)
+                    as AutocompleteSupportFragment
+
+        autocompleteFragment.setPlaceFields(listOf(Place.Field.LAT_LNG,
+            Place.Field.NAME,
+            Place.Field.ADDRESS,
+            Place.Field.ADDRESS_COMPONENTS))
 
 
-        addressAutofillUiAdapter.addSearchListener(object :
-            AddressAutofillUiAdapter.SearchListener {
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(object : PlaceSelectionListener {
+            override fun onPlaceSelected(place: Place) {
+                Toast.makeText(
+                    requireContext(),
+                    "Place: ${place.name} + ${place.address}+  ${place.addressComponents} ",
+                    Toast.LENGTH_SHORT
+                ).show()
 
-            override fun onSuggestionSelected(suggestion: AddressAutofillSuggestion) {
-                selectSuggestion(
-                    suggestion,
-                    fromReverseGeocoding = false,
-                    binding.queryText,
-                    addressAutofill,
-                    binding.searchResultsView,
-                    //binding.fullAddress
-                )
+                val selectedPlaceLatLng = place.latLng
+
+                if (selectedPlaceLatLng != null) {
+                    // Rimuovi eventuali marker esistenti
+                    mMap.clear()
+
+                    // Aggiungi un nuovo marker con le coordinate del luogo selezionato
+                    mMap.addMarker(
+                        MarkerOptions()
+                            .position(selectedPlaceLatLng)
+                            .title(place.name)
+                    )
+
+                    // Sposta la telecamera sulla posizione del nuovo marker
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(selectedPlaceLatLng, 12f))
+
+                }
             }
 
-            override fun onSuggestionsShown(suggestions: List<AddressAutofillSuggestion>) {
-                // Nothing to do
-            }
-
-            override fun onError(e: Exception) {
-                // Nothing to do
+            override fun onError(status: Status) {
+                // TODO: Handle the error.
+                Toast.makeText(requireContext(), "An error occurred: $status", Toast.LENGTH_SHORT).show()
             }
         })
 
-        addressAutofillUiAdapter2.addSearchListener(object :
-            AddressAutofillUiAdapter.SearchListener {
-
-            override fun onSuggestionSelected(suggestion: AddressAutofillSuggestion) {
-                selectSuggestion(
-                    suggestion,
-                    fromReverseGeocoding = false,
-                    binding.queryText2,
-                    addressAutofill2,
-                    binding.searchResultsView2
-                    //binding.fullAddress2
-                )
-            }
-
-            override fun onSuggestionsShown(suggestions: List<AddressAutofillSuggestion>) {
-                // Nothing to do
-            }
-
-            override fun onError(e: Exception) {
-                // Nothing to do
-            }
-            })
-
-        //listener che impedisce di scendere nella queryEditText2 se si preme invio sulla tastiera
-       binding.queryText.setOnEditorActionListener { _, actionId, _ ->
-           homeViewModel.checkActionId(actionId)
-        }
-
-
-
-        binding.queryText.addTextChangedListener(object : TextWatcher {
-
-            override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
-            /*    if (isFirstTyping1) {
-                    Toast.makeText(requireContext(), "Formato: Via, Numero, Città", Toast.LENGTH_SHORT).show()
-                    isFirstTyping1 = false
-                }*/
-                if (ignoreNextQueryTextUpdate) {
-                    ignoreNextQueryTextUpdate = false
-                    return
-                }
-
-                val query = Query.create(text.toString())
-                if (query != null) {
-                    lifecycleScope.launchWhenStarted {
-                        addressAutofillUiAdapter.search(query)
-                    }
-                }
-                binding.searchResultsView.isVisible = query != null
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // Nothing to do
-            }
-
-            override fun afterTextChanged(s: Editable) {
-                // Nothing to do
-            }
-        })
-
-        binding.queryText2.addTextChangedListener(object : TextWatcher {
-            override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
-
-                /*if (isFirstTyping2) {
-                    Toast.makeText(requireContext(), "Formato: Via, Numero, Città", Toast.LENGTH_SHORT).show()
-                    isFirstTyping2 = false
-                }*/
-
-                if (ignoreNextQueryTextUpdate) {
-                    ignoreNextQueryTextUpdate = false
-                    return
-                }
-
-                val query = Query.create(text.toString())
-                if (query != null) {
-                    lifecycleScope.launchWhenStarted {
-                        addressAutofillUiAdapter2.search(query)
-                    }
-                }
-                binding.searchResultsView2.isVisible = query != null
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // Nothing to do
-            }
-
-            override fun afterTextChanged(s: Editable) {
-                // Nothing to do
-            }
-        })
-
-        if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                PERMISSIONS_REQUEST_LOCATION
-            )
-        }
-
-        binding.searchButton.setOnClickListener() {
-
-            val bundle = Bundle()
-            homeViewModel.checkFormMap(binding.queryText.text.toString(), binding.queryText2.text.toString()){success, message ->
-                if(success){
-                    bundle.putString("origin", "$streetOrigin $houseNumberOrigin, $cityOrigin, $postcodeOrigin")
-                    bundle.putString("originCity", cityOrigin)
-                    bundle.putString("postCodeOrigin", postcodeOrigin)
-                    bundle.putString("destination", "$streetDestination $houseNumberDestination, $cityDestination, $postcodeDestination")
-
-                    val listaveicoliFragment = ListaVeicoliFragment()
-                    listaveicoliFragment.arguments = bundle
-
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainer, listaveicoliFragment)
-                        .addToBackStack(null)
-                        .commit()
-                }else{
-                    Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                }
-            }
-
-        }
-
     }
 
-    private fun selectSuggestion(
-        suggestion: AddressAutofillSuggestion,
-        fromReverseGeocoding: Boolean,
-        editText: EditText,
-        Autofill: AddressAutofill,
-        searchResults: SearchResultsView
-        //, textView: TextView
+    override fun onMapReady(googleMap: GoogleMap) {
+        mMap = googleMap
 
-    ) {
-        lifecycleScope.launchWhenStarted {
-            val response = Autofill.select(suggestion)
-            response.onValue { result ->
-                showAddressAutofillResult(result, fromReverseGeocoding,editText,searchResults)
-            }.onError {
-                Toast.makeText(requireContext(), R.string.address_autofill_error_select, Toast.LENGTH_SHORT).show()
-            }
-        }
+        // Add a marker in Sydney and move the camera
+        val sydney = LatLng(-34.0, 151.0)
+        mMap.addMarker(MarkerOptions()
+            .position(sydney)
+            .title("Marker in Sydney"))
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
     }
 
-    private fun showAddressAutofillResult(
-        result: AddressAutofillResult,
-        fromReverseGeocoding: Boolean,
-        editText: EditText,
-        searchResults: SearchResultsView) {
-
-        var address = result.address
-        coordinate = result.suggestion.coordinate
-
-        if(editText==binding.queryText){
-            origin=coordinate
-            streetOrigin = address.street.toString()
-            houseNumberOrigin = address.houseNumber.toString()
-            cityOrigin= address.place.toString()
-            regionOrigin= address.region.toString()
-            postcodeOrigin= address.postcode.toString()
-
-
-            editText.setText(
-                listOfNotNull(
-                    streetOrigin,
-                    houseNumberOrigin,
-                    cityOrigin
-                ).joinToString()
-            );
-        }
-        if(editText==binding.queryText2){
-            destination=coordinate
-            streetDestination = address.street.toString()
-            houseNumberDestination = address.houseNumber.toString()
-            cityDestination= address.place.toString()
-            regionDestination= address.region.toString()
-            postcodeDestination= address.postcode.toString()
 
 
 
-            editText.setText(
-                listOfNotNull(
-                    streetDestination,
-                    houseNumberDestination,
-                    cityDestination
-                ).joinToString()
-            );
-        }
-
-        if (!fromReverseGeocoding) {
-            binding.map.getMapboxMap().setCamera(
-                CameraOptions.Builder()
-                    .center(coordinate)
-                    .zoom(16.0)
-                    .build()
-            )
-            ignoreNextMapIdleEvent = true
-            addMarkerToMap(coordinate)
-
-        }
-
-        ignoreNextQueryTextUpdate = true
-
-        editText.clearFocus()
-
-        searchResults.isVisible = false
-        searchResults.hideKeyboard()
-
-        binding.provadistanza.text = homeViewModel.getDistancePoints()
-
-    }
-
-    private companion object {
-        const val PERMISSIONS_REQUEST_LOCATION = 0
-    }
-
-    private fun View.hideKeyboard() {
-        context.inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
-    }
-
-    private fun addMarkerToMap(point: Point) {
-        // Create an instance of the Annotation API and get the PointAnnotationManager.
-        homeViewModel.bitmapFromDrawableRes(requireContext(), R.drawable.red_marker)?.let {
-            val annotationApi = binding.map?.annotations
-            val pointAnnotationManager = annotationApi?.createPointAnnotationManager(binding.map!!)
-            // Set options for the resulting symbol layer.
-            val pointAnnotationOptions: PointAnnotationOptions = PointAnnotationOptions()
-                // Define a geographic coordinate.
-                .withPoint(point)
-                // Specify the bitmap you assigned to the point annotation
-                // The bitmap will be added to map style automatically.
-                .withIconImage(it)
-            // Add the resulting pointAnnotation to the map.
-            pointAnnotationManager?.create(pointAnnotationOptions)
-        }
-    }
-
-    private fun isPermissionGranted(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
-    }
 }
