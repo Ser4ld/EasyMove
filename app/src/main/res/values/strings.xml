@@ -23,6 +23,8 @@
     <dimen name="image_size">250dp</dimen>
     <string name="title_activity_maps">MapsActivity</string>
 
+    <string name="google_maps_api_key">AIzaSyBy1Ck8fhL9cRuXdz_2DvZmiTV3FnNu0WQ</string>
+
 
 </resources>
 

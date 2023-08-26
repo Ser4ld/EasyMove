@@ -13,6 +13,7 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager.TAG
+import androidx.lifecycle.lifecycleScope
 import com.example.easymove.R
 import com.example.easymove.databinding.FragmentHomeBinding
 import com.google.android.gms.common.api.Status
@@ -31,6 +32,13 @@ import com.google.android.libraries.places.widget.listener.PlaceSelectionListene
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 import com.mapbox.maps.logD
 import com.mapbox.maps.plugin.logo.LogoView
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
+import java.io.BufferedReader
+import java.io.InputStreamReader
+import java.net.HttpURLConnection
+import java.net.URL
 
 
 class HomeFragment : Fragment() , OnMapReadyCallback {
@@ -66,13 +74,12 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                 val intent = result.data
                 if (intent != null) {
                     val place = Autocomplete.getPlaceFromIntent(intent)
-
-                        getAddressDetails(place)
+                    getAddressDetails(place)
                         var messaggio =
                             "Indirizzo: $addressOrigin, Città: $cityOrigin, CAP: $postalCodeOrigin, Provincia: $provinceOrigin, Regione: $regionOrigin, Nazione: $countryOrigin, Coordinate: ($latitudeOrigin,$longitudeOrigin) "
                         Log.i("Prova", messaggio)
 
-                        val messaggio2 =
+                        var messaggio2 =
                             "Indirizzo: $addressDestination, Città: $cityDestination, CAP: $postalCodeDestination, Provincia: $provinceDestination, Regione: $regionDestination, Nazione: $countryDestination, Coordinate: ($latitudeDestination,$longitudeDestination) "
                         Log.i("Prova2", messaggio2)
 
@@ -133,6 +140,10 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
             .findFragmentById(R.id.map) as SupportMapFragment
 
         mapFragment.getMapAsync(this)
+
+        binding.button5.setOnClickListener{
+            HttpRequestDirections()
+        }
 
 
     }
@@ -198,6 +209,45 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                 }
             }
             focusDestinationBool=false
+        }
+    }
+
+    fun HttpRequestDirections() {
+        lifecycleScope.launch {
+            val origin = "$latitudeOrigin,$longitudeOrigin"
+            val destination = "$latitudeDestination,$longitudeDestination"
+
+            val url = URL("https://maps.googleapis.com/maps/api/directions/json" +
+                    "?origin=$origin" +
+                    "&destination=$destination" +
+                    "&mode=driving" +
+                    "&key=${getString(R.string.google_maps_api_key)}")
+
+            withContext(Dispatchers.IO) {
+                (url.openConnection() as? HttpURLConnection)?.run {
+                    requestMethod = "GET"
+
+                    val responseCode = responseCode
+                    if (responseCode == HttpURLConnection.HTTP_OK) {
+                        val bufferedReader = BufferedReader(InputStreamReader(inputStream))
+                        val response = StringBuilder()
+
+                        var inputLine: String?
+                        while (bufferedReader.readLine().also { inputLine = it } != null) {
+                            response.append(inputLine)
+                        }
+                        bufferedReader.close()
+
+                        val jsonResponse = response.toString()
+                        Log.d("json", jsonResponse)
+                        // Ora puoi gestire la risposta JSON come desideri
+                    } else {
+                        // Gestisci qui gli errori di richiesta
+                    }
+
+                    disconnect()
+                }
+            }
         }
     }
 
