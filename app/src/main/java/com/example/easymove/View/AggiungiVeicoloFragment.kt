@@ -153,7 +153,6 @@ class AggiungiVeicoloFragment : Fragment() {
                 binding.Targa.text.toString(),
                 positionData.city,
                 positionData.address,
-                positionData.province,
                 positionData.postalCode,
                 binding.Altezzacassone.text.toString(),
                 binding.Lunghezzacassone.text.toString(),

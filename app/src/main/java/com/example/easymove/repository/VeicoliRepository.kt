@@ -27,7 +27,6 @@ class VeicoliRepository {
         Targa: String,
         CittaMezzo: String,
         Via:String,
-        NumeroCiv: String ,
         CodicePostale: String,
         Capienza: String,
         TariffaKm: String,
@@ -44,7 +43,7 @@ class VeicoliRepository {
                 imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
                     val imageUrl = downloadUri.toString()
                     // Continua con il processo di creazione dell'annuncio e salva l'URL dell'immagine nel database
-                    val veicolo = Veicolo(UserId, NomeVeicolo, Targa, Capienza, CittaMezzo, Via, CodicePostale, NumeroCiv, TariffaKm, imageUrl)
+                    val veicolo = Veicolo(UserId, NomeVeicolo, Targa, Capienza, CittaMezzo, Via, CodicePostale, TariffaKm, imageUrl)
                     uploadVeicolo(veicolo){success, Msg ->
                         if(success){
                             callback(true, Msg)

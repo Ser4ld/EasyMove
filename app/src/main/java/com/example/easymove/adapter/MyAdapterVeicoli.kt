@@ -67,7 +67,7 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private va
         holder.modello.text = list[position].modello
         holder.targa.text = list[position].targa
         holder.capienza.text = list[position].capienza
-        holder.locazione.text = list[position].via +" "+list[position].numeroCivico+", "+list[position].citta+", "+list[position].codicePostale
+        holder.locazione.text = list[position].via
 
         if (!list[position].imageUrl.isNullOrEmpty()) {
 
