@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -67,6 +68,10 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                             "Indirizzo: $destinationData ${destinationData.address}, Città: ${destinationData.city}, CAP: ${destinationData.postalCode}, Provincia: ${destinationData.province}, Regione: ${destinationData.region}, Nazione: ${destinationData.country}, Coordinate: (${destinationData.latitude},${destinationData.longitude}) "
                         Log.i("Prova2", messaggio2)
 
+                    if ( binding.editTextOrigin.text.toString().isNotEmpty() && binding.editTextDestination.text.toString().isNotEmpty()) {
+                        HttpRequestDirections()
+                    }
+
                 }
             } else if (result.resultCode == Activity.RESULT_CANCELED) {
                 // The user canceled the operation.
@@ -126,7 +131,8 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
         mapFragment.getMapAsync(this)
 
         binding.button5.setOnClickListener{
-            HttpRequestDirections()
+
+
         }
 
 
@@ -148,7 +154,7 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
         // Definisce la posizione e lo zoom della camera
         mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(montedagoAncona, zoomLevel))    }
 
-    fun getAddressDetails(place: Place){
+    private fun getAddressDetails(place: Place){
 
         val addressComponents = place.addressComponents.asList()
 
