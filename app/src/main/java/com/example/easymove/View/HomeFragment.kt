@@ -67,33 +67,20 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                 if (intent != null) {
                     val place = Autocomplete.getPlaceFromIntent(intent)
                     getAddressDetails(place)
-                        var messaggio =
-                            "Indirizzo: $originData ,${originData.address}, Città: ${originData.city}, CAP: ${originData.postalCode}, Provincia: ${originData.province}, Regione: ${originData.region}, Nazione: ${originData.country}, Coordinate: (${originData.latitude},${originData.longitude}) "
-                        Log.i("Prova", messaggio)
 
-                        var messaggio2 =
-                            "Indirizzo: $destinationData ${destinationData.address}, Città: ${destinationData.city}, CAP: ${destinationData.postalCode}, Provincia: ${destinationData.province}, Regione: ${destinationData.region}, Nazione: ${destinationData.country}, Coordinate: (${destinationData.latitude},${destinationData.longitude}) "
-                        Log.i("Prova2", messaggio2)
+                    Log.i("ProvaOrigine", "$originData")
+                    Log.i("ProvaDestinazione", "$destinationData")
 
                     homeViewModel.checkFormEditTexts(binding.editTextOrigin, binding.editTextDestination) { isValid, errorMessage ->
                         if (isValid) {
                             HttpRequestDirections()
                         } else {
-
                             if (errorMessage != null) {
                                 Log.e("Errore", errorMessage)
                             }
                         }
                     }
-
-
-
-
-
-
-
-
-            }
+                }
             } else if (result.resultCode == Activity.RESULT_CANCELED) {
                 // The user canceled the operation.
                 Log.i("Prova", "User canceled autocomplete")
@@ -101,13 +88,11 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
         }
 
 
-
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
         binding = FragmentHomeBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -120,46 +105,41 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
         // Inizializza l'SDK
         Places.initialize(requireContext(), getString(R.string.map_api_key) )
 
-        // Set the fields to specify which types of place data to
-        // return after the user has made a selection.
+        // Definisce i campi che devono essere restituiti in seguito alla selezione
         val fields = listOf( Place.Field.NAME, Place.Field.ADDRESS,  Place.Field.ADDRESS_COMPONENTS,Place.Field.LAT_LNG)
 
-        // Start the autocomplete intent.
+        // Avvia l'intent di autocompletamento
         val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
-            .setTypesFilter(listOf(PlaceTypes.ADDRESS))
-            .setCountries(listOf("IT"))
+            .setTypesFilter(listOf(PlaceTypes.ADDRESS))// Filtra i risultati per tipo
+            .setCountries(listOf("IT")) // Filtra i risulati per città
             .build(requireContext())
 
+        // Controlla il focus del primo EditText
         binding.editTextOrigin.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 focusOriginBool=true
-                startAutocomplete.launch(intent)
-                binding.editTextOrigin.clearFocus()
-                binding.editTextOrigin.isCursorVisible = false
-
+                startAutocomplete.launch(intent) // Lancia l'autocomplete
+                binding.editTextOrigin.clearFocus() // Toglie il focus
+                binding.editTextOrigin.isCursorVisible = false // Toglie il cursore
             }
         }
 
+        // Controlla il focus del secondo EditText
         binding.editTextDestination.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 focusDestinationBool=true
-                startAutocomplete.launch(intent)
-                binding.editTextDestination.clearFocus()
-                binding.editTextDestination.isCursorVisible = false
+                startAutocomplete.launch(intent) // Lancia l'autocomplete
+                binding.editTextDestination.clearFocus() // Toglie il focus
+                binding.editTextDestination.isCursorVisible = false // Toglie il cursore
 
             }
         }
+
 
         val mapFragment = childFragmentManager
             .findFragmentById(R.id.map) as SupportMapFragment
 
         mapFragment.getMapAsync(this)
-
-        binding.button5.setOnClickListener{
-
-
-        }
-
 
     }
 
@@ -181,8 +161,10 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
 
     private fun getAddressDetails(place: Place){
 
+        // Estrae dalla variabile place restituita dall'autocomplete addressComponents
         val addressComponents = place.addressComponents.asList()
 
+        // Se il focus è sull'Origin editext riempie i campi dell'oggetto originData altrimenti di destinationData
         if(focusOriginBool){
             originData.address =place.address
 
@@ -203,7 +185,7 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                     "postal_code" in types -> originData.postalCode = name
                 }
 
-                focusOriginBool=false
+                focusOriginBool=false // Eseguite tutte le operazioni toglie il focus
             }
 
 
@@ -228,7 +210,7 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                     "postal_code" in types -> destinationData.postalCode = name
                 }
             }
-            focusDestinationBool=false
+            focusDestinationBool=false // Eseguite tutte le operazioni toglie il focus
         }
     }
 
