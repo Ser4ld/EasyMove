@@ -33,16 +33,23 @@ import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.ViewModelProvider
+import com.example.easymove.ViewModel.HomeViewModel
+import com.example.easymove.ViewModel.UserViewModel
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
+import com.google.android.libraries.places.api.model.PlaceTypes
+import com.google.android.libraries.places.api.model.TypeFilter
 import com.google.maps.android.PolyUtil
 import org.json.JSONObject
-
+import java.util.Arrays
 
 
 class HomeFragment : Fragment() , OnMapReadyCallback {
 
     private lateinit var binding: FragmentHomeBinding
+    private lateinit var homeViewModel: HomeViewModel
+
     private lateinit var mMap: GoogleMap
 
     private var focusOriginBool: Boolean= false
@@ -68,11 +75,25 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                             "Indirizzo: $destinationData ${destinationData.address}, Città: ${destinationData.city}, CAP: ${destinationData.postalCode}, Provincia: ${destinationData.province}, Regione: ${destinationData.region}, Nazione: ${destinationData.country}, Coordinate: (${destinationData.latitude},${destinationData.longitude}) "
                         Log.i("Prova2", messaggio2)
 
-                    if ( binding.editTextOrigin.text.toString().isNotEmpty() && binding.editTextDestination.text.toString().isNotEmpty()) {
-                        HttpRequestDirections()
+                    homeViewModel.checkFormEditTexts(binding.editTextOrigin, binding.editTextDestination) { isValid, errorMessage ->
+                        if (isValid) {
+                            HttpRequestDirections()
+                        } else {
+
+                            if (errorMessage != null) {
+                                Log.e("Errore", errorMessage)
+                            }
+                        }
                     }
 
-                }
+
+
+
+
+
+
+
+            }
             } else if (result.resultCode == Activity.RESULT_CANCELED) {
                 // The user canceled the operation.
                 Log.i("Prova", "User canceled autocomplete")
@@ -94,6 +115,8 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
+
         // Inizializza l'SDK
         Places.initialize(requireContext(), getString(R.string.map_api_key) )
 
@@ -102,7 +125,9 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
         val fields = listOf( Place.Field.NAME, Place.Field.ADDRESS,  Place.Field.ADDRESS_COMPONENTS,Place.Field.LAT_LNG)
 
         // Start the autocomplete intent.
-        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.FULLSCREEN, fields)
+        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+            .setTypesFilter(listOf(PlaceTypes.ADDRESS))
+            .setCountries(listOf("IT"))
             .build(requireContext())
 
         binding.editTextOrigin.setOnFocusChangeListener { _, hasFocus ->
