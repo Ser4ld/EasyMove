@@ -65,8 +65,8 @@ class ProfileFragment : Fragment() {
                 if(userData.imageUrl != ""){
                     Glide.with(requireContext())
                         .load(userData.imageUrl)
+                        .circleCrop() // Rende l'immagine circolare
                         .into(binding.imageUser)
-
                 }
 
                 if (userData.userType == "guidatore" ){

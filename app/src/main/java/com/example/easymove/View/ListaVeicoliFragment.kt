@@ -20,8 +20,6 @@ class ListaVeicoliFragment : Fragment() {
     private var _binding: FragmentListaVeicoliBinding? = null
     private val binding get() = _binding!!
 
-    private lateinit var origin: String
-    private lateinit var destination: String
     private lateinit var cityOrigin: String
     private lateinit var postCodeOrigin: String
 
@@ -52,12 +50,11 @@ class ListaVeicoliFragment : Fragment() {
         adapter = MyAdapterVeicoli(veicoliViewModel,ArrayList())
         binding.recyclerView.adapter = adapter
 
-        val argument = arguments
+        val argument=arguments
         if (argument != null){
-            origin = argument.getString("origin").toString()
-            destination = argument.getString("destination").toString()
             cityOrigin = argument.getString("originCity").toString()
-            postCodeOrigin = argument.getString("postCodeOrigin").toString()
+            postCodeOrigin = argument.getString("originPostCode").toString()
+            Log.d("Origin Data", "City: $cityOrigin, Postal Code: $postCodeOrigin")
         }
 
         veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
@@ -71,13 +68,13 @@ class ListaVeicoliFragment : Fragment() {
                         val selectedVehicle =
                             sortedVeicoliList[position] // Usa la posizione per ottenere il veicolo dalla lista
 
-                        val bundle = Bundle()
+                        /**val bundle = Bundle()
                         bundle.putString("modello", selectedVehicle.modello)
                         bundle.putString("targa", selectedVehicle.targa)
                         bundle.putString("capienza", selectedVehicle.capienza)
                         bundle.putString("id_guidatore", selectedVehicle.id)
                         bundle.putString("destination", destination)
-                        bundle.putString("origin", origin)
+                        bundle.putString("origin", origin)*/
 
                         //passaggio informazioni origine e destinazione
                         /*val argument = arguments
@@ -88,7 +85,7 @@ class ListaVeicoliFragment : Fragment() {
                         //reset valore liveData altrimenti rimane attivo l'evento di click
 
 
-                        val inoltraRichiestaFragment = InoltraRichiestaFragment()
+                       /** val inoltraRichiestaFragment = InoltraRichiestaFragment()
                         inoltraRichiestaFragment.arguments = bundle
 
                         requireActivity().supportFragmentManager
@@ -98,6 +95,7 @@ class ListaVeicoliFragment : Fragment() {
                             .commit()
                         // Esegui la transazione del fragment come desiderato
                         veicoliViewModel.resetRichiestaClickedEvent()
+                       */
                     }
                 }
             }

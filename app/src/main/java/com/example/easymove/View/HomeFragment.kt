@@ -7,6 +7,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -170,10 +171,44 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
 
         mapFragment.getMapAsync(this)
 
-    }
 
+
+        binding.buttonSearch.setOnClickListener {
+
+            homeViewModel.checkFormEditTexts(
+                binding.editTextOrigin,
+                binding.editTextDestination
+            ) { isValid, errorMessage ->
+                if (isValid) {
+
+                    val listaVeicoliFragment = ListaVeicoliFragment()
+                    val bundle = Bundle()
+
+                    Log.i("origine1", "$originData")
+                    bundle.putString("originCity", originData.city)
+                    bundle.putString("originPostCode", originData.postalCode)
+
+                    listaVeicoliFragment.arguments = bundle
+
+                    requireActivity().supportFragmentManager.beginTransaction()
+                        .replace(R.id.fragmentContainer, listaVeicoliFragment)
+                        .addToBackStack(null)
+                        .commit()
+
+                } else {
+                    if (errorMessage != null) {
+                        Toast.makeText(requireContext(), errorMessage , Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
+
+      /*  binding.editTextOrigin.text = Editable.Factory.getInstance().newEditable("")
+        binding.editTextDestination.text = Editable.Factory.getInstance().newEditable("")
+
 
         // Coordinate del Polo Montedago di Ancona
         val montedagoAncona = LatLng(43.608973, 13.512643)
@@ -188,7 +223,7 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
         val zoomLevel = 12.0f // Imposta il livello di zoom
 
         // Definisce la posizione e lo zoom della camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(montedagoAncona, zoomLevel))
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(montedagoAncona, zoomLevel))*/
     }
 
 

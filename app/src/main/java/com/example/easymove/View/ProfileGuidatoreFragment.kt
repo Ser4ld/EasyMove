@@ -42,7 +42,7 @@ class ProfileGuidatoreFragment : Fragment() {
                 veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
                     if (veicoliList.isNotEmpty()) {
                        binding.textVeicoliGuidatore2.text = " ${veicoliViewModel.countVeicoliByUserId(userData.id, veicoliList).toString()}"
-                    }
+                    } else binding.textVeicoliGuidatore2.text=" 0"
                 }
             }
         }
@@ -53,6 +53,7 @@ class ProfileGuidatoreFragment : Fragment() {
             requireActivity().supportFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, VeicoliRegistratiUserFragment())
                 .addToBackStack(null)
-                .commit()}
+                .commit()
+        }
     }
 }
