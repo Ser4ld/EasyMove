@@ -89,18 +89,21 @@ class HomeViewModel () : ViewModel() {
         return null
     }
 
-    fun checkFormMap(
-        origin: String,
-        destination: String,
+    fun checkFormEditTexts(
+        originEditText: EditText,
+        destinationEditText: EditText,
         callback: (Boolean, String?) -> Unit
-    ){
-        if(origin.isNotEmpty() && destination.isNotEmpty()){
+    ) {
+        val origin = originEditText.text.toString()
+        val destination = destinationEditText.text.toString()
+
+        if (origin.isNotEmpty() && destination.isNotEmpty()) {
             callback(true, null)
-        }else{
+        } else {
             callback(false, "Indirizzo di partenza e/o di destinazione non impostati")
         }
-
     }
+
 
 
 }

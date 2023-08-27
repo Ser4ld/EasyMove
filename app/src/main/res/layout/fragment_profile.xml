@@ -67,6 +67,7 @@
             android:layout_height="150dp"
             android:src="@drawable/account_circle_app_theme"
             android:scaleType="fitCenter"
+            android:background="@drawable/circular_background"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
