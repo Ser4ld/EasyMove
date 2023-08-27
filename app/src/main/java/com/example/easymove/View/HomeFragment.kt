@@ -187,6 +187,8 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                     Log.i("origine1", "$originData")
                     bundle.putString("originCity", originData.city)
                     bundle.putString("originPostCode", originData.postalCode)
+                    bundle.putString("origin",originData.address)
+                    bundle.putString("destination",destinationData.address)
 
                     listaVeicoliFragment.arguments = bundle
 

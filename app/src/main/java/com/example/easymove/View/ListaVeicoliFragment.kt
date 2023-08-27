@@ -23,6 +23,11 @@ class ListaVeicoliFragment : Fragment() {
     private lateinit var cityOrigin: String
     private lateinit var postCodeOrigin: String
 
+    private lateinit var origin: String
+    private lateinit var destination: String
+
+
+
     private lateinit var veicoliViewModel: VeicoliViewModel
 
     private lateinit var adapter: MyAdapterVeicoli
@@ -54,6 +59,9 @@ class ListaVeicoliFragment : Fragment() {
         if (argument != null){
             cityOrigin = argument.getString("originCity").toString()
             postCodeOrigin = argument.getString("originPostCode").toString()
+            origin = argument.getString("origin").toString()
+            destination = argument.getString("destination").toString()
+
             Log.d("Origin Data", "City: $cityOrigin, Postal Code: $postCodeOrigin")
         }
 
@@ -68,13 +76,13 @@ class ListaVeicoliFragment : Fragment() {
                         val selectedVehicle =
                             sortedVeicoliList[position] // Usa la posizione per ottenere il veicolo dalla lista
 
-                        /**val bundle = Bundle()
+                        val bundle = Bundle()
                         bundle.putString("modello", selectedVehicle.modello)
                         bundle.putString("targa", selectedVehicle.targa)
                         bundle.putString("capienza", selectedVehicle.capienza)
                         bundle.putString("id_guidatore", selectedVehicle.id)
                         bundle.putString("destination", destination)
-                        bundle.putString("origin", origin)*/
+                        bundle.putString("origin", origin)
 
                         //passaggio informazioni origine e destinazione
                         /*val argument = arguments
@@ -85,7 +93,7 @@ class ListaVeicoliFragment : Fragment() {
                         //reset valore liveData altrimenti rimane attivo l'evento di click
 
 
-                       /** val inoltraRichiestaFragment = InoltraRichiestaFragment()
+                        val inoltraRichiestaFragment = InoltraRichiestaFragment()
                         inoltraRichiestaFragment.arguments = bundle
 
                         requireActivity().supportFragmentManager
@@ -95,7 +103,7 @@ class ListaVeicoliFragment : Fragment() {
                             .commit()
                         // Esegui la transazione del fragment come desiderato
                         veicoliViewModel.resetRichiestaClickedEvent()
-                       */
+
                     }
                 }
             }
