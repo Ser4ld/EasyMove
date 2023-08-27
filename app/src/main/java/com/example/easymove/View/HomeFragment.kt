@@ -31,6 +31,12 @@ import java.io.BufferedReader
 import java.io.InputStreamReader
 import java.net.HttpURLConnection
 import java.net.URL
+import androidx.core.content.ContextCompat
+import com.google.android.gms.maps.model.LatLngBounds
+import com.google.android.gms.maps.model.PolylineOptions
+import com.google.maps.android.PolyUtil
+import org.json.JSONObject
+
 
 
 class HomeFragment : Fragment() , OnMapReadyCallback {
@@ -54,11 +60,11 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                     val place = Autocomplete.getPlaceFromIntent(intent)
                     getAddressDetails(place)
                         var messaggio =
-                            "Indirizzo: ${originData.address}, Città: ${originData.city}, CAP: ${originData.postalCode}, Provincia: ${originData.province}, Regione: ${originData.region}, Nazione: ${originData.country}, Coordinate: (${originData.latitude},${originData.longitude}) "
+                            "Indirizzo: $originData ,${originData.address}, Città: ${originData.city}, CAP: ${originData.postalCode}, Provincia: ${originData.province}, Regione: ${originData.region}, Nazione: ${originData.country}, Coordinate: (${originData.latitude},${originData.longitude}) "
                         Log.i("Prova", messaggio)
 
                         var messaggio2 =
-                            "Indirizzo: ${destinationData.address}, Città: ${destinationData.city}, CAP: ${destinationData.postalCode}, Provincia: ${destinationData.province}, Regione: ${destinationData.region}, Nazione: ${destinationData.country}, Coordinate: (${destinationData.latitude},${destinationData.longitude}) "
+                            "Indirizzo: $destinationData ${destinationData.address}, Città: ${destinationData.city}, CAP: ${destinationData.postalCode}, Provincia: ${destinationData.province}, Regione: ${destinationData.region}, Nazione: ${destinationData.country}, Coordinate: (${destinationData.latitude},${destinationData.longitude}) "
                         Log.i("Prova2", messaggio2)
 
                 }
@@ -129,13 +135,18 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
-        // Aggiunge il Sydney e sposta la camera
-        val sydney = LatLng(-34.0, 151.0)
+        // Coordinate del Polo Montedago di Ancona
+        val montedagoAncona = LatLng(43.608973, 13.512643)
+
+        // Aggiunge il marker sulle coordinate passate in ingresso
         mMap.addMarker(MarkerOptions()
-            .position(sydney)
-            .title("Marker in Sydney"))
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(sydney))
-    }
+            .position(montedagoAncona)
+            .title("Polo Montedago, Ancona"))
+
+        val zoomLevel = 12.0f // Imposta il livello di zoom
+
+        // Definisce la posizione e lo zoom della camera
+        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(montedagoAncona, zoomLevel))    }
 
     fun getAddressDetails(place: Place){
 
@@ -190,7 +201,7 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
         }
     }
 
-    fun HttpRequestDirections() {
+    private fun HttpRequestDirections() {
         lifecycleScope.launch {
             val origin = "${originData.latitude},${originData.longitude}"
             val destination = "${destinationData.latitude},${destinationData.longitude}"
@@ -218,7 +229,13 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
 
                         val jsonResponse = response.toString()
                         Log.d("json", jsonResponse)
-                        // Ora puoi gestire la risposta JSON come desideri
+                        Log.d("json", jsonResponse)
+
+
+                        val colorResource = R.color.app_theme
+                        val lineWidth = 20f // Larghezza della linea in pixel
+                        parseDistanceFromJson(jsonResponse)
+                        drawRouteOnMap(jsonResponse, colorResource, lineWidth)
                     } else {
                         // Gestisci qui gli errori di richiesta
                     }
@@ -228,5 +245,79 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
             }
         }
     }
+
+    private fun parseDistanceFromJson(jsonResponse: String): String {
+        val jsonObject = JSONObject(jsonResponse)
+        val routesArray = jsonObject.getJSONArray("routes")
+
+        if (routesArray.length() > 0) {
+            val route = routesArray.getJSONObject(0)
+            val legsArray = route.getJSONArray("legs")
+
+            if (legsArray.length() > 0) {
+                val leg = legsArray.getJSONObject(0)
+                val distanceObject = leg.getJSONObject("distance")
+                val distanceText = distanceObject.getString("text")
+
+                return distanceText
+            }
+        }
+
+        return "N/A" // Ritorna "N/A" se non è possibile estrarre la distanza
+    }
+
+    private fun drawRouteOnMap(jsonResponse: String, colorResource: Int, lineWidth: Float) {
+        requireActivity().runOnUiThread {
+            val jsonObject = JSONObject(jsonResponse)
+            val routesArray = jsonObject.getJSONArray("routes")
+
+            if (routesArray.length() > 0) {
+                val route = routesArray.getJSONObject(0)
+                val overviewPolyline = route.getJSONObject("overview_polyline")
+                val points = overviewPolyline.getString("points")
+
+                val decodedPath = PolyUtil.decode(points) // Assicurati di avere importato PolyUtil
+
+                val color = ContextCompat.getColor(requireContext(), colorResource)
+
+                val polylineOptions = PolylineOptions()
+                    .addAll(decodedPath)
+                    .color(color) // Imposta il colore della linea
+                    .width(lineWidth) // Imposta la larghezza della linea in pixel
+                    .geodesic(true)
+
+
+                mMap.clear()
+
+                val startLatLng = LatLng(decodedPath.first().latitude, decodedPath.first().longitude)
+                val endLatLng = LatLng(decodedPath.last().latitude, decodedPath.last().longitude)
+
+
+                mMap.addMarker(MarkerOptions()
+                    .position(startLatLng)
+                    .title("Partenza"))
+
+                mMap.addMarker(MarkerOptions()
+                    .position(endLatLng)
+                    .title("Arrivo"))
+
+                mMap.addPolyline(polylineOptions)
+
+                // Ottieni i limiti del percorso
+                val builder = LatLngBounds.Builder()
+                for (point in decodedPath) {
+                    builder.include(point)
+                }
+                val bounds = builder.build()
+
+                // Imposta la posizione della telecamera in base ai limiti
+                val padding = 100 // Margine intorno ai limiti del percorso
+                val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding)
+                mMap.moveCamera(cameraUpdate)
+            }
+        }
+    }
+
+
 
 }
