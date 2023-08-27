@@ -36,6 +36,11 @@ class IndexActivity : AppCompatActivity() {
                 .replace(R.id.fragmentContainer, initialFragment)
                 .commit()
 
+
+            //per testare le recensioni
+            /*supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, CreaRecensioneFragment())
+                .commit()*/
         }
     }
 

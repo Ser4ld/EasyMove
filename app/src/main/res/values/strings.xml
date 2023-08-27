@@ -5,6 +5,8 @@
     <string name="google_maps_api_key">AIzaSyBy1Ck8fhL9cRuXdz_2DvZmiTV3FnNu0WQ</string>
 
     <dimen name="image_size">250dp</dimen>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>
 

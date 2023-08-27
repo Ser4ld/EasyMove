@@ -16,6 +16,7 @@ class RichiestaViewModel: ViewModel() {
 
     val richiestaRepository = RichiestaRepository()
 
+    @RequiresApi(Build.VERSION_CODES.O)
     fun inoltraRichiesta(
         guidatoreId: String,
         consumatoreId: String,

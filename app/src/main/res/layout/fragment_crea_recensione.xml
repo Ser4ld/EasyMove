@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".View.CreaRecensioneFragment">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="16dp"
+            android:background="@color/white"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:text="Inserisci una recensione"
+                android:textColor="@color/app_theme"
+                android:textSize="18sp" />
+
+            <RatingBar
+                android:id="@+id/ratingBar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"
+                android:numStars="5"
+                android:rating="0"
+                android:progressBackgroundTint="@color/app_theme_light"
+
+                android:stepSize="0.5" />
+
+            <EditText
+                android:id="@+id/etDescrizione"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:background="@drawable/text_form_background"
+                android:drawablePadding="5dp"
+                android:drawableLeft="@drawable/baseline_rate_review_24"
+                android:drawableTint="@color/app_theme"
+                android:hint="Inserisci la tua recensione"
+                android:inputType="textMultiLine"
+                android:padding="5dp"
+                android:lines="3"
+                android:maxLines="5"
+                android:maxLength="300"
+                android:textColor="@color/black"
+                android:textColorHint="@color/placeholder"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
+
+            <TextView
+                android:id="@+id/characterCountTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:text="0/300"
+                android:textColor="@color/placeholder"
+                android:layout_marginEnd="20dp" />
+
+
+            <Button
+                android:id="@+id/btnInviaRecensione"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:layout_marginTop="16dp"
+                android:layout_gravity="center_horizontal"
+                android:text="Invia Recensione"
+                app:cornerRadius="20dp"
+                android:textColor="@color/white"
+
+                />
+
+        </LinearLayout>
+
+</FrameLayout>
