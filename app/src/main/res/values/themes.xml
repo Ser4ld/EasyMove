@@ -49,26 +49,6 @@
         <item name="android:windowBackground">@color/white</item>
     </style>
 
-    <style name="CustomTheme" parent="Theme.EasyMove">
-
-        <item name="mapboxSearchSdkTheme">@style/CustomSearchSdkTheme</item>
-
-    </style>
-
-    <style name="CustomSearchSdkTheme" parent="">
-        <item name="mapboxSearchSdkPrimaryTextColor">@color/dark</item>
-        <item name="mapboxSearchSdkPrimaryTextInactiveColor">@color/app_theme</item>
-        <item name="mapboxSearchSdkPrimaryAccentColor">@color/app_theme</item>
-        <item name="mapboxSearchSdkOnPrimaryAccentColor">#D3C9A6</item>
-        <item name="mapboxSearchSdkDistanceColor">#A1AE7E</item>
-        <item name="mapboxSearchSdkIconTintColor">@color/dark</item>
-        <item name="mapboxSearchSdkBackgroundColor">#F5F4EC</item>
-        <item name="mapboxSearchSdkBackgroundSecondaryColor">#AFC3AD</item>
-        <item name="mapboxSearchSdkPopulateArrowColor">#D3C9A6</item>
-        <item name="mapboxSearchSdkProgressColor">@color/app_theme</item>
-        <item name="mapboxSearchSdkErrorIconColor">#653030</item>
-    </style>
-
     <style name="ThemeOverlay.EasyMove.FullscreenContainer" parent="">
         <item name="fullscreenBackgroundColor">@color/light_blue_600</item>
         <item name="fullscreenTextColor">@color/light_blue_A200</item>

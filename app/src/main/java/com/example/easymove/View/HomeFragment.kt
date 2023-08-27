@@ -2,13 +2,11 @@ package com.example.easymove.View
 
 import android.app.Activity
 import android.os.Bundle
-import android.provider.Settings
 import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.fragment.app.Fragment
@@ -26,25 +24,13 @@ import com.google.android.libraries.places.api.Places
 import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
-import java.io.BufferedReader
-import java.io.InputStreamReader
-import java.net.HttpURLConnection
-import java.net.URL
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.ViewModel.HomeViewModel
 import com.example.easymove.ViewModel.MapViewModel
-import com.example.easymove.ViewModel.UserViewModel
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.libraries.places.api.model.PlaceTypes
-import com.google.android.libraries.places.api.model.TypeFilter
-import com.google.maps.android.PolyUtil
-import org.json.JSONObject
-import java.util.Arrays
 
 
 class HomeFragment : Fragment() , OnMapReadyCallback {

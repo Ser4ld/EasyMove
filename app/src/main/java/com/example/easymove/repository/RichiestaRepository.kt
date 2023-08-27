@@ -1,6 +1,4 @@
 package com.example.easymove.repository
-
-import com.example.easymove.enum.StatoRichiesta
 import com.example.easymove.model.Richiesta
 import com.example.easymove.model.Veicolo
 import com.google.android.gms.tasks.Task

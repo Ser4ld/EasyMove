@@ -37,9 +37,6 @@ class MapViewModel: ViewModel() {
         // Se il focus è sull'Origin editext riempie i campi dell'oggetto originData altrimenti di destinationData
         if(focusOriginBool){
             originData.address =place.address
-
-
-
             originData.latitude=place.latLng.latitude.toString()
             originData.longitude=place.latLng.longitude.toString()
 
@@ -57,13 +54,9 @@ class MapViewModel: ViewModel() {
 
             }
 
-
         } else  {
 
             destinationData.address=place.address
-
-
-
             destinationData.latitude=place.latLng.latitude.toString()
             destinationData.longitude=place.latLng.longitude.toString()
 
@@ -81,6 +74,31 @@ class MapViewModel: ViewModel() {
             }
         }
     }
+
+    fun getAddressDetailsVeicolo(place: Place, positionData: MapData){
+
+        // Estrae dalla variabile place restituita dall'autocomplete addressComponents
+        val addressComponents = place.addressComponents.asList()
+
+        positionData.address =place.address
+        positionData.latitude=place.latLng.latitude.toString()
+        positionData.longitude=place.latLng.longitude.toString()
+
+        for (component in addressComponents) {
+            val types = component.types
+            val name = component.name
+
+            when {
+                "locality" in types -> positionData.city = name
+                "administrative_area_level_2" in types -> positionData.province= name
+                "administrative_area_level_1" in types -> positionData.region = name
+                "country" in types -> positionData.country = name
+                "postal_code" in types -> positionData.postalCode = name
+            }
+        }
+    }
+
+
 
     fun HttpRequestDirections(viewModelScope: CoroutineScope, originData: MapData, destinationData: MapData, apiKey: String, callback: (String)-> Unit) {
         viewModelScope.launch {

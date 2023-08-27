@@ -1,85 +1,65 @@
 package com.example.easymove.View
 
+import android.app.Activity
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import com.example.easymove.R
 import com.example.easymove.databinding.FragmentAggiungiVeicoloBinding
-import android.Manifest
 import android.app.Activity.RESULT_OK
-import android.content.ContentValues
 import android.content.Intent
-import android.content.pm.PackageManager
-import android.graphics.Point
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
+import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
-import androidx.core.view.isVisible
 import androidx.lifecycle.lifecycleScope
-import com.example.easymove.MapBox.inputMethodManager
-import com.example.easymove.model.User
-import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.firestore.FirebaseFirestore
-import com.google.firebase.storage.FirebaseStorage
-import com.google.firebase.storage.StorageReference
-import com.mapbox.search.autofill.AddressAutofill
-import com.mapbox.search.autofill.AddressAutofillResult
-import com.mapbox.search.autofill.AddressAutofillSuggestion
-import com.mapbox.search.autofill.Query
-import com.mapbox.search.ui.adapter.autofill.AddressAutofillUiAdapter
-import com.mapbox.search.ui.view.CommonSearchViewConfiguration
-import com.mapbox.search.ui.view.DistanceUnitType
-import com.mapbox.search.ui.view.SearchResultsView
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.tasks.await
-import kotlin.properties.Delegates
-import androidx.core.view.isVisible
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.lifecycleScope
-import com.example.easymove.MapBox.inputMethodManager
-import com.example.easymove.ViewModel.HomeViewModel
+import com.example.easymove.R
+import com.example.easymove.ViewModel.MapViewModel
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
+import com.example.easymove.model.MapData
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.model.PlaceTypes
+import com.google.android.libraries.places.widget.Autocomplete
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 
 
 class AggiungiVeicoloFragment : Fragment() {
+
     private var _binding: FragmentAggiungiVeicoloBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var veicoliViewModel: VeicoliViewModel
     private lateinit var userViewModel: UserViewModel
+    private lateinit var mapViewModel: MapViewModel
+
     private lateinit var userId: String
-
-    private lateinit var fireStoreDatabase: FirebaseFirestore
-
-    private lateinit var addressAutofill: AddressAutofill
-    private lateinit var addressAutofillUiAdapter: AddressAutofillUiAdapter
-    //private var ignoreNextMapIdleEvent: Boolean = false
-    private var ignoreNextQueryTextUpdate: Boolean = false
-
-    private lateinit var coordinate: com.mapbox.geojson.Point
-
-    private var latitude: Double? = null
-    private var longitude: Double? = null
-
-    private lateinit var streetMezzo: String
-    private lateinit var houseNumberMezzo: String
-    private lateinit var cityMezzo: String
-    private lateinit var regionMezzo: String
-    private lateinit var postcodeMezzo: String
-    private lateinit var fullAddress: String
+    private var positionData: MapData = MapData()
 
     private val PICK_IMAGE_REQUEST = 1
     private var imageUri: Uri? = null
-    private lateinit var storageReference: StorageReference
 
+    private val startAutocomplete =
+        registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
+            if (result.resultCode == Activity.RESULT_OK) {
+                val intent = result.data
+                if (intent != null) {
+                    val place = Autocomplete.getPlaceFromIntent(intent)
+                    mapViewModel.getAddressDetailsVeicolo(place, positionData)
+                    binding.LocazioneVeicolo.text = Editable.Factory.getInstance().newEditable(positionData.address)
+                    Log.i("ProvaOrigine", "$positionData")
+                }
+            } else if (result.resultCode == Activity.RESULT_CANCELED) {
+                // The user canceled the operation.
+                Log.i("Prova", "User canceled autocomplete")
+            }
+        }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -92,8 +72,10 @@ class AggiungiVeicoloFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        veicoliViewModel = VeicoliViewModel()
+        veicoliViewModel =  ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        mapViewModel = ViewModelProvider(requireActivity()).get(MapViewModel::class.java)
+
 
         //caratteri editText uppercase
         binding.Targa.addTextChangedListener(object : TextWatcher {
@@ -130,98 +112,49 @@ class AggiungiVeicoloFragment : Fragment() {
             }
         }
 
+
+        // Inizializza l'SDK
+        Places.initialize(requireContext(), getString(R.string.map_api_key))
+
+        // Definisce i campi che devono essere restituiti in seguito alla selezione
+        val fields = listOf(
+            Place.Field.NAME,
+            Place.Field.ADDRESS,
+            Place.Field.ADDRESS_COMPONENTS,
+            Place.Field.LAT_LNG
+        )
+
+        // Avvia l'intent di autocompletamento
+        val intent = Autocomplete.IntentBuilder(AutocompleteActivityMode.OVERLAY, fields)
+            .setTypesFilter(listOf(PlaceTypes.ADDRESS))// Filtra i risultati per tipo
+            .setCountries(listOf("IT")) // Filtra i risulati per città
+            .build(requireContext())
+
+        // Controlla il focus del primo EditText
+        binding.LocazioneVeicolo.setOnFocusChangeListener { _, hasFocus ->
+            if (hasFocus) {
+                startAutocomplete.launch(intent) // Lancia l'autocomplete
+                binding.LocazioneVeicolo.clearFocus() // Toglie il focus
+                binding.LocazioneVeicolo.isCursorVisible = false // Toglie il cursore
+
+            }
+        }
+
         binding.imageBtn.setOnClickListener {
             openFileChooser()
         }
 
-        addressAutofill = AddressAutofill.create(getString(R.string.mapbox_access_token))
-        //var isFirstTyping = true da eliminare
-
-        binding.searchResultsView.initialize(
-            SearchResultsView.Configuration(
-                commonConfiguration = CommonSearchViewConfiguration(DistanceUnitType.IMPERIAL)
-            )
-        )
-
-        addressAutofillUiAdapter = AddressAutofillUiAdapter(
-            view = binding.searchResultsView,
-            addressAutofill = addressAutofill
-        )
-
-        addressAutofillUiAdapter.addSearchListener(object :
-            AddressAutofillUiAdapter.SearchListener {
-
-            override fun onSuggestionSelected(suggestion: AddressAutofillSuggestion) {
-                selectSuggestion(
-                    suggestion,
-                    addressAutofill,
-                    binding.searchResultsView,
-                    //binding.fullAddress
-                )
-            }
-
-            override fun onSuggestionsShown(suggestions: List<AddressAutofillSuggestion>) {
-                // Nothing to do
-            }
-
-            override fun onError(e: Exception) {
-                // Nothing to do
-            }
-        })
-
-        binding.LocazioneVeicolo.addTextChangedListener(object : TextWatcher {
-
-            override fun onTextChanged(text: CharSequence, start: Int, before: Int, count: Int) {
-
-
-                if (ignoreNextQueryTextUpdate) {
-                    ignoreNextQueryTextUpdate = false
-                    return
-                }
-
-                val query = Query.create(text.toString())
-                if (query != null) {
-                    lifecycleScope.launchWhenStarted {
-                        addressAutofillUiAdapter.search(query)
-                    }
-                }
-                binding.searchResultsView.isVisible = query != null
-            }
-
-            override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                // Nothing to do
-            }
-
-            override fun afterTextChanged(s: Editable) {
-                // Nothing to do
-            }
-        })
-
-        if (!isPermissionGranted(Manifest.permission.ACCESS_FINE_LOCATION)) {
-            ActivityCompat.requestPermissions(
-                requireActivity(),
-                arrayOf(
-                    Manifest.permission.ACCESS_FINE_LOCATION,
-                    Manifest.permission.ACCESS_COARSE_LOCATION
-                ),
-                PERMISSIONS_REQUEST_LOCATION
-            )
-        }
-
-
-
         binding.addVeicoloButton.setOnClickListener {
             // Verifica se sono stati inseriti tutti i dati necessari
-
 
             veicoliViewModel.storeVehicle(
                 userId,
                 binding.NomeVeicolo.text.toString(),
                 binding.Targa.text.toString(),
-                "Chieti",
-                "via dei tintori",
-                "2",
-                "66100",
+                positionData.city,
+                positionData.address,
+                positionData.province,
+                positionData.postalCode,
                 binding.Altezzacassone.text.toString(),
                 binding.Lunghezzacassone.text.toString(),
                 binding.Larghezzacassone.text.toString(),
@@ -235,7 +168,6 @@ class AggiungiVeicoloFragment : Fragment() {
 
                 }else{
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                //no success
                 }
 
             }
@@ -245,81 +177,6 @@ class AggiungiVeicoloFragment : Fragment() {
 
     }
 
-
-
-    private fun selectSuggestion(
-        suggestion: AddressAutofillSuggestion,
-        Autofill: AddressAutofill,
-        searchResults: SearchResultsView
-
-    ) {
-        lifecycleScope.launchWhenStarted {
-            val response = Autofill.select(suggestion)
-            response.onValue { result ->
-                showAddressAutofillResult(result,searchResults)
-            }.onError {
-                Toast.makeText(requireContext(), R.string.address_autofill_error_select, Toast.LENGTH_SHORT).show()
-            }
-        }
-    }
-
-    private fun showAddressAutofillResult(
-        result: AddressAutofillResult,
-        searchResults: SearchResultsView) {
-
-        var address = result.address
-
-        coordinate = result.suggestion.coordinate
-        latitude=coordinate.latitude()
-        longitude=coordinate.longitude()
-
-        fullAddress = result.suggestion.formattedAddress
-
-        streetMezzo = address.street.toString()
-        houseNumberMezzo = address.houseNumber.toString()
-        cityMezzo= address.place.toString()
-        regionMezzo= address.region.toString()
-        postcodeMezzo= address.postcode.toString()
-
-        binding.LocazioneVeicolo.setText(
-            listOfNotNull(
-                streetMezzo,
-                houseNumberMezzo,
-                cityMezzo
-            ).joinToString()
-        );
-
-
-        ignoreNextQueryTextUpdate = true
-
-        binding.LocazioneVeicolo.clearFocus()
-
-        searchResults.isVisible = false
-        searchResults.hideKeyboard()
-
-    }
-    private companion object {
-        const val PERMISSIONS_REQUEST_LOCATION = 0
-    }
-    private fun isPermissionGranted(permission: String): Boolean {
-        return ContextCompat.checkSelfPermission(requireContext(), permission) == PackageManager.PERMISSION_GRANTED
-    }
-    private fun View.hideKeyboard() {
-        context.inputMethodManager.hideSoftInputFromWindow(windowToken, 0)
-    }
-
-
-    //Funzione utilizzata per controllare tramite una query se esiste un altro veicolo con la stessa targa
-    // appena immessa
-
-    private suspend fun checkTargaExists(targa: String): Boolean {
-        val snapshot = fireStoreDatabase.collection("vans")
-            .whereEqualTo("Targa", targa)
-            .get()
-            .await()
-
-        return !snapshot.isEmpty
-    }
 
     private fun openFileChooser() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)

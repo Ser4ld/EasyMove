@@ -1,7 +1,5 @@
 package com.example.easymove.model
 
-import com.example.easymove.enum.StatoRichiesta
-
 data class Richiesta(
     var annuncioId: String,
     val guidatoreId: String,
