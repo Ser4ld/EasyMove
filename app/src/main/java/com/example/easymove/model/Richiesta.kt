@@ -1,7 +1,7 @@
 package com.example.easymove.model
 
 data class Richiesta(
-    var annuncioId: String,
+    var richiestaId: String,
     val guidatoreId: String,
     val consumatoreId: String,
     val targaveicolo: String,

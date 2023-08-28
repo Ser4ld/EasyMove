@@ -66,7 +66,7 @@ class RichiestaRepository {
 
     fun uploadRichiesta(richiesta: Richiesta, callback: (Boolean, String?) -> Unit) {
         val newRichiesta = firestoreDatabase.collection("requests").document()
-        richiesta.annuncioId = newRichiesta.id
+        richiesta.richiestaId = newRichiesta.id
         newRichiesta.set(richiesta)
             .addOnSuccessListener {
                 callback(true, "Richiesta inoltrata correttamente")
