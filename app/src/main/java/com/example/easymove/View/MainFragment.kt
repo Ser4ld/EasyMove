@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.R
 import com.example.easymove.ViewModel.HomeViewModel
+import com.example.easymove.ViewModel.RichiestaViewModel
 import com.example.easymove.databinding.FragmentMainBinding
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
@@ -22,6 +23,8 @@ class MainFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel
     private lateinit var veicoliViewModel: VeicoliViewModel
     private lateinit var recensioneViewModel: RecensioneViewModel
+    private lateinit var richiestaViewModel: RichiestaViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -39,12 +42,13 @@ class MainFragment : Fragment() {
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
         recensioneViewModel = ViewModelProvider(requireActivity()).get((RecensioneViewModel::class.java))
-
+        richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
 
         userViewModel.fetchUserData()
         userViewModel.fetchAllUser()
         veicoliViewModel.startVeicoliListener()
         recensioneViewModel.startRecensioniListener()
+        richiestaViewModel.startRichiesteListener()
 
 
         //controllo se il frameLayout è vuoto
@@ -65,7 +69,7 @@ class MainFragment : Fragment() {
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.homeItem -> replaceFragment(HomeFragment())
-                R.id.profileItem -> replaceFragment(ProfileFragment())
+                R.id.profileItem -> replaceFragment( ProfileFragment())
             }
             true
         }

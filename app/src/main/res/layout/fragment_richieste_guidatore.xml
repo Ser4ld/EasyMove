@@ -142,7 +142,7 @@
                 app:layout_constraintTop_toBottomOf="@id/textRichiesteAccettate"
                 app:tabMode="fixed"
                 app:tabSelectedTextColor="@color/app_theme"
-                app:tabTextColor="@color/grey_text" />
+                app:tabTextColor="@color/black" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

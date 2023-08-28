@@ -11,4 +11,7 @@ data class Richiesta(
     val descrizione: String,
     val stato: String
 
-)
+){
+    constructor() : this(
+        "", "", "", "", "",
+        "", "", "", "")}

@@ -1,9 +1,11 @@
 package com.example.easymove.repository
+import com.example.easymove.model.Recensione
 import com.example.easymove.model.Richiesta
 import com.example.easymove.model.Veicolo
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.QuerySnapshot
 
 private val firebaseAuth = FirebaseAuth.getInstance()
@@ -75,6 +77,25 @@ class RichiestaRepository {
                 callback(false, "Errore: ${exception.message}")
             }
     }
+
+    fun getRichiesteListener(callback: (Boolean, String?, List<Richiesta>?) -> Unit): ListenerRegistration {
+        return firestoreDatabase.collection("requests")
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    callback(false, error.toString(), null)
+                    return@addSnapshotListener
+                }
+
+                val richiesteList = mutableListOf<Richiesta>()
+                for (document in snapshot?.documents ?: emptyList()) {
+                    val request = document.toObject(Richiesta::class.java)
+                    request?.let { richiesteList.add(it) }
+                }
+
+                callback(true, null, richiesteList)
+            }
+    }
+
 
 
 }

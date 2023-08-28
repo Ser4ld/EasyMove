@@ -40,10 +40,11 @@ class MyAdapterRecensioni(private val recensioniList:ArrayList<Recensione>, priv
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
-        holder.stelle.rating=recensioniList[position].valutazione.toFloat()
-        holder.descrizione.text=recensioniList[position].descrizione
-
         val recensione = recensioniList[position]
+
+        holder.stelle.rating=recensione.valutazione.toFloat()
+        holder.descrizione.text=recensione.descrizione
+
 
         val user = userList.find { it.id == recensione.guidatoreId}
 
