@@ -7,9 +7,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
+import androidx.lifecycle.get
 import com.example.easymove.R
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
+import com.example.easymove.Viewmodel.RecensioneViewModel
 import com.example.easymove.databinding.FragmentProfileGuidatoreBinding
 
 
@@ -18,6 +20,7 @@ class ProfileGuidatoreFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var veicoliViewModel: VeicoliViewModel
     private lateinit var userViewModel: UserViewModel
+    private lateinit var recensioniViewModel: RecensioneViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -32,11 +35,20 @@ class ProfileGuidatoreFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        recensioniViewModel= ViewModelProvider(requireActivity()).get(RecensioneViewModel::class.java)
+
 
         userViewModel.userDataLiveData.observe(viewLifecycleOwner){userData ->
             if(userData!= null)
             {
-                Log.d("PROVAAAA",userData.id)
+                recensioniViewModel.recensioniLiveData.observe(viewLifecycleOwner){ recensioniList->
+                    if (recensioniList!=null) {
+
+                        var media = recensioniViewModel.mediaRecensioniFiltrate(userData.id, recensioniList)
+                        binding.ratingBarRecensione.rating = media
+                        Log.i("provarecensioni", "$media")
+                    }
+                }
                 veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
                     if (veicoliList.isNotEmpty()) {
                        binding.textVeicoliGuidatore2.text = " ${veicoliViewModel.countVeicoliByUserId(userData.id, veicoliList).toString()}"
@@ -44,6 +56,7 @@ class ProfileGuidatoreFragment : Fragment() {
                 }
             }
         }
+
 
 
 

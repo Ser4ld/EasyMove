@@ -64,7 +64,6 @@ class RecensioniGuidatoreFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
-        recensioneViewModel.startRecensioniListener()
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = layoutManager
 

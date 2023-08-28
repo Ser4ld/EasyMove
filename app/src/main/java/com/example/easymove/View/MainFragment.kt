@@ -11,6 +11,7 @@ import com.example.easymove.ViewModel.HomeViewModel
 import com.example.easymove.databinding.FragmentMainBinding
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
+import com.example.easymove.Viewmodel.RecensioneViewModel
 
 
 class MainFragment : Fragment() {
@@ -20,6 +21,7 @@ class MainFragment : Fragment() {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var userViewModel: UserViewModel
     private lateinit var veicoliViewModel: VeicoliViewModel
+    private lateinit var recensioneViewModel: RecensioneViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -36,10 +38,14 @@ class MainFragment : Fragment() {
         homeViewModel = HomeViewModel()
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
+        recensioneViewModel = ViewModelProvider(requireActivity()).get((RecensioneViewModel::class.java))
+
 
         userViewModel.fetchUserData()
         userViewModel.fetchAllUser()
         veicoliViewModel.startVeicoliListener()
+        recensioneViewModel.startRecensioniListener()
+
 
         //controllo se il frameLayout è vuoto
         if (childFragmentManager.findFragmentById(R.id.frameLayout) == null) {

@@ -51,14 +51,13 @@
                         android:id="@+id/textVeicoliGuidatore"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="0"
                         android:text="Numero veicoli registrati:"
                         android:textColor="@color/app_theme"
                         android:textSize="18dp" />
 
                     <TextView
                         android:id="@+id/textVeicoliGuidatore2"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:textAlignment="viewStart"
@@ -127,18 +126,27 @@
                         android:id="@+id/textValutazione"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
                         android:text="Valutazione guidatore: "
                         android:textColor="@color/app_theme"
                         android:textSize="18dp" />
 
-                    <TextView
-                        android:id="@+id/textValutazione2"
+                    <RatingBar
+                        android:id="@+id/ratingBarRecensione"
+                        style="?android:attr/ratingBarStyleSmall"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:text="TextView"
-                        android:textSize="18dp" />
+                        android:progressBackgroundTint="@color/unselected_star_color"
+                        android:progressTint="@color/selected_star_color"
+                        android:secondaryProgressTint="#00FFFFFF"
+                        android:layout_gravity="center_vertical"
+                        android:layout_marginStart="8dp"
+                        android:layout_marginTop="2dp"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintStart_toEndOf="@id/textValutazione"
+                        />
+
+
                 </LinearLayout>
 
                 <Button
