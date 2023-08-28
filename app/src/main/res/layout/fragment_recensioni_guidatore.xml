@@ -98,29 +98,21 @@
                 app:layout_constraintTop_toBottomOf="@id/textRecensioniTotali" />
 
 
-            <TextView
-                android:id="@+id/textMediaValutazione2"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:textSize="15dp"
-                android:textColor="@color/grey_text"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.0"
-                app:layout_constraintStart_toEndOf="@id/textMediaValutazione"
-                app:layout_constraintTop_toTopOf="@id/textMediaValutazione" />
-
             <RatingBar
                 android:id="@+id/ratingBarMedia"
+                style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
                 android:numStars="5"
                 android:progressBackgroundTint="@color/unselected_star_color"
                 android:progressTint="@color/selected_star_color"
                 android:secondaryProgressTint="#00FFFFFF"
-                app:layout_constraintTop_toBottomOf="@id/textMediaValutazione"
-                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                android:layout_marginTop="8dp" />
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintBottom_toBottomOf="@id/textMediaValutazione"
+                app:layout_constraintStart_toEndOf="@id/textMediaValutazione"
+                app:layout_constraintTop_toBottomOf="@id/textRecensioniTotali2" />
 
             <View
                 android:layout_width="0dp"

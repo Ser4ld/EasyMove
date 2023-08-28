@@ -50,10 +50,8 @@ class RecensioniGuidatoreFragment : Fragment() {
 
                         recensioneViewModel.recensioniLiveData.observe(viewLifecycleOwner){ recensioniList->
                             if (recensioniList!=null) {
-                                var media=recensioneViewModel.mediaRecensioniFiltrate(user.id,recensioniList)
-                                binding.ratingBarMedia.rating= media
+                                binding.ratingBarMedia.rating= recensioneViewModel.mediaRecensioniFiltrate(user.id,recensioniList)
                                 binding.textRecensioniTotali2.text= recensioneViewModel.totaleRecensioniFiltrate(user.id,recensioniList).toString()
-                                binding.textMediaValutazione2.text = media.toString()
                             }
                         }
                         userId=user.id
@@ -66,10 +64,6 @@ class RecensioniGuidatoreFragment : Fragment() {
             }
 
         }
-
-
-
-
 
         binding.fabButton.setOnClickListener {
             parentFragmentManager.popBackStack()
