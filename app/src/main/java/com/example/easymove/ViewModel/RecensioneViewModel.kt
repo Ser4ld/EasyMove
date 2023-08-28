@@ -45,4 +45,10 @@ class RecensioneViewModel: ViewModel() {
     fun filterRecensioneByUserId(userId: String, recensioniList: List<Recensione>): ArrayList<Recensione> {
         val filteredList = recensioniList.filter { recensione -> recensione.idRicevitore == userId }
         return ArrayList(filteredList)
-    }}
+    }
+
+    fun countFilterRecensioni( recensioniList : ArrayList<Recensione>): Int{
+        return recensioniList.size
+    }
+
+}

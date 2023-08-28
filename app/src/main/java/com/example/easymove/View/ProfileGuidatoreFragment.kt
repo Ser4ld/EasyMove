@@ -53,5 +53,12 @@ class ProfileGuidatoreFragment : Fragment() {
                 .addToBackStack(null)
                 .commit()
         }
+
+        binding.buttonRecensioni.setOnClickListener{
+            requireActivity().supportFragmentManager.beginTransaction()
+                .replace(R.id.fragmentContainer, RecensioniGuidatoreFragment())
+                .addToBackStack(null)
+                .commit()
+        }
     }
 }
