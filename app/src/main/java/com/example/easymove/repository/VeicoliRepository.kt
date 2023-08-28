@@ -12,12 +12,8 @@ import com.google.firebase.firestore.ListenerRegistration
 import com.google.firebase.firestore.QuerySnapshot
 import com.google.firebase.storage.FirebaseStorage
 
-private val firebaseAuth = FirebaseAuth.getInstance()
 private val firestoreDatabase = FirebaseFirestore.getInstance()
 private val firebaseStorage = FirebaseStorage.getInstance()
-
-private var snapshotListener: ListenerRegistration? = null
-
 
 class VeicoliRepository {
 

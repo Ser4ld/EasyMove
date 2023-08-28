@@ -10,13 +10,13 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.adapter.MyAdapterVeicoli
-import com.example.easymove.databinding.FragmentVeicoliRegistratiUserBinding
+import com.example.easymove.databinding.FragmentVeicoliGuidatoreBinding
 import com.example.easymove.model.Veicolo
 import com.google.firebase.auth.FirebaseAuth
 
-class VeicoliRegistratiUserFragment : Fragment() {
+class VeicoliGuidatoreFragment : Fragment() {
 
-    private var _binding: FragmentVeicoliRegistratiUserBinding? = null
+    private var _binding: FragmentVeicoliGuidatoreBinding? = null
     private val binding get() = _binding!!
 
     private lateinit var veicoliViewModel: VeicoliViewModel
@@ -30,7 +30,7 @@ class VeicoliRegistratiUserFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        _binding = FragmentVeicoliRegistratiUserBinding.inflate(inflater, container, false)
+        _binding = FragmentVeicoliGuidatoreBinding.inflate(inflater, container, false)
         return binding.root
     }
 

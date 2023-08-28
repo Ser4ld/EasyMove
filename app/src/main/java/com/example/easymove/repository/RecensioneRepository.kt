@@ -1,7 +1,9 @@
 package com.example.easymove.repository
 
 import com.example.easymove.model.Recensione
+import com.example.easymove.model.Veicolo
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.ListenerRegistration
 
 class RecensioneRepository {
 
@@ -32,6 +34,24 @@ class RecensioneRepository {
             }
             .addOnFailureListener { exception ->
                 callback(false, "Errore: ${exception.message}")
+            }
+    }
+
+    fun getRecensioniListener(callback: (Boolean, String?, List<Recensione>?) -> Unit): ListenerRegistration {
+        return firestoreDatabase.collection("reviews")
+            .addSnapshotListener { snapshot, error ->
+                if (error != null) {
+                    callback(false, error.toString(), null)
+                    return@addSnapshotListener
+                }
+
+                val recensioneList = mutableListOf<Recensione>()
+                for (document in snapshot?.documents ?: emptyList()) {
+                    val review = document.toObject(Recensione::class.java)
+                    review?.let { recensioneList.add(it) }
+                }
+
+                callback(true, null, recensioneList)
             }
     }
 

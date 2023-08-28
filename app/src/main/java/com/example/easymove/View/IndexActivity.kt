@@ -33,14 +33,9 @@ class IndexActivity : AppCompatActivity() {
             val initialFragment = if (userExists) MainFragment() else IndexFragment()
 
             supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, initialFragment)
+                .replace(R.id.fragmentContainer, RecensioniGuidatoreFragment())
                 .commit()
 
-
-            //per testare le recensioni
-            /*supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, CreaRecensioneFragment())
-                .commit()*/
         }
     }
 

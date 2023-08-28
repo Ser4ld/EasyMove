@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:paddingTop="10dp"
+    >
+
+    <ImageView
+        android:id="@+id/profileImageView"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:src="@drawable/baseline_account_circle_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"
+        app:tint="@color/app_theme" />
+
+    <TextView
+        android:id="@+id/autoreTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nome dell'Autore"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/profileImageView"
+        android:layout_marginStart="10dp"/>
+
+    <RatingBar
+        android:id="@+id/ratingBarRecensione"
+        style="?android:attr/ratingBarStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:progressBackgroundTint="@color/unselected_star_color"
+        android:progressTint="@color/selected_star_color"
+        android:secondaryProgressTint="#00FFFFFF"
+        app:layout_constraintTop_toBottomOf="@+id/autoreTextView"
+        app:layout_constraintStart_toEndOf="@+id/profileImageView"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"/>
+
+    <TextView
+        android:id="@+id/textDescrizioneRecensione"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:text="Descrizione della recensione..."
+        android:textColor="#555555"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/ratingBarRecensione"
+        app:layout_constraintStart_toEndOf="@+id/profileImageView"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"
+        android:layout_marginStart="10dp"/>
+
+    <View
+        android:layout_width="0dp"
+        android:layout_height="1dp"
+        android:background="@color/unselected_star_color"
+        app:layout_constraintTop_toBottomOf="@+id/textDescrizioneRecensione"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="8dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

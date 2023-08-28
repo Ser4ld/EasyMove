@@ -9,6 +9,10 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
 
+    <color name="selected_star_color">#FFD700</color>
+    <color name="unselected_star_color">#CCCCCC</color>
+
+
     <color name="colorPrimary">#007AFF</color>
     <color name="colorPrimaryDark">#000000</color>
     <color name="colorAccent">#9B9B9B</color>

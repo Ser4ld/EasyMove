@@ -6,12 +6,10 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.R
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
-import com.example.easymove.databinding.FragmentIndexBinding
 import com.example.easymove.databinding.FragmentProfileGuidatoreBinding
 
 
@@ -51,7 +49,7 @@ class ProfileGuidatoreFragment : Fragment() {
 
         binding.buttonVisualizzaVeicoli.setOnClickListener{
             requireActivity().supportFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, VeicoliRegistratiUserFragment())
+                .replace(R.id.fragmentContainer, VeicoliGuidatoreFragment())
                 .addToBackStack(null)
                 .commit()
         }

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:left="0dp" android:right="0dp" android:top="0dp" android:bottom="1dp">
+        <shape android:shape="rectangle">
+            <solid android:color="#00000000" /> <!-- Imposta il colore dello sfondo interno -->
+        </shape>
+    </item>
+    <item android:left="0dp" android:right="0dp" android:top="0dp" android:bottom="1dp">
+        <shape android:shape="rectangle">
+            <stroke android:width="2dp" android:color="@color/black" /> <!-- Imposta lo spessore e il colore del bordo solo nella parte inferiore -->
+        </shape>
+    </item>
+</layer-list>

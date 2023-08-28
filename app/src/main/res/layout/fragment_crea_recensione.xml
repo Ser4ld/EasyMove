@@ -21,7 +21,7 @@
                 android:layout_marginBottom="16dp"
                 android:text="Inserisci una recensione"
                 android:textColor="@color/app_theme"
-                android:textSize="18sp" />
+                android:textSize="18dp" />
 
             <RatingBar
                 android:id="@+id/ratingBar"
@@ -31,8 +31,9 @@
                 android:layout_marginBottom="16dp"
                 android:numStars="5"
                 android:rating="0"
-                android:progressBackgroundTint="@color/app_theme_light"
-
+                android:progressBackgroundTint="@color/unselected_star_color"
+                android:progressTint="@color/selected_star_color"
+                android:secondaryProgressTint="#00FFFFFF"
                 android:stepSize="0.5" />
 
             <EditText
