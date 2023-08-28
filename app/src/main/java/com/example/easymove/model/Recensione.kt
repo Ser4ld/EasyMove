@@ -1,10 +1,10 @@
 package com.example.easymove.model
 
 data class Recensione(
-    var idRecensione: String,
-    val idCreatore: String,
-    val idRicevitore: String,
-    val stelline: String,
+    var recensioneId: String,
+    val guidatoreId: String,
+    val consumatoreId: String,
+    val valutazione: String,
     val descrizione: String
 ){
 constructor() : this("","", "", "", "")

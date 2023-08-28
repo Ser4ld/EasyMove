@@ -46,7 +46,6 @@ class ProfileGuidatoreFragment : Fragment() {
 
                         var media = recensioniViewModel.mediaRecensioniFiltrate(userData.id, recensioniList)
                         binding.ratingBarRecensione.rating = media
-                        Log.i("provarecensioni", "$media")
                     }
                 }
                 veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
