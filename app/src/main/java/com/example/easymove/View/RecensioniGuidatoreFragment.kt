@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.Viewmodel.RecensioneViewModel
 import com.example.easymove.adapter.MyAdapterRecensioni
 import com.example.easymove.databinding.FragmentRecensioniGuidatoreBinding
@@ -18,7 +19,10 @@ class RecensioniGuidatoreFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var recensioneViewModel: RecensioneViewModel
+    private lateinit var userViewModel: UserViewModel
     private lateinit var adapter: MyAdapterRecensioni
+
+    private lateinit var userId:String
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -31,16 +35,36 @@ class RecensioniGuidatoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+
         recensioneViewModel = ViewModelProvider(requireActivity()).get(RecensioneViewModel::class.java)
-        adapter = MyAdapterRecensioni(ArrayList())
-        binding.recyclerView.adapter = adapter
+        userViewModel=  ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+
+        userViewModel.allUsersLiveData.observe(viewLifecycleOwner) { userData ->
+            if (userData != null) {
+                userViewModel.userDataLiveData.observe(viewLifecycleOwner){ user->
+                    if( user != null ) {
+
+                        userId=user.id
+
+                        adapter = MyAdapterRecensioni(ArrayList(), userData)
+                        binding.recyclerView.adapter = adapter
+
+                    }
+                }
+            }
+
+        }
+
+
+
 
 
         binding.fabButton.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
-        recensioneViewModel.startVeicoliListener()
+        recensioneViewModel.startRecensioniListener()
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = layoutManager
 
@@ -48,7 +72,7 @@ class RecensioniGuidatoreFragment : Fragment() {
             if (recensioniList.isEmpty()) {
                 Toast.makeText(requireContext(), "Si è verificato un errore", Toast.LENGTH_SHORT).show()
             } else {
-                adapter.updateRecensioni(recensioniList)
+                adapter.updateRecensioni(recensioneViewModel.filterRecensioneByUserId(userId, recensioniList ))
             }
         }
     }

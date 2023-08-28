@@ -11,11 +11,13 @@ class RecensioneRepository {
 
 
     fun storeRecensione(
+        idCreatore: String,
+        idRicevitore: String,
         stelline: String,
         descrizione: String,
         callback: (success: Boolean, errorMessage: String?) -> Unit
     ) {
-        val recensione = Recensione("",stelline, descrizione)
+        val recensione = Recensione("", idCreatore, idRicevitore, stelline, descrizione)
         uploadRecensione(recensione) { success, errMsg ->
             if (success) {
                 callback(true, null)
@@ -27,7 +29,7 @@ class RecensioneRepository {
 
     fun uploadRecensione(recensione: Recensione, callback: (Boolean, String?) -> Unit) {
         val newRecensione = firestoreDatabase.collection("reviews").document()
-        recensione.id = newRecensione.id
+        recensione.idRecensione = newRecensione.id
         newRecensione.set(recensione)
             .addOnSuccessListener {
                 callback(true, "Recensione inviata correttamente")

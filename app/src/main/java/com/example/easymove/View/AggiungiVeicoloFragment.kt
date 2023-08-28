@@ -91,7 +91,7 @@ class AggiungiVeicoloFragment : Fragment() {
                 // Converte il testo in maiuscolo
                 //s?.let se s != null viene eseguito il codice tra le parentesi
                 s?.let {
-                    val upperCaseText = it.toString().toUpperCase()
+                    val upperCaseText = it.toString().uppercase()
                     if (it.toString() != upperCaseText) {
                         //it.replace(startIndex, endIndex, testodasostituire), startIndex indice da cui iniziare a sostituire, endIndex indice fino al quale sostituire
                         it.replace(0, it.length, upperCaseText)

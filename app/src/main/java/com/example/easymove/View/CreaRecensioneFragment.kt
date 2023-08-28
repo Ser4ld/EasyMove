@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.Viewmodel.RecensioneViewModel
 import com.example.easymove.databinding.FragmentCreaRecensioneBinding
 
@@ -19,6 +20,11 @@ class CreaRecensioneFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var  recensioneViewModel : RecensioneViewModel
+    private lateinit var userViewModel: UserViewModel
+
+    private lateinit var userId:String
+
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -30,12 +36,24 @@ class CreaRecensioneFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        recensioneViewModel =
-            ViewModelProvider(requireActivity()).get(RecensioneViewModel::class.java)
+        recensioneViewModel = ViewModelProvider(requireActivity()).get(RecensioneViewModel::class.java)
+        userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+
+
+        userViewModel.userDataLiveData.observe(
+            viewLifecycleOwner,
+        ) { userData ->
+            if (userData != null) {
+                userId= userData.id
+            }
+        }
+
 
         binding.btnInviaRecensione.setOnClickListener {
 
             recensioneViewModel.creaRecensione(
+                userId,
+                "da sistemare",
                 binding.ratingBar.rating.toString(),
                 binding.etDescrizione.text.toString()
             )
@@ -46,6 +64,8 @@ class CreaRecensioneFragment : Fragment() {
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 }
             }
+
+            parentFragmentManager.popBackStack()
         }
 
 

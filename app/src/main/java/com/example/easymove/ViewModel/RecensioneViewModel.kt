@@ -17,10 +17,10 @@ class RecensioneViewModel: ViewModel() {
     private var recensioniListener: ListenerRegistration? = null
 
 
-    fun creaRecensione( stelline: String, descrizione: String, callback: (success: Boolean, errorMessage: String?) -> Unit
+    fun creaRecensione(idCreatore:String, idRicevitore:String, stelline: String, descrizione: String, callback: (success: Boolean, errorMessage: String?) -> Unit
     ){
         if(stelline!="0.0" && descrizione.isNotEmpty()){
-            recensioneRepository.storeRecensione(stelline,descrizione){success, message->
+            recensioneRepository.storeRecensione(idCreatore, idRicevitore, stelline, descrizione){success, message->
                 if(success){
                     callback(true, "Recensione Inviata")
                 }else{
@@ -32,7 +32,7 @@ class RecensioneViewModel: ViewModel() {
         }
     }
 
-    fun startVeicoliListener() {
+    fun startRecensioniListener() {
         recensioniListener = recensioneRepository.getRecensioniListener { success, error, veicoliList ->
             if (success) {
                 _recensioniLiveData.postValue(veicoliList)
@@ -41,4 +41,8 @@ class RecensioneViewModel: ViewModel() {
             }
         }
     }
-}
+
+    fun filterRecensioneByUserId(userId: String, recensioniList: List<Recensione>): ArrayList<Recensione> {
+        val filteredList = recensioniList.filter { recensione -> recensione.idRicevitore == userId }
+        return ArrayList(filteredList)
+    }}
