@@ -20,7 +20,7 @@ class ProfileGuidatoreFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var veicoliViewModel: VeicoliViewModel
     private lateinit var userViewModel: UserViewModel
-    private lateinit var recensioniViewModel: RecensioneViewModel
+    private lateinit var recensioneViewModel: RecensioneViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,16 +35,15 @@ class ProfileGuidatoreFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-        recensioniViewModel= ViewModelProvider(requireActivity()).get(RecensioneViewModel::class.java)
+        recensioneViewModel= ViewModelProvider(requireActivity()).get(RecensioneViewModel::class.java)
 
 
         userViewModel.userDataLiveData.observe(viewLifecycleOwner){userData ->
             if(userData!= null)
             {
-                recensioniViewModel.recensioniLiveData.observe(viewLifecycleOwner){ recensioniList->
+                recensioneViewModel.recensioniLiveData.observe(viewLifecycleOwner){ recensioniList->
                     if (recensioniList!=null) {
-
-                        var media = recensioniViewModel.mediaRecensioniFiltrate(userData.id, recensioniList)
+                        var media = recensioneViewModel.mediaRecensioniFiltrate(userData.id, recensioniList)
                         binding.ratingBarRecensione.rating = media
                     }
                 }

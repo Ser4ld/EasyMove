@@ -17,10 +17,10 @@ class RecensioneViewModel: ViewModel() {
     private var recensioniListener: ListenerRegistration? = null
 
 
-    fun creaRecensione(idCreatore:String, idRicevitore:String, stelline: String, descrizione: String, callback: (success: Boolean, errorMessage: String?) -> Unit
+    fun creaRecensione(consumatoreId:String, guidatoreId:String, valutazione: String, descrizione: String, callback: (success: Boolean, errorMessage: String?) -> Unit
     ){
-        if(stelline!="0.0" && descrizione.isNotEmpty()){
-            recensioneRepository.storeRecensione(idCreatore, idRicevitore, stelline, descrizione){success, message->
+        if(valutazione!="0.0" && descrizione.isNotEmpty()){
+            recensioneRepository.storeRecensione(consumatoreId, guidatoreId, valutazione, descrizione){success, message->
                 if(success){
                     callback(true, "Recensione Inviata")
                 }else{
@@ -42,13 +42,30 @@ class RecensioneViewModel: ViewModel() {
         }
     }
 
+
+
     fun filterRecensioneByUserId(userId: String, recensioniList: List<Recensione>): ArrayList<Recensione> {
-        val filteredList = recensioniList.filter { recensione -> recensione.idRicevitore == userId }
+        val filteredList = recensioniList.filter { recensione -> recensione.guidatoreId == userId }
         return ArrayList(filteredList)
     }
 
-    fun countFilterRecensioni( recensioniList : ArrayList<Recensione>): Int{
-        return recensioniList.size
+
+    fun mediaRecensioniFiltrate(userId:String, recensioniList: List<Recensione>): Float {
+        val recensioniFiltrate = filterRecensioneByUserId(userId, recensioniList)
+
+        val sommaRecensioni = recensioniFiltrate.map { it.valutazione.toFloat() }.sum()
+
+        val mediaRecensioni = if (recensioniFiltrate.isNotEmpty()) {
+            sommaRecensioni / recensioniFiltrate.size.toFloat()
+        } else {
+            0.0f
+        }
+        return mediaRecensioni
+    }
+
+    fun totaleRecensioniFiltrate(userId:String, recensioniList: List<Recensione>): Int {
+        val recensioniFiltrate = filterRecensioneByUserId(userId, recensioniList)
+        return recensioniFiltrate.size
     }
 
 }

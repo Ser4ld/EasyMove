@@ -11,7 +11,7 @@
 
     <color name="selected_star_color">#FFD700</color>
     <color name="unselected_star_color">#CCCCCC</color>
-
+    <color name="grey_text">#555555</color>
 
     <color name="colorPrimary">#007AFF</color>
     <color name="colorPrimaryDark">#000000</color>

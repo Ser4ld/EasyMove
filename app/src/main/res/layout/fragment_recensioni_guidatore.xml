@@ -4,24 +4,22 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/white"
+    android:background="@android:color/white"
     tools:context=".View.RecensioniGuidatoreFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/app_theme">
+        android:background="@android:color/white">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/headerLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toTopOf="@+id/recyclerView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            >
+            app:layout_constraintEnd_toEndOf="parent">
 
             <com.google.android.material.floatingactionbutton.FloatingActionButton
                 android:id="@+id/fabButton"
@@ -34,25 +32,107 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.045"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                />
+                app:layout_constraintTop_toTopOf="parent" />
 
             <TextView
-                android:id="@+id/recensioniTV"
+                android:id="@+id/headerTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:text="Recensioni"
-                android:textColor="@android:color/white"
-                android:textSize="24dp"
-                android:textStyle="bold"
-                android:textAllCaps="true"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:textSize="20dp"
+                android:textColor="@color/black"
+                app:layout_constraintTop_toTopOf="@+id/fabButton"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="@id/fabButton" />
+
+            <TextView
+                android:id="@+id/statisticsText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:text="Statistiche"
+                android:textColor="@color/black"
+                android:textSize="18sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/fabButton"
+                app:layout_constraintTop_toBottomOf="@id/headerTitle" />
+
+            <TextView
+                android:id="@+id/textRecensioniTotali"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:text="Numero di recensioni: "
+                android:textColor="@color/app_theme"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/fabButton"
+                app:layout_constraintTop_toBottomOf="@id/statisticsText" />
+
+
+            <TextView
+                android:id="@+id/textRecensioniTotali2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:textColor="@color/grey_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/textRecensioniTotali"
+                app:layout_constraintTop_toTopOf="@id/textRecensioniTotali" />
+
+            <TextView
+                android:id="@+id/textMediaValutazione"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6dp"
+                android:text="Valutazione media: "
+                android:textColor="@color/app_theme"
+                android:textSize="15dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="@id/fabButton"
+                app:layout_constraintTop_toBottomOf="@id/textRecensioniTotali" />
+
+
+            <TextView
+                android:id="@+id/textMediaValutazione2"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textSize="15dp"
+                android:textColor="@color/grey_text"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toEndOf="@id/textMediaValutazione"
+                app:layout_constraintTop_toTopOf="@id/textMediaValutazione" />
+
+            <RatingBar
+                android:id="@+id/ratingBarMedia"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:progressBackgroundTint="@color/unselected_star_color"
+                android:progressTint="@color/selected_star_color"
+                android:secondaryProgressTint="#00FFFFFF"
+                app:layout_constraintTop_toBottomOf="@id/textMediaValutazione"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp" />
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/unselected_star_color"
+                app:layout_constraintTop_toBottomOf="@+id/ratingBarMedia"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_marginTop="8dp"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recyclerView"

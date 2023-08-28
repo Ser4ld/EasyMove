@@ -40,11 +40,22 @@ class RecensioniGuidatoreFragment : Fragment() {
         recensioneViewModel = ViewModelProvider(requireActivity()).get(RecensioneViewModel::class.java)
         userViewModel=  ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
+
+
+
         userViewModel.allUsersLiveData.observe(viewLifecycleOwner) { userData ->
             if (userData != null) {
                 userViewModel.userDataLiveData.observe(viewLifecycleOwner){ user->
                     if( user != null ) {
 
+                        recensioneViewModel.recensioniLiveData.observe(viewLifecycleOwner){ recensioniList->
+                            if (recensioniList!=null) {
+                                var media=recensioneViewModel.mediaRecensioniFiltrate(user.id,recensioniList)
+                                binding.ratingBarMedia.rating= media
+                                binding.textRecensioniTotali2.text= recensioneViewModel.totaleRecensioniFiltrate(user.id,recensioniList).toString()
+                                binding.textMediaValutazione2.text = media.toString()
+                            }
+                        }
                         userId=user.id
 
                         adapter = MyAdapterRecensioni(ArrayList(), userData)
