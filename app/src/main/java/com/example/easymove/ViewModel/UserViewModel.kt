@@ -64,4 +64,14 @@ class UserViewModel: ViewModel() {
         }
     }
 
+    fun FilterListById(userId: String, userList: List<User> ): User? {
+        return userList.find { it.id == userId }
+    }
+
+    fun checkUserType(userType: String): Boolean{
+        if(userType == "guidatore"){
+            return true
+        }
+        return false
+    }
 }

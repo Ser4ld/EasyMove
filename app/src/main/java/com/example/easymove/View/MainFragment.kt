@@ -1,10 +1,12 @@
 package com.example.easymove.View
 
+import android.os.Build
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.R
 import com.example.easymove.ViewModel.HomeViewModel
@@ -35,6 +37,7 @@ class MainFragment : Fragment() {
     }
 
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -49,6 +52,7 @@ class MainFragment : Fragment() {
         veicoliViewModel.startVeicoliListener()
         recensioneViewModel.startRecensioniListener()
         richiestaViewModel.startRichiesteListener()
+        richiestaViewModel.checkAndUpdateStato()
 
         val addItemMenuItem = binding.bottomNavigationView.menu.findItem(R.id.addItem)
 

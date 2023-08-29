@@ -93,6 +93,7 @@ class VeicoliViewModel: ViewModel() {
         return "$formattedCapienza m³"
     }
 
+
     fun isValidItalianLicensePlate(targa: String): Boolean {
         // Validazione targhe italiane
         val regex = Regex("^[A-Z]{2}\\d{3}[A-Z]{2}$")
@@ -140,6 +141,8 @@ class VeicoliViewModel: ViewModel() {
     }
 
 
-
+    fun FilterListbyTarga(targa: String, veicoliList: List<Veicolo>): Veicolo?{
+        return veicoliList.find { it.targa == targa }
+    }
 
 }

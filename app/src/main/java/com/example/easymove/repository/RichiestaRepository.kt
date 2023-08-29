@@ -97,6 +97,7 @@ class RichiestaRepository {
     }
 
 
+
     fun updateRichiestaStato(richiestaId: String, nuovoStato: String, callback: (Boolean, String?) -> Unit) {
         val richiestaRef = firestoreDatabase.collection("requests").document(richiestaId)
 

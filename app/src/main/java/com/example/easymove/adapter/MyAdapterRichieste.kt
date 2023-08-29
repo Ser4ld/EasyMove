@@ -1,5 +1,6 @@
 package com.example.easymove.adapter
 
+import android.os.Build
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -9,16 +10,21 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.easymove.R
 import com.example.easymove.ViewModel.RichiestaViewModel
+import com.example.easymove.ViewModel.UserViewModel
+import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.model.Richiesta
 import com.example.easymove.model.User
+import com.example.easymove.model.Veicolo
 import kotlin.properties.Delegates
 
-class MyAdapterRichieste(private val richiesteList: ArrayList<Richiesta>, private var userList: List<User>,private val richiestaViewModel: RichiestaViewModel) : RecyclerView.Adapter<MyAdapterRichieste.MyViewHolder>() {
+class MyAdapterRichieste(private val richiesteList: ArrayList<Richiesta>,private var veicoliList: List<Veicolo> ,private var userList: List<User>,private val richiestaViewModel: RichiestaViewModel,private val userViewModel: UserViewModel, private val veicoliViewModel: VeicoliViewModel) : RecyclerView.Adapter<MyAdapterRichieste.MyViewHolder>() {
 
     // Aggiorna la lista delle richieste con nuovi dati
     fun updateRichieste(newDataList: ArrayList<Richiesta>) {
@@ -31,11 +37,15 @@ class MyAdapterRichieste(private val richiesteList: ArrayList<Richiesta>, privat
 
         val nomeCreatore: TextView= itemView.findViewById(R.id.autoreTextView)
         val imgCreatore: ImageView = itemView.findViewById(R.id.profileImageView)
-        val descrizione: TextView=itemView.findViewById(R.id.textDescrizioneRichiesta)
+        val descrizione: TextView=itemView.findViewById(R.id.textDescrizione)
         val statoRichiesta: TextView=itemView.findViewById(R.id.textStatoRichiesta)
+        val dataRichiesta: TextView= itemView.findViewById(R.id.textData)
+        val puntoPartenza: TextView= itemView.findViewById(R.id.textPuntoPartenza)
+        val puntoArrivo: TextView= itemView.findViewById(R.id.textPuntoArrivo)
+        val nomeVeicolo: TextView= itemView.findViewById(R.id.textNomeVeicolo)
+        val targaVeicolo: TextView= itemView.findViewById(R.id.textTargaVeicolo)
         val button1: Button = itemView.findViewById(R.id.button1)
         val button2: Button = itemView.findViewById(R.id.button2)
-
 
 
 
@@ -50,22 +60,34 @@ class MyAdapterRichieste(private val richiesteList: ArrayList<Richiesta>, privat
         return richiesteList.size
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         var richiesta = richiesteList[position]
         var stato=richiesta.stato
 
+        val user = userViewModel.FilterListById(richiesta.consumatoreId, userList)
+        if (user != null) {
+            caricaDettagliUtente(holder, user)
+        }
 
-        holder.descrizione.text = richiesta.descrizione
-        holder.nomeCreatore.text = getUserFullName(richiesta.guidatoreId)
-        holder.statoRichiesta.text = stato
+        val veicolo = veicoliViewModel.FilterListbyTarga(richiesta.targaveicolo, veicoliList)
+        if(veicolo != null){
+            caricaDettagliVeicolo(holder,veicolo)
+        }
+
+        holder.descrizione.text = "Descrizione: ${richiesta.descrizione}"
+        holder.statoRichiesta.text = "Stato: $stato"
+        holder.dataRichiesta.text = "Data: ${richiesta.data}"
+        holder.puntoPartenza.text = "Partenza: ${richiesta.puntoPartenza}"
+        holder.puntoArrivo.text = "Arrivo: ${richiesta.puntoArrivo}"
+        holder.targaVeicolo.text= "Targa: ${richiesta.targaveicolo}"
 
 
         updateUI(richiesta, holder, stato)
 
-        val user = userList.find { it.id == richiesta.guidatoreId }
-        if (user != null) {
-            caricaDettagliUtente(holder, user)
-        }
+
+
+
     }
 
     private fun onButtonAccettaClicked(richiesta: Richiesta, nuovoStato:String) {
@@ -80,10 +102,6 @@ class MyAdapterRichieste(private val richiesteList: ArrayList<Richiesta>, privat
         }
     }
 
-    private fun getUserFullName(userId: String): String {
-        val user = userList.find { it.id == userId }
-        return user?.let { "${it.name} ${it.surname}" } ?: ""
-    }
 
     private fun caricaDettagliUtente(holder: MyViewHolder, user: User) {
         holder.nomeCreatore.text = "${user.name} ${user.surname}"
@@ -98,7 +116,13 @@ class MyAdapterRichieste(private val richiesteList: ArrayList<Richiesta>, privat
         }
     }
 
+    private fun caricaDettagliVeicolo(holder: MyViewHolder, veicolo: Veicolo){
+            holder.nomeVeicolo.text ="Veicolo: ${veicolo.modello}"
 
+    }
+
+
+    @RequiresApi(Build.VERSION_CODES.O)
     private fun updateUI(richiesta:Richiesta, holder: MyViewHolder, stato: String) {
         val context = holder.itemView.context
         val button1=holder.button1
@@ -129,7 +153,12 @@ class MyAdapterRichieste(private val richiesteList: ArrayList<Richiesta>, privat
                 holder.statoRichiesta.setTextColor(coloreStato)
 
                 holder.button1.setOnClickListener {
-                    onButtonAccettaClicked(richiesta, "Rifiutata")
+                    val check= richiestaViewModel.checkClickOnComplete(richiesta)
+                    if(check) {
+                        onButtonAccettaClicked(richiesta, "Completata")
+                    }else{
+                        Toast.makeText(context, "La richiesta potrà essere completata a partire dal giorno successivo alla data specificata", Toast.LENGTH_SHORT).show()
+                    }
                 }
                 holder.button2.setOnClickListener {
                     onButtonAccettaClicked(richiesta, "Rifiutata")

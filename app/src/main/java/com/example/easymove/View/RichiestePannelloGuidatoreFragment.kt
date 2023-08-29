@@ -11,6 +11,7 @@ import com.example.easymove.ViewModel.RichiestaViewModel
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.databinding.FragmentRichiesteGuidatoreBinding
 import com.example.easymove.databinding.FragmentRichiestePannelloGuidatoreBinding
+import com.example.easymove.model.Richiesta
 import com.google.android.material.tabs.TabLayout
 
 class RichiestePannelloGuidatoreFragment : Fragment() {
@@ -21,6 +22,8 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
 
     private lateinit var richiestaViewModel: RichiestaViewModel
     private lateinit var userViewModel: UserViewModel
+
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -35,24 +38,31 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
 
         val bundle = Bundle()
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-        richiestaViewModel =
-            ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
+        richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
+
+        var richiesteTotali: List<Richiesta>
+        var richiesteInAttesa: List<Richiesta>
+        var richiesteAccettate: List<Richiesta>
 
         userViewModel.userDataLiveData.observe(viewLifecycleOwner) { user ->
             if (user != null) {
 
                 richiestaViewModel.richiesteLiveData.observe(viewLifecycleOwner) { richiesteList ->
                     if (richiesteList != null) {
+                        if(userViewModel.checkUserType(user.userType)){
+                            richiesteTotali=richiestaViewModel.filterRichiesteGuidatoreByUserId(user.id,richiesteList)
+                            richiesteInAttesa=richiestaViewModel.filterRichiesteGuidatoreByUserIdAndStato(user.id,"Attesa",richiesteList)
+                            richiesteAccettate=richiestaViewModel.filterRichiesteGuidatoreByUserIdAndStato(user.id,"Accettata",richiesteList)
 
-                        var richiesteTotali=richiestaViewModel.filterRichiesteByUserId(user.id,richiesteList)
+
+                        }else{
+                            richiesteTotali=richiestaViewModel.filterRichiesteConsumatoreByUserId(user.id,richiesteList)
+                            richiesteInAttesa=richiestaViewModel.filterRichiesteConsumatoreByUserIdAndStato(user.id,"Attesa",richiesteList)
+                            richiesteAccettate=richiestaViewModel.filterRichiesteConsumatoreByUserIdAndStato(user.id,"Accettata",richiesteList)
+                        }
                         binding.textRichiesteTotali2.text=richiestaViewModel.totaleRichieste(richiesteTotali).toString()
-
-                        var richiesteInAttesa=richiestaViewModel.filterRichiesteByUserIdAndStato(user.id,"Attesa",richiesteList)
                         binding.textRichiesteAttesa2.text=richiestaViewModel.totaleRichieste(richiesteInAttesa).toString()
-
-                        var richiesteAccettate=richiestaViewModel.filterRichiesteByUserIdAndStato(user.id,"Accettata",richiesteList)
                         binding.textRichiesteAccettate2.text=richiestaViewModel.totaleRichieste(richiesteAccettate).toString()
-
                     }
                 }
             }

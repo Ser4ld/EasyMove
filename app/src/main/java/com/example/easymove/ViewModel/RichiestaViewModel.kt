@@ -85,6 +85,34 @@ class RichiestaViewModel: ViewModel() {
 
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun checkAndUpdateStato() {
+        richiesteLiveData.observeForever {richiesteList->
+            richiesteList?.forEach { richiesta ->
+                if(!checkDate(richiesta.data) && richiesta.stato== "Attesa")
+                {
+                    richiestaRepository.updateRichiestaStato(richiesta.richiestaId, "Rifiutata"){success, message ->
+                        if(success){
+                            Log.i("Richieste", "Richieste aggiornate")
+                        }else{
+                            Log.i("Richieste", "Errore aggiornamento richieste")
+                        }
+                    }
+                }
+            }
+        }
+
+
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun checkClickOnComplete(richiesta: Richiesta): Boolean{
+        if(!checkDate(richiesta.data)){
+            return true
+        }
+        return false
+    }
+
     fun startRichiesteListener() {
         richiesteListener = richiestaRepository.getRichiesteListener { success, error, richiestaList ->
             if (success) {
@@ -95,14 +123,26 @@ class RichiestaViewModel: ViewModel() {
         }
     }
 
-    fun filterRichiesteByUserId(userId: String, richiesteList: List<Richiesta>): ArrayList<Richiesta> {
-        val filteredList = richiesteList.filter { recensione -> recensione.guidatoreId == userId }
+    fun filterRichiesteGuidatoreByUserId(userId: String, richiesteList: List<Richiesta>): ArrayList<Richiesta> {
+        val filteredList = richiesteList.filter { richiesta -> richiesta.guidatoreId == userId }
         return ArrayList(filteredList)
     }
 
-    fun filterRichiesteByUserIdAndStato(userId: String, stato: String, richiesteList: List<Richiesta>): List<Richiesta> {
+    fun filterRichiesteConsumatoreByUserId(userId: String, richiesteList: List<Richiesta>): ArrayList<Richiesta> {
+        val filteredList = richiesteList.filter { richiesta -> richiesta.consumatoreId == userId }
+        return ArrayList(filteredList)
+    }
+
+    fun filterRichiesteGuidatoreByUserIdAndStato(userId: String, stato: String, richiesteList: List<Richiesta>): List<Richiesta> {
         val filteredList = richiesteList.filter { richiesta ->
             richiesta.guidatoreId == userId && richiesta.stato == stato
+        }
+        return filteredList
+    }
+
+    fun filterRichiesteConsumatoreByUserIdAndStato(userId: String, stato: String, richiesteList: List<Richiesta>): List<Richiesta> {
+        val filteredList = richiesteList.filter { richiesta ->
+            richiesta.consumatoreId == userId && richiesta.stato == stato
         }
         return filteredList
     }
