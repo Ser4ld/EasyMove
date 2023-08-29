@@ -129,21 +129,29 @@ class MyAdapterRichieste(private val richiesteList: ArrayList<Richiesta>, privat
                 holder.statoRichiesta.setTextColor(coloreStato)
 
                 holder.button1.setOnClickListener {
-                    onButtonAccettaClicked(richiesta, "Rifiutata")
+                    onButtonAccettaClicked(richiesta, "Completata")
                 }
                 holder.button2.setOnClickListener {
                     onButtonAccettaClicked(richiesta, "Rifiutata")
                 }
 
             }
-            else -> {
+
+            "Completata" ->{
                 button1.visibility= GONE
                 button2.visibility = GONE
                 //button2.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
 
                 coloreStato = ContextCompat.getColor(context, R.color.red)
                 holder.statoRichiesta.setTextColor(coloreStato)
+            }
+            "Rifutata" -> {
+                button1.visibility= GONE
+                button2.visibility = GONE
+                //button2.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
 
+                coloreStato = ContextCompat.getColor(context, R.color.red)
+                holder.statoRichiesta.setTextColor(coloreStato)
             }
         }
     }
