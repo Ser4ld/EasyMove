@@ -8,14 +8,19 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.easymove.databinding.FragmentAggiungiVeicoloBinding
 import android.app.Activity.RESULT_OK
+import android.app.AlertDialog
 import android.content.Intent
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.R
@@ -28,6 +33,7 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.model.PlaceTypes
 import com.google.android.libraries.places.widget.Autocomplete
 import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
+import com.google.firebase.auth.FirebaseAuth
 
 
 class AggiungiVeicoloFragment : Fragment() {
@@ -163,7 +169,8 @@ class AggiungiVeicoloFragment : Fragment() {
             ){success, message ->
                 if(success){
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                    parentFragmentManager.popBackStack()
+                    dialog()
+                    clearForm()
 
                 }else{
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
@@ -176,7 +183,37 @@ class AggiungiVeicoloFragment : Fragment() {
 
     }
 
+    private fun clearForm(){
+        val vectorDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_image_24)
+        binding.Targa.text.clear()
+        binding.LocazioneVeicolo.text.clear()
+        binding.NomeVeicolo.text.clear()
+        binding.Altezzacassone.text.clear()
+        binding.Larghezzacassone.text.clear()
+        binding.Lunghezzacassone.text.clear()
+        binding.TariffaKm.text.clear()
+        binding.imageFirebase.setImageDrawable(vectorDrawable)
+    }
+    private fun dialog() {
 
+        // Crea un nuovo AlertDialog
+        val builder = AlertDialog.Builder(requireContext())
+        val customView = LayoutInflater.from(requireContext()).inflate(R.layout.custom_layout_dialog2, null)
+        builder.setView(customView)
+        val dialog = builder.create()
+
+        //imposto lo sfodo del dialog a trasparente per poter applicare un background con i bordi arrotondati
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+
+
+        customView.findViewById<Button>(R.id.btnOK).setOnClickListener{
+            dialog.dismiss()
+        }
+
+        // Mostra il popup
+        dialog.show()
+
+    }
     private fun openFileChooser() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/png" // Set the MIME type to restrict to PNG images

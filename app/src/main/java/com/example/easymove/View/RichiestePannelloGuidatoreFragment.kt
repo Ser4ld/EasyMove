@@ -49,24 +49,35 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
 
                 richiestaViewModel.richiesteLiveData.observe(viewLifecycleOwner) { richiesteList ->
                     if (richiesteList != null) {
-                        if(userViewModel.checkUserType(user.userType)){
-                            richiesteTotali=richiestaViewModel.filterRichiesteGuidatoreByUserId(user.id,richiesteList)
-                            richiesteInAttesa=richiestaViewModel.filterRichiesteGuidatoreByUserIdAndStato(user.id,"Attesa",richiesteList)
-                            richiesteAccettate=richiestaViewModel.filterRichiesteGuidatoreByUserIdAndStato(user.id,"Accettata",richiesteList)
 
+                        richiesteTotali = richiestaViewModel.filterRichiesteByUserId(
+                            user.id,
+                            richiesteList,
+                            user.userType
+                        )
+                        richiesteInAttesa = richiestaViewModel.filterRichiesteByUserIdAndStato(
+                            user.id,
+                            "Attesa",
+                            richiesteList,
+                            user.userType
+                        )
+                        richiesteAccettate = richiestaViewModel.filterRichiesteByUserIdAndStato(
+                            user.id,
+                            "Accettata",
+                            richiesteList,
+                            user.userType
+                        )
 
-                        }else{
-                            richiesteTotali=richiestaViewModel.filterRichiesteConsumatoreByUserId(user.id,richiesteList)
-                            richiesteInAttesa=richiestaViewModel.filterRichiesteConsumatoreByUserIdAndStato(user.id,"Attesa",richiesteList)
-                            richiesteAccettate=richiestaViewModel.filterRichiesteConsumatoreByUserIdAndStato(user.id,"Accettata",richiesteList)
-                        }
-                        binding.textRichiesteTotali2.text=richiestaViewModel.totaleRichieste(richiesteTotali).toString()
-                        binding.textRichiesteAttesa2.text=richiestaViewModel.totaleRichieste(richiesteInAttesa).toString()
-                        binding.textRichiesteAccettate2.text=richiestaViewModel.totaleRichieste(richiesteAccettate).toString()
+                        binding.textRichiesteTotali2.text =
+                            richiestaViewModel.totaleRichieste(richiesteTotali).toString()
+                        binding.textRichiesteAttesa2.text =
+                            richiestaViewModel.totaleRichieste(richiesteInAttesa).toString()
+                        binding.textRichiesteAccettate2.text =
+                            richiestaViewModel.totaleRichieste(richiesteAccettate).toString()
                     }
                 }
             }
-
+        }
 
             /*binding.fabButton.setOnClickListener {
                 parentFragmentManager.popBackStack()
@@ -119,6 +130,6 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
             })
 
 
-        }
+
     }
 }

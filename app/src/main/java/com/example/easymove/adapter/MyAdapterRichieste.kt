@@ -24,7 +24,14 @@ import com.example.easymove.model.User
 import com.example.easymove.model.Veicolo
 import kotlin.properties.Delegates
 
-class MyAdapterRichieste(private val richiesteList: ArrayList<Richiesta>,private var veicoliList: List<Veicolo> ,private var userList: List<User>,private val richiestaViewModel: RichiestaViewModel,private val userViewModel: UserViewModel, private val veicoliViewModel: VeicoliViewModel) : RecyclerView.Adapter<MyAdapterRichieste.MyViewHolder>() {
+class MyAdapterRichieste(
+    private val richiesteList: ArrayList<Richiesta>,
+    private var veicoliList: List<Veicolo> ,
+    private var userList: List<User>,
+    private var userType: String,
+    private val richiestaViewModel: RichiestaViewModel,
+    private val userViewModel: UserViewModel,
+    private val veicoliViewModel: VeicoliViewModel) : RecyclerView.Adapter<MyAdapterRichieste.MyViewHolder>() {
 
     // Aggiorna la lista delle richieste con nuovi dati
     fun updateRichieste(newDataList: ArrayList<Richiesta>) {
@@ -65,10 +72,21 @@ class MyAdapterRichieste(private val richiesteList: ArrayList<Richiesta>,private
         var richiesta = richiesteList[position]
         var stato=richiesta.stato
 
-        val user = userViewModel.FilterListById(richiesta.consumatoreId, userList)
-        if (user != null) {
-            caricaDettagliUtente(holder, user)
+
+        if(userViewModel.checkUserType(userType)){
+            val user = userViewModel.FilterListById(richiesta.consumatoreId, userList)
+            if (user != null) {
+                caricaDettagliUtente(holder, user)
+            }
+
+        }else {
+            val user = userViewModel.FilterListById(richiesta.guidatoreId, userList)
+            if (user != null) {
+                caricaDettagliUtente(holder, user)
+            }
+
         }
+
 
         val veicolo = veicoliViewModel.FilterListbyTarga(richiesta.targaveicolo, veicoliList)
         if(veicolo != null){
@@ -132,8 +150,16 @@ class MyAdapterRichieste(private val richiesteList: ArrayList<Richiesta>,private
         var coloreStato: Int
         when (stato) {
             "Attesa" -> {
-                button1.text = "ACCETTA"
-                button2.text = "RIFIUTA"
+
+                if(userViewModel.checkUserType(userType)){
+                    button1.text = "ACCETTA"
+                    button2.text = "RIFIUTA"
+                }else{
+                    button1.visibility = GONE
+                    button2.text= "ANNULLA RICHIESTA"
+                    button2.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                }
+
 
                 coloreStato = ContextCompat.getColor(context, R.color.selected_star_color)
                 holder.statoRichiesta.setTextColor(coloreStato)
@@ -146,24 +172,43 @@ class MyAdapterRichieste(private val richiesteList: ArrayList<Richiesta>,private
                 }
             }
             "Accettata" -> {
+                if(userViewModel.checkUserType(userType)){
+                    button1.text = "COMPLETATA"
+                    button2.text = "ANNULLA"
+                }else {
+                    button1.visibility = GONE
+                    button2.text= "ANNULLA RICHIESTA"
+                    button2.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                }
 
-                button1.text = "COMPLETATA"
-                button2.text = "ANNULLATA"
                 coloreStato = ContextCompat.getColor(context, R.color.lime_green)
                 holder.statoRichiesta.setTextColor(coloreStato)
 
                 holder.button1.setOnClickListener {
-                    val check= richiestaViewModel.checkClickOnComplete(richiesta)
-                    if(check) {
+                    if(richiestaViewModel.checkClickOnComplete(richiesta)) {
                         onButtonAccettaClicked(richiesta, "Completata")
                     }else{
                         Toast.makeText(context, "La richiesta potrà essere completata a partire dal giorno successivo alla data specificata", Toast.LENGTH_SHORT).show()
                     }
                 }
+
                 holder.button2.setOnClickListener {
-                    onButtonAccettaClicked(richiesta, "Rifiutata")
+                    if(richiestaViewModel.checkClickOnAnnulla(richiesta)){
+                        onButtonAccettaClicked(richiesta, "Rifiutata")
+                    }else{
+                        Toast.makeText(context, "La richiesta non può essere annulata nel giorno in cui deve essere completata", Toast.LENGTH_SHORT).show()
+                    }
+
                 }
 
+            }
+            "Completata"->{
+                button1.visibility= GONE
+                button2.visibility = GONE
+                //button2.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+
+                coloreStato = ContextCompat.getColor(context, R.color.lime_green)
+                holder.statoRichiesta.setTextColor(coloreStato)
             }
             else -> {
                 button1.visibility= GONE

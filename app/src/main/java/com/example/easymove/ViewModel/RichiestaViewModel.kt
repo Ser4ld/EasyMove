@@ -106,11 +106,27 @@ class RichiestaViewModel: ViewModel() {
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
+    private fun checkDateAnnullaRichiesta(stringDate: String): Boolean{
+        val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+        val enteredDate = LocalDate.parse(stringDate, formatter)
+        val currentDate = LocalDate.now()
+
+        return currentDate.isEqual(enteredDate)
+    }
+    @RequiresApi(Build.VERSION_CODES.O)
     fun checkClickOnComplete(richiesta: Richiesta): Boolean{
         if(!checkDate(richiesta.data)){
             return true
         }
         return false
+    }
+
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun checkClickOnAnnulla(richiesta: Richiesta): Boolean{
+        if(checkDateAnnullaRichiesta(richiesta.data)){
+            return false
+        }
+        return true
     }
 
     fun startRichiesteListener() {
@@ -123,29 +139,29 @@ class RichiestaViewModel: ViewModel() {
         }
     }
 
-    fun filterRichiesteGuidatoreByUserId(userId: String, richiesteList: List<Richiesta>): ArrayList<Richiesta> {
-        val filteredList = richiesteList.filter { richiesta -> richiesta.guidatoreId == userId }
-        return ArrayList(filteredList)
-    }
-
-    fun filterRichiesteConsumatoreByUserId(userId: String, richiesteList: List<Richiesta>): ArrayList<Richiesta> {
-        val filteredList = richiesteList.filter { richiesta -> richiesta.consumatoreId == userId }
-        return ArrayList(filteredList)
-    }
-
-    fun filterRichiesteGuidatoreByUserIdAndStato(userId: String, stato: String, richiesteList: List<Richiesta>): List<Richiesta> {
-        val filteredList = richiesteList.filter { richiesta ->
-            richiesta.guidatoreId == userId && richiesta.stato == stato
+    fun filterRichiesteByUserId(userId: String, richiesteList: List<Richiesta>, userType: String): ArrayList<Richiesta> {
+        if(userType == "guidatore"){
+            val filteredList = richiesteList.filter { richiesta -> richiesta.guidatoreId == userId }
+            return ArrayList(filteredList)
+        }else{
+            val filteredList = richiesteList.filter { richiesta -> richiesta.consumatoreId == userId }
+            return ArrayList(filteredList)
         }
-        return filteredList
+
     }
 
-    fun filterRichiesteConsumatoreByUserIdAndStato(userId: String, stato: String, richiesteList: List<Richiesta>): List<Richiesta> {
-        val filteredList = richiesteList.filter { richiesta ->
-            richiesta.consumatoreId == userId && richiesta.stato == stato
+    fun filterRichiesteByUserIdAndStato(userId: String, stato: String, richiesteList: List<Richiesta>,userType: String): List<Richiesta> {
+        if(userType == "guidatore"){
+            val filteredList = richiesteList.filter { richiesta -> richiesta.guidatoreId == userId && richiesta.stato == stato }
+            return filteredList
+        }else{
+            val filteredList = richiesteList.filter { richiesta -> richiesta.consumatoreId == userId && richiesta.stato == stato }
+            return filteredList
         }
-        return filteredList
+
     }
+
+
 
 
     fun totaleRichieste( richiesteList: List<Richiesta>): Int {

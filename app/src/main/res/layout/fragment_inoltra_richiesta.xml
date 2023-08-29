@@ -21,7 +21,6 @@
                 android:id="@+id/floatingActionButton"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="24dp"
                 android:clickable="true"
                 app:backgroundTint="@color/white"
                 app:layout_constraintBottom_toTopOf="@+id/mail_icon"
@@ -29,6 +28,7 @@
                 app:layout_constraintHorizontal_bias="0.045"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.35000002"
                 app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
 
             <TextView

@@ -1,6 +1,7 @@
 package com.example.easymove.View
 
 import android.app.DatePickerDialog
+import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
@@ -8,6 +9,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
 import com.bumptech.glide.Glide
@@ -45,6 +48,7 @@ class InoltraRichiestaFragment : Fragment() {
         return binding.root
     }
 
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
@@ -109,6 +113,7 @@ class InoltraRichiestaFragment : Fragment() {
                 ){success, message ->
                     if(success){
                         Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                        parentFragmentManager.popBackStack()
                         parentFragmentManager.popBackStack()
 
                     }else{

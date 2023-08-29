@@ -70,7 +70,7 @@ class RichiesteGuidatoreFragment : Fragment() {
                         if (user != null) {
                             userType= user.userType
                             userId = user.id
-                            adapter = MyAdapterRichieste(ArrayList(),veicoliList, userData,richiestaViewModel, userViewModel, veicoliViewModel)
+                            adapter = MyAdapterRichieste(ArrayList(),veicoliList, userData,userType,richiestaViewModel, userViewModel, veicoliViewModel)
                             binding.recyclerViewRichiesta.adapter = adapter
                         }
                     }
@@ -84,11 +84,7 @@ class RichiesteGuidatoreFragment : Fragment() {
                 if (richiestaList.isEmpty()) {
                     Log.i("provarichiesta", "No $richiestaList")
                 } else {
-                    if(userViewModel.checkUserType(userType)){
-                        richiesteFiltrate = ArrayList(richiestaViewModel.filterRichiesteGuidatoreByUserIdAndStato(userId, stato, richiestaList))
-                    } else{
-                        richiesteFiltrate = ArrayList(richiestaViewModel.filterRichiesteConsumatoreByUserIdAndStato(userId, stato, richiestaList))
-                    }
+                    var richiesteFiltrate = ArrayList(richiestaViewModel.filterRichiesteByUserIdAndStato(userId, stato, richiestaList, userType))
                     adapter.updateRichieste(richiesteFiltrate)
 
                 }
