@@ -41,6 +41,8 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
     private lateinit var mapViewModel: MapViewModel
 
     private lateinit var mMap: GoogleMap
+    private var isMapReady = false
+
 
 
     private var focusOriginBool: Boolean = false
@@ -206,18 +208,23 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
         }
     }
     override fun onMapReady(googleMap: GoogleMap) {
-        mMap = googleMap
 
-        val italyLatLng = LatLng(41.8719, 12.5674) // Latitudine e longitudine approssimative del centro dell'Italia
-        val zoomLevel = 5.5f // Livello di zoom appropriato per coprire l'Italia
+        mMap=googleMap
+        if (!isMapReady) {
+            // Esegui le operazioni desiderate solo la prima volta
+            val italyLatLng = LatLng(41.8719, 12.5674)
+            val zoomLevel = 5.5f
+            val italyBounds = LatLngBounds(
+                LatLng(35.5, 6.6),
+                LatLng(47.1, 18.5)
+            )
+            mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(italyLatLng, zoomLevel))
+            mMap.setLatLngBoundsForCameraTarget(italyBounds)
 
-        val italyBounds = LatLngBounds(
-            LatLng(35.5, 6.6), // Angolo sud-ovest dell'Italia
-            LatLng(47.1, 18.5) // Angolo nord-est dell'Italia
-        )
+            // ... altre operazioni specifiche della prima volta ...
 
-        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(italyLatLng, zoomLevel))
-        googleMap.setLatLngBoundsForCameraTarget(italyBounds)
+            isMapReady = true
+        }
 
 
       /*  binding.editTextOrigin.text = Editable.Factory.getInstance().newEditable("")
