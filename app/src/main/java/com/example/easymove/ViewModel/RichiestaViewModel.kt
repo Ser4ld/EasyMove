@@ -61,6 +61,17 @@ class RichiestaViewModel: ViewModel() {
         }
     }
 
+    fun updateRichiestaStato(richiestaId: String, nuovoStato: String, callback: (Boolean, String?) -> Unit) {
+        richiestaRepository.updateRichiestaStato(richiestaId, nuovoStato) { success, message ->
+            if(success) {
+                callback(true,message)
+            }
+            else {
+                callback(true,message)
+            }
+        }
+    }
+
 
 
     @RequiresApi(Build.VERSION_CODES.O)
