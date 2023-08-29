@@ -69,7 +69,8 @@ class MainFragment : Fragment() {
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.homeItem -> replaceFragment(HomeFragment())
-                R.id.profileItem -> replaceFragment( RichiestePannelloGuidatoreFragment())
+                R.id.profileItem -> replaceFragment( ProfileFragment())
+                R.id.requestItem -> replaceFragment(RichiesteGuidatoreFragment())
             }
             true
         }

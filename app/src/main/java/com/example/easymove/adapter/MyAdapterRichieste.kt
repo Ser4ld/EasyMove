@@ -138,8 +138,8 @@ class MyAdapterRichieste(private val richiesteList: ArrayList<Richiesta>, privat
             }
             else -> {
                 button1.visibility= GONE
-                button2.text = "ELIMINA"
-                button2.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+                button2.visibility = GONE
+                //button2.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
 
                 coloreStato = ContextCompat.getColor(context, R.color.red)
                 holder.statoRichiesta.setTextColor(coloreStato)

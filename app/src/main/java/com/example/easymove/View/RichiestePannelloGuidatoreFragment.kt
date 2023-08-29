@@ -33,6 +33,7 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val bundle = Bundle()
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         richiestaViewModel =
             ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
@@ -86,7 +87,7 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
                         else -> throw IllegalArgumentException("Posizione Tab non valida")
                     }
 
-                    val bundle = Bundle()
+
                     bundle.putString("stato", stato)
                     val richiesteGuidatoreFragment = RichiesteGuidatoreFragment()
                     richiesteGuidatoreFragment.arguments = bundle
