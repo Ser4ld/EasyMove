@@ -6,6 +6,8 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.CalendarView
+import android.widget.TextView
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.get
 import com.example.easymove.R
@@ -13,6 +15,7 @@ import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.Viewmodel.RecensioneViewModel
 import com.example.easymove.databinding.FragmentProfileGuidatoreBinding
+import java.util.Calendar
 
 
 class ProfileGuidatoreFragment : Fragment() {
@@ -36,6 +39,13 @@ class ProfileGuidatoreFragment : Fragment() {
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         recensioneViewModel= ViewModelProvider(requireActivity()).get(RecensioneViewModel::class.java)
+
+
+
+        val calendar = Calendar.getInstance()
+        val currentDate = calendar.timeInMillis
+
+        binding.calendarView.minDate = currentDate
 
 
         userViewModel.userDataLiveData.observe(viewLifecycleOwner){userData ->

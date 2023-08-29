@@ -8,19 +8,23 @@
         />
 
     <item
-        android:id="@+id/profileItem"
-        android:icon="@drawable/baseline_person_24"
-        android:title="Profile"
-        />
+        android:id="@+id/addItem"
+        android:icon="@drawable/baseline_add_24"
+        android:title="Aggiungi veicolo" />
+
     <item
         android:id="@+id/requestItem"
         android:icon="@drawable/baseline_send_24"
         android:title="Richieste" />
 
     <item
-        android:id="@+id/addItem"
-        android:icon="@drawable/baseline_add_24"
-        android:title="Aggiungi veicolo" />
+        android:id="@+id/profileItem"
+        android:icon="@drawable/baseline_person_24"
+        android:title="Profile"
+        />
+
+
+
 
 
 </menu>
