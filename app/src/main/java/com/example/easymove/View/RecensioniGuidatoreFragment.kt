@@ -35,12 +35,8 @@ class RecensioniGuidatoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
         recensioneViewModel = ViewModelProvider(requireActivity()).get(RecensioneViewModel::class.java)
         userViewModel=  ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
-
-
 
 
         userViewModel.allUsersLiveData.observe(viewLifecycleOwner) { userData ->

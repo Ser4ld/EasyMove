@@ -4,8 +4,13 @@ import android.os.Build
 import android.text.BoringLayout
 import android.util.Log
 import androidx.annotation.RequiresApi
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.easymove.model.Recensione
+import com.example.easymove.model.Richiesta
 import com.example.easymove.repository.RichiestaRepository
+import com.google.firebase.firestore.ListenerRegistration
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
@@ -15,6 +20,13 @@ import javax.security.auth.callback.Callback
 class RichiestaViewModel: ViewModel() {
 
     val richiestaRepository = RichiestaRepository()
+
+    private val _richiesteLiveData: MutableLiveData<List<Richiesta>> = MutableLiveData()
+    val richiesteLiveData: LiveData<List<Richiesta>> = _richiesteLiveData
+
+
+    private var richiesteListener: ListenerRegistration? = null
+
 
     @RequiresApi(Build.VERSION_CODES.O)
     fun inoltraRichiesta(
@@ -61,5 +73,35 @@ class RichiestaViewModel: ViewModel() {
         return (enteredDate.isAfter(currentDate))
 
     }
+
+    fun startRichiesteListener() {
+        richiesteListener = richiestaRepository.getRichiesteListener { success, error, richiestaList ->
+            if (success) {
+                _richiesteLiveData.postValue(richiestaList)
+            } else {
+                _richiesteLiveData.postValue(emptyList())
+            }
+        }
+    }
+
+    fun filterRichiesteByUserId(userId: String, richiesteList: List<Richiesta>): ArrayList<Richiesta> {
+        val filteredList = richiesteList.filter { recensione -> recensione.guidatoreId == userId }
+        return ArrayList(filteredList)
+    }
+
+    fun filterRichiesteByUserIdAndStato(userId: String, stato: String, richiesteList: List<Richiesta>): List<Richiesta> {
+        val filteredList = richiesteList.filter { richiesta ->
+            richiesta.guidatoreId == userId && richiesta.stato == stato
+        }
+        return filteredList
+    }
+
+
+    fun totaleRichieste( richiesteList: List<Richiesta>): Int {
+        return richiesteList.size
+    }
+
+
+
 
 }

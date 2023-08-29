@@ -46,10 +46,16 @@ class RichiesteGuidatoreFragment : Fragment() {
 
                 richiestaViewModel.richiesteLiveData.observe(viewLifecycleOwner) { richiesteList ->
                     if (richiesteList != null) {
-                        var richiesteFiltrateByUser=richiestaViewModel.filterRichiesteByUserId(user.id,richiesteList)
-                        binding.textRichiesteTotali2.text=richiestaViewModel.totaleRichieste(richiesteFiltrateByUser).toString()
-                        /*var richiesteFiltrateByUserAndStato=richiestaViewModel.filterRichiesteByUserIdAndStato(user.id,"inAttesa",richiesteList)
-                        binding.textRichiesteAttesa2.text=richiestaViewModel.totaleRichieste(richiesteFiltrateByUserAndStato).toString()*/
+
+                        var richiesteTotali=richiestaViewModel.filterRichiesteByUserId(user.id,richiesteList)
+                        binding.textRichiesteTotali2.text=richiestaViewModel.totaleRichieste(richiesteTotali).toString()
+
+                        var richiesteInAttesa=richiestaViewModel.filterRichiesteByUserIdAndStato(user.id,"inAttesa",richiesteList)
+                        binding.textRichiesteAttesa2.text=richiestaViewModel.totaleRichieste(richiesteInAttesa).toString()
+
+                        var richiesteAccettate=richiestaViewModel.filterRichiesteByUserIdAndStato(user.id,"Accettata",richiesteList)
+                        binding.textRichiesteAccettate2.text=richiestaViewModel.totaleRichieste(richiesteAccettate).toString()
+
                     }
                 }
             }
