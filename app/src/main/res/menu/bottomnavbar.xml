@@ -17,4 +17,10 @@
         android:icon="@drawable/baseline_send_24"
         android:title="Richieste" />
 
+    <item
+        android:id="@+id/addItem"
+        android:icon="@drawable/baseline_add_24"
+        android:title="Aggiungi veicolo" />
+
+
 </menu>

@@ -50,37 +50,45 @@ class MainFragment : Fragment() {
         recensioneViewModel.startRecensioniListener()
         richiestaViewModel.startRichiesteListener()
 
+        val addItemMenuItem = binding.bottomNavigationView.menu.findItem(R.id.addItem)
 
         //controllo se il frameLayout è vuoto
         if (childFragmentManager.findFragmentById(R.id.frameLayout) == null) {
             replaceFragment(HomeFragment())
+            binding.bottomNavigationView.menu.findItem(R.id.homeItem).isChecked = true
         }
 
-        binding.bottomAppBar.setBackgroundColor(resources.getColor(R.color.white))
+        //binding.bottomAppBar.setBackgroundColor(resources.getColor(R.color.white))
         binding.bottomNavigationView.background = null
 
-        binding.addItem.setOnClickListener {
+        /*binding.addItem.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, AggiungiVeicoloFragment())
                 .addToBackStack(null)
                 .commit()
         }
-
+*/
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
             when (menuItem.itemId) {
                 R.id.homeItem -> replaceFragment(HomeFragment())
                 R.id.profileItem -> replaceFragment( ProfileFragment())
-                R.id.requestItem -> replaceFragment(RichiesteGuidatoreFragment())
+                R.id.requestItem -> replaceFragment(RichiestePannelloGuidatoreFragment())
+                R.id.addItem -> replaceFragment(AggiungiVeicoloFragment())
+
+
             }
             true
         }
 
+
+
         // Qui chiamiamo la funzione per ottenere il valore di "tipoutente"
         homeViewModel.fetchAndSetTipoutente { isGuidatore ->
             if (isGuidatore) {
-                binding.addItem.visibility = View.VISIBLE
+                addItemMenuItem.isVisible = true
             } else {
-                binding.addItem.visibility = View.GONE
+                addItemMenuItem.isVisible = false
+
             }
         }
     }

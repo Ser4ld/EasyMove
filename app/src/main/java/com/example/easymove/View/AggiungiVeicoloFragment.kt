@@ -100,9 +100,9 @@ class AggiungiVeicoloFragment : Fragment() {
             }
         })
 
-        binding.floatingActionButton.setOnClickListener{
+        /*binding.floatingActionButton.setOnClickListener{
             parentFragmentManager.popBackStack()
-        }
+        }*/
 
         userViewModel.userDataLiveData.observe(
             viewLifecycleOwner,
