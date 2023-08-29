@@ -42,7 +42,7 @@ class RichiestaViewModel: ViewModel() {
         if(guidatoreId.isNotEmpty() && consumatoreId.isNotEmpty() && targaveicolo.isNotEmpty() && puntoPartenza.isNotEmpty() && puntoArrivo.isNotEmpty()){
             if(data.isNotEmpty() && descrizione.isNotEmpty()){
                 if(checkDate(data)){
-                    richiestaRepository.storeRequest(guidatoreId,consumatoreId,targaveicolo,puntoPartenza,puntoArrivo,data,descrizione, "inAttesa"){success,ErrMsg->
+                    richiestaRepository.storeRequest(guidatoreId,consumatoreId,targaveicolo,puntoPartenza,puntoArrivo,data,descrizione, "Attesa"){success,ErrMsg->
                         if(success){
                             callback(true, "Richiesta Inviata")
                         }else{

@@ -208,6 +208,18 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
 
+        val italyLatLng = LatLng(41.8719, 12.5674) // Latitudine e longitudine approssimative del centro dell'Italia
+        val zoomLevel = 5.5f // Livello di zoom appropriato per coprire l'Italia
+
+        val italyBounds = LatLngBounds(
+            LatLng(35.5, 6.6), // Angolo sud-ovest dell'Italia
+            LatLng(47.1, 18.5) // Angolo nord-est dell'Italia
+        )
+
+        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(italyLatLng, zoomLevel))
+        googleMap.setLatLngBoundsForCameraTarget(italyBounds)
+
+
       /*  binding.editTextOrigin.text = Editable.Factory.getInstance().newEditable("")
         binding.editTextDestination.text = Editable.Factory.getInstance().newEditable("")
 

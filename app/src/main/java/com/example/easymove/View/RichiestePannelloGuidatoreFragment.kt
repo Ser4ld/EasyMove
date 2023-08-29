@@ -46,7 +46,7 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
                         var richiesteTotali=richiestaViewModel.filterRichiesteByUserId(user.id,richiesteList)
                         binding.textRichiesteTotali2.text=richiestaViewModel.totaleRichieste(richiesteTotali).toString()
 
-                        var richiesteInAttesa=richiestaViewModel.filterRichiesteByUserIdAndStato(user.id,"inAttesa",richiesteList)
+                        var richiesteInAttesa=richiestaViewModel.filterRichiesteByUserIdAndStato(user.id,"Attesa",richiesteList)
                         binding.textRichiesteAttesa2.text=richiestaViewModel.totaleRichieste(richiesteInAttesa).toString()
 
                         var richiesteAccettate=richiestaViewModel.filterRichiesteByUserIdAndStato(user.id,"Accettata",richiesteList)
@@ -79,7 +79,7 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
 
             binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab) {
-                    var status: String = when (tab.position) {
+                    var stato: String = when (tab.position) {
                         0 -> "Attesa"
                         1 -> "Accettata"
                         2 -> "Altro"
@@ -87,7 +87,7 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
                     }
 
                     val bundle = Bundle()
-                    bundle.putString("stato", status)
+                    bundle.putString("stato", stato)
 
                     val richiesteGuidatoreFragment = RichiesteGuidatoreFragment()
                     richiesteGuidatoreFragment.arguments = bundle
