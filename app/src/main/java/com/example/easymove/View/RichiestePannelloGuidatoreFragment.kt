@@ -58,9 +58,9 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
             }
 
 
-            binding.fabButton.setOnClickListener {
+            /*binding.fabButton.setOnClickListener {
                 parentFragmentManager.popBackStack()
-            }
+            }*/
 
             if (childFragmentManager.findFragmentById(R.id.frameLayoutRichieste) == null) {
                 val initialFragment = RichiesteGuidatoreFragment()
