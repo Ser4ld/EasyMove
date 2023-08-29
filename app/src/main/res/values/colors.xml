@@ -8,6 +8,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
+    <color name="lime_green">#00FF00</color>
 
     <color name="selected_star_color">#FFD700</color>
     <color name="unselected_star_color">#CCCCCC</color>

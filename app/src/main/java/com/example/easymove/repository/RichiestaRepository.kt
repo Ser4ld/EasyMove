@@ -97,5 +97,19 @@ class RichiestaRepository {
     }
 
 
+    fun updateRichiestaStato(richiestaId: String, nuovoStato: String, callback: (Boolean, String?) -> Unit) {
+        val richiestaRef = firestoreDatabase.collection("requests").document(richiestaId)
+
+        richiestaRef.update("stato", nuovoStato)
+            .addOnSuccessListener {
+                callback(true, "Stato della richiesta aggiornato correttamente")
+            }
+            .addOnFailureListener { exception ->
+                callback(false, "Errore nell'aggiornamento dello stato della richiesta: ${exception.message}")
+            }
+    }
+
+
+
 
 }

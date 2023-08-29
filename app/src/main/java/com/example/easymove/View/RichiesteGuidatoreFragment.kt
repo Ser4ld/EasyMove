@@ -61,7 +61,7 @@ class RichiesteGuidatoreFragment : Fragment() {
                     if (user != null) {
 
                         userId = user.id
-                        adapter = MyAdapterRichieste(ArrayList(), userData)
+                        adapter = MyAdapterRichieste(ArrayList(), userData,richiestaViewModel)
                         binding.recyclerViewRichiesta.adapter = adapter
                     }
                 }

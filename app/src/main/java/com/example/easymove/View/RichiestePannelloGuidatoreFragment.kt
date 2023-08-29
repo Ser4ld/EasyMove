@@ -71,7 +71,7 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
 
             val attesaTab = binding.tabLayout.newTab().setText("IN ATTESA")
             val accettateTab = binding.tabLayout.newTab().setText("ACCETTATE")
-            val terminateTab = binding.tabLayout.newTab().setText("TERMINATE")
+            val terminateTab = binding.tabLayout.newTab().setText("RIFIUTATE")
 
             binding.tabLayout.addTab(attesaTab)
             binding.tabLayout.addTab(accettateTab)
@@ -82,13 +82,12 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
                     var stato: String = when (tab.position) {
                         0 -> "Attesa"
                         1 -> "Accettata"
-                        2 -> "Altro"
-                        else -> throw IllegalArgumentException("Invalid tab position")
+                        2 -> "Rifiutata"
+                        else -> throw IllegalArgumentException("Posizione Tab non valida")
                     }
 
                     val bundle = Bundle()
                     bundle.putString("stato", stato)
-
                     val richiesteGuidatoreFragment = RichiesteGuidatoreFragment()
                     richiesteGuidatoreFragment.arguments = bundle
 
