@@ -72,18 +72,23 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
 
             val attesaTab = binding.tabLayout.newTab().setText("IN ATTESA")
             val accettateTab = binding.tabLayout.newTab().setText("ACCETTATE")
+            val completateTab = binding.tabLayout.newTab().setText("COMPLETATE")
             val terminateTab = binding.tabLayout.newTab().setText("RIFIUTATE")
+
 
             binding.tabLayout.addTab(attesaTab)
             binding.tabLayout.addTab(accettateTab)
+            binding.tabLayout.addTab(completateTab)
             binding.tabLayout.addTab(terminateTab)
+
 
             binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab) {
                     var stato: String = when (tab.position) {
                         0 -> "Attesa"
                         1 -> "Accettata"
-                        2 -> "Rifiutata"
+                        2 -> "Completata"
+                        3 -> "Rifiutata"
                         else -> throw IllegalArgumentException("Posizione Tab non valida")
                     }
 

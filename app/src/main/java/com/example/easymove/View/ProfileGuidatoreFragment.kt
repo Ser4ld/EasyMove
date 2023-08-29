@@ -42,12 +42,6 @@ class ProfileGuidatoreFragment : Fragment() {
 
 
 
-        val calendar = Calendar.getInstance()
-        val currentDate = calendar.timeInMillis
-
-        binding.calendarView.minDate = currentDate
-
-
         userViewModel.userDataLiveData.observe(viewLifecycleOwner){userData ->
             if(userData!= null)
             {
