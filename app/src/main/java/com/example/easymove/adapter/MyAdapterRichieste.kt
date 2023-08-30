@@ -108,7 +108,7 @@ class MyAdapterRichieste(
 
     }
 
-    private fun onButtonAccettaClicked(richiesta: Richiesta, nuovoStato:String) {
+    private fun onButtonClicked(richiesta: Richiesta, nuovoStato:String) {
         val richiestaId = richiesta.richiestaId
 
         richiestaViewModel.updateRichiestaStato(richiestaId, nuovoStato) { success, errMsg ->
@@ -165,10 +165,10 @@ class MyAdapterRichieste(
                 holder.statoRichiesta.setTextColor(coloreStato)
 
                 holder.button1.setOnClickListener {
-                    onButtonAccettaClicked(richiesta, "Accettata")
+                    onButtonClicked(richiesta, "Accettata")
                 }
                 holder.button2.setOnClickListener {
-                    onButtonAccettaClicked(richiesta, "Rifiutata")
+                    onButtonClicked(richiesta, "Rifiutata")
                 }
             }
             "Accettata" -> {
@@ -186,7 +186,7 @@ class MyAdapterRichieste(
 
                 holder.button1.setOnClickListener {
                     if(richiestaViewModel.checkClickOnComplete(richiesta)) {
-                        onButtonAccettaClicked(richiesta, "Completata")
+                        onButtonClicked(richiesta, "Completata")
                     }else{
                         Toast.makeText(context, "La richiesta potrà essere completata a partire dal giorno successivo alla data specificata", Toast.LENGTH_SHORT).show()
                     }
@@ -194,7 +194,7 @@ class MyAdapterRichieste(
 
                 holder.button2.setOnClickListener {
                     if(richiestaViewModel.checkClickOnAnnulla(richiesta)){
-                        onButtonAccettaClicked(richiesta, "Rifiutata")
+                        onButtonClicked(richiesta, "Rifiutata")
                     }else{
                         Toast.makeText(context, "La richiesta non può essere annulata nel giorno in cui deve essere completata", Toast.LENGTH_SHORT).show()
                     }
@@ -207,7 +207,7 @@ class MyAdapterRichieste(
                 button2.visibility = GONE
                 //button2.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
 
-                coloreStato = ContextCompat.getColor(context, R.color.lime_green)
+                coloreStato = ContextCompat.getColor(context, R.color.dark_green)
                 holder.statoRichiesta.setTextColor(coloreStato)
             }
             else -> {

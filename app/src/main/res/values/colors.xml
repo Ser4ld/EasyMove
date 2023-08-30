@@ -9,6 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="red">#FF0000</color>
     <color name="lime_green">#00FF00</color>
+    <color name="dark_green">#067211</color>
 
     <color name="selected_star_color">#FFD700</color>
     <color name="unselected_star_color">#CCCCCC</color>
