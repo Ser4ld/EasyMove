@@ -39,10 +39,7 @@ class RichiesteGuidatoreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-        var argument=arguments
-        if (argument != null ){
-            stato= argument.getString("stato").toString()
-        } else stato="Attesa"
+
 
         _binding = FragmentRichiesteGuidatoreBinding.inflate(inflater, container, false)
         return binding.root
@@ -52,7 +49,10 @@ class RichiesteGuidatoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.i("provastato2",stato)
+        var argument=arguments
+        if (argument != null ){
+            stato= argument.getString("stato").toString()
+        } else stato="Attesa"
 
         richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
@@ -70,7 +70,7 @@ class RichiesteGuidatoreFragment : Fragment() {
                         if (user != null) {
                             userType= user.userType
                             userId = user.id
-                            adapter = MyAdapterRichieste(ArrayList(),veicoliList, userData,userType,richiestaViewModel, userViewModel, veicoliViewModel)
+                            adapter = MyAdapterRichieste(ArrayList(),veicoliList, userData,userType,richiestaViewModel, userViewModel, veicoliViewModel, requireActivity().supportFragmentManager)
                             binding.recyclerViewRichiesta.adapter = adapter
                         }
                     }
