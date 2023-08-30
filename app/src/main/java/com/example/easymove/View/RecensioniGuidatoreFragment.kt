@@ -23,6 +23,8 @@ class RecensioniGuidatoreFragment : Fragment() {
     private lateinit var adapter: MyAdapterRecensioni
 
     private lateinit var userId:String
+    private lateinit var userType: String
+
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -43,11 +45,12 @@ class RecensioniGuidatoreFragment : Fragment() {
             if (userData != null) {
                 userViewModel.userDataLiveData.observe(viewLifecycleOwner){ user->
                     if( user != null ) {
+                        userType= user.userType
 
                         recensioneViewModel.recensioniLiveData.observe(viewLifecycleOwner){ recensioniList->
                             if (recensioniList!=null) {
-                                binding.ratingBarMedia.rating= recensioneViewModel.mediaRecensioniFiltrate(user.id,recensioniList)
-                                binding.textRecensioniTotali2.text= recensioneViewModel.totaleRecensioniFiltrate(user.id,recensioniList).toString()
+                                binding.ratingBarMedia.rating= recensioneViewModel.mediaRecensioniFiltrate(user.id,recensioniList,userType)
+                                binding.textRecensioniTotali2.text= recensioneViewModel.totaleRecensioniFiltrate(user.id,recensioniList,userType).toString()
                             }
                         }
                         userId=user.id
@@ -72,7 +75,7 @@ class RecensioniGuidatoreFragment : Fragment() {
             if (recensioniList.isEmpty()) {
                 Toast.makeText(requireContext(), "Si è verificato un errore", Toast.LENGTH_SHORT).show()
             } else {
-                adapter.updateRecensioni(recensioneViewModel.filterRecensioneByUserId(userId, recensioniList ))
+                adapter.updateRecensioni(recensioneViewModel.filterRecensioneByUserId(userId, recensioniList, userType))
             }
         }
     }
