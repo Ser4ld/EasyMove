@@ -47,7 +47,7 @@ class ProfileGuidatoreFragment : Fragment() {
             {
                 recensioneViewModel.recensioniLiveData.observe(viewLifecycleOwner){ recensioniList->
                     if (recensioniList!=null) {
-                        var media = recensioneViewModel.mediaRecensioniFiltrate(userData.id, recensioniList)
+                        var media = recensioneViewModel.mediaRecensioniFiltrate(userData.id, recensioniList, "Guidatore")
                         binding.ratingBarRecensione.rating = media
                     }
                 }

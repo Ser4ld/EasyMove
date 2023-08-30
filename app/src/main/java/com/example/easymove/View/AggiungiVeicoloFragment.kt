@@ -170,7 +170,7 @@ class AggiungiVeicoloFragment : Fragment() {
                 if(success){
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                     dialog()
-                    clearForm()
+                    //clearForm()
 
                 }else{
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
@@ -183,7 +183,7 @@ class AggiungiVeicoloFragment : Fragment() {
 
     }
 
-    private fun clearForm(){
+   /* private fun clearForm(){
         val vectorDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_image_24)
         binding.Targa.text.clear()
         binding.LocazioneVeicolo.text.clear()
@@ -193,7 +193,7 @@ class AggiungiVeicoloFragment : Fragment() {
         binding.Lunghezzacassone.text.clear()
         binding.TariffaKm.text.clear()
         binding.imageFirebase.setImageDrawable(vectorDrawable)
-    }
+    }*/
     private fun dialog() {
 
         // Crea un nuovo AlertDialog

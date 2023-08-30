@@ -74,7 +74,9 @@ class ProfileFragment : Fragment() {
                         .replace(R.id.frameLayoutProfile, ProfileGuidatoreFragment())
                         .commit()
                 }else{
-
+                    childFragmentManager.beginTransaction()
+                        .replace(R.id.frameLayoutProfile, ProfileConsumatoreFragment())
+                        .commit()
                 }
             }
         }
