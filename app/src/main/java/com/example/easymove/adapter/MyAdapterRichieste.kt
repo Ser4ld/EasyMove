@@ -210,16 +210,18 @@ class MyAdapterRichieste(
                     button1.text="Fai una recensione"
                     button1.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
 
+
                     button1.setOnClickListener {
 
                         val bundle = Bundle()
                         bundle.putString("guidatoreId", richiesta.guidatoreId)
+                        bundle.putString("richiestaId", richiesta.richiestaId)
                         val creaRecensioneFragment = CreaRecensioneFragment()
                         creaRecensioneFragment.arguments = bundle
 
                         val fragmentManager = (holder.itemView.context as AppCompatActivity).supportFragmentManager
                         fragmentManager.beginTransaction()
-                            .replace(R.id.fragmentContainer, creaRecensioneFragment)
+                            .replace(R.id.frameLayout, creaRecensioneFragment)
                             .addToBackStack(null)
                             .commit()
                     }

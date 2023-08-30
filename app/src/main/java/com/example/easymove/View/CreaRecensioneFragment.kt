@@ -35,6 +35,8 @@ class CreaRecensioneFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+        var guidatoreId:String
+        var richiestaId: String
 
         recensioneViewModel = ViewModelProvider(requireActivity()).get(RecensioneViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
@@ -48,15 +50,20 @@ class CreaRecensioneFragment : Fragment() {
             }
         }
 
-        var guidatoreId:String
+
         val argument=arguments
         if (argument != null){
             guidatoreId = argument.getString("guidatoreId").toString()
-        } else guidatoreId="Id Guidatore non disponibile"
+            richiestaId = argument.getString("richiestaId").toString()
+        } else{
+            guidatoreId="Id Guidatore non disponibile"
+            richiestaId="Id Richiesta non disponibile"
+        }
 
 
         binding.btnInviaRecensione.setOnClickListener {
             recensioneViewModel.creaRecensione(
+                richiestaId,
                 userId,
                 guidatoreId,
                 binding.ratingBar.rating.toString(),
