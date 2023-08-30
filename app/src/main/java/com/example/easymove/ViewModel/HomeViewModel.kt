@@ -26,7 +26,7 @@ class HomeViewModel () : ViewModel() {
 
     private var userRepository = UserRepository()
 
-    fun fetchAndSetTipoutente( callback: (Boolean) -> Unit) {
+    /*fun fetchAndSetTipoutente( callback: (Boolean) -> Unit) {
         userRepository.getUserData { userData ->
             if (userData != null) {
                 val isGuidatore = userData.userType == "guidatore"
@@ -39,7 +39,7 @@ class HomeViewModel () : ViewModel() {
 
     fun checkActionId(actionId: Int): Boolean {
         return actionId == EditorInfo.IME_ACTION_NEXT || actionId == EditorInfo.IME_ACTION_DONE
-    }
+    }*/
 
     fun checkFormEditTexts(
         originEditText: EditText,
