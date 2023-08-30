@@ -44,14 +44,19 @@ class RecensioneViewModel: ViewModel() {
 
 
 
-    fun filterRecensioneByUserId(userId: String, recensioniList: List<Recensione>): ArrayList<Recensione> {
-        val filteredList = recensioniList.filter { recensione -> recensione.guidatoreId == userId }
-        return ArrayList(filteredList)
+    fun filterRecensioneByUserId(userId: String, recensioniList: List<Recensione>, userType: String): ArrayList<Recensione> {
+        if(userType == "guidatore"){
+            val filteredList = recensioniList.filter { recensione -> recensione.guidatoreId == userId }
+            return ArrayList(filteredList)
+        }else{
+            val filteredList = recensioniList.filter {  recensione -> recensione.consumatoreId == userId }
+            return ArrayList(filteredList)
+        }
     }
 
 
-    fun mediaRecensioniFiltrate(userId:String, recensioniList: List<Recensione>): Float {
-        val recensioniFiltrate = filterRecensioneByUserId(userId, recensioniList)
+    fun mediaRecensioniFiltrate(userId:String, recensioniList: List<Recensione>, userType: String): Float {
+        val recensioniFiltrate = filterRecensioneByUserId(userId, recensioniList, userType)
 
         val sommaRecensioni = recensioniFiltrate.map { it.valutazione.toFloat() }.sum()
 
@@ -63,8 +68,8 @@ class RecensioneViewModel: ViewModel() {
         return mediaRecensioni
     }
 
-    fun totaleRecensioniFiltrate(userId:String, recensioniList: List<Recensione>): Int {
-        val recensioniFiltrate = filterRecensioneByUserId(userId, recensioniList)
+    fun totaleRecensioniFiltrate(userId:String, recensioniList: List<Recensione>, userType: String): Int {
+        val recensioniFiltrate = filterRecensioneByUserId(userId, recensioniList, userType)
         return recensioniFiltrate.size
     }
 
