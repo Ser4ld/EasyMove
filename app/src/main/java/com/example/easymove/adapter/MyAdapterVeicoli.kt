@@ -40,7 +40,7 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private va
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
-    val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_singolo_annuncio, parent, false)
+    val itemView = LayoutInflater.from(parent.context).inflate(R.layout.card_veicolo, parent, false)
     return MyViewHolder(itemView)
     }
 

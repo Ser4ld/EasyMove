@@ -13,7 +13,7 @@
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginLeft="5dp"
-        android:src="@drawable/baseline_account_circle_24"
+        android:src="@drawable/account_circle_app_theme"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -104,7 +104,7 @@
             android:id="@+id/textPuntoPartenza"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Punto Partenza: "
+            android:text="Partenza: "
             android:textColor="@color/black"
             android:textSize="14dp" />
 
@@ -134,7 +134,7 @@
             android:id="@+id/textPuntoArrivo"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Punto Arrivo: "
+            android:text="Arrivo: "
             android:textColor="@color/black"
             android:textSize="14dp"
             />

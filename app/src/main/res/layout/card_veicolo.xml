@@ -14,10 +14,32 @@
         android:layout_height="wrap_content"
         android:orientation="vertical">
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                app:srcCompat="@drawable/account_circle_app_theme"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textColor="@color/app_theme"
+                android:textSize="20dp"
+                android:textStyle="bold"
+                android:text="Nome Utente" />
+
+        </LinearLayout>
+
         <ImageView
             android:id="@+id/annuncioImageView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
             android:scaleType="fitCenter"
@@ -133,7 +155,7 @@
         <Button
             android:id="@+id/btnRichiediTrasporto"
             android:layout_width="wrap_content"
-            android:layout_height="60dp"
+            android:layout_height="50dp"
             android:layout_margin="5dp"
             android:backgroundTint="@color/app_theme"
             android:text="Richiedi trasporto"
