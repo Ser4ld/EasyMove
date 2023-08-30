@@ -1,21 +1,31 @@
 package com.example.easymove.adapter
 
+import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
+import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.easymove.R
+import com.example.easymove.View.CreaRecensioneFragment
 import com.example.easymove.View.ListaVeicoliFragment
+import com.example.easymove.View.ModificaVeicoloFragment
+import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
+import com.example.easymove.model.User
 import com.example.easymove.model.Veicolo
+import java.util.regex.Pattern
 
 
-class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private val list:ArrayList<Veicolo>):RecyclerView.Adapter<MyAdapterVeicoli.MyViewHolder>() {
+class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private val userViewModel: UserViewModel,private val list:ArrayList<Veicolo>, private val distance: String, private val userList: List<User>?):RecyclerView.Adapter<MyAdapterVeicoli.MyViewHolder>() {
 
     init {
         list.sortBy { it.modello }
@@ -34,8 +44,12 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private va
         val capienza: TextView= itemView.findViewById(R.id.capienza)
         val locazione: TextView = itemView.findViewById(R.id.locazione)
         val annuncioImageView: ImageView = itemView.findViewById(R.id.annuncioImageView)
+        val prezzo: TextView = itemView.findViewById(R.id.prezzo)
+        val guidatoreText: TextView = itemView.findViewById(R.id.annuncioGuidatoreText)
+        val imageGuidatore: ImageView = itemView.findViewById(R.id.annuncioGuidatoreImage)
 
         val button: Button = itemView.findViewById(R.id.btnRichiediTrasporto)
+        val btnElimina: Button = itemView.findViewById(R.id.btnEliminaVeicolo)
 
     }
 
@@ -56,18 +70,42 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private va
             .findFragmentById(R.id.fragmentContainer)
 
         if (currentFragment is ListaVeicoliFragment) {
+            holder.prezzo.text = (list[position].tariffakm.toDouble()*extractNumbersFromString(distance)).toString()
+            Log.d("provaaaa", userList.toString())
+            val user = userViewModel.FilterListById(list[position].id, userList!!)
+            if (user != null){
+                setGuidatoreInformation(holder, user)
+            }
+
+            holder.btnElimina.visibility = GONE
+            holder.button.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+
             holder.button.setOnClickListener {
                 veicoliViewModel.onVeicoloClicked(position)
             }
+
         }
         else {
+            holder.prezzo.text = list[position].tariffakm
+            holder.guidatoreText.visibility = GONE
+            holder.imageGuidatore.visibility = GONE
             holder.button.text= "Modifica Veicolo"
+
+            holder.button.setOnClickListener {
+                val bundle = Bundle()
+                bundle.putString("targa", list[position].targa)
+                val modificaVeicoloFragment = ModificaVeicoloFragment()
+                modificaVeicoloFragment.arguments = bundle
+                replaceFragment(holder, modificaVeicoloFragment)
+            }
+
         }
 
         holder.modello.text = list[position].modello
         holder.targa.text = list[position].targa
         holder.capienza.text = list[position].capienza
         holder.locazione.text = list[position].via
+
 
         if (!list[position].imageUrl.isNullOrEmpty()) {
 
@@ -81,5 +119,39 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private va
         }
     }
 
+    private fun extractNumbersFromString(input: String): Double {
+        val pattern = Pattern.compile("\\d+(\\.\\d+)?") // Crea un pattern per trovare sequenze di numeri
+        val matcher = pattern.matcher(input)
 
+        if (matcher.find()) {
+            return matcher.group().toDouble()  // Converte la sequenza di numeri in un intero
+        }
+
+        return 0.0 // Ritorna un valore di default se non trova alcun numero
+    }
+
+    private fun setGuidatoreInformation(holder: MyViewHolder,user: User){
+        holder.guidatoreText.text = "${user.name} ${user.surname}"
+
+        if (!user.imageUrl.isNullOrEmpty()) {
+
+            // Carica l'immagine relativa all'Url (firebase storage) utilizzando la libreria Glide
+            Glide.with(holder.itemView.context)
+                .load(user.imageUrl)
+                .circleCrop()
+                .into(holder.imageGuidatore)
+        } else {
+            // Carica l'immagine di default
+            holder.imageGuidatore.setImageResource(R.drawable.baseline_image_24)
+        }
+    }
+
+    private fun replaceFragment(holder:MyViewHolder,fragment: Fragment){
+        (holder.itemView.context as AppCompatActivity)
+            .supportFragmentManager
+            .beginTransaction()
+            .replace(R.id.fragmentContainer, fragment)
+            .addToBackStack(null)
+            .commit()
+    }
 }

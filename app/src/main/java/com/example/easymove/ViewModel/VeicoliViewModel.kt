@@ -6,12 +6,10 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.easymove.model.Veicolo
-import com.example.easymove.repository.UserRepository
 import com.example.easymove.repository.VeicoliRepository
 import com.google.firebase.firestore.ListenerRegistration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
-import javax.security.auth.callback.Callback
 
 
 class VeicoliViewModel: ViewModel() {
@@ -141,7 +139,7 @@ class VeicoliViewModel: ViewModel() {
     }
 
 
-    fun FilterListbyTarga(targa: String, veicoliList: List<Veicolo>): Veicolo?{
+    fun filterListbyTarga(targa: String, veicoliList: List<Veicolo>): Veicolo?{
         return veicoliList.find { it.targa == targa }
     }
 

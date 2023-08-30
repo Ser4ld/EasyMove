@@ -5,240 +5,241 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/white"
-    tools:context=".View.ProfileFragment">
-
-    <androidx.constraintlayout.widget.Guideline
-        android:id="@+id/guideline_profile"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        app:layout_constraintGuide_begin="73dp" />
-
-    <com.google.android.material.card.MaterialCardView
-        android:id="@+id/materialCardBenvenuto"
-        style="@style/custom_card_view_profile_style"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:backgroundTint="@color/app_theme"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_profile"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
-
-            <TextView
-                android:id="@+id/benvenutoTV"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Benvenuto"
-                android:textColor="@color/white"
-                android:textSize="30dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.04"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="1.0" />
-
-
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </com.google.android.material.card.MaterialCardView>
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="@color/white"
+        tools:context=".View.ProfileFragment">
 
-        <ImageView
-            android:id="@+id/imageUser"
-            android:layout_width="150dp"
-            android:layout_height="150dp"
-            android:src="@drawable/account_circle_app_theme"
-            android:scaleType="fitCenter"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.133" />
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingButtonUpdateImage"
+        <androidx.constraintlayout.widget.Guideline
+            android:id="@+id/guideline_profile"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:clickable="true"
-            app:backgroundTint="@color/white"
-            app:fabCustomSize="40dp"
-            app:layout_constraintBottom_toBottomOf="@+id/imageUser"
-            app:layout_constraintEnd_toEndOf="@+id/imageUser"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/imageUser"
-            app:layout_constraintTop_toTopOf="@+id/imageUser"
-            app:layout_constraintVertical_bias="1.0"
-            app:srcCompat="@drawable/baseline_mode_edit_10" />
+            android:orientation="horizontal"
+            app:layout_constraintGuide_begin="60dp" />
 
-        <androidx.cardview.widget.CardView
-            android:id="@+id/cardInformazioniPersonali"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_margin="20dp"
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/materialCardBenvenuto"
+            style="@style/custom_card_view_profile_style"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:backgroundTint="@color/app_theme"
+            app:layout_constraintBottom_toTopOf="@+id/guideline_profile"
+            app:layout_constraintTop_toTopOf="parent">
 
-            android:layout_marginBottom="239dp"
-            android:backgroundTint="@color/white"
-            app:cardCornerRadius="10dp"
-            app:cardElevation="25dp"
-            app:contentPadding="20dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <TextView
+                    android:id="@+id/benvenutoTV"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:text="Benvenuto"
+                    android:textColor="@color/white"
+                    android:textSize="30dp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.04"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintVertical_bias="1.0" />
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/imageUser"
-            app:layout_constraintVertical_bias="0.050000012">
+            app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
+            <ImageView
+                android:id="@+id/imageUser"
+                android:layout_width="150dp"
+                android:layout_height="150dp"
+                android:scaleType="fitCenter"
+                android:src="@drawable/account_circle_app_theme"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.133" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingButtonUpdateImage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                app:backgroundTint="@color/white"
+                app:fabCustomSize="40dp"
+                app:layout_constraintBottom_toBottomOf="@+id/imageUser"
+                app:layout_constraintEnd_toEndOf="@+id/imageUser"
+                app:layout_constraintHorizontal_bias="1.0"
+                app:layout_constraintStart_toStartOf="@+id/imageUser"
+                app:layout_constraintTop_toTopOf="@+id/imageUser"
+                app:layout_constraintVertical_bias="1.0"
+                app:srcCompat="@drawable/baseline_mode_edit_10" />
+
+            <androidx.cardview.widget.CardView
+                android:id="@+id/cardInformazioniPersonali"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_margin="20dp"
+
+                android:layout_marginBottom="239dp"
+                android:backgroundTint="@color/white"
+                app:cardCornerRadius="10dp"
+                app:cardElevation="25dp"
+                app:contentPadding="20dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageUser"
+                app:layout_constraintVertical_bias="0.050000012">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:backgroundTint="@color/white"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:id="@+id/textView12"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="Informazioni Personali"
+                        android:textAlignment="textStart"
+                        android:textColor="@color/black"
+                        android:textSize="25dp"
+                        android:textStyle="bold" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView15"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="Nome:"
+                            android:textColor="@color/app_theme"
+                            android:textSize="18dp" />
+
+                        <TextView
+                            android:id="@+id/nomeTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            android:textSize="18dp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView17"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="Cognome:"
+                            android:textColor="@color/app_theme"
+                            android:textSize="18dp" />
+
+                        <TextView
+                            android:id="@+id/cognomeTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            android:textSize="18dp" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="10dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:id="@+id/textView13"
+                            android:layout_width="100dp"
+                            android:layout_height="wrap_content"
+                            android:text="Email:"
+                            android:textColor="@color/app_theme"
+                            android:textSize="18dp" />
+
+                        <TextView
+                            android:id="@+id/emailTV"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:textColor="@color/black"
+                            android:textSize="18dp" />
+
+                    </LinearLayout>
+
+                    <Button
+                        android:id="@+id/modificabtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="MODIFICA EMAIL "
+                        android:textColor="@color/white"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        app:cornerRadius="20dp" />
+
+                    <Button
+                        android:id="@+id/modificaPasswordbtn"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="MODIFICA PASSWORD "
+                        android:textColor="@color/white"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        app:cornerRadius="20dp" />
+
+                    <Button
+                        android:id="@+id/logout"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="0dp"
+                        android:backgroundTint="@color/red"
+                        android:text="Logout"
+                        android:textColor="@android:color/white"
+                        android:textSize="18dp"
+                        android:textStyle="bold"
+                        app:cornerRadius="20dp" />
+
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <FrameLayout
+                android:id="@+id/frameLayoutProfile"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:backgroundTint="@color/white"
-                android:orientation="vertical">
+                app:layout_constraintTop_toBottomOf="@+id/cardInformazioniPersonali">
 
-                <TextView
-                    android:id="@+id/textView12"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="Informazioni Personali"
-                    android:textAlignment="textStart"
-                    android:textColor="@color/black"
-                    android:textSize="25dp"
-                    android:textStyle="bold" />
+                <!-- Contenuto del FrameLayout -->
 
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView15"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="Nome:"
-                        android:textColor="@color/app_theme"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:id="@+id/nomeTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/black"
-                        android:textSize="18dp" />
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView17"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="Cognome:"
-                        android:textColor="@color/app_theme"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:id="@+id/cognomeTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/black"
-                        android:textSize="18dp" />
-
-                </LinearLayout>
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="10dp"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/textView13"
-                        android:layout_width="100dp"
-                        android:layout_height="wrap_content"
-                        android:text="Email:"
-                        android:textColor="@color/app_theme"
-                        android:textSize="18dp" />
-
-                    <TextView
-                        android:id="@+id/emailTV"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_weight="1"
-                        android:textColor="@color/black"
-                        android:textSize="18dp" />
-
-                </LinearLayout>
-
-                <Button
-                    android:id="@+id/modificabtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="MODIFICA EMAIL "
-                    android:textColor="@color/white"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    app:cornerRadius="20dp" />
-
-                <Button
-                    android:id="@+id/modificaPasswordbtn"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:text="MODIFICA PASSWORD "
-                    android:textColor="@color/white"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    app:cornerRadius="20dp" />
-
-                <Button
-                    android:id="@+id/logout"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="0dp"
-                    android:backgroundTint="@color/red"
-                    android:text="Logout"
-                    android:textColor="@android:color/white"
-                    android:textSize="18dp"
-                    android:textStyle="bold"
-                    app:cornerRadius="20dp" />
+            </FrameLayout>
 
 
-            </LinearLayout>
-        </androidx.cardview.widget.CardView>
-
-        <FrameLayout
-            android:id="@+id/frameLayoutProfile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@+id/cardInformazioniPersonali">
-
-            <!-- Contenuto del FrameLayout -->
-
-        </FrameLayout>
-
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-</androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

@@ -22,6 +22,7 @@ import com.example.easymove.View.CreaRecensioneFragment
 import com.example.easymove.ViewModel.RichiestaViewModel
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
+import com.example.easymove.Viewmodel.RecensioneViewModel
 import com.example.easymove.model.Richiesta
 import com.example.easymove.model.User
 import com.example.easymove.model.Veicolo
@@ -31,6 +32,7 @@ class MyAdapterRichieste(
     private var veicoliList: List<Veicolo> ,
     private var userList: List<User>,
     private var userType: String,
+    private val recensioneViewModel: RecensioneViewModel,
     private val richiestaViewModel: RichiestaViewModel,
     private val userViewModel: UserViewModel,
     private val veicoliViewModel: VeicoliViewModel) : RecyclerView.Adapter<MyAdapterRichieste.MyViewHolder>() {
@@ -90,7 +92,7 @@ class MyAdapterRichieste(
         }
 
 
-        val veicolo = veicoliViewModel.FilterListbyTarga(richiesta.targaveicolo, veicoliList)
+        val veicolo = veicoliViewModel.filterListbyTarga(richiesta.targaveicolo, veicoliList)
         if(veicolo != null){
             caricaDettagliVeicolo(holder,veicolo)
         }
@@ -205,12 +207,17 @@ class MyAdapterRichieste(
 
                 if(userViewModel.checkUserType(userType)){
                     button1.visibility= GONE
+
                 } else{
                     button1.visibility= VISIBLE
                     button1.text="Fai una recensione"
                     button1.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
 
-
+                    recensioneViewModel.chcekRecensione(richiesta.richiestaId){success ->
+                        if(success){
+                            button1.visibility  = GONE
+                        }
+                    }
                     button1.setOnClickListener {
 
                         val bundle = Bundle()

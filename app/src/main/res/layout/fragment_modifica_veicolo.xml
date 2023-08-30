@@ -35,7 +35,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawablePadding="4dp"
-                android:text="Aggiungi Veicolo"
+                android:text="Modifica Veicolo"
                 android:textColor="@color/white"
                 android:textColorLink="@color/white"
                 android:textSize="42dp"
@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                app:layout_constraintGuide_percent="0.25" />
+                app:layout_constraintGuide_percent="0.30" />
 
             <com.google.android.material.card.MaterialCardView
                 android:id="@+id/materialCardView2"
@@ -106,6 +106,7 @@
                         android:drawablePadding="5dp"
                         android:drawableTint="@color/app_theme"
                         android:ems="10"
+                        android:enabled="false"
                         android:hint="Nome veicolo"
                         android:inputType="textCapSentences"
                         android:padding="5dp"
@@ -128,6 +129,7 @@
                         android:drawablePadding="5dp"
                         android:drawableTint="@color/app_theme"
                         android:ems="10"
+                        android:enabled="false"
                         android:hint="Targa"
                         android:inputType="textCapCharacters"
                         android:padding="5dp"
@@ -139,7 +141,7 @@
                         app:layout_constraintTop_toBottomOf="@+id/NomeVeicolo" />
 
                     <EditText
-                        android:id="@+id/Altezzacassone"
+                        android:id="@+id/capienzaCassone"
                         android:layout_width="match_parent"
                         android:layout_height="50dp"
                         android:layout_margin="20dp"
@@ -150,7 +152,8 @@
                         android:drawablePadding="5dp"
                         android:drawableTint="@color/app_theme"
                         android:ems="10"
-                        android:hint="Altezza Cassone in cm"
+                        android:enabled="false"
+                        android:hint="Capienza cassone"
                         android:inputType="numberDecimal|numberSigned"
                         android:padding="5dp"
                         android:textColor="@color/black"
@@ -159,51 +162,6 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/LocazioneVeicolo" />
-
-                    <EditText
-                        android:id="@+id/Lunghezzacassone"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/text_form_background"
-                        android:drawableLeft="@drawable/baseline_compare_arrows_24"
-                        android:drawablePadding="5dp"
-                        android:drawableTint="@color/app_theme"
-                        android:ems="10"
-                        android:hint="Lunghezza Cassone in cm"
-                        android:inputType="numberDecimal|numberSigned"
-                        android:padding="5dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/placeholder"
-                        android:textSize="18dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/Altezzacassone" />
-
-
-                    <EditText
-                        android:id="@+id/Larghezzacassone"
-                        android:layout_width="match_parent"
-                        android:layout_height="50dp"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="20dp"
-                        android:layout_marginRight="20dp"
-                        android:background="@drawable/text_form_background"
-                        android:drawableLeft="@drawable/baseline_close_fullscreen_24"
-                        android:drawablePadding="5dp"
-                        android:drawableTint="@color/app_theme"
-                        android:ems="10"
-                        android:hint="Larghezza Cassone in cm"
-                        android:inputType="numberDecimal|numberSigned"
-                        android:padding="5dp"
-                        android:textColor="@color/black"
-                        android:textColorHint="@color/placeholder"
-                        android:textSize="18dp"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/Lunghezzacassone" />
 
 
                     <EditText
@@ -226,7 +184,7 @@
                         android:textSize="18dp"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
-                        app:layout_constraintTop_toBottomOf="@+id/Larghezzacassone" />
+                        app:layout_constraintTop_toBottomOf="@+id/capienzaCassone" />
 
                     <TextView
                         android:id="@+id/disclaimerFormato"

@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:backgroundTint="@color/white"
-    app:cardElevation="8dp"
-    app:cardCornerRadius="8dp"
     android:layout_margin="16dp"
-    >
+    android:backgroundTint="@color/white"
+    app:cardCornerRadius="8dp"
+    app:cardElevation="8dp">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -17,22 +17,26 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:padding="10dp">
 
             <ImageView
+                android:id="@+id/annuncioGuidatoreImage"
                 android:layout_width="64dp"
                 android:layout_height="64dp"
-                app:srcCompat="@drawable/account_circle_app_theme"
-                />
+                app:srcCompat="@drawable/account_circle_app_theme" />
 
             <TextView
+                android:id="@+id/annuncioGuidatoreText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:clickable="true"
+                android:text="Nome Utente"
                 android:textColor="@color/app_theme"
                 android:textSize="20dp"
-                android:textStyle="bold"
-                android:text="Nome Utente" />
+                android:textStyle="bold" />
 
         </LinearLayout>
 
@@ -40,135 +44,183 @@
             android:id="@+id/annuncioImageView"
             android:layout_width="match_parent"
             android:layout_height="150dp"
-            android:layout_marginTop="5dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="15dp"
             android:layout_marginBottom="5dp"
             android:scaleType="fitCenter"
             app:srcCompat="@drawable/baseline_image_24"
-            android:layout_gravity="center_horizontal"
 
             />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="5dp">
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/modellolabel"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="5dp"
-                android:text="Modello:"
-                android:textSize="18dp"
-                android:textColor="@color/app_theme"
                 android:paddingEnd="16dp"
-                />
+                android:text="Modello:"
+                android:textColor="@color/app_theme"
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/modello"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="16dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="16dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="5dp">
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/targalabel"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Targa:"
                 android:layout_marginLeft="5dp"
+                android:paddingEnd="16dp"
 
-                android:textSize="18dp"
+                android:text="Targa:"
                 android:textColor="@color/app_theme"
-                android:paddingEnd="16dp"/>
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/targa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="16dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="16dp" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="5dp">
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/capienzalabel"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Capienza:"
                 android:layout_marginLeft="5dp"
+                android:paddingEnd="16dp"
 
-                android:textSize="18dp"
+                android:text="Capienza:"
                 android:textColor="@color/app_theme"
-                android:paddingEnd="16dp"/>
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/capienza"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="16dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="16dp" />
         </LinearLayout>
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_margin="5dp">
+            android:layout_margin="5dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/locazionelabel"
                 android:layout_width="100dp"
                 android:layout_height="wrap_content"
-                android:text="Locazione:"
                 android:layout_marginLeft="5dp"
-                android:textSize="18dp"
+                android:text="Locazione:"
                 android:textColor="@color/app_theme"
-                />
+                android:textSize="18dp" />
 
             <TextView
                 android:id="@+id/locazione"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:text=""
-                android:textSize="16dp"
-                android:textColor="@color/black"/>
+                android:textColor="@color/black"
+                android:textSize="16dp" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/btnRichiediTrasporto"
-            android:layout_width="wrap_content"
-            android:layout_height="50dp"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:layout_margin="5dp"
-            android:backgroundTint="@color/app_theme"
-            android:text="Richiedi trasporto"
-            android:textColor="@color/white"
-            android:textSize="12dp"
-            android:textStyle="bold"
-            app:cornerRadius="25dp"
-            android:layout_gravity="center_horizontal"
-            />
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/prezzoLabel"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="5dp"
+                android:text="Prezzo: "
+                android:textColor="@color/app_theme"
+                android:textSize="18dp" />
+
+            <TextView
+                android:id="@+id/prezzo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textColor="@color/black"
+                android:textSize="16dp" />
+        </LinearLayout>
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="5dp"
+            android:paddingTop="5dp"
+            android:paddingBottom="5dp">
+
+            <Button
+                android:id="@+id/btnRichiediTrasporto"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:layout_margin="5dp"
+                android:backgroundTint="@color/app_theme"
+                android:text="Richiedi trasporto"
+                android:textColor="@color/white"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                app:cornerRadius="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnEliminaVeicolo"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <Button
+                android:id="@+id/btnEliminaVeicolo"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:backgroundTint="@color/red"
+                android:text="ELIMINA"
+                android:textColor="@color/white"
+                android:textSize="12dp"
+                android:textStyle="bold"
+                app:cornerRadius="25dp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@+id/btnRichiediTrasporto"
+                app:layout_constraintTop_toTopOf="parent" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
     </LinearLayout>
-
 
 
 </androidx.cardview.widget.CardView>

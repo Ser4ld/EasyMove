@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.easymove.ViewModel.RichiestaViewModel
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
+import com.example.easymove.Viewmodel.RecensioneViewModel
 import com.example.easymove.adapter.MyAdapterRichieste
 import com.example.easymove.databinding.FragmentRichiesteGuidatoreBinding
 import com.example.easymove.model.Richiesta
@@ -26,6 +27,7 @@ class RichiesteGuidatoreFragment : Fragment() {
     private lateinit var richiestaViewModel: RichiestaViewModel
     private lateinit var userViewModel: UserViewModel
     private lateinit var veicoliViewModel: VeicoliViewModel
+    private lateinit var recensioneViewModel: RecensioneViewModel
 
     private lateinit var adapter: MyAdapterRichieste
 
@@ -57,6 +59,7 @@ class RichiesteGuidatoreFragment : Fragment() {
         richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
+        recensioneViewModel = ViewModelProvider(requireActivity()).get(RecensioneViewModel::class.java)
 
         val layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerViewRichiesta.layoutManager = layoutManager
@@ -70,7 +73,7 @@ class RichiesteGuidatoreFragment : Fragment() {
                         if (user != null) {
                             userType= user.userType
                             userId = user.id
-                            adapter = MyAdapterRichieste(ArrayList(),veicoliList, userData,userType,richiestaViewModel, userViewModel, veicoliViewModel)
+                            adapter = MyAdapterRichieste(ArrayList(),veicoliList, userData,userType,recensioneViewModel,richiestaViewModel, userViewModel, veicoliViewModel)
                             binding.recyclerViewRichiesta.adapter = adapter
                         }
                     }

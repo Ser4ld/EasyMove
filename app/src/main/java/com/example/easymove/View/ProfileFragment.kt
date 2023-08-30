@@ -88,15 +88,9 @@ class ProfileFragment : Fragment() {
                     .commit()
         }
 
-
-
-
-
         binding.logout.setOnClickListener {
             logout()
         }
-
-
 
         binding.modificabtn.setOnClickListener {
             requireActivity().supportFragmentManager.beginTransaction()
@@ -136,20 +130,6 @@ class ProfileFragment : Fragment() {
         customView.findViewById<Button>(R.id.btn_no).setOnClickListener{
             dialog.dismiss()
         }
-
-        //builder.setMessage("Clicca 'Conferma' per effettuare il logout")
-
-        // Aggiungi i pulsanti "Conferma" e "Annulla"
-        /*builder.setPositiveButton("Conferma") { _: DialogInterface, _: Int ->
-
-            FirebaseAuth.getInstance().signOut()
-            Toast.makeText(requireContext(), "Logout effettuato", Toast.LENGTH_SHORT).show()
-            val intentLogout = Intent(requireContext(), index::class.java)
-            startActivity(intentLogout)
-            requireActivity().finish()
-
-        }*/
-        //builder.setNegativeButton("Annulla", null)
 
         // Mostra il popup
         dialog.show()

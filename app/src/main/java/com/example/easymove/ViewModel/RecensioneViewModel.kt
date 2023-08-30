@@ -73,5 +73,16 @@ class RecensioneViewModel: ViewModel() {
         return recensioniFiltrate.size
     }
 
+    fun chcekRecensione(richiestaId: String, callback: (Boolean) -> Unit) {
+        recensioniLiveData.observeForever { recensioniList ->
+            recensioniList?.forEach { recensione ->
+                if (recensione.richiestaId == richiestaId) {
+                    callback(true)
+                    return@forEach
+                }
+            }
+            callback(false)
+        }
+    }
 
 }

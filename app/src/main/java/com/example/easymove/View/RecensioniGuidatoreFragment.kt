@@ -64,7 +64,7 @@ class RecensioniGuidatoreFragment : Fragment() {
 
         }
 
-        binding.fabButton.setOnClickListener {
+        binding.floatingActionButton2.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 

@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.adapter.MyAdapterVeicoli
 import com.example.easymove.databinding.FragmentVeicoliGuidatoreBinding
@@ -20,6 +21,7 @@ class VeicoliGuidatoreFragment : Fragment() {
     private val binding get() = _binding!!
 
     private lateinit var veicoliViewModel: VeicoliViewModel
+    private lateinit var userViewModel: UserViewModel
 
     private lateinit var adapter: MyAdapterVeicoli
     private val list: ArrayList<Veicolo> = arrayListOf()
@@ -38,6 +40,7 @@ class VeicoliGuidatoreFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
+        userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
         binding.fabButton.setOnClickListener {
             parentFragmentManager.popBackStack()
@@ -46,10 +49,9 @@ class VeicoliGuidatoreFragment : Fragment() {
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = layoutManager
 
-        adapter = MyAdapterVeicoli(veicoliViewModel,ArrayList())
+        adapter = MyAdapterVeicoli(veicoliViewModel,userViewModel,ArrayList(),"", null)
         binding.recyclerView.adapter = adapter
 
-        //veicoliViewModel.startVeicoliListener()
 
         veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
             if (veicoliList.isEmpty()) {

@@ -10,6 +10,7 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.easymove.R
+import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.adapter.MyAdapterVeicoli
 import com.example.easymove.databinding.FragmentListaVeicoliBinding
@@ -22,6 +23,7 @@ class ListaVeicoliFragment : Fragment() {
 
     private lateinit var cityOrigin: String
     private lateinit var postCodeOrigin: String
+    private lateinit var distance: String
 
     private lateinit var origin: String
     private lateinit var destination: String
@@ -29,6 +31,7 @@ class ListaVeicoliFragment : Fragment() {
 
 
     private lateinit var veicoliViewModel: VeicoliViewModel
+    private lateinit var userViewModel: UserViewModel
 
     private lateinit var adapter: MyAdapterVeicoli
 
@@ -44,6 +47,7 @@ class ListaVeicoliFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
+        userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
         binding.fabButton.setOnClickListener {
             parentFragmentManager.popBackStack()
@@ -52,18 +56,21 @@ class ListaVeicoliFragment : Fragment() {
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = layoutManager
 
-        adapter = MyAdapterVeicoli(veicoliViewModel,ArrayList())
-        binding.recyclerView.adapter = adapter
-
         val argument=arguments
         if (argument != null){
             cityOrigin = argument.getString("originCity").toString()
             postCodeOrigin = argument.getString("originPostCode").toString()
             origin = argument.getString("origin").toString()
             destination = argument.getString("destination").toString()
-
-            Log.d("Origin Data", "City: $cityOrigin, Postal Code: $postCodeOrigin")
+            distance = argument.get("distance").toString()
         }
+        userViewModel.allUsersLiveData.observe(viewLifecycleOwner){userList ->
+            if(userList != null){
+                adapter = MyAdapterVeicoli(veicoliViewModel,userViewModel,ArrayList(), distance, userList)
+                binding.recyclerView.adapter = adapter
+            }
+        }
+
 
         veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
             if (veicoliList.isEmpty()) {
@@ -84,12 +91,6 @@ class ListaVeicoliFragment : Fragment() {
                         bundle.putString("destination", destination)
                         bundle.putString("origin", origin)
 
-                        //passaggio informazioni origine e destinazione
-                        /*val argument = arguments
-                        if (argument != null) {
-                            val destinazione = argument.getString("destinazione")
-                            bundle.putString("destinazione", destinazione)
-                        }*/
                         //reset valore liveData altrimenti rimane attivo l'evento di click
 
 

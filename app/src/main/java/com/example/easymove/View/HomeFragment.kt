@@ -191,6 +191,7 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                     bundle.putString("originPostCode", originData.postalCode)
                     bundle.putString("origin",originData.address)
                     bundle.putString("destination",destinationData.address)
+                    bundle.putString("distance", distance)
 
                     listaVeicoliFragment.arguments = bundle
 
