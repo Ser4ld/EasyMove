@@ -68,14 +68,24 @@ class RecensioniGuidatoreFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
+
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = layoutManager
 
         recensioneViewModel.recensioniLiveData.observe(viewLifecycleOwner) { recensioniList ->
             if (recensioniList.isEmpty()) {
+                binding.emptyLayout.visibility= View.GONE
                 Toast.makeText(requireContext(), "Si è verificato un errore", Toast.LENGTH_SHORT).show()
             } else {
-                adapter.updateRecensioni(recensioneViewModel.filterRecensioneByUserId(userId, recensioniList, userType))
+                var recensioniFiltrate= recensioneViewModel.filterRecensioneByUserId(userId, recensioniList, userType)
+
+                if (recensioniFiltrate.isEmpty()) {
+                    binding.emptyLayout.visibility= View.VISIBLE
+                } else {
+                    binding.emptyLayout.visibility= View.GONE
+                }
+
+                adapter.updateRecensioni(recensioniFiltrate)
             }
         }
     }
