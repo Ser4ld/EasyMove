@@ -1,6 +1,7 @@
 package com.example.easymove.adapter
 
 import android.os.Build
+import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,18 +13,18 @@ import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
-import androidx.fragment.app.FragmentManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.easymove.R
+import com.example.easymove.View.CreaRecensioneFragment
 import com.example.easymove.ViewModel.RichiestaViewModel
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.model.Richiesta
 import com.example.easymove.model.User
 import com.example.easymove.model.Veicolo
-import kotlin.properties.Delegates
 
 class MyAdapterRichieste(
     private val richiesteList: ArrayList<Richiesta>,
@@ -32,8 +33,7 @@ class MyAdapterRichieste(
     private var userType: String,
     private val richiestaViewModel: RichiestaViewModel,
     private val userViewModel: UserViewModel,
-    private val veicoliViewModel: VeicoliViewModel,
-    private val fragmentManager: FragmentManager) : RecyclerView.Adapter<MyAdapterRichieste.MyViewHolder>() {
+    private val veicoliViewModel: VeicoliViewModel) : RecyclerView.Adapter<MyAdapterRichieste.MyViewHolder>() {
 
     // Aggiorna la lista delle richieste con nuovi dati
     fun updateRichieste(newDataList: ArrayList<Richiesta>) {
@@ -209,12 +209,24 @@ class MyAdapterRichieste(
                     button1.visibility= VISIBLE
                     button1.text="Fai una recensione"
                     button1.layoutParams.width = ViewGroup.LayoutParams.WRAP_CONTENT
+
+                    button1.setOnClickListener {
+
+                        val bundle = Bundle()
+                        bundle.putString("guidatoreId", richiesta.guidatoreId)
+                        val creaRecensioneFragment = CreaRecensioneFragment()
+                        creaRecensioneFragment.arguments = bundle
+
+                        val fragmentManager = (holder.itemView.context as AppCompatActivity).supportFragmentManager
+                        fragmentManager.beginTransaction()
+                            .replace(R.id.fragmentContainer, creaRecensioneFragment)
+                            .addToBackStack(null)
+                            .commit()
+                    }
+
                 }
 
                 button2.visibility = GONE
-
-
-
 
                 coloreStato = ContextCompat.getColor(context, R.color.dark_green)
                 holder.statoRichiesta.setTextColor(coloreStato)

@@ -48,26 +48,34 @@ class CreaRecensioneFragment : Fragment() {
             }
         }
 
+        var guidatoreId:String
+        val argument=arguments
+        if (argument != null){
+            guidatoreId = argument.getString("guidatoreId").toString()
+        } else guidatoreId="Id Guidatore non disponibile"
+
 
         binding.btnInviaRecensione.setOnClickListener {
-
             recensioneViewModel.creaRecensione(
                 userId,
-                "da sistemare",
+                guidatoreId,
                 binding.ratingBar.rating.toString(),
                 binding.etDescrizione.text.toString()
             )
             { success, message ->
                 if (success) {
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    requireActivity().supportFragmentManager.popBackStack()
                 } else {
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 }
             }
-
-            parentFragmentManager.popBackStack()
         }
 
+
+        binding.floatingActionButton.setOnClickListener {
+            requireActivity().supportFragmentManager.popBackStack()
+        }
 
        binding.etDescrizione.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}

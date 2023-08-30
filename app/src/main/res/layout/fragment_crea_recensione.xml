@@ -2,84 +2,162 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".View.CreaRecensioneFragment">
+    android:layout_height="match_parent">
 
-    <LinearLayout
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white"
-        android:orientation="vertical"
-        android:padding="16dp">
+        android:background="@color/white">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"
-            android:text="Inserisci una recensione"
-            android:textColor="@color/app_theme"
-            android:textSize="18dp" />
-
-        <RatingBar
-            android:id="@+id/ratingBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="16dp"
-            android:numStars="5"
-            android:progressBackgroundTint="@color/unselected_star_color"
-            android:progressTint="@color/selected_star_color"
-            android:rating="0"
-            android:secondaryProgressTint="#00FFFFFF"
-            android:stepSize="0.5" />
-
-        <EditText
-            android:id="@+id/etDescrizione"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/ConstraitLayout"
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:layout_marginStart="20dp"
-            android:layout_marginEnd="20dp"
-            android:background="@drawable/text_form_background"
-            android:drawableLeft="@drawable/baseline_rate_review_24"
-            android:drawablePadding="5dp"
-            android:drawableTint="@color/app_theme"
-            android:hint="Inserisci la tua recensione"
-            android:inputType="textMultiLine"
-            android:lines="3"
-            android:maxLength="300"
-            android:maxLines="5"
-            android:padding="5dp"
-            android:textColor="@color/black"
-            android:textColorHint="@color/placeholder"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:layout_height="match_parent"
+            android:background="@color/app_theme">
 
-        <TextView
-            android:id="@+id/characterCountTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:layout_marginEnd="20dp"
-            android:text="0/300"
-            android:textColor="@color/placeholder" />
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/floatingActionButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="24dp"
+                android:clickable="true"
+                app:backgroundTint="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.045"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_arrow_back_ios_new_24" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:drawablePadding="4dp"
+                android:text="RECENSIONE"
+                android:textColor="@color/white"
+                android:textColorLink="@color/white"
+                android:textSize="42dp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@+id/guideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                app:layout_constraintVertical_bias="0.0" />
+
+            <androidx.constraintlayout.widget.Guideline
+                android:id="@+id/guideline"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintGuide_percent="0.45" />
+
+            <com.google.android.material.card.MaterialCardView
+                android:id="@+id/materialCardView2"
+                style="@style/custom_card_view_style"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:backgroundTint="@color/white"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/guideline">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@color/white"
+                        android:orientation="vertical"
+                        android:padding="16dp">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="16dp"
+                            android:text="Inserisci una recensione"
+                            android:textColor="@color/app_theme"
+                            android:textSize="18dp" />
 
 
-        <Button
-            android:id="@+id/btnInviaRecensione"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:layout_gravity="center_horizontal"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="16dp"
-            android:layout_marginRight="20dp"
-            android:text="Invia Recensione"
-            android:textColor="@color/white"
-            app:cornerRadius="20dp"
+                        <RatingBar
+                            android:id="@+id/ratingBar"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginBottom="16dp"
+                            android:numStars="5"
+                            android:progressBackgroundTint="@color/unselected_star_color"
+                            android:progressTint="@color/selected_star_color"
+                            android:rating="0"
+                            android:secondaryProgressTint="#00FFFFFF"
+                            android:stepSize="0.5" />
 
-            />
+                        <EditText
+                            android:id="@+id/etDescrizione"
+                            android:layout_width="match_parent"
+                            android:layout_height="50dp"
+                            android:layout_marginStart="20dp"
+                            android:layout_marginEnd="20dp"
+                            android:background="@drawable/text_form_background"
+                            android:drawableLeft="@drawable/baseline_rate_review_24"
+                            android:drawablePadding="5dp"
+                            android:drawableTint="@color/app_theme"
+                            android:hint="Inserisci la tua recensione"
+                            android:inputType="textMultiLine"
+                            android:lines="3"
+                            android:maxLength="300"
+                            android:maxLines="5"
+                            android:padding="5dp"
+                            android:textColor="@color/black"
+                            android:textColorHint="@color/placeholder"
+                            app:layout_constraintEnd_toEndOf="parent"
+                            app:layout_constraintStart_toStartOf="parent" />
+                        <TextView
+                            android:id="@+id/characterCountTextView"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="end"
+                            android:layout_marginEnd="20dp"
+                            android:text="0/300"
+                            android:textColor="@color/placeholder" />
 
-    </LinearLayout>
+
+                        <Button
+                            android:id="@+id/btnInviaRecensione"
+                            android:layout_width="match_parent"
+                            android:layout_height="60dp"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="16dp"
+                            android:layout_marginRight="20dp"
+                            android:text="Invia Recensione"
+                            android:textColor="@color/white"
+                            app:cornerRadius="20dp"
+
+                            />
+
+                    </LinearLayout>
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+            </com.google.android.material.card.MaterialCardView>
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="154dp"
+                android:layout_height="118dp"
+                app:layout_constraintBottom_toTopOf="@+id/guideline"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:srcCompat="@drawable/baseline_star_24" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
 
 </FrameLayout>

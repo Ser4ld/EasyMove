@@ -54,8 +54,6 @@ class MainFragment : Fragment() {
         richiestaViewModel.startRichiesteListener()
         richiestaViewModel.checkAndUpdateStato()
 
-        val addItemMenuItem = binding.bottomNavigationView.menu.findItem(R.id.addItem)
-
         //controllo se il frameLayout è vuoto
         if (childFragmentManager.findFragmentById(R.id.frameLayout) == null) {
             replaceFragment(HomeFragment())
@@ -86,15 +84,18 @@ class MainFragment : Fragment() {
 
 
 
-        // Qui chiamiamo la funzione per ottenere il valore di "tipoutente"
-        homeViewModel.fetchAndSetTipoutente { isGuidatore ->
-            if (isGuidatore) {
-                addItemMenuItem.isVisible = true
-            } else {
-                addItemMenuItem.isVisible = false
+        userViewModel.userDataLiveData.observe(viewLifecycleOwner) { currentUser ->
 
+            if (currentUser != null) {
+                binding.bottomNavigationView.menu.findItem(R.id.addItem).isVisible =
+                    userViewModel.checkUserType(currentUser.userType)
+            } else {
+                // Se currentUser è null, nascondi l'elemento "Add Item"
+                binding.bottomNavigationView.menu.findItem(R.id.addItem).isVisible = false
             }
         }
+
+
     }
 
     private fun replaceFragment(fragment: Fragment) {

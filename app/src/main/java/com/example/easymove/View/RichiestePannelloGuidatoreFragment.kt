@@ -1,6 +1,7 @@
 package com.example.easymove.View
 
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
@@ -23,6 +24,9 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
     private lateinit var richiestaViewModel: RichiestaViewModel
     private lateinit var userViewModel: UserViewModel
 
+    private var selectedTabPosition: Int = 0
+    private var stato: String = "Attesa" // Valore predefinito
+
 
 
     override fun onCreateView(
@@ -36,6 +40,7 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        Log.i("provaTab", "$selectedTabPosition")
         val bundle = Bundle()
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
@@ -43,6 +48,9 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
         var richiesteTotali: List<Richiesta>
         var richiesteInAttesa: List<Richiesta>
         var richiesteAccettate: List<Richiesta>
+        var richiesteCompletate: List<Richiesta>
+
+
 
         userViewModel.userDataLiveData.observe(viewLifecycleOwner) { user ->
             if (user != null) {
@@ -68,12 +76,20 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
                             user.userType
                         )
 
+                        richiesteCompletate = richiestaViewModel.filterRichiesteByUserIdAndStato(
+                            user.id,
+                            "Completata",
+                            richiesteList,
+                            user.userType
+                        )
+
                         binding.textRichiesteTotali2.text =
                             richiestaViewModel.totaleRichieste(richiesteTotali).toString()
                         binding.textRichiesteAttesa2.text =
                             richiestaViewModel.totaleRichieste(richiesteInAttesa).toString()
                         binding.textRichiesteAccettate2.text =
                             richiestaViewModel.totaleRichieste(richiesteAccettate).toString()
+                        binding.textRichiesteCompletate2.text= richiestaViewModel.totaleRichieste(richiesteCompletate).toString()
                     }
                 }
             }
@@ -103,9 +119,23 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
             binding.tabLayout.addTab(terminateTab)
 
 
+
+
+
+  /*      if (selectedTabPosition >= 0 && selectedTabPosition < binding.tabLayout.tabCount) {
+            binding.tabLayout.getTabAt(selectedTabPosition)?.select()
+        }
+        Log.i("provastato","$stato")*/
+
+
+
+
             binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab) {
-                    var stato: String = when (tab.position) {
+
+                    selectedTabPosition = tab.position
+
+                    stato = when (tab.position) {
                         0 -> "Attesa"
                         1 -> "Accettata"
                         2 -> "Completata"
@@ -131,5 +161,15 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
 
 
 
+
+
     }
+
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        outState.putInt("selectedTabPosition", selectedTabPosition)
+        outState.putString("stato", stato)
+    }
+
 }

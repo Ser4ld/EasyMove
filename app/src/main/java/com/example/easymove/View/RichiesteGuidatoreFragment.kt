@@ -70,7 +70,7 @@ class RichiesteGuidatoreFragment : Fragment() {
                         if (user != null) {
                             userType= user.userType
                             userId = user.id
-                            adapter = MyAdapterRichieste(ArrayList(),veicoliList, userData,userType,richiestaViewModel, userViewModel, veicoliViewModel, requireActivity().supportFragmentManager)
+                            adapter = MyAdapterRichieste(ArrayList(),veicoliList, userData,userType,richiestaViewModel, userViewModel, veicoliViewModel)
                             binding.recyclerViewRichiesta.adapter = adapter
                         }
                     }
@@ -89,8 +89,6 @@ class RichiesteGuidatoreFragment : Fragment() {
 
                 }
             }
-
-
         }
     }
 }

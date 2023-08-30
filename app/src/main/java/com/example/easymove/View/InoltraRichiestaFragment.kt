@@ -64,9 +64,6 @@ class InoltraRichiestaFragment : Fragment() {
             showCalendario()
         }
 
-
-
-
         val argument = arguments
         if (argument != null) {
             modello = argument.getString("modello").toString()
@@ -75,10 +72,8 @@ class InoltraRichiestaFragment : Fragment() {
             idGuidatore = argument.getString("id_guidatore").toString()
             destination = argument.getString("destination").toString()
             origin =  argument.getString("origin").toString()
-            // Now you can use these values as needed
             binding.textViewVeicolo2.text = modello
             binding.textViewDestination2.text = destination
-            // Similarly, set other values to appropriate views
         }
 
         userViewModel.allUsersLiveData.observe(
@@ -89,8 +84,6 @@ class InoltraRichiestaFragment : Fragment() {
                 binding.textViewGuidatore2.text= "${foundUser.name} ${foundUser.surname}"
             }
         }
-
-
 
         userViewModel.userDataLiveData.observe(
             viewLifecycleOwner,
@@ -125,6 +118,11 @@ class InoltraRichiestaFragment : Fragment() {
 
             }
 
+      /*  richiestaViewModel.richiesteLiveData.observe(viewLifecycleOwner){richiesteList->
+           var appoggio = richiestaViewModel.getAcceptedRequestDatesForGuidatore(idGuidatore,richiesteList)
+            Log.i("provadate", "$appoggio")
+        }*/
+
 
 
     }
@@ -138,22 +136,22 @@ class InoltraRichiestaFragment : Fragment() {
 
         val datePickerDialog = DatePickerDialog(
             requireContext(),
-            //_ -> usato per ignorare il primo parametro che rappresenta il datePicker
             { _, selectedYear, selectedMonth, selectedDay ->
                 val selectedDate = Calendar.getInstance()
-                //setta la data scelta dall'utente
                 selectedDate.set(selectedYear, selectedMonth, selectedDay)
-                //formattazione data
                 val formattedDate = SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(selectedDate.time)
-                //impostazione data scelta nell'editText
                 binding.textData.setText(formattedDate)
             },
-            //rappresentano year -> anno corrente, month-> mese corrente, day -> giorno corrente (valori preimpostati quando viene aperto il DataPicker)
             year,
             month,
             day
         )
 
+        // Imposta la data minima selezionabile come il giorno corrente
+        val minDate = calendar.timeInMillis
+        datePickerDialog.datePicker.minDate = minDate
+
         datePickerDialog.show()
     }
+
 }
