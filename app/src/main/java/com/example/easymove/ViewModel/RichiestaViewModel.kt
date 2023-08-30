@@ -103,6 +103,8 @@ class RichiestaViewModel: ViewModel() {
         }
 
 
+
+
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
@@ -167,6 +169,18 @@ class RichiestaViewModel: ViewModel() {
     fun totaleRichieste( richiesteList: List<Richiesta>): Int {
         return richiesteList.size
     }
+
+
+    fun getAcceptedRequestDatesForGuidatore(guidatoreId: String, richiesteList: List<Richiesta>): List<String> {
+        val acceptedDates = mutableListOf<String>()
+        val acceptedRichieste = richiesteList.filter { it.guidatoreId == guidatoreId && it.stato == "Accettata" }
+        for (richiesta in acceptedRichieste) {
+            acceptedDates.add(richiesta.data)
+        }
+        return acceptedDates
+    }
+
+
 
 
 
