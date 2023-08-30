@@ -17,10 +17,10 @@ class RecensioneViewModel: ViewModel() {
     private var recensioniListener: ListenerRegistration? = null
 
 
-    fun creaRecensione(consumatoreId:String, guidatoreId:String, valutazione: String, descrizione: String, callback: (success: Boolean, errorMessage: String?) -> Unit
+    fun creaRecensione(richiestaId: String,consumatoreId:String, guidatoreId:String, valutazione: String, descrizione: String, callback: (success: Boolean, errorMessage: String?) -> Unit
     ){
         if(valutazione!="0.0" && descrizione.isNotEmpty()){
-            recensioneRepository.storeRecensione(consumatoreId, guidatoreId, valutazione, descrizione){success, message->
+            recensioneRepository.storeRecensione(richiestaId,consumatoreId, guidatoreId, valutazione, descrizione){success, message->
                 if(success){
                     callback(true, "Recensione Inviata")
                 }else{
@@ -72,5 +72,6 @@ class RecensioneViewModel: ViewModel() {
         val recensioniFiltrate = filterRecensioneByUserId(userId, recensioniList, userType)
         return recensioniFiltrate.size
     }
+
 
 }

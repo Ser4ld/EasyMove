@@ -11,13 +11,14 @@ class RecensioneRepository {
 
 
     fun storeRecensione(
+        richiestaId: String,
         consumatoreId: String,
         guidatoreId: String,
         valutazione: String,
         descrizione: String,
         callback: (success: Boolean, errorMessage: String?) -> Unit
     ) {
-        val recensione = Recensione("", consumatoreId, guidatoreId, valutazione, descrizione)
+        val recensione = Recensione(richiestaId,"", consumatoreId, guidatoreId, valutazione, descrizione)
         uploadRecensione(recensione) { success, errMsg ->
             if (success) {
                 callback(true, null)
