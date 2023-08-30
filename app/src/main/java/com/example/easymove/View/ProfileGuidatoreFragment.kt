@@ -47,13 +47,13 @@ class ProfileGuidatoreFragment : Fragment() {
             {
                 recensioneViewModel.recensioniLiveData.observe(viewLifecycleOwner){ recensioniList->
                     if (recensioniList!=null) {
-                        var media = recensioneViewModel.mediaRecensioniFiltrate(userData.id, recensioniList, "Guidatore")
+                        var media = recensioneViewModel.mediaRecensioniFiltrate(userData.id, recensioniList, userData.userType)
                         binding.ratingBarRecensione.rating = media
                     }
                 }
                 veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
                     if (veicoliList.isNotEmpty()) {
-                       binding.textVeicoliGuidatore2.text = " ${veicoliViewModel.countVeicoliByUserId(userData.id, veicoliList).toString()}"
+                       binding.textVeicoliGuidatore2.text = " ${veicoliViewModel.countVeicoliByUserId(userData.id, veicoliList)}"
                     } else binding.textVeicoliGuidatore2.text=" 0"
                 }
             }

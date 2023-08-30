@@ -6,6 +6,8 @@ import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
@@ -41,8 +43,6 @@ class RichiesteGuidatoreFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
 
-
-
         _binding = FragmentRichiesteGuidatoreBinding.inflate(inflater, container, false)
         return binding.root
     }
@@ -71,6 +71,7 @@ class RichiesteGuidatoreFragment : Fragment() {
 
                     userViewModel.userDataLiveData.observe(viewLifecycleOwner) { user ->
                         if (user != null) {
+
                             userType= user.userType
                             userId = user.id
                             adapter = MyAdapterRichieste(ArrayList(),veicoliList, userData,userType,recensioneViewModel,richiestaViewModel, userViewModel, veicoliViewModel)
@@ -81,13 +82,19 @@ class RichiesteGuidatoreFragment : Fragment() {
         }
 
 
-
             richiestaViewModel.richiesteLiveData.observe(viewLifecycleOwner) { richiestaList ->
-                var richiesteFiltrate: ArrayList<Richiesta>
                 if (richiestaList.isEmpty()) {
-                    Log.i("provarichiesta", "No $richiestaList")
+                    binding.emptyLayout.visibility=VISIBLE
                 } else {
+
                     var richiesteFiltrate = ArrayList(richiestaViewModel.filterRichiesteByUserIdAndStato(userId, stato, richiestaList, userType))
+
+                    if (richiesteFiltrate.isEmpty()) {
+                        binding.emptyLayout.visibility=VISIBLE
+                    } else {
+                        binding.emptyLayout.visibility=GONE
+                    }
+
                     adapter.updateRichieste(richiesteFiltrate)
 
                 }

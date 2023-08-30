@@ -96,4 +96,32 @@ class VeicoliRepository {
             }
     }
 
+    fun deleteVeicolo(veicoloId: String, callback: (Boolean, String?) -> Unit) {
+        val veicoloRef = firestoreDatabase.collection("vans").document(veicoloId)
+
+        veicoloRef.delete()
+            .addOnSuccessListener {
+                callback(true, "Veicolo eliminato correttamente")
+            }
+            .addOnFailureListener { exception ->
+                callback(false, "Errore durante l'eliminazione del veicolo: ${exception.message}")
+            }
+    }
+
+
+    fun updateVeicolo(veicolo: Veicolo, callback: (Boolean, String?) -> Unit) {
+        val veicoloRef = firestoreDatabase.collection("veicoli").document(veicolo.targa)
+
+        veicoloRef.set(veicolo)
+            .addOnSuccessListener {
+                callback(true, "Veicolo aggiornato correttamente")
+            }
+            .addOnFailureListener { exception ->
+                callback(false, "Errore durante l'aggiornamento del veicolo: ${exception.message}")
+            }
+    }
+
+
+
+
 }

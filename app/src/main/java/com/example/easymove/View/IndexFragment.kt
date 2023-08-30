@@ -29,14 +29,14 @@ class IndexFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding.loginButtonIndex.setOnClickListener {
-            requireFragmentManager().beginTransaction()
+            parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, LoginFragment())
                 .addToBackStack(null)
                 .commit()
         }
 
         binding.signupButtonIndex.setOnClickListener{
-            requireFragmentManager().beginTransaction()
+            parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, SignupFragment())
                 .addToBackStack(null)
                 .commit()
