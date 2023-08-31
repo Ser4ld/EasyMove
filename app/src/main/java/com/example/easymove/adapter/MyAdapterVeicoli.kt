@@ -26,6 +26,9 @@ import java.util.regex.Pattern
 
 class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private val userViewModel: UserViewModel,private val list:ArrayList<Veicolo>, private val distance: String, private val userList: List<User>?):RecyclerView.Adapter<MyAdapterVeicoli.MyViewHolder>() {
 
+    init{
+        list.sortedBy { it.modello }
+    }
     fun updateData(newDataList: ArrayList<Veicolo>) {
         list.clear()
         list.addAll(newDataList)

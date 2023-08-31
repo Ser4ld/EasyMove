@@ -30,7 +30,7 @@ class ListaVeicoliFragment : Fragment() {
     private lateinit var origin: String
     private lateinit var destination: String
 
-    private lateinit var selectedParameter:String
+    //private lateinit var selectedParameter:String
 
 
     private lateinit var veicoliViewModel: VeicoliViewModel
@@ -132,24 +132,6 @@ class ListaVeicoliFragment : Fragment() {
                 if (veicoliFiltrati.isEmpty()) {
                     binding.emptyLayout.visibility = View.VISIBLE
                 } else {
-
-                 /*   binding.spinnerSort.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
-                        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                            selectedParameter = when (position) {
-                                0 -> "Modello"
-                                1 -> "Capienza"
-                                2 -> "Tariffa"
-                                else -> "Modello"
-                            }
-
-                            val sortedList = ArrayList(veicoliViewModel.sortVeicoliByParameter(selectedParameter, veicoliFiltrati))
-                            adapter.updateData(sortedList)
-                        }
-
-                        override fun onNothingSelected(parent: AdapterView<*>?) {
-                            // Nulla da fare in questo caso
-                        }
-                    }*/
                     adapter.updateData(veicoliFiltrati)
                 }
             }
