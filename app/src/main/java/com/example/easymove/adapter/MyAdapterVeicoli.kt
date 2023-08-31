@@ -19,6 +19,7 @@ import com.example.easymove.R
 import com.example.easymove.View.CreaRecensioneFragment
 import com.example.easymove.View.ListaVeicoliFragment
 import com.example.easymove.View.ModificaVeicoloFragment
+import com.example.easymove.View.ProfileGuidatoreUserModeFragment
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.model.User
@@ -84,6 +85,14 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private va
 
             holder.button.setOnClickListener {
                 veicoliViewModel.onVeicoloClicked(position)
+            }
+
+            holder.guidatoreText.setOnClickListener{
+                val bundle = Bundle()
+                bundle.putString("idguidatore", veicolo.id)
+                val profiloGuidatoreUserModeFragment = ProfileGuidatoreUserModeFragment()
+                profiloGuidatoreUserModeFragment.arguments = bundle
+                replaceFragment(holder, profiloGuidatoreUserModeFragment)
             }
 
         }

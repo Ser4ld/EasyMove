@@ -13,7 +13,7 @@ import com.example.easymove.model.Recensione
 import com.example.easymove.model.User
 
 
-class MyAdapterRecensioni(private val recensioniList:ArrayList<Recensione>, private var userList: List<User>):RecyclerView.Adapter<MyAdapterRecensioni.MyViewHolder>() {
+class MyAdapterRecensioni(private val recensioniList:ArrayList<Recensione>, private var userList: List<User>, private var userType: String):RecyclerView.Adapter<MyAdapterRecensioni.MyViewHolder>() {
 
     fun updateRecensioni(newDataList: ArrayList<Recensione>) {
         recensioniList.clear()
@@ -41,12 +41,15 @@ class MyAdapterRecensioni(private val recensioniList:ArrayList<Recensione>, priv
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
         val recensione = recensioniList[position]
-
+        val user: User
         holder.stelle.rating=recensione.valutazione.toFloat()
         holder.descrizione.text=recensione.descrizione
 
-
-        val user = userList.find { it.id == recensione.guidatoreId}
+        if(userType=="guidatore") {
+            user = userList.find { it.id == recensione.consumatoreId }!!
+        }else{
+            user = userList.find { it.id == recensione.guidatoreId}!!
+        }
 
         if (user != null) {
             holder.nomeCreatore.text = user.name + " " + user.surname

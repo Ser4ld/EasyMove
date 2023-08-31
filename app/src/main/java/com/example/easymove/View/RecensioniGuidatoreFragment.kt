@@ -55,7 +55,7 @@ class RecensioniGuidatoreFragment : Fragment() {
                         }
                         userId=user.id
 
-                        adapter = MyAdapterRecensioni(ArrayList(), userData)
+                        adapter = MyAdapterRecensioni(ArrayList(), userData, user.userType)
                         binding.recyclerView.adapter = adapter
 
                     }
