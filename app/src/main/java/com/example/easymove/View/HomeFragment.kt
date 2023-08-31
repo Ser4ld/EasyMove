@@ -79,6 +79,8 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                     Log.i("ProvaDestinazione", "$destinationData")
 
                     homeViewModel.checkFormEditTexts(
+                        originData,
+                        destinationData,
                         binding.editTextOrigin,
                         binding.editTextDestination
                     ) { isValid, errorMessage ->
@@ -178,6 +180,8 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
         binding.buttonSearch.setOnClickListener {
 
             homeViewModel.checkFormEditTexts(
+                originData,
+                destinationData,
                 binding.editTextOrigin,
                 binding.editTextDestination
             ) { isValid, errorMessage ->
