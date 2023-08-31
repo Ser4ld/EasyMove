@@ -225,11 +225,11 @@
                         />
 
                     <Button
-                        android:id="@+id/add_veicolo_button"
+                        android:id="@+id/modificaVeicolo"
                         android:layout_width="match_parent"
                         android:layout_height="60dp"
                         android:layout_margin="20dp"
-                        android:text="AGGIUNGI VEICOLO"
+                        android:text="MODIFICA VEICOLO"
                         android:textColor="@color/white"
                         app:cornerRadius="20dp"
                         app:layout_constraintBottom_toBottomOf="parent"

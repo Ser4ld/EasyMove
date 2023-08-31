@@ -54,9 +54,10 @@ class RichiestaRepository {
         data: String,
         descrizione: String,
         statoRichiesta: String,
+        prezzo: String,
         callback: (success: Boolean, errorMessage: String?) -> Unit)
     {
-        var richiesta = Richiesta("", guidatoreId, consumatoreId, targaveicolo, puntoPartenza, puntoArrivo, data, descrizione, statoRichiesta)
+        var richiesta = Richiesta("", guidatoreId, consumatoreId, targaveicolo, puntoPartenza, puntoArrivo, data, descrizione, statoRichiesta,prezzo)
         uploadRichiesta(richiesta){ success, Errmsg ->
             if(success){
                 callback(true, null)

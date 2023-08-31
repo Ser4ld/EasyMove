@@ -78,6 +78,7 @@ class VeicoliRepository {
 
 
 
+
     fun getVeicoliListener(callback: (Boolean, String?, List<Veicolo>?) -> Unit): ListenerRegistration {
         return firestoreDatabase.collection("vans")
             .addSnapshotListener { snapshot, error ->
@@ -109,9 +110,10 @@ class VeicoliRepository {
     }
 
 
-    fun updateVeicolo(veicolo: Veicolo, callback: (Boolean, String?) -> Unit) {
-        val veicoloRef = firestoreDatabase.collection("veicoli").document(veicolo.targa)
 
+
+    fun updateVeicoloFirestore(veicolo: Veicolo, callback: (Boolean, String?) -> Unit){
+        val veicoloRef = firestoreDatabase.collection("vans").document(veicolo.targa)
         veicoloRef.set(veicolo)
             .addOnSuccessListener {
                 callback(true, "Veicolo aggiornato correttamente")
@@ -119,6 +121,50 @@ class VeicoliRepository {
             .addOnFailureListener { exception ->
                 callback(false, "Errore durante l'aggiornamento del veicolo: ${exception.message}")
             }
+    }
+
+    fun updateVeicolo(veicolo: Veicolo,imageUri: Uri?,callback: (Boolean, String?) -> Unit) {
+
+        if(imageUri!= null){
+            val storageRef = firebaseStorage.reference.child("images")
+            val imageName = "${veicolo.id}."+imageUri?.lastPathSegment ?: "${System.currentTimeMillis()}.png"
+            val imageRef = storageRef.child(imageName)
+            imageRef.putFile(imageUri!!)
+                .addOnSuccessListener { taskSnapshot ->
+                    // Caricamento completato con successo
+                    imageRef.downloadUrl.addOnSuccessListener { downloadUri ->
+                        val imageUrl = downloadUri.toString()
+                        veicolo.imageUrl= imageUrl
+                        // Continua con il processo di creazione dell'annuncio e salva l'URL dell'immagine nel database
+                        updateVeicoloFirestore(veicolo){success, message ->
+                            if(success){
+                                callback(true, message)
+                            }else{
+                                callback(false, message)
+                            }
+                        }
+                    }
+                }
+                .addOnFailureListener { exception ->
+                    // Errore durante il caricamento dell'immagine
+                    callback(false, "${exception.message}")
+                }
+        }else{
+            updateVeicoloFirestore(veicolo){success, message ->
+                if(success){
+                    callback(true, message)
+                }else{
+                    callback(false, message)
+                }
+            }
+        }
+
+
+
+
+
+
+
     }
 
 

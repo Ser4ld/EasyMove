@@ -6,6 +6,7 @@ import android.text.Editable
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -29,6 +30,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.ViewModel.HomeViewModel
 import com.example.easymove.ViewModel.MapViewModel
+import com.example.easymove.ViewModel.UserViewModel
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.libraries.places.api.model.PlaceTypes
@@ -39,6 +41,7 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var mapViewModel: MapViewModel
+    private lateinit var userViewModel: UserViewModel
 
     private lateinit var mMap: GoogleMap
     private var isMapReady = false
@@ -129,6 +132,7 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
 
         homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
         mapViewModel = ViewModelProvider(requireActivity()).get(MapViewModel::class.java)
+        userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
 
         // Inizializza l'SDK
         Places.initialize(requireContext(), getString(R.string.map_api_key))
@@ -208,6 +212,14 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                     if (errorMessage != null) {
                         Toast.makeText(requireContext(), errorMessage , Toast.LENGTH_SHORT).show()
                     }
+                }
+            }
+        }
+
+        userViewModel.userDataLiveData.observe(viewLifecycleOwner){user->
+            if(user!= null){
+                if(userViewModel.checkUserType(user.userType)){
+                    binding.buttonSearch.visibility = GONE
                 }
             }
         }

@@ -7,6 +7,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.easymove.ViewModel.RichiestaViewModel
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.adapter.MyAdapterVeicoli
@@ -20,6 +21,7 @@ class VeicoliGuidatorePublicFragment : Fragment() {
 
     private lateinit var userViewModel: UserViewModel
     private lateinit var veicoliViewModel: VeicoliViewModel
+    private lateinit var richiestaViewModel: RichiestaViewModel
     private lateinit var user: User
     private lateinit var adapter: MyAdapterVeicoli
 
@@ -36,6 +38,7 @@ class VeicoliGuidatorePublicFragment : Fragment() {
 
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
+        richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
 
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = layoutManager
@@ -56,7 +59,9 @@ class VeicoliGuidatorePublicFragment : Fragment() {
                             adapter = MyAdapterVeicoli(
                                 veicoliViewModel,
                                 userViewModel,
+                                richiestaViewModel,
                                 ArrayList(),
+                                emptyList(),
                                 "",
                                 userList
                             )

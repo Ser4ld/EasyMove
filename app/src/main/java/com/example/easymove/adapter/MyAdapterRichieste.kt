@@ -61,6 +61,7 @@ class MyAdapterRichieste(
         val targaVeicolo: TextView= itemView.findViewById(R.id.textTargaVeicolo2)
         val button1: Button = itemView.findViewById(R.id.button1)
         val button2: Button = itemView.findViewById(R.id.button2)
+        val prezzo: TextView= itemView.findViewById(R.id.textPrezzo2)
 
 
 
@@ -107,6 +108,7 @@ class MyAdapterRichieste(
         holder.puntoPartenza.text = richiesta.puntoPartenza
         holder.puntoArrivo.text = richiesta.puntoArrivo
         holder.targaVeicolo.text= richiesta.targaveicolo
+        holder.prezzo.text = richiesta.prezzo
 
 
         updateUI(richiesta, holder, stato)

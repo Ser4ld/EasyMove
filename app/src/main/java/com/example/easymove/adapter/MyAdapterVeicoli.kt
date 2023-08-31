@@ -1,5 +1,8 @@
 package com.example.easymove.adapter
 
+import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
@@ -17,20 +20,29 @@ import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.easymove.R
 import com.example.easymove.View.*
+import com.example.easymove.ViewModel.RichiestaViewModel
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
+import com.example.easymove.model.Richiesta
 import com.example.easymove.model.User
 import com.example.easymove.model.Veicolo
 import java.util.regex.Pattern
 
 
-class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private val userViewModel: UserViewModel,private val list:ArrayList<Veicolo>, private val distance: String, private val userList: List<User>?):RecyclerView.Adapter<MyAdapterVeicoli.MyViewHolder>() {
+class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,
+                       private val userViewModel: UserViewModel,
+                       private val richiestaViewModel: RichiestaViewModel,
+                       private val list:ArrayList<Veicolo>,
+                       private val richiesteList: List<Richiesta>,
+                       private val distance: String,
+                       private val userList: List<User>?):RecyclerView.Adapter<MyAdapterVeicoli.MyViewHolder>() {
 
     init{
         list.sortedBy { it.modello }
     }
     fun updateData(newDataList: ArrayList<Veicolo>) {
         list.clear()
+        newDataList.sortBy { it.modello }
         list.addAll(newDataList)
         notifyDataSetChanged()
     }
@@ -68,7 +80,7 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private va
             .findFragmentById(R.id.fragmentContainer)
 
         if (currentFragment is ListaVeicoliFragment) {
-            holder.prezzo.text = (list[position].tariffakm.toDouble()*extractNumbersFromString(distance)).toString()+" €"
+            holder.prezzo.text = richiestaViewModel.calcolaPrezzo(distance, list[position].tariffakm).toString()
             Log.d("provaaaa", userList.toString())
             val user = userViewModel.FilterListById(list[position].id, userList!!)
             if (user != null){
@@ -106,9 +118,7 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private va
             }
 
             holder.btnElimina.setOnClickListener {
-                veicoliViewModel.deleteVeicolo(veicolo.targa){ success, message ->
-                    Toast.makeText(holder.itemView.context, message, Toast.LENGTH_SHORT).show()
-                }
+                dialog(holder,veicolo, richiesteList)
             }
         }
 
@@ -135,17 +145,6 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private va
         }
     }
 
-    private fun extractNumbersFromString(input: String): Double {
-        val pattern = Pattern.compile("\\d+(\\.\\d+)?") // Crea un pattern per trovare sequenze di numeri
-        val matcher = pattern.matcher(input)
-
-        if (matcher.find()) {
-            return matcher.group().toDouble()  // Converte la sequenza di numeri in un intero
-        }
-
-        return 0.0 // Ritorna un valore di default se non trova alcun numero
-    }
-
     private fun setGuidatoreInformation(holder: MyViewHolder,user: User){
         holder.guidatoreText.text = "${user.name} ${user.surname}"
 
@@ -169,5 +168,47 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private va
             .replace(R.id.fragmentContainer, fragment)
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun dialog(holder: MyViewHolder, veicolo: Veicolo, richieste: List<Richiesta>) {
+
+        // Crea un nuovo AlertDialog
+        val builder = AlertDialog.Builder(holder.itemView.context)
+        val customView = LayoutInflater.from(holder.itemView.context).inflate(R.layout.custom_layout_dialog, null)
+        builder.setView(customView)
+        val dialog = builder.create()
+
+        //imposto lo sfodo del dialog a trasparente per poter applicare un background con i bordi arrotondati
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        customView.findViewById<TextView>(R.id.textView2).text = "Sei sicuro di eseguire l'operazione ?"
+        customView.findViewById<ImageView>(R.id.imageView2).setImageDrawable(holder.itemView.context.getDrawable(R.drawable.baseline_announcement_24))
+
+        customView.findViewById<Button>(R.id.btn_no).setOnClickListener{
+            dialog.dismiss()
+        }
+
+        customView.findViewById<Button>(R.id.btn_yes).setOnClickListener{
+            richiestaViewModel.checkRichiestaOnDeleteVeicolo(veicolo.id, richiesteList){success, message->
+                if(success){
+                    Toast.makeText(holder.itemView.context, "Impossibile eliminare il veicolo: sono presenti delle richieste Accettate", Toast.LENGTH_SHORT).show()
+                }else{
+                    richiestaViewModel.updateRichiestaonDeleteVeicolo(veicolo.id, richiesteList)
+                    veicoliViewModel.deleteVeicolo(veicolo.targa){success, message ->
+                        if(success){
+                            Toast.makeText(holder.itemView.context, message, Toast.LENGTH_SHORT).show()
+                            Log.d("aggiorna", list.toString())
+                        }else {
+                            Toast.makeText(holder.itemView.context, message, Toast.LENGTH_SHORT).show()
+                        }
+
+                    }
+                }
+            }
+            dialog.dismiss()
+        }
+
+        // Mostra il popup
+        dialog.show()
+
     }
 }

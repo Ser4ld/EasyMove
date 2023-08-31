@@ -107,9 +107,19 @@ class ModificaVeicoloFragment : Fragment() {
 
         veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner){veicoliList->
             if(veicoliList!= null){
-                val veicolo = veicoliViewModel.filterListbyTarga(targa, veicoliList)
+                var veicolo = veicoliViewModel.filterListbyTarga(targa, veicoliList)
                 if(veicolo!= null){
                     setEditText(veicolo)
+                    binding.modificaVeicolo.setOnClickListener{
+                        veicoliViewModel.checkModificaVeicolo(veicolo,imageUri, binding.LocazioneVeicolo.text.toString(), binding.TariffaKm.text.toString(), positionData){success, message->
+                            if(success){
+                                Toast.makeText(requireContext(),message, Toast.LENGTH_SHORT).show()
+                                parentFragmentManager.popBackStack()
+                            }else{
+                                Toast.makeText(requireContext(), message,Toast.LENGTH_SHORT).show()
+                            }
+                        }
+                    }
                 }
 
             }
@@ -118,6 +128,7 @@ class ModificaVeicoloFragment : Fragment() {
         binding.imageBtn.setOnClickListener {
             openFileChooser()
         }
+
 
     }
 

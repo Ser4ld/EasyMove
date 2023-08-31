@@ -31,12 +31,15 @@ class InoltraRichiestaFragment : Fragment() {
 
 
     private lateinit var modello: String
+    private lateinit var tariffaKm: String
+    private lateinit var distance: String
     private lateinit var targa: String
     private lateinit var capienza: String
     private lateinit var idGuidatore: String
     private lateinit var destination: String
     private lateinit var origin: String
     private lateinit var userId: String
+    private lateinit var prezzo: String
 
 
     override fun onCreateView(
@@ -64,8 +67,12 @@ class InoltraRichiestaFragment : Fragment() {
             showCalendario()
         }
 
+
+
         val argument = arguments
         if (argument != null) {
+            distance=argument.getString("distance").toString()
+            tariffaKm = argument.getString("tariffaKm").toString()
             modello = argument.getString("modello").toString()
             targa = argument.getString("targa").toString()
             capienza = argument.getString("capienza").toString()
@@ -74,7 +81,10 @@ class InoltraRichiestaFragment : Fragment() {
             origin =  argument.getString("origin").toString()
             binding.textViewVeicolo2.text = modello
             binding.textViewDestination2.text = destination
+            prezzo= richiestaViewModel.calcolaPrezzo(distance,tariffaKm).toString()
+
         }
+
 
         userViewModel.allUsersLiveData.observe(
             viewLifecycleOwner,
@@ -101,6 +111,7 @@ class InoltraRichiestaFragment : Fragment() {
                 targa,
                 origin,
                 destination,
+                prezzo,
                 binding.textData.text.toString(),
                 binding.textDescription.text.toString(),
                 ){success, message ->

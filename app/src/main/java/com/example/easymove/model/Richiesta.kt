@@ -9,9 +9,10 @@ data class Richiesta(
     val puntoArrivo: String,
     val data: String,
     val descrizione: String,
-    val stato: String
+    val stato: String,
+    val prezzo: String
 
 ){
     constructor() : this(
         "", "", "", "", "",
-        "", "", "", "")}
+        "", "", "", "","")}

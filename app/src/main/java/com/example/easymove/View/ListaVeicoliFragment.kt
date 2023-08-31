@@ -12,10 +12,12 @@ import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.easymove.R
+import com.example.easymove.ViewModel.RichiestaViewModel
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.adapter.MyAdapterVeicoli
 import com.example.easymove.databinding.FragmentListaVeicoliBinding
+import com.example.easymove.model.Richiesta
 import com.google.firebase.auth.FirebaseAuth
 
 class ListaVeicoliFragment : Fragment() {
@@ -35,6 +37,7 @@ class ListaVeicoliFragment : Fragment() {
 
     private lateinit var veicoliViewModel: VeicoliViewModel
     private lateinit var userViewModel: UserViewModel
+    private lateinit var richiestaViewModel: RichiestaViewModel
 
     private lateinit var adapter: MyAdapterVeicoli
 
@@ -56,6 +59,7 @@ class ListaVeicoliFragment : Fragment() {
 
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
 
         binding.fabButton.setOnClickListener {
             parentFragmentManager.popBackStack()
@@ -74,7 +78,7 @@ class ListaVeicoliFragment : Fragment() {
         }
         userViewModel.allUsersLiveData.observe(viewLifecycleOwner){userList ->
             if(userList != null){
-                adapter = MyAdapterVeicoli(veicoliViewModel,userViewModel,ArrayList(), distance, userList)
+                adapter = MyAdapterVeicoli(veicoliViewModel,userViewModel,richiestaViewModel,ArrayList(),emptyList(),distance, userList)
                 binding.recyclerView.adapter = adapter
             }
         }
@@ -84,7 +88,8 @@ class ListaVeicoliFragment : Fragment() {
             if (veicoliList.isEmpty()) {
                 Toast.makeText(requireContext(), "Si è verificato un errore", Toast.LENGTH_SHORT).show()
             } else {
-                val sortedVeicoliList = veicoliList.sortedBy { it.modello }
+                var veicoliFiltrati = veicoliViewModel.filterVeicoliByCittaAndCodicePostale(cityOrigin, postCodeOrigin, veicoliList)
+                val sortedVeicoliList = veicoliFiltrati.sortedBy { it.modello }
                 veicoliViewModel.richiestaClickedEvent.observe(viewLifecycleOwner) { position ->
                     if (position != -1) {
 
@@ -96,6 +101,8 @@ class ListaVeicoliFragment : Fragment() {
                         bundle.putString("targa", selectedVehicle.targa)
                         bundle.putString("capienza", selectedVehicle.capienza)
                         bundle.putString("id_guidatore", selectedVehicle.id)
+                        bundle.putString("tariffaKm", selectedVehicle.tariffakm)
+                        bundle.putString("distance", distance)
                         bundle.putString("destination", destination)
                         bundle.putString("origin", origin)
 

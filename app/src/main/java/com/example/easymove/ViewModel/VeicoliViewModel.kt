@@ -5,6 +5,7 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.example.easymove.model.MapData
 import com.example.easymove.model.Veicolo
 import com.example.easymove.repository.VeicoliRepository
 import com.google.firebase.firestore.ListenerRegistration
@@ -23,6 +24,26 @@ class VeicoliViewModel: ViewModel() {
 
     private var veicoliListener: ListenerRegistration? = null
 
+
+    fun checkModificaVeicolo(veicolo: Veicolo, imageuri: Uri?, Locazione: String, TariffaKm: String,positionData: MapData ,callback: (Boolean, String?) -> Unit){
+        if(Locazione.isNotEmpty() && TariffaKm.isNotEmpty()){
+            veicolo.tariffakm = TariffaKm
+            if(positionData.address != "" && positionData.city != "" && positionData.postalCode != ""){
+                veicolo.via= positionData.address
+                veicolo.citta = positionData.city
+                veicolo.codicePostale = positionData.postalCode
+            }
+            veicoliRepository.updateVeicolo(veicolo,imageuri){success, message ->
+                if(success){
+                    callback(true, message)
+                }else{
+                    callback(false, message)
+                }
+            }
+        }else{
+            callback(false, "i campi Locazione e Tariffa non possono essere vuoti")
+        }
+    }
     fun storeVehicle(
         UserId: String,
         NomeVeicolo: String,
@@ -100,14 +121,15 @@ class VeicoliViewModel: ViewModel() {
 
     fun deleteVeicolo(veicoloId: String, callback: (Boolean, String?) -> Unit) {
         // Chiamare la funzione deleteVeicolo dal repository o data access object
-        veicoliRepository.deleteVeicolo(veicoloId, callback)
+        veicoliRepository.deleteVeicolo(veicoloId){success,message ->
+            if(success){
+                callback(true, message)
+            }else{
+                callback(false, message)
+            }
+        }
     }
 
-    // Funzione per aggiornare un veicolo
-    fun updateVeicolo(veicolo: Veicolo, callback: (Boolean, String?) -> Unit) {
-        // Chiamare la funzione updateVeicolo dal repository o data access object
-        veicoliRepository.updateVeicolo(veicolo, callback)
-    }
 
     fun startVeicoliListener() {
         veicoliListener = veicoliRepository.getVeicoliListener { success, error, veicoliList ->

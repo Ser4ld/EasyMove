@@ -15,6 +15,7 @@ import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
+import java.util.regex.Pattern
 import javax.security.auth.callback.Callback
 
 class RichiestaViewModel: ViewModel() {
@@ -35,14 +36,15 @@ class RichiestaViewModel: ViewModel() {
         targaveicolo: String,
         puntoPartenza: String,
         puntoArrivo: String,
+        prezzo: String,
         data: String,
         descrizione: String,
         callback: (success: Boolean, errorMessage: String?) -> Unit
     ){
-        if(guidatoreId.isNotEmpty() && consumatoreId.isNotEmpty() && targaveicolo.isNotEmpty() && puntoPartenza.isNotEmpty() && puntoArrivo.isNotEmpty()){
+        if(guidatoreId.isNotEmpty() && consumatoreId.isNotEmpty() && targaveicolo.isNotEmpty() && puntoPartenza.isNotEmpty() && puntoArrivo.isNotEmpty() && prezzo.isNotEmpty()){
             if(data.isNotEmpty() && descrizione.isNotEmpty()){
                 if(checkDate(data)){
-                    richiestaRepository.storeRequest(guidatoreId,consumatoreId,targaveicolo,puntoPartenza,puntoArrivo,data,descrizione, "Attesa"){success,ErrMsg->
+                    richiestaRepository.storeRequest(guidatoreId,consumatoreId,targaveicolo,puntoPartenza,puntoArrivo,data,descrizione, "Attesa", prezzo){success,ErrMsg->
                         if(success){
                             callback(true, "Richiesta Inviata")
                         }else{
@@ -101,9 +103,30 @@ class RichiestaViewModel: ViewModel() {
                 }
             }
         }
+    }
 
+    fun checkRichiestaOnDeleteVeicolo(guidatoreId: String, richiesteList: List<Richiesta>, callback: (Boolean, String?) -> Unit) {
+            val isCompletedFound = richiesteList?.any { richiesta ->
+                richiesta.stato == "Accettata" && richiesta.guidatoreId == guidatoreId
+            } ?: false
 
+            callback(isCompletedFound, null)
 
+    }
+
+    fun updateRichiestaonDeleteVeicolo(guidatoreId: String, richiesteList: List<Richiesta>){
+        richiesteList?.forEach { richiesta ->
+                if(richiesta.guidatoreId == guidatoreId && richiesta.stato == "Attesa")
+                {
+                    richiestaRepository.updateRichiestaStato(richiesta.richiestaId, "Rifiutata"){success, message ->
+                        if(success){
+                            Log.i("Richieste", "Richieste aggiornate")
+                        }else{
+                            Log.i("Richieste", "Errore aggiornamento richieste")
+                        }
+                    }
+                }
+            }
 
     }
 
@@ -180,7 +203,16 @@ class RichiestaViewModel: ViewModel() {
     }
 
 
+    fun calcolaPrezzo(input: String, tariffakm: String): Double {
+        val pattern = Pattern.compile("\\d+(\\.\\d+)?") // Crea un pattern per trovare sequenze di numeri
+        val matcher = pattern.matcher(input)
 
+        if (matcher.find()) {
+            return (matcher.group().toDouble()*tariffakm.toDouble())  // Converte la sequenza di numeri in un intero
+        }
+
+        return 0.0 // Ritorna un valore di default se non trova alcun numero
+    }
 
 
 
