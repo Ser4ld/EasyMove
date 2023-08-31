@@ -158,7 +158,7 @@ class VeicoliViewModel: ViewModel() {
             "Modello" -> veicoliList.sortedBy { it.modello }
             "Capienza" -> veicoliList.sortedBy { it.capienza }
             "Tariffa" -> veicoliList.sortedBy { it.tariffakm }
-            else -> veicoliList.sortedBy { it.modello } // Default sorting by "Modello"
+            else -> veicoliList.sortedBy { it.modello } // Default "Modello"
         }
     }
 

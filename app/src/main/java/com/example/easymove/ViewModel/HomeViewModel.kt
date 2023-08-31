@@ -17,6 +17,7 @@ import androidx.core.content.ContextCompat
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.lifecycleScope
 import com.example.easymove.R
+import com.example.easymove.model.MapData
 import com.example.easymove.repository.UserRepository
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.auth.User
@@ -42,6 +43,8 @@ class HomeViewModel () : ViewModel() {
     }*/
 
     fun checkFormEditTexts(
+        originData: MapData,
+        destinationData: MapData,
         originEditText: EditText,
         destinationEditText: EditText,
         callback: (Boolean, String?) -> Unit
@@ -49,7 +52,7 @@ class HomeViewModel () : ViewModel() {
         val origin = originEditText.text.toString()
         val destination = destinationEditText.text.toString()
 
-        if (origin.isNotEmpty() && destination.isNotEmpty()) {
+        if (originData!=null && destinationData != null && origin.isNotEmpty() && destination.isNotEmpty()) {
             callback(true, null)
         } else {
             callback(false, "Indirizzo di partenza e/o di destinazione non impostati")
