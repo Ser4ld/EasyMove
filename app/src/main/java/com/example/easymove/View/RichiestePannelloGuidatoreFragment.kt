@@ -24,8 +24,7 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
     private lateinit var richiestaViewModel: RichiestaViewModel
     private lateinit var userViewModel: UserViewModel
 
-    private var selectedTabPosition: Int = 0
-    private var stato: String = "Attesa" // Valore predefinito
+    private var stato: String = "Attesa"
 
 
 
@@ -40,7 +39,6 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        Log.i("provaTab", "$selectedTabPosition")
         val bundle = Bundle()
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
@@ -130,7 +128,6 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
             binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab) {
 
-                    selectedTabPosition = tab.position
 
                     stato = when (tab.position) {
                         0 -> "Attesa"
@@ -155,18 +152,5 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
                 override fun onTabUnselected(tab: TabLayout.Tab) {}
                 override fun onTabReselected(tab: TabLayout.Tab) {}
             })
-
-
-
-
-
     }
-
-
-    override fun onSaveInstanceState(outState: Bundle) {
-        super.onSaveInstanceState(outState)
-        outState.putInt("selectedTabPosition", selectedTabPosition)
-        outState.putString("stato", stato)
-    }
-
 }

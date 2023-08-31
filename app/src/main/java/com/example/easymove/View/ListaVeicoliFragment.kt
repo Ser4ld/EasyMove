@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -45,6 +46,14 @@ class ListaVeicoliFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+
+
+
+        val elementiArray = arrayOf("Modello", "Capienza", "Tariffa")
+        val adapterSpinner = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, elementiArray)
+        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
+        binding.spinnerSort.adapter = adapterSpinner
 
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
@@ -110,17 +119,23 @@ class ListaVeicoliFragment : Fragment() {
             }
         }
 
-
-
         veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
             if (veicoliList.isEmpty()) {
+                binding.emptyLayout.visibility = View.VISIBLE
 
-                Toast.makeText(requireContext(), "Si è verificato un errore", Toast.LENGTH_SHORT).show()
             } else {
-                adapter.updateData(veicoliViewModel.filterVeicoliByCittaAndCodicePostale(cityOrigin, postCodeOrigin, veicoliList))
+                var veicoliFiltrati = veicoliViewModel.filterVeicoliByCittaAndCodicePostale(
+                    cityOrigin,
+                    postCodeOrigin,
+                    veicoliList
+                )
+                if (veicoliFiltrati.isEmpty()) {
+                    binding.emptyLayout.visibility = View.VISIBLE
+                } else {
+                    adapter.updateData(veicoliFiltrati)
+                }
             }
         }
-
     }
 
     override fun onDestroyView() {

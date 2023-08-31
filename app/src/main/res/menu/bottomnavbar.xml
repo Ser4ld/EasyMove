@@ -4,14 +4,12 @@
     <item
         android:id="@+id/homeItem"
         android:icon="@drawable/baseline_home_24"
-        android:title="Home"
-        />
+        android:title="Home" />
 
     <item
         android:id="@+id/addItem"
         android:icon="@drawable/baseline_add_24"
-        android:title="Aggiungi veicolo"
-        android:checked="false"/>
+        android:title="Aggiungi veicolo" />
 
     <item
         android:id="@+id/requestItem"
@@ -21,8 +19,7 @@
     <item
         android:id="@+id/profileItem"
         android:icon="@drawable/baseline_person_24"
-        android:title="Profile"
-        />
+        android:title="Profile" />
 
 
 

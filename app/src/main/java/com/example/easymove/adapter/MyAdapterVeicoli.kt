@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -33,7 +34,7 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private va
 
     fun updateData(newDataList: ArrayList<Veicolo>) {
         list.clear()
-        newDataList.sortBy { it.modello }
+        newDataList.sortBy { it.tariffakm }
         list.addAll(newDataList)
         notifyDataSetChanged()
     }
@@ -64,13 +65,14 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private va
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
 
+        var veicolo= list[position]
 
         val currentFragment = (holder.itemView.context as AppCompatActivity)
             .supportFragmentManager
             .findFragmentById(R.id.fragmentContainer)
 
         if (currentFragment is ListaVeicoliFragment) {
-            holder.prezzo.text = (list[position].tariffakm.toDouble()*extractNumbersFromString(distance)).toString()
+            holder.prezzo.text = (list[position].tariffakm.toDouble()*extractNumbersFromString(distance)).toString()+" €"
             Log.d("provaaaa", userList.toString())
             val user = userViewModel.FilterListById(list[position].id, userList!!)
             if (user != null){
@@ -86,32 +88,37 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private va
 
         }
         else {
-            holder.prezzo.text = list[position].tariffakm
+            holder.prezzo.text = veicolo.tariffakm+ " €/Km"
             holder.guidatoreText.visibility = GONE
             holder.imageGuidatore.visibility = GONE
             holder.button.text= "Modifica Veicolo"
 
             holder.button.setOnClickListener {
                 val bundle = Bundle()
-                bundle.putString("targa", list[position].targa)
+                bundle.putString("targa", veicolo.targa)
                 val modificaVeicoloFragment = ModificaVeicoloFragment()
                 modificaVeicoloFragment.arguments = bundle
                 replaceFragment(holder, modificaVeicoloFragment)
             }
 
+            holder.btnElimina.setOnClickListener {
+                veicoliViewModel.deleteVeicolo(veicolo.targa){ success, message ->
+                    Toast.makeText(holder.itemView.context, message, Toast.LENGTH_SHORT).show()
+                }
+            }
         }
 
-        holder.modello.text = list[position].modello
-        holder.targa.text = list[position].targa
-        holder.capienza.text = list[position].capienza
-        holder.locazione.text = list[position].via
+        holder.modello.text = veicolo.modello
+        holder.targa.text = veicolo.targa
+        holder.capienza.text = veicolo.capienza
+        holder.locazione.text = veicolo.via
 
 
         if (!list[position].imageUrl.isNullOrEmpty()) {
 
             // Carica l'immagine relativa all'Url (firebase storage) utilizzando la libreria Glide
             Glide.with(holder.itemView.context)
-                .load(list[position].imageUrl)
+                .load(veicolo.imageUrl)
                 .into(holder.annuncioImageView)
         } else {
             // Carica l'immagine di default

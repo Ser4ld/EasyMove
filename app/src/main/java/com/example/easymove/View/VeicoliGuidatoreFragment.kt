@@ -24,8 +24,7 @@ class VeicoliGuidatoreFragment : Fragment() {
     private lateinit var userViewModel: UserViewModel
 
     private lateinit var adapter: MyAdapterVeicoli
-    private val list: ArrayList<Veicolo> = arrayListOf()
-    private val IdTemporaneo = FirebaseAuth.getInstance().currentUser?.uid
+    private lateinit var utenteId:String
 
 
     override fun onCreateView(
@@ -46,23 +45,33 @@ class VeicoliGuidatoreFragment : Fragment() {
             parentFragmentManager.popBackStack()
         }
 
+
+        userViewModel.userDataLiveData.observe(viewLifecycleOwner){currentUser->
+            if (currentUser != null) {
+                utenteId = currentUser.id
+            }
+        }
+
+
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = layoutManager
-
         adapter = MyAdapterVeicoli(veicoliViewModel,userViewModel,ArrayList(),"", null)
         binding.recyclerView.adapter = adapter
 
 
         veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
             if (veicoliList.isEmpty()) {
-                Toast.makeText(requireContext(), "Si è verificato un errore", Toast.LENGTH_SHORT).show()
+              binding.emptyLayout.visibility = View.VISIBLE
             } else {
-                if (IdTemporaneo != null) {
-                    adapter.updateData(veicoliViewModel.filterVeicoliByUserId(IdTemporaneo, veicoliList))
+                var veicoliFiltrati= veicoliViewModel.filterVeicoliByUserId(utenteId, veicoliList)
+                if(veicoliFiltrati.isEmpty()){
+                    binding.emptyLayout.visibility = View.VISIBLE
+                } else {
+                    binding.emptyLayout.visibility = View.GONE
+                    adapter.updateData(veicoliFiltrati)
+
                 }
             }
         }
-
     }
-
 }

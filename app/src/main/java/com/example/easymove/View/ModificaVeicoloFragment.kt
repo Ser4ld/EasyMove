@@ -132,7 +132,6 @@ class ModificaVeicoloFragment : Fragment() {
             // Carica l'immagine relativa all'Url (firebase storage) utilizzando la libreria Glide
             Glide.with(requireContext())
                 .load(veicolo.imageUrl)
-                .circleCrop() // Rende l'immagine circolare
                 .into(binding.imageFirebase)
         } else {
             // Carica l'immagine di default
