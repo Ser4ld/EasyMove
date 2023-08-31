@@ -49,13 +49,10 @@ class ListaVeicoliFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-
-
-
-        val elementiArray = arrayOf("Modello", "Capienza", "Tariffa")
+        /*val elementiArray = arrayOf("Modello", "Capienza", "Tariffa")
         val adapterSpinner = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, elementiArray)
         adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerSort.adapter = adapterSpinner
+        binding.spinnerSort.adapter = adapterSpinner*/
 
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
@@ -136,7 +133,7 @@ class ListaVeicoliFragment : Fragment() {
                     binding.emptyLayout.visibility = View.VISIBLE
                 } else {
 
-                    binding.spinnerSort.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                 /*   binding.spinnerSort.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
                         override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
                             selectedParameter = when (position) {
                                 0 -> "Modello"
@@ -152,7 +149,7 @@ class ListaVeicoliFragment : Fragment() {
                         override fun onNothingSelected(parent: AdapterView<*>?) {
                             // Nulla da fare in questo caso
                         }
-                    }
+                    }*/
                     adapter.updateData(veicoliFiltrati)
                 }
             }
