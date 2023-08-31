@@ -26,13 +26,8 @@ import java.util.regex.Pattern
 
 class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private val userViewModel: UserViewModel,private val list:ArrayList<Veicolo>, private val distance: String, private val userList: List<User>?):RecyclerView.Adapter<MyAdapterVeicoli.MyViewHolder>() {
 
-    init {
-        list.sortBy { it.modello }
-    }
-
     fun updateData(newDataList: ArrayList<Veicolo>) {
         list.clear()
-        newDataList.sortBy { it.tariffakm }
         list.addAll(newDataList)
         notifyDataSetChanged()
     }

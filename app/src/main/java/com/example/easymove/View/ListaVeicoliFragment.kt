@@ -150,10 +150,10 @@ class ListaVeicoliFragment : Fragment() {
                         }
 
                         override fun onNothingSelected(parent: AdapterView<*>?) {
-                            adapter.updateData(veicoliFiltrati)
+                            // Nulla da fare in questo caso
                         }
                     }
-
+                    adapter.updateData(veicoliFiltrati)
                 }
             }
         }
