@@ -98,7 +98,16 @@ class VeicoliViewModel: ViewModel() {
         return regex.matches(targa)
     }
 
+    fun deleteVeicolo(veicoloId: String, callback: (Boolean, String?) -> Unit) {
+        // Chiamare la funzione deleteVeicolo dal repository o data access object
+        veicoliRepository.deleteVeicolo(veicoloId, callback)
+    }
 
+    // Funzione per aggiornare un veicolo
+    fun updateVeicolo(veicolo: Veicolo, callback: (Boolean, String?) -> Unit) {
+        // Chiamare la funzione updateVeicolo dal repository o data access object
+        veicoliRepository.updateVeicolo(veicolo, callback)
+    }
 
     fun startVeicoliListener() {
         veicoliListener = veicoliRepository.getVeicoliListener { success, error, veicoliList ->
@@ -134,7 +143,7 @@ class VeicoliViewModel: ViewModel() {
     }
 
     fun filterVeicoliByCittaAndCodicePostale(citta: String, codicePostale: String, veicoliList: List<Veicolo>): ArrayList<Veicolo> {
-        val filteredList = veicoliList.filter { veicolo -> veicolo.citta == citta }
+        val filteredList = veicoliList.filter { veicolo -> veicolo.citta == citta && veicolo.codicePostale == codicePostale }
         return ArrayList(filteredList)
     }
 
@@ -142,5 +151,6 @@ class VeicoliViewModel: ViewModel() {
     fun filterListbyTarga(targa: String, veicoliList: List<Veicolo>): Veicolo?{
         return veicoliList.find { it.targa == targa }
     }
+
 
 }
