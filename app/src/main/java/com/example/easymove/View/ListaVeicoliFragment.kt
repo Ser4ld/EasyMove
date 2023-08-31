@@ -61,7 +61,7 @@ class ListaVeicoliFragment : Fragment() {
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
 
-        binding.fabButton.setOnClickListener {
+        binding.floatingActionButton2.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 

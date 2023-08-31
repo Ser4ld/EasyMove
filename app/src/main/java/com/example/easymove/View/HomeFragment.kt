@@ -31,9 +31,11 @@ import androidx.lifecycle.ViewModelProvider
 import com.example.easymove.ViewModel.HomeViewModel
 import com.example.easymove.ViewModel.MapViewModel
 import com.example.easymove.ViewModel.UserViewModel
+import com.example.easymove.ViewModel.VeicoliViewModel
 import com.google.android.gms.maps.model.LatLngBounds
 import com.google.android.gms.maps.model.PolylineOptions
 import com.google.android.libraries.places.api.model.PlaceTypes
+import com.google.firebase.auth.FirebaseAuth
 
 
 class HomeFragment : Fragment() , OnMapReadyCallback {
@@ -42,6 +44,8 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
     private lateinit var homeViewModel: HomeViewModel
     private lateinit var mapViewModel: MapViewModel
     private lateinit var userViewModel: UserViewModel
+    private lateinit var veicoliViewModel: VeicoliViewModel
+
 
     private lateinit var mMap: GoogleMap
     private var isMapReady = false
@@ -133,6 +137,7 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
         homeViewModel = ViewModelProvider(requireActivity()).get(HomeViewModel::class.java)
         mapViewModel = ViewModelProvider(requireActivity()).get(MapViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
+        veicoliViewModel = ViewModelProvider(requireActivity()).get((VeicoliViewModel::class.java))
 
         // Inizializza l'SDK
         Places.initialize(requireContext(), getString(R.string.map_api_key))
@@ -216,6 +221,7 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
             }
         }
 
+
         userViewModel.userDataLiveData.observe(viewLifecycleOwner){user->
             if(user!= null){
                 if(userViewModel.checkUserType(user.userType)){
@@ -227,8 +233,22 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
 
         mMap=googleMap
+
         if (!isMapReady) {
-            // Esegui le operazioni desiderate solo la prima volta
+            try {
+                veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
+                    val userId = FirebaseAuth.getInstance().currentUser?.uid
+                    val driverVehiclesCoordinates = veicoliViewModel.getCoordinatesForDriverVehicles(veicoliList)
+
+                    for (coordinatePair in driverVehiclesCoordinates) {
+                        val latLng = LatLng(coordinatePair.first.toDouble(), coordinatePair.second.toDouble())
+                        googleMap.addMarker(MarkerOptions().position(latLng).title("Veicolo"))
+                    }
+                }
+            } catch (e: Exception) {
+                Log.e("MapError", "Errore durante l'aggiunta dei marker sulla mappa: ${e.message}")
+            }
+
             val italyLatLng = LatLng(41.8719, 12.5674)
             val zoomLevel = 5.5f
             val italyBounds = LatLngBounds(
@@ -242,26 +262,6 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
 
             isMapReady = true
         }
-
-
-      /*  binding.editTextOrigin.text = Editable.Factory.getInstance().newEditable("")
-        binding.editTextDestination.text = Editable.Factory.getInstance().newEditable("")
-
-
-        // Coordinate del Polo Montedago di Ancona
-        val montedagoAncona = LatLng(43.608973, 13.512643)
-
-        // Aggiunge il marker sulle coordinate passate in ingresso
-        mMap.addMarker(
-            MarkerOptions()
-                .position(montedagoAncona)
-                .title("Polo Montedago, Ancona")
-        )
-
-        val zoomLevel = 12.0f // Imposta il livello di zoom
-
-        // Definisce la posizione e lo zoom della camera
-        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(montedagoAncona, zoomLevel))*/
     }
 
 

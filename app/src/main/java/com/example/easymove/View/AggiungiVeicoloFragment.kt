@@ -160,6 +160,8 @@ class AggiungiVeicoloFragment : Fragment() {
                 positionData.city,
                 positionData.address,
                 positionData.postalCode,
+                positionData.latitude,
+                positionData.longitude,
                 binding.Altezzacassone.text.toString(),
                 binding.Lunghezzacassone.text.toString(),
                 binding.Larghezzacassone.text.toString(),

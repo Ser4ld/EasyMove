@@ -32,6 +32,8 @@ class VeicoliViewModel: ViewModel() {
                 veicolo.via= positionData.address
                 veicolo.citta = positionData.city
                 veicolo.codicePostale = positionData.postalCode
+                veicolo.latitude=positionData.latitude
+                veicolo.longitude=positionData.longitude
             }
             veicoliRepository.updateVeicolo(veicolo,imageuri){success, message ->
                 if(success){
@@ -51,6 +53,8 @@ class VeicoliViewModel: ViewModel() {
         CittaMezzo: String,
         Via: String,
         CodicePostale: String,
+        latitude:String,
+        longitude:String,
         AltezzaCassone: String,
         LunghezzaCassone: String,
         LarghezzaCassone: String,
@@ -82,6 +86,8 @@ class VeicoliViewModel: ViewModel() {
                                 CittaMezzo,
                                 Via,
                                 CodicePostale,
+                                latitude,
+                                longitude,
                                 Capienza,
                                 TariffaKm,
                                 imageUri
@@ -173,6 +179,16 @@ class VeicoliViewModel: ViewModel() {
     fun filterListbyTarga(targa: String, veicoliList: List<Veicolo>): Veicolo?{
         return veicoliList.find { it.targa == targa }
     }
+
+
+    fun getCoordinatesForDriverVehicles( veicoliList: List<Veicolo>): List<Pair<String, String>> {
+        val coordinatesList = mutableListOf<Pair<String, String>>()
+        for (veicolo in veicoliList) {
+            coordinatesList.add(Pair(veicolo.latitude, veicolo.longitude))
+        }
+        return coordinatesList
+    }
+
 
     fun sortVeicoliByParameter(parameter: String, veicoliList: List<Veicolo>): List<Veicolo> {
 

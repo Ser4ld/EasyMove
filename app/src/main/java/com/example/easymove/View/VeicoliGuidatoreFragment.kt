@@ -48,7 +48,7 @@ class VeicoliGuidatoreFragment : Fragment() {
 
         veicoliViewModel.startVeicoliListener()
 
-        binding.fabButton.setOnClickListener {
+        binding.floatingActionButton2.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
