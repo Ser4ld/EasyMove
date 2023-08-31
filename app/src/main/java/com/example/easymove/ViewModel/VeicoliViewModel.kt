@@ -152,5 +152,14 @@ class VeicoliViewModel: ViewModel() {
         return veicoliList.find { it.targa == targa }
     }
 
+    fun sortVeicoliByParameter(parameter: String, veicoliList: List<Veicolo>): List<Veicolo> {
+
+        return when (parameter) {
+            "Modello" -> veicoliList.sortedBy { it.modello }
+            "Capienza" -> veicoliList.sortedBy { it.capienza }
+            "Tariffa" -> veicoliList.sortedBy { it.tariffakm }
+            else -> veicoliList.sortedBy { it.modello } // Default "Modello"
+        }
+    }
 
 }

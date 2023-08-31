@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
@@ -29,6 +30,7 @@ class ListaVeicoliFragment : Fragment() {
     private lateinit var origin: String
     private lateinit var destination: String
 
+    private lateinit var selectedParameter:String
 
 
     private lateinit var veicoliViewModel: VeicoliViewModel
@@ -129,14 +131,35 @@ class ListaVeicoliFragment : Fragment() {
                     postCodeOrigin,
                     veicoliList
                 )
+
                 if (veicoliFiltrati.isEmpty()) {
                     binding.emptyLayout.visibility = View.VISIBLE
                 } else {
-                    adapter.updateData(veicoliFiltrati)
+
+                    binding.spinnerSort.onItemSelectedListener = object : AdapterView.OnItemSelectedListener {
+                        override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
+                            selectedParameter = when (position) {
+                                0 -> "Modello"
+                                1 -> "Capienza"
+                                2 -> "Tariffa"
+                                else -> "Modello"
+                            }
+
+                            val sortedList = ArrayList(veicoliViewModel.sortVeicoliByParameter(selectedParameter, veicoliFiltrati))
+                            adapter.updateData(sortedList)
+                        }
+
+                        override fun onNothingSelected(parent: AdapterView<*>?) {
+                            adapter.updateData(veicoliFiltrati)
+                        }
+                    }
+
                 }
             }
         }
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()

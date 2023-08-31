@@ -165,7 +165,6 @@ class RichiestaViewModel: ViewModel() {
 
 
 
-
     fun totaleRichieste( richiesteList: List<Richiesta>): Int {
         return richiesteList.size
     }
