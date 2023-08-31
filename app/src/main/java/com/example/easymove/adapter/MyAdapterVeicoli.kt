@@ -16,10 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.easymove.R
-import com.example.easymove.View.CreaRecensioneFragment
-import com.example.easymove.View.ListaVeicoliFragment
-import com.example.easymove.View.ModificaVeicoloFragment
-import com.example.easymove.View.ProfileGuidatoreUserModeFragment
+import com.example.easymove.View.*
 import com.example.easymove.ViewModel.UserViewModel
 import com.example.easymove.ViewModel.VeicoliViewModel
 import com.example.easymove.model.User
@@ -115,6 +112,11 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,private va
                     Toast.makeText(holder.itemView.context, message, Toast.LENGTH_SHORT).show()
                 }
             }
+        }
+
+        if (currentFragment is VeicoliGuidatorePublicFragment){
+            holder.button.visibility = GONE
+            holder.btnElimina.visibility = GONE
         }
 
         holder.modello.text = veicolo.modello
