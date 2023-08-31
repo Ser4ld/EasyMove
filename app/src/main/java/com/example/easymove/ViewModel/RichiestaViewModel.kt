@@ -113,7 +113,7 @@ class RichiestaViewModel: ViewModel() {
         val enteredDate = LocalDate.parse(stringDate, formatter)
         val currentDate = LocalDate.now()
 
-        return currentDate.isEqual(enteredDate)
+        return (currentDate.isEqual(enteredDate) || currentDate.isAfter(enteredDate))
     }
     @RequiresApi(Build.VERSION_CODES.O)
     fun checkClickOnComplete(richiesta: Richiesta): Boolean{

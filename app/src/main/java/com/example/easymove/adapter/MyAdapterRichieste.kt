@@ -1,5 +1,8 @@
 package com.example.easymove.adapter
 
+import android.app.AlertDialog
+import android.graphics.Color
+import android.graphics.drawable.ColorDrawable
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +17,7 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -166,10 +170,10 @@ class MyAdapterRichieste(
                 holder.statoRichiesta.setTextColor(coloreStato)
 
                 holder.button1.setOnClickListener {
-                    onButtonClicked(richiesta, "Accettata")
+                    dialog(holder, richiesta, "Accettata")
                 }
                 holder.button2.setOnClickListener {
-                    onButtonClicked(richiesta, "Rifiutata")
+                    dialog(holder, richiesta, "Rifiutata")
                 }
             }
             "Accettata" -> {
@@ -187,7 +191,7 @@ class MyAdapterRichieste(
 
                 holder.button1.setOnClickListener {
                     if(richiestaViewModel.checkClickOnComplete(richiesta)) {
-                        onButtonClicked(richiesta, "Completata")
+                        dialog(holder, richiesta, "Completata")
                     }else{
                         Toast.makeText(context, "La richiesta potrà essere completata a partire dal giorno successivo alla data specificata", Toast.LENGTH_SHORT).show()
                     }
@@ -195,7 +199,7 @@ class MyAdapterRichieste(
 
                 holder.button2.setOnClickListener {
                     if(richiestaViewModel.checkClickOnAnnulla(richiesta)){
-                        onButtonClicked(richiesta, "Rifiutata")
+                        dialog(holder, richiesta, "Rifiutata")
                     }else{
                         Toast.makeText(context, "La richiesta non può essere annulata nel giorno in cui deve essere completata", Toast.LENGTH_SHORT).show()
                     }
@@ -254,4 +258,30 @@ class MyAdapterRichieste(
         }
     }
 
+    private fun dialog(holder: MyViewHolder, richiesta: Richiesta, stato: String) {
+
+        // Crea un nuovo AlertDialog
+        val builder = AlertDialog.Builder(holder.itemView.context)
+        val customView = LayoutInflater.from(holder.itemView.context).inflate(R.layout.custom_layout_dialog, null)
+        builder.setView(customView)
+        val dialog = builder.create()
+
+        //imposto lo sfodo del dialog a trasparente per poter applicare un background con i bordi arrotondati
+        dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        customView.findViewById<TextView>(R.id.textView2).text = "Sei sicuro di eseguire l'operazione ?"
+        customView.findViewById<ImageView>(R.id.imageView2).setImageDrawable(holder.itemView.context.getDrawable(R.drawable.baseline_announcement_24))
+
+        customView.findViewById<Button>(R.id.btn_no).setOnClickListener{
+            dialog.dismiss()
+        }
+
+        customView.findViewById<Button>(R.id.btn_yes).setOnClickListener{
+            onButtonClicked(richiesta, stato)
+            dialog.dismiss()
+        }
+
+        // Mostra il popup
+        dialog.show()
+
+    }
 }
