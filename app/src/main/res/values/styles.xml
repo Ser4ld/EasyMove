@@ -25,8 +25,12 @@
         <item name="android:textColor">@color/black</item> <!-- Colore del testo delle schede -->
     </style>
 
-    <style name="SpinnerStyle" parent="Widget.AppCompat.Spinner">
-        <item name="android:textColor">@android:color/black</item>
+
+    <style name="CustomSpinnerStyle" parent="Widget.AppCompat.Spinner">
+        <item name="android:background">@drawable/style_spinner</item>
+        <item name="android:popupBackground">@drawable/style_spinner</item>
+        <item name="android:textColor">@color/black</item>
+        <!-- Altri attributi di stile desiderati -->
     </style>
 
 
