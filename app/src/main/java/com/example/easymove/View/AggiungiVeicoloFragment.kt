@@ -172,6 +172,7 @@ class AggiungiVeicoloFragment : Fragment() {
                     dialog()
                     //clearForm()
 
+
                 }else{
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                 }

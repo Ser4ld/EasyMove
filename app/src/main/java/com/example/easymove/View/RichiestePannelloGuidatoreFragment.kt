@@ -119,9 +119,6 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
             binding.tabLayout.addTab(terminateTab)
 
 
-
-
-
   /*      if (selectedTabPosition >= 0 && selectedTabPosition < binding.tabLayout.tabCount) {
             binding.tabLayout.getTabAt(selectedTabPosition)?.select()
         }

@@ -10,7 +10,8 @@
     <item
         android:id="@+id/addItem"
         android:icon="@drawable/baseline_add_24"
-        android:title="Aggiungi veicolo" />
+        android:title="Aggiungi veicolo"
+        android:checked="false"/>
 
     <item
         android:id="@+id/requestItem"

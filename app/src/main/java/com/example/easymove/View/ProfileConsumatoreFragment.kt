@@ -13,10 +13,6 @@ class ProfileConsumatoreFragment : Fragment() {
 
     private var _binding: FragmentProfileConsumatoreBinding? = null
     private val binding get() = _binding!!
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-
-    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
