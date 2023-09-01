@@ -50,16 +50,15 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private var isMapReady = false
 
-
-
     private var focusOriginBool: Boolean = false
-
 
     private var originData: MapData = MapData()
     private var destinationData: MapData = MapData()
     private lateinit var distance: String
     private lateinit var timeTravel: String
 
+
+    private var searchOkBool = false
 
     private val startAutocomplete =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
@@ -102,10 +101,15 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
 
                                 distance = parsedDistance
                                 timeTravel = parsedTimeTravel
+
+                                binding.textDistance2.text=distance
+                                binding.textTime2.text=timeTravel
+
                                 Log.d("prova distanza", distance)
                                 Log.d("prova tempo", timeTravel)
                                 drawRouteOnMap(JSONResponse)
 
+                                searchOkBool=true
                             }
 
                         } else {
@@ -188,37 +192,42 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
 
         binding.buttonSearch.setOnClickListener {
 
-            homeViewModel.checkFormEditTexts(
-                originData,
-                destinationData,
-                binding.editTextOrigin,
-                binding.editTextDestination
-            ) { isValid, errorMessage ->
-                if (isValid) {
+                homeViewModel.checkFormEditTexts(
+                    originData,
+                    destinationData,
+                    binding.editTextOrigin,
+                    binding.editTextDestination
+                ) { isValid, errorMessage ->
+                    if (isValid) {
+                        if(searchOkBool){
 
-                    val listaVeicoliFragment = ListaVeicoliFragment()
-                    val bundle = Bundle()
+                        val listaVeicoliFragment = ListaVeicoliFragment()
+                        val bundle = Bundle()
 
-                    Log.i("origine1", "$originData")
-                    bundle.putString("originCity", originData.city)
-                    bundle.putString("originPostCode", originData.postalCode)
-                    bundle.putString("origin",originData.address)
-                    bundle.putString("destination",destinationData.address)
-                    bundle.putString("distance", distance)
+                        Log.i("origine1", "$originData")
+                        bundle.putString("originCity", originData.city)
+                        bundle.putString("originPostCode", originData.postalCode)
+                        bundle.putString("origin",originData.address)
+                        bundle.putString("destination",destinationData.address)
+                        bundle.putString("distance", distance)
 
-                    listaVeicoliFragment.arguments = bundle
+                        listaVeicoliFragment.arguments = bundle
 
-                    requireActivity().supportFragmentManager.beginTransaction()
-                        .replace(R.id.fragmentContainer, listaVeicoliFragment)
-                        .addToBackStack(null)
-                        .commit()
-
-                } else {
-                    if (errorMessage != null) {
-                        Toast.makeText(requireContext(), errorMessage , Toast.LENGTH_SHORT).show()
+                        requireActivity().supportFragmentManager.beginTransaction()
+                            .replace(R.id.fragmentContainer, listaVeicoliFragment)
+                            .addToBackStack(null)
+                            .commit()
+                        searchOkBool=false
+                        }
+                    }
+                    else {
+                        if (errorMessage != null) {
+                            Toast.makeText(requireContext(), errorMessage , Toast.LENGTH_SHORT).show()
+                        }
                     }
                 }
-            }
+
+
         }
 
 
@@ -234,8 +243,10 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
 
         mMap=googleMap
 
-        if (!isMapReady) {
-            try {
+        binding.editTextOrigin.setText("")
+        binding.editTextDestination.setText("");
+
+        try {
                 veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
                     mMap.clear()
                     val driverVehiclesCoordinates = veicoliViewModel.getCoordinatesForDriverVehicles(veicoliList)
@@ -262,20 +273,13 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
 
             // Imposta il livello di zoom minimo e massimo
             val minZoomLevel = 5.5f
-            val maxZoomLevel = 10.0f
 
             mMap.setOnCameraMoveListener {
                 val currentZoom = mMap.cameraPosition.zoom
                 if (currentZoom < minZoomLevel) {
                     mMap.moveCamera(CameraUpdateFactory.zoomTo(minZoomLevel))
-                } else if (currentZoom > maxZoomLevel) {
-                    mMap.moveCamera(CameraUpdateFactory.zoomTo(maxZoomLevel))
                 }
             }
-
-
-            isMapReady = true
-        }
     }
 
 
@@ -286,7 +290,6 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
 
             val colorResource = R.color.app_theme
             val lineWidth = 20f
-
 
             if (decodedPath.isNotEmpty()) {// Assicurati di avere importato PolyUtil
 
@@ -333,7 +336,7 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
                 val bounds = builder.build()
 
                 // Imposta la posizione della telecamera in base ai limiti
-                val padding = 100 // Margine intorno ai limiti del percorso
+                val padding = 130 // Margine intorno ai limiti del percorso
                 val cameraUpdate = CameraUpdateFactory.newLatLngBounds(bounds, padding)
                 mMap.moveCamera(cameraUpdate)
             }
