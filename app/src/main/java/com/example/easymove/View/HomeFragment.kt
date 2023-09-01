@@ -237,7 +237,7 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
         if (!isMapReady) {
             try {
                 veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
-                    val userId = FirebaseAuth.getInstance().currentUser?.uid
+                    mMap.clear()
                     val driverVehiclesCoordinates = veicoliViewModel.getCoordinatesForDriverVehicles(veicoliList)
 
                     for (coordinatePair in driverVehiclesCoordinates) {
@@ -252,13 +252,27 @@ class HomeFragment : Fragment() , OnMapReadyCallback {
             val italyLatLng = LatLng(41.8719, 12.5674)
             val zoomLevel = 5.5f
             val italyBounds = LatLngBounds(
-                LatLng(35.5, 6.6),
-                LatLng(47.1, 18.5)
+                LatLng(36.5, 7.0),   // Latitudine minima e longitudine minima
+                LatLng(46.5, 17.0)   // Latitudine massima e longitudine massima
             )
+
+
             mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(italyLatLng, zoomLevel))
             mMap.setLatLngBoundsForCameraTarget(italyBounds)
 
-            // ... altre operazioni specifiche della prima volta ...
+            // Imposta il livello di zoom minimo e massimo
+            val minZoomLevel = 5.5f
+            val maxZoomLevel = 10.0f
+
+            mMap.setOnCameraMoveListener {
+                val currentZoom = mMap.cameraPosition.zoom
+                if (currentZoom < minZoomLevel) {
+                    mMap.moveCamera(CameraUpdateFactory.zoomTo(minZoomLevel))
+                } else if (currentZoom > maxZoomLevel) {
+                    mMap.moveCamera(CameraUpdateFactory.zoomTo(maxZoomLevel))
+                }
+            }
+
 
             isMapReady = true
         }
