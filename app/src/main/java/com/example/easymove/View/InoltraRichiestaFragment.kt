@@ -28,7 +28,7 @@ class InoltraRichiestaFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var userViewModel: UserViewModel
     private lateinit var richiestaViewModel: RichiestaViewModel
-
+    private lateinit var veicoliViewModel: VeicoliViewModel
 
     private lateinit var modello: String
     private lateinit var tariffaKm: String
@@ -57,6 +57,7 @@ class InoltraRichiestaFragment : Fragment() {
 
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
+        veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
 
 
         binding.floatingActionButton.setOnClickListener {
@@ -67,6 +68,44 @@ class InoltraRichiestaFragment : Fragment() {
             showCalendario()
         }
 
+
+        veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner){ veicoliList->
+           var inoltroBool = veicoliViewModel.verificaTargaPresente(targa,veicoliList)
+
+            if(inoltroBool){
+                binding.richiestabtn.setOnClickListener{
+                    // Verifica se sono stati inseriti tutti i dati necessari
+                    richiestaViewModel.inoltraRichiesta(
+                        idGuidatore,
+                        userId,
+                        targa,
+                        origin,
+                        destination,
+                        prezzo,
+                        binding.textData.text.toString(),
+                        binding.textDescription.text.toString(),
+                    ){success, message ->
+                        if(success){
+                            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                            parentFragmentManager.popBackStack()
+                            parentFragmentManager.popBackStack()
+
+                        }else{
+                            Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                            //no success
+                        }
+
+                    }
+
+                }
+            } else {
+                Toast.makeText(requireContext(), "Veicolo non disponibile", Toast.LENGTH_SHORT).show()
+                parentFragmentManager.popBackStack()
+            }
+
+
+
+        }
 
 
         val argument = arguments
@@ -85,7 +124,6 @@ class InoltraRichiestaFragment : Fragment() {
 
         }
 
-
         userViewModel.allUsersLiveData.observe(
             viewLifecycleOwner,
             ) { userList ->
@@ -103,31 +141,6 @@ class InoltraRichiestaFragment : Fragment() {
             }
         }
 
-        binding.richiestabtn.setOnClickListener{
-                // Verifica se sono stati inseriti tutti i dati necessari
-            richiestaViewModel.inoltraRichiesta(
-                idGuidatore,
-                userId,
-                targa,
-                origin,
-                destination,
-                prezzo,
-                binding.textData.text.toString(),
-                binding.textDescription.text.toString(),
-                ){success, message ->
-                    if(success){
-                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                        parentFragmentManager.popBackStack()
-                        parentFragmentManager.popBackStack()
-
-                    }else{
-                        Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
-                        //no success
-                    }
-
-                }
-
-            }
 
       /*  richiestaViewModel.richiesteLiveData.observe(viewLifecycleOwner){richiesteList->
            var appoggio = richiestaViewModel.getAcceptedRequestDatesForGuidatore(idGuidatore,richiesteList)

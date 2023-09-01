@@ -189,6 +189,14 @@ class VeicoliViewModel: ViewModel() {
         return coordinatesList
     }
 
+    fun verificaTargaPresente(targaDaVerificare: String, listaVeicoli: List<Veicolo>): Boolean {
+        for (veicolo in listaVeicoli) {
+            if (veicolo.targa == targaDaVerificare) {
+                return true
+            }
+        }
+        return false
+    }
 
     fun sortVeicoliByParameter(parameter: String, veicoliList: List<Veicolo>): List<Veicolo> {
 
