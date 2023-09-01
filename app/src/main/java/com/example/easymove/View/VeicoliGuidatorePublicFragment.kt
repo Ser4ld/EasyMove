@@ -38,7 +38,8 @@ class VeicoliGuidatorePublicFragment : Fragment() {
 
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
-        richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
+        richiestaViewModel =
+            ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
 
         val layoutManager = LinearLayoutManager(requireContext())
         binding.recyclerView.layoutManager = layoutManager
@@ -68,16 +69,23 @@ class VeicoliGuidatorePublicFragment : Fragment() {
                             binding.recyclerView.adapter = adapter
 
                             veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
-                                val recensioniFiltrate =
-                                    veicoliViewModel.filterVeicoliByUserId(guidatoreId, veicoliList)
-
-                                if (recensioniFiltrate.isEmpty()) {
+                                if (veicoliList.isEmpty()) {
                                     binding.emptyLayout.visibility = View.VISIBLE
                                 } else {
-                                    binding.emptyLayout.visibility = View.GONE
-                                }
+                                    val recensioniFiltrate =
+                                        veicoliViewModel.filterVeicoliByUserId(
+                                            guidatoreId,
+                                            veicoliList
+                                        )
 
-                                adapter.updateData(recensioniFiltrate)
+                                    if (recensioniFiltrate.isEmpty()) {
+                                        binding.emptyLayout.visibility = View.VISIBLE
+                                    } else {
+                                        binding.emptyLayout.visibility = View.GONE
+                                    }
+
+                                    adapter.updateData(recensioniFiltrate)
+                                }
                             }
                         }
                     }
@@ -85,7 +93,6 @@ class VeicoliGuidatorePublicFragment : Fragment() {
             }
         }
     }
-
     override fun onDestroyView() {
         super.onDestroyView()
         _binding = null

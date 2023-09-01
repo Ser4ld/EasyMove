@@ -5,7 +5,6 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.easymove.ViewModel.UserViewModel
@@ -74,8 +73,7 @@ class RecensioniGuidatoreFragment : Fragment() {
 
         recensioneViewModel.recensioniLiveData.observe(viewLifecycleOwner) { recensioniList ->
             if (recensioniList.isEmpty()) {
-                binding.emptyLayout.visibility= View.GONE
-                Toast.makeText(requireContext(), "Si è verificato un errore", Toast.LENGTH_SHORT).show()
+                binding.emptyLayout.visibility= View.VISIBLE
             } else {
                 var recensioniFiltrate= recensioneViewModel.filterRecensioneByUserId(userId, recensioniList, userType)
 

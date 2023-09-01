@@ -1,6 +1,5 @@
 package com.example.easymove.View
 
-import android.content.Intent
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -18,8 +17,7 @@ class SignupFragment : Fragment() {
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: SignupViewModel
-    private lateinit var userRepository: UserRepository
-    private var tipoutente = "consumatore" // Esempio fisso, potrebbe variare a seconda del toggleButton
+    private var tipoutente = "consumatore"
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,

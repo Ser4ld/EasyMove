@@ -76,6 +76,7 @@ class ListaVeicoliFragment : Fragment() {
             destination = argument.getString("destination").toString()
             distance = argument.get("distance").toString()
         }
+
         userViewModel.allUsersLiveData.observe(viewLifecycleOwner){userList ->
             if(userList != null){
                 adapter = MyAdapterVeicoli(veicoliViewModel,userViewModel,richiestaViewModel,ArrayList(),emptyList(),distance, userList)
@@ -93,8 +94,7 @@ class ListaVeicoliFragment : Fragment() {
                 veicoliViewModel.richiestaClickedEvent.observe(viewLifecycleOwner) { position ->
                     if (position != -1) {
 
-                        val selectedVehicle =
-                            sortedVeicoliList[position] // Usa la posizione per ottenere il veicolo dalla lista
+                        val selectedVehicle = sortedVeicoliList[position] // Usa la posizione per ottenere il veicolo dalla lista
 
                         val bundle = Bundle()
                         bundle.putString("modello", selectedVehicle.modello)
@@ -128,19 +128,15 @@ class ListaVeicoliFragment : Fragment() {
         veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner) { veicoliList ->
             if (veicoliList.isEmpty()) {
                 binding.emptyLayout.visibility = View.VISIBLE
-
             } else {
-                var veicoliFiltrati = veicoliViewModel.filterVeicoliByCittaAndCodicePostale(
-                    cityOrigin,
-                    postCodeOrigin,
-                    veicoliList
-                )
+                var veicoliFiltrati = veicoliViewModel.filterVeicoliByCittaAndCodicePostale(cityOrigin, postCodeOrigin, veicoliList)
 
                 if (veicoliFiltrati.isEmpty()) {
                     binding.emptyLayout.visibility = View.VISIBLE
                 } else {
-                    adapter.updateData(veicoliFiltrati)
+                    binding.emptyLayout.visibility = View.GONE
                 }
+                adapter.updateData(veicoliFiltrati)
             }
         }
     }

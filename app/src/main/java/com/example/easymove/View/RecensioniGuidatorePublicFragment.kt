@@ -62,20 +62,13 @@ class RecensioniGuidatorePublicFragment : Fragment() {
                                     adapter = MyAdapterRecensioni(ArrayList(), userList,userData.userType)
                                     binding.recyclerView.adapter = adapter
                                     if (recensioneList.isEmpty()) {
-                                        binding.emptyLayout.visibility = View.GONE
-                                        Toast.makeText(
-                                            requireContext(),
-                                            "Si è verificato un errore",
-                                            Toast.LENGTH_SHORT
-                                        ).show()
+                                        binding.emptyLayout.visibility = View.VISIBLE
                                     } else {
-                                        Log.d("provaaa", user.userType)
-                                        var recensioniFiltrate =
-                                            recensioneViewModel.filterRecensioneByUserId(
-                                                user.id,
-                                                recensioneList,
-                                                user.userType
-                                            )
+
+                                        var recensioniFiltrate = recensioneViewModel.filterRecensioneByUserId(
+                                            user.id,
+                                            recensioneList,
+                                            user.userType )
 
                                         if (recensioniFiltrate.isEmpty()) {
                                             binding.emptyLayout.visibility = View.VISIBLE
@@ -94,5 +87,8 @@ class RecensioniGuidatorePublicFragment : Fragment() {
         }
 
     }
-
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
 }

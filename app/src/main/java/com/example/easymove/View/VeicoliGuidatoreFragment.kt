@@ -64,6 +64,7 @@ class VeicoliGuidatoreFragment : Fragment() {
         binding.recyclerView.layoutManager = layoutManager
         richiestaViewModel.richiesteLiveData.observe(viewLifecycleOwner){richiesteList ->
             if(richiesteList != null)
+
             adapter = MyAdapterVeicoli(veicoliViewModel,userViewModel,richiestaViewModel,ArrayList(),richiesteList,"", null)
             binding.recyclerView.adapter = adapter
 

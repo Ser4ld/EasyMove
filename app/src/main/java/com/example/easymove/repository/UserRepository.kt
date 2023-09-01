@@ -21,6 +21,7 @@ class UserRepository() {
     val userDataLiveData: LiveData<User?> = _userDataLiveData
     val allUsersLiveData: LiveData<List<User>> = _allUsersLiveData
 
+
     fun createUser(
         email: String,
         password: String,
@@ -29,13 +30,16 @@ class UserRepository() {
         tipoutente: String,
         callback: (Boolean, String?) -> Unit
     ) {
+        //funzione di firebase (authentication) per creare un utente
         FirebaseAuth.getInstance().createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
                     val user = FirebaseAuth.getInstance().currentUser
-                    val userId = user?.uid
+                    val userId = user?.uid //prendiamo l'id dell'utente corrente
 
+                    //creazione dell'oggetto User
                     val userObj = User(userId.orEmpty(), nome, cognome, email, tipoutente,"")
+                    // store su firestore
                     uploadUserData(userObj){ success, Errmsg ->
                         if(success){
                             callback(true, null)
@@ -52,9 +56,10 @@ class UserRepository() {
             }
     }
 
+    // funzione per lo store dell'oggetto User su firestore
     private fun uploadUserData(user: User,callback: (Boolean, String) -> Unit) {
-        firestoreDatabase.collection("users")
-            .document(user.id)
+        firestoreDatabase.collection("users") //definiamo la collezione
+            .document(user.id)//definiamo l'id univoco del documento (viene utilizzato l'id di auth)
             .set(user)
             .addOnSuccessListener {
                 callback(true, "registrazione effettuata")
@@ -64,7 +69,9 @@ class UserRepository() {
             }
     }
 
+    //funzione per caricare l'immagine di profilo su Storage
     fun updateImageUrl(userId: String, imageUri: Uri, callback: (Boolean, String?) -> Unit) {
+        //definiamo il percorso
         val storageRef = firebaseStorage.reference.child("profile_images/$userId.png")
 
         val uploadTask = storageRef.putFile(imageUri)
