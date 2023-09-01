@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import com.example.easymove.databinding.FragmentAggiungiVeicoloBinding
 import android.app.Activity.RESULT_OK
 import android.app.AlertDialog
+import android.content.Context
 import android.content.Intent
 import android.graphics.Color
 import android.graphics.drawable.ColorDrawable
@@ -16,6 +17,7 @@ import android.net.Uri
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
@@ -171,6 +173,7 @@ class AggiungiVeicoloFragment : Fragment() {
             ){success, message ->
                 if(success){
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
+                    hideKeyboard()
                     dialog()
                     clearForm()
 
@@ -243,6 +246,10 @@ class AggiungiVeicoloFragment : Fragment() {
         }
     }
 
+    private fun hideKeyboard() {
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
+    }
 
 }
 

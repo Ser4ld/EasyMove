@@ -1,11 +1,13 @@
 package com.example.easymove.View
 
+import android.content.Context
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
@@ -71,6 +73,7 @@ class CreaRecensioneFragment : Fragment() {
             )
             { success, message ->
                 if (success) {
+                    hideKeyboard()
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                     requireActivity().supportFragmentManager.popBackStack()
                 } else {
@@ -95,5 +98,10 @@ class CreaRecensioneFragment : Fragment() {
             override fun afterTextChanged(s: Editable?) {}
         })
 
+    }
+
+    private fun hideKeyboard() {
+        val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        imm.hideSoftInputFromWindow(view?.windowToken, 0)
     }
 }
