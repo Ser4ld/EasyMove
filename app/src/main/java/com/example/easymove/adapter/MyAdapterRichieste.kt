@@ -108,7 +108,7 @@ class MyAdapterRichieste(
         holder.puntoPartenza.text = richiesta.puntoPartenza
         holder.puntoArrivo.text = richiesta.puntoArrivo
         holder.targaVeicolo.text= richiesta.targaveicolo
-        holder.prezzo.text = richiesta.prezzo
+        holder.prezzo.text = richiesta.prezzo + " €"
 
 
         updateUI(richiesta, holder, stato)

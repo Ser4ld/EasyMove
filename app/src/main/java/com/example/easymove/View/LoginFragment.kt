@@ -36,11 +36,11 @@ class LoginFragment : Fragment() {
         LogViewModel = LoginViewModel(UserRepository())
 
         binding.floatingActionButton.setOnClickListener{
-            requireFragmentManager().popBackStack()
+            parentFragmentManager.popBackStack()
         }
 
         binding.textSingUp2.setOnClickListener{
-            requireFragmentManager().beginTransaction()
+            parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, SignupFragment())
                 .commit()
         }
@@ -62,7 +62,7 @@ class LoginFragment : Fragment() {
         }
 
         binding.passwordDimenticata.setOnClickListener{
-            requireFragmentManager().beginTransaction()
+            parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, ResetPasswordFragment())
                 .addToBackStack(null)
                 .commit()
@@ -71,7 +71,7 @@ class LoginFragment : Fragment() {
     }
 
     private fun replaceFragment (fragment: Fragment){
-        requireFragmentManager().beginTransaction().replace(R.id.fragmentContainer, fragment).commit()
+        parentFragmentManager.beginTransaction().replace(R.id.fragmentContainer, fragment).commit()
 
     }
 
