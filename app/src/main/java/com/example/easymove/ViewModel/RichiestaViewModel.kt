@@ -76,15 +76,19 @@ class RichiestaViewModel: ViewModel() {
 
 
 
-    @RequiresApi(Build.VERSION_CODES.O)
-    fun checkDate(stringDate: String): Boolean{
+    @RequiresApi(Build.VERSION_CODES.O)     // indica che il metodo richiede API di livello 26 o superiore
+    fun checkDate(stringDate: String): Boolean {
+        // Crea un formatter per il formato "dd/MM/yyyy"
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
+
+        // Converte la stringa della data in un oggetto LocalDate
         val enteredDate = LocalDate.parse(stringDate, formatter)
+
+        // Ottiene la data corrente
         val currentDate = LocalDate.now()
 
-
-        return (enteredDate.isAfter(currentDate))
-
+        // Restituisce true se la data immessa è successiva alla data corrente
+        return enteredDate.isAfter(currentDate)
     }
 
     @RequiresApi(Build.VERSION_CODES.O)
