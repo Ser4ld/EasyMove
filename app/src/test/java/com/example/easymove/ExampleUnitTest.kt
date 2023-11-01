@@ -1,28 +1,20 @@
 package com.example.easymove
 
-import androidx.fragment.app.testing.launchFragmentInContainer
-import androidx.test.ext.junit.runners.AndroidJUnit4
-import androidx.arch.core.executor.testing.InstantTaskExecutorRule
+
 import com.example.easymove.View.LoginFragment
 import com.example.easymove.ViewModel.RichiestaViewModel
 import com.example.easymove.ViewModel.SignupViewModel
 import com.example.easymove.repository.UserRepository
-import com.example.easymove.View.HomeFragment
 import org.junit.Test
 import org.junit.Assert.*
-import org.junit.Before
-import org.junit.Rule
-import android.view.View
-import android.widget.Button
-import android.widget.EditText
-import androidx.fragment.app.FragmentManager
+import com.example.easymove.ViewModel.VeicoliViewModel
 
 
 class ExampleUnitTest {
     private var userrep = UserRepository()
     var signupViewModel = SignupViewModel(userrep)
     var richiestaViewModel = RichiestaViewModel()
-    val loginFragment = LoginFragment()
+    val veicoliViewModel = VeicoliViewModel()
 
 
 
@@ -53,26 +45,35 @@ class ExampleUnitTest {
         assertTrue(resultFuture)
         assertFalse(resultPast)
     }
+    @Test
+    fun testCalcoloCapienza() {
+        // Valori di input
+        val lunghezza = 50.0
+        val altezza = 30.0
+        val larghezza = 20.0
 
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
+        // Calcola il risultato atteso
+        val expectedCapienza = "0,03 m³"
+
+        // Chiama la funzione
+        val result = veicoliViewModel.calcoloCapienza(lunghezza, altezza, larghezza)
+
+        // Verifica se il risultato è uguale all'aspettativa
+        assertEquals(expectedCapienza, result)
+    }
 
     @Test
-    fun clickOnLoginButton(){
+    fun testIsValidItalianLicensePlate() {
+        val validLicensePlate = "AB123CD"
+        val invalidLicensePlate = "1234AB"
 
-        (loginFragment.view?.findViewById<View>(R.id.Email) as EditText).setText("lucarossi@example.com")
-        (loginFragment.view?.findViewById<View>(R.id.Password) as EditText).setText("Luca123@")
-        (loginFragment.view?.findViewById<View>(R.id.login) as Button).performClick()
+        // Verifica per la targa valida
+        val validResult = veicoliViewModel.isValidItalianLicensePlate(validLicensePlate)
+        assertEquals(true, validResult)
 
-        // Get the fragment name after the button click
-        val fragmentManager = loginFragment.fragmentManager
-        val fragmentTransaction = fragmentManager?.beginTransaction()
-        val currentFragment = fragmentManager?.findFragmentById(R.id.fragmentContainer)
-
-        val fragmentName = currentFragment?.javaClass?.simpleName
-
-        assertEquals("HomeFragment", fragmentName)
-
+        // Verifica per la targa non valida
+        val invalidResult = veicoliViewModel.isValidItalianLicensePlate(invalidLicensePlate)
+        assertEquals(false, invalidResult)
     }
 
 

@@ -112,7 +112,7 @@ class VeicoliViewModel: ViewModel() {
     }
 
 
-    private fun calcoloCapienza(lunghezza: Double, altezza: Double, larghezza: Double): String {
+    fun calcoloCapienza(lunghezza: Double, altezza: Double, larghezza: Double): String {
         val capienza = ((lunghezza * altezza * larghezza)/1000000)
         val formattedCapienza = String.format("%.2f", capienza)
         return "$formattedCapienza m³"
