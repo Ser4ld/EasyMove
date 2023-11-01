@@ -16,14 +16,14 @@ import android.view.View
 import android.widget.Button
 import android.widget.EditText
 import androidx.fragment.app.FragmentManager
+import com.example.easymove.ViewModel.VeicoliViewModel
 
 
 class ExampleUnitTest {
     private var userrep = UserRepository()
     var signupViewModel = SignupViewModel(userrep)
     var richiestaViewModel = RichiestaViewModel()
-    val loginFragment = LoginFragment()
-
+    val veicoliViewModel = VeicoliViewModel()
 
 
     @Test
@@ -54,12 +54,41 @@ class ExampleUnitTest {
         assertFalse(resultPast)
     }
 
-    @get:Rule
-    val instantTaskExecutorRule = InstantTaskExecutorRule()
+
+    @Test
+    fun testCalcoloCapienza() {
+        // Valori di input
+        val lunghezza = 50.0
+        val altezza = 30.0
+        val larghezza = 20.0
+
+        // Calcola il risultato atteso
+        val expectedCapienza = "0,03 m³"
+
+        // Chiama la funzione
+        val result = veicoliViewModel.calcoloCapienza(lunghezza, altezza, larghezza)
+
+        // Verifica se il risultato è uguale all'aspettativa
+        assertEquals(expectedCapienza, result)
+    }
+
+    @Test
+    fun testIsValidItalianLicensePlate() {
+        val validLicensePlate = "AB123CD"
+        val invalidLicensePlate = "1234AB"
+
+        // Verifica per la targa valida
+        val validResult = veicoliViewModel.isValidItalianLicensePlate(validLicensePlate)
+        assertEquals(true, validResult)
+
+        // Verifica per la targa non valida
+        val invalidResult = veicoliViewModel.isValidItalianLicensePlate(invalidLicensePlate)
+        assertEquals(false, invalidResult)
+    }
 
     @Test
     fun clickOnLoginButton(){
-
+        val loginFragment = LoginFragment()
         (loginFragment.view?.findViewById<View>(R.id.Email) as EditText).setText("lucarossi@example.com")
         (loginFragment.view?.findViewById<View>(R.id.Password) as EditText).setText("Luca123@")
         (loginFragment.view?.findViewById<View>(R.id.login) as Button).performClick()
@@ -70,10 +99,10 @@ class ExampleUnitTest {
         val currentFragment = fragmentManager?.findFragmentById(R.id.fragmentContainer)
 
         val fragmentName = currentFragment?.javaClass?.simpleName
-
         assertEquals("HomeFragment", fragmentName)
 
     }
+
 
 
 }
