@@ -56,6 +56,7 @@ class ModificaVeicoloFragment : Fragment() {
                 Log.i("Prova", "User canceled autocomplete")
             }
         }
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
@@ -88,6 +89,7 @@ class ModificaVeicoloFragment : Fragment() {
             .setCountries(listOf("IT")) // Filtra i risulati per città
             .build(requireContext())
 
+
         // Controlla il focus del primo EditText
         binding.LocazioneVeicolo.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
@@ -98,8 +100,10 @@ class ModificaVeicoloFragment : Fragment() {
             }
         }
 
+
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
         val argument = arguments
+
 
         if(argument!= null){
             targa = argument.getString("targa").toString()
@@ -128,7 +132,6 @@ class ModificaVeicoloFragment : Fragment() {
         binding.imageBtn.setOnClickListener {
             openFileChooser()
         }
-
 
     }
 

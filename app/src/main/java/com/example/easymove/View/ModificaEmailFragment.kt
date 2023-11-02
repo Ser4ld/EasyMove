@@ -60,7 +60,6 @@ class ModificaEmailFragment : Fragment() {
                 }
             }
 
-
         }
 
     }

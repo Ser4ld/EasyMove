@@ -20,7 +20,6 @@ class LoginViewModel(private val userRepository: UserRepository) : ViewModel() {
     }
 
 
-
     fun autologin(callback: (Boolean, String?) -> Unit) {
         val currentUser = userRepository.getCurrentUser()
 

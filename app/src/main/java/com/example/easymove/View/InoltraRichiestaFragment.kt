@@ -141,14 +141,6 @@ class InoltraRichiestaFragment : Fragment() {
             }
         }
 
-
-      /*  richiestaViewModel.richiesteLiveData.observe(viewLifecycleOwner){richiesteList->
-           var appoggio = richiestaViewModel.getAcceptedRequestDatesForGuidatore(idGuidatore,richiesteList)
-            Log.i("provadate", "$appoggio")
-        }*/
-
-
-
     }
 
 

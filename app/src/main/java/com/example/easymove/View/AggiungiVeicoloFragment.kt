@@ -108,9 +108,6 @@ class AggiungiVeicoloFragment : Fragment() {
             }
         })
 
-        /*binding.floatingActionButton.setOnClickListener{
-            parentFragmentManager.popBackStack()
-        }*/
 
         userViewModel.userDataLiveData.observe(
             viewLifecycleOwner,
@@ -186,8 +183,8 @@ class AggiungiVeicoloFragment : Fragment() {
 
         }
 
-
     }
+
 
     private fun clearForm(){
         val vectorDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_image_24)
@@ -200,6 +197,8 @@ class AggiungiVeicoloFragment : Fragment() {
         binding.TariffaKm.text.clear()
         binding.imageFirebase.setImageDrawable(vectorDrawable)
     }
+
+
     private fun dialog() {
 
         // Crea un nuovo AlertDialog
@@ -220,11 +219,14 @@ class AggiungiVeicoloFragment : Fragment() {
         dialog.show()
 
     }
+
+
     private fun openFileChooser() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/png" // Set the MIME type to restrict to PNG images
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
+
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
@@ -245,6 +247,7 @@ class AggiungiVeicoloFragment : Fragment() {
             }
         }
     }
+
 
     private fun hideKeyboard() {
         val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager

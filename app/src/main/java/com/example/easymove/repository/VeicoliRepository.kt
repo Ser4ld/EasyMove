@@ -161,15 +161,6 @@ class VeicoliRepository {
             }
         }
 
-
-
-
-
-
-
     }
-
-
-
 
 }

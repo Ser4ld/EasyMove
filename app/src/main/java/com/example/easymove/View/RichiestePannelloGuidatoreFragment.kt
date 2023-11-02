@@ -93,9 +93,6 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
             }
         }
 
-            /*binding.fabButton.setOnClickListener {
-                parentFragmentManager.popBackStack()
-            }*/
 
             if (childFragmentManager.findFragmentById(R.id.frameLayoutRichieste) == null) {
                 val initialFragment = RichiesteGuidatoreFragment()
@@ -115,13 +112,6 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
             binding.tabLayout.addTab(accettateTab)
             binding.tabLayout.addTab(completateTab)
             binding.tabLayout.addTab(terminateTab)
-
-
-  /*      if (selectedTabPosition >= 0 && selectedTabPosition < binding.tabLayout.tabCount) {
-            binding.tabLayout.getTabAt(selectedTabPosition)?.select()
-        }
-        Log.i("provastato","$stato")*/
-
 
 
 

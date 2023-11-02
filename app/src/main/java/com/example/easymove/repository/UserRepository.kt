@@ -165,28 +165,28 @@ class UserRepository() {
         }
     }
 
-    fun getUserData(callback: (User?) -> Unit) {
-        val userId = getCurrentUserId()
-        if (userId != null) {
-            val docRef = firestoreDatabase.collection("users").document(userId)
-            docRef.get().addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    val documentSnapshot = task.result
-                    if (documentSnapshot.exists()) {
-
-                        val userData = documentSnapshot.toObject(User::class.java)
-                        callback(userData)
-                    } else {
-                        callback(null)
-                    }
-                } else {
-                    callback(null)
-                }
-            }
-        } else {
-            callback(null)
-        }
-    }
+//    fun getUserData(callback: (User?) -> Unit) {
+//        val userId = getCurrentUserId()
+//        if (userId != null) {
+//            val docRef = firestoreDatabase.collection("users").document(userId)
+//            docRef.get().addOnCompleteListener { task ->
+//                if (task.isSuccessful) {
+//                    val documentSnapshot = task.result
+//                    if (documentSnapshot.exists()) {
+//
+//                        val userData = documentSnapshot.toObject(User::class.java)
+//                        callback(userData)
+//                    } else {
+//                        callback(null)
+//                    }
+//                } else {
+//                    callback(null)
+//                }
+//            }
+//        } else {
+//            callback(null)
+//        }
+//    }
 
     fun fetchUserDataFromFirestore() {
         val userId = getCurrentUserId()
@@ -228,11 +228,11 @@ class UserRepository() {
             }
     }
 
-
-    fun getDataFromFirestore(): Task<DocumentSnapshot>? {
-        val docRef = getCurrentUserId()?.let { firestoreDatabase.collection("users").document(it) }
-        return docRef?.get()
-    }
+//
+//    fun getDataFromFirestore(): Task<DocumentSnapshot>? {
+//        val docRef = getCurrentUserId()?.let { firestoreDatabase.collection("users").document(it) }
+//        return docRef?.get()
+//    }
 
 
     /*Modifica email*/

@@ -14,7 +14,7 @@ data class Veicolo(
     var longitude:String,
     var tariffakm: String,
     var imageUrl: String // URL dell'immagine
-){// Aggiungi un costruttore senza argomenti richiesto da Firestore
+){
 constructor() : this(
     "", "", "", "", "",
     "", "", "", "","","")

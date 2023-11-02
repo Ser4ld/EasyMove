@@ -52,11 +52,6 @@ class ListaVeicoliFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        /*val elementiArray = arrayOf("Modello", "Capienza", "Tariffa")
-        val adapterSpinner = ArrayAdapter(requireContext(), android.R.layout.simple_spinner_item, elementiArray)
-        adapterSpinner.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item)
-        binding.spinnerSort.adapter = adapterSpinner*/
-
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)

@@ -45,6 +45,7 @@ class LoginFragment : Fragment() {
                 .commit()
         }
 
+
         binding.login.setOnClickListener {
             val email = binding.Email.text.toString()
             val password = binding.Password.text.toString()
@@ -60,6 +61,7 @@ class LoginFragment : Fragment() {
                 }
             }
         }
+
 
         binding.passwordDimenticata.setOnClickListener{
             parentFragmentManager.beginTransaction()
