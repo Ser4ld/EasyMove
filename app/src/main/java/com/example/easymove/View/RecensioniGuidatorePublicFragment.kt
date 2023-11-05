@@ -59,7 +59,7 @@ class RecensioniGuidatorePublicFragment : Fragment() {
                                 val guidatoreId = argument.getString("idguidatore").toString()
                                 user = userViewModel.FilterListById(guidatoreId, userList)!!
                                 if (user != null) {
-                                    adapter = MyAdapterRecensioni(ArrayList(), userList,userData.userType)
+                                    adapter = MyAdapterRecensioni(ArrayList(), userList,"guidatore")
                                     binding.recyclerView.adapter = adapter
                                     if (recensioneList.isEmpty()) {
                                         binding.emptyLayout.visibility = View.VISIBLE
