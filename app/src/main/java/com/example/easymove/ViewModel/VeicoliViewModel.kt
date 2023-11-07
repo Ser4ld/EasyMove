@@ -27,25 +27,38 @@ class VeicoliViewModel: ViewModel() {
 
     fun checkModificaVeicolo(veicolo: Veicolo, imageuri: Uri?, Locazione: String, TariffaKm: String,positionData: MapData ,callback: (Boolean, String?) -> Unit){
         if(Locazione.isNotEmpty() && TariffaKm.isNotEmpty()){
-            veicolo.tariffakm = TariffaKm
-            if(positionData.address != "" && positionData.city != "" && positionData.postalCode != ""){
-                veicolo.via= positionData.address
-                veicolo.citta = positionData.city
-                veicolo.codicePostale = positionData.postalCode
-                veicolo.latitude=positionData.latitude
-                veicolo.longitude=positionData.longitude
-            }
-            veicoliRepository.updateVeicolo(veicolo,imageuri){success, message ->
-                if(success){
-                    callback(true, message)
+            val tariffaKmDouble = TariffaKm.toDoubleOrNull()
+            if (tariffaKmDouble!=null){
+                if (tariffaKmDouble>0){
+                    veicolo.tariffakm = tariffaKmDouble.toString()
+                    if(positionData.address != "" && positionData.city != "" && positionData.postalCode != ""){
+                        veicolo.via= positionData.address
+                        veicolo.citta = positionData.city
+                        veicolo.codicePostale = positionData.postalCode
+                        veicolo.latitude=positionData.latitude
+                        veicolo.longitude=positionData.longitude
+                    }
+                    veicoliRepository.updateVeicolo(veicolo,imageuri){success, message ->
+                        if(success){
+                            callback(true, message)
+                        }else{
+                            callback(false, message)
+                        }
+                    }
                 }else{
-                    callback(false, message)
+                    callback(false, "Inserire numero positivo per tariffa")
                 }
+            }else{
+                callback(false, "Inserire numero valido per tariffa")
             }
+
+
+
         }else{
-            callback(false, "i campi Locazione e Tariffa non possono essere vuoti")
+            callback(false, "I campi Locazione e Tariffa non possono essere vuoti")
         }
     }
+
     fun storeVehicle(
         UserId: String,
         NomeVeicolo: String,
@@ -53,8 +66,8 @@ class VeicoliViewModel: ViewModel() {
         CittaMezzo: String,
         Via: String,
         CodicePostale: String,
-        latitude:String,
-        longitude:String,
+        latitude: String,
+        longitude: String,
         AltezzaCassone: String,
         LunghezzaCassone: String,
         LarghezzaCassone: String,
@@ -64,51 +77,91 @@ class VeicoliViewModel: ViewModel() {
         callback: (Boolean, String?) -> Unit
     ) {
         viewModelScope.launch {
-            if (UserId.isNotEmpty() && NomeVeicolo.isNotEmpty() && Targa.isNotEmpty() && CittaMezzo.isNotEmpty() && AltezzaCassone.isNotEmpty() && LunghezzaCassone.isNotEmpty() && LarghezzaCassone.isNotEmpty() && TariffaKm.isNotEmpty()) {
-                if(isValidItalianLicensePlate(Targa)) {
-                    if (imageUri != null) {
-                        val checktarga = veicoliRepository.checkTargaExists(Targa)
+            if (UserId.isNotEmpty() && NomeVeicolo.isNotEmpty() && Targa.isNotEmpty() && CittaMezzo.isNotEmpty()) {
+                if (AltezzaCassone.isNotEmpty() && LunghezzaCassone.isNotEmpty() && LarghezzaCassone.isNotEmpty() && TariffaKm.isNotEmpty()) {
+                    val altezzaCassoneDouble = AltezzaCassone.toDoubleOrNull()
+                    val lunghezzaCassoneDouble = LunghezzaCassone.toDoubleOrNull()
+                    val larghezzaCassoneDouble = LarghezzaCassone.toDoubleOrNull()
+                    val tariffaKmDouble = TariffaKm.toDoubleOrNull()
 
-                        if (checktarga) {
-                            callback(false, "Targa già esistente")
-                            Log.d("TARGACHECK", "check")
-                        } else {
-                            val Capienza = calcoloCapienza(
-                                LunghezzaCassone.toDouble(),
-                                AltezzaCassone.toDouble(),
-                                LarghezzaCassone.toDouble()
-                            )
-                            Log.d("TARGACHECK", "not check")
-                            veicoliRepository.storeVehicleForUser(
-                                UserId,
-                                NomeVeicolo,
-                                Targa,
-                                CittaMezzo,
-                                Via,
-                                CodicePostale,
-                                latitude,
-                                longitude,
-                                Capienza,
-                                TariffaKm,
-                                imageUri
-                            ) { success, message ->
-                                if (success) {
-                                    callback(true, "Veicolo registrato correttamente")
+                    if (altezzaCassoneDouble != null && lunghezzaCassoneDouble != null && larghezzaCassoneDouble != null && tariffaKmDouble != null) {
+
+                        if (altezzaCassoneDouble > 0 && lunghezzaCassoneDouble > 0 && larghezzaCassoneDouble > 0 && tariffaKmDouble > 0) {
+                            if (isValidItalianLicensePlate(Targa)) {
+                                if (imageUri != null) {
+                                    val checktarga = veicoliRepository.checkTargaExists(Targa)
+
+                                    if (checktarga) {
+                                        callback(false, "Targa giÃ  esistente")
+                                        Log.d("TARGACHECK", "check")
+                                    } else {
+                                        val Capienza = calcoloCapienza(
+                                            lunghezzaCassoneDouble,
+                                            altezzaCassoneDouble,
+                                            larghezzaCassoneDouble
+                                        )
+                                        Log.d("TARGACHECK", "not check")
+                                        veicoliRepository.storeVehicleForUser(
+                                            UserId,
+                                            NomeVeicolo,
+                                            Targa,
+                                            CittaMezzo,
+                                            Via,
+                                            CodicePostale,
+                                            latitude,
+                                            longitude,
+                                            Capienza,
+                                            tariffaKmDouble.toString(),
+                                            imageUri
+                                        ) { success, message ->
+                                            if (success) {
+                                                callback(true, "Veicolo registrato correttamente")
+                                            } else {
+                                                callback(false, message)
+                                            }
+                                        }
+                                    }
                                 } else {
-                                    callback(false, message)
+                                    callback(false, "Inserisci un'immagine per continuare")
                                 }
+                            } else {
+                                callback(false, "Formato targa errato (AA123BB)")
                             }
+                        } else {
+                            callback(false, "Altezza, lunghezza, larghezza e tariffa devono essere maggiori di 0")
                         }
                     } else {
-                        callback(false, "Inserisci un immagine per continuare")
+                        callback(false, "Altezza, lunghezza, larghezza e tariffa devono essere valori numerici validi")
                     }
-                }else {
-                    callback(false, "Formato targa errato (AA123BB)")
+                } else {
+                    callback(false, "Tutti i campi devono essere compilati")
                 }
             } else {
                 callback(false, "Tutti i campi devono essere compilati")
             }
         }
+    }
+
+
+    fun validateNumbers(numero: String): Boolean {
+        val parti = numero.split(".")
+
+        if (parti.size != 2) {
+            return false
+        }
+
+        val parteSinistra = parti[0]
+        val parteDestra = parti[1]
+
+        if (parteSinistra.isEmpty() || parteDestra.isEmpty()) {
+            return false
+        }
+
+        if (!parteSinistra.all { it.isDigit() } || !parteDestra.all { it.isDigit() }) {
+            return false
+        }
+
+        return true
     }
 
 
