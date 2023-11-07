@@ -81,7 +81,6 @@ class MyAdapterVeicoli(private val veicoliViewModel: VeicoliViewModel,
 
         if (currentFragment is ListaVeicoliFragment) {
             holder.prezzo.text = richiestaViewModel.calcolaPrezzo(distance, list[position].tariffakm).toString()
-            Log.d("provaaaa", userList.toString())
             val user = userViewModel.FilterListById(list[position].id, userList!!)
             if (user != null){
                 setGuidatoreInformation(holder, user)

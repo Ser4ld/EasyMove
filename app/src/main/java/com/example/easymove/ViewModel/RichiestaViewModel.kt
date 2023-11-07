@@ -11,12 +11,16 @@ import com.example.easymove.model.Recensione
 import com.example.easymove.model.Richiesta
 import com.example.easymove.repository.RichiestaRepository
 import com.google.firebase.firestore.ListenerRegistration
+import java.math.RoundingMode
+import java.text.DecimalFormat
 import java.text.SimpleDateFormat
 import java.time.LocalDate
 import java.time.format.DateTimeFormatter
 import java.util.*
 import java.util.regex.Pattern
 import javax.security.auth.callback.Callback
+import kotlin.math.round
+import kotlin.math.roundToInt
 
 class RichiestaViewModel: ViewModel() {
 
@@ -210,7 +214,8 @@ class RichiestaViewModel: ViewModel() {
         val matcher = pattern.matcher(input)
 
         if (matcher.find()) {
-            return (matcher.group().toDouble()*tariffakm.toDouble())  // Converte la sequenza di numeri in un intero
+            var prezzo= (matcher.group().toDouble()*tariffakm.toDouble()) // Converte la sequenza di numeri in un intero
+            return Math.round(prezzo * 100.0) / 100.0
         }
 
         return 0.0 // Ritorna un valore di default se non trova alcun numero
