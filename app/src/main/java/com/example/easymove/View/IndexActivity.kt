@@ -15,9 +15,7 @@ class IndexActivity : AppCompatActivity() {
     private val permissions = arrayOf(
         Manifest.permission.INTERNET,
         Manifest.permission.ACCESS_FINE_LOCATION,
-        Manifest.permission.ACCESS_COARSE_LOCATION,
-        Manifest.permission.WRITE_EXTERNAL_STORAGE,
-        Manifest.permission.READ_EXTERNAL_STORAGE
+        Manifest.permission.ACCESS_COARSE_LOCATION
     )
     private val requestCode = 42 // Scegli un numero univoco per la richiesta di permessi
 
