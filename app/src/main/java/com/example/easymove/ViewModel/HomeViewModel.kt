@@ -26,6 +26,7 @@ import java.util.*
 class HomeViewModel () : ViewModel() {
 
 
+    // Funzione che verifica che gli indirizzi di partenza e destinazione siano impostati correttamente.
     fun checkFormEditTexts(
         originData: MapData,
         destinationData: MapData,
@@ -33,9 +34,11 @@ class HomeViewModel () : ViewModel() {
         destinationEditText: EditText,
         callback: (Boolean, String?) -> Unit
     ) {
+        // Ottiene gli indirizzi dalle EditText
         val origin = originEditText.text.toString()
         val destination = destinationEditText.text.toString()
 
+        // Verifica che entrambi gli indirizzi siano impostati e non vuoti
         if (originData!=null && destinationData != null && origin.isNotEmpty() && destination.isNotEmpty()) {
             callback(true, null)
         } else {

@@ -13,7 +13,7 @@ private val firestoreDatabase = FirebaseFirestore.getInstance()
 
 class RichiestaRepository {
 
-
+    //Memorizza una nuova richiesta nel firestore database tramite il metodo uploadRichiesta
     fun storeRequest(
         guidatoreId: String,
         consumatoreId: String,
@@ -26,7 +26,11 @@ class RichiestaRepository {
         prezzo: String,
         callback: (success: Boolean, errorMessage: String?) -> Unit)
     {
+        //viene creato un oggetto richiesta
         var richiesta = Richiesta("", guidatoreId, consumatoreId, targaveicolo, puntoPartenza, puntoArrivo, data, descrizione, statoRichiesta,prezzo)
+
+        // l'oggetto richiesta viene passato come parametro alla funzione uploadRichiesta
+        // che memorizza la richiesta nel database
         uploadRichiesta(richiesta){ success, Errmsg ->
             if(success){
                 callback(true, null)
@@ -36,9 +40,17 @@ class RichiestaRepository {
         }
     }
 
+
+    // Carica una nuova richiesta nel database Firestore
     fun uploadRichiesta(richiesta: Richiesta, callback: (Boolean, String?) -> Unit) {
+
+        // Ottiene un nuovo documento nel percorso "requests" nel database Firestore
         val newRichiesta = firestoreDatabase.collection("requests").document()
+
+        // Assegna l'ID  al campo richiestaId dell'oggetto Richiesta
         richiesta.richiestaId = newRichiesta.id
+
+        // Salva l'oggetto Richiesta nel documento appena creato nel database
         newRichiesta.set(richiesta)
             .addOnSuccessListener {
                 callback(true, "Richiesta inoltrata correttamente")
@@ -48,26 +60,35 @@ class RichiestaRepository {
             }
     }
 
+    // Ottieni un listener per gli aggiornamenti sulla lista di richieste dal Firestore
     fun getRichiesteListener(callback: (Boolean, String?, List<Richiesta>?) -> Unit): ListenerRegistration {
+        // restituisce la collezione di richieste
         return firestoreDatabase.collection("requests")
             .addSnapshotListener { snapshot, error ->
+                // Verifica se si è verificato un errore durante il recupero dei dati
                 if (error != null) {
+                    // Se si è verificato un errore, esegui il callback con informazioni sull'errore
                     callback(false, error.toString(), null)
                     return@addSnapshotListener
                 }
 
+                // Inizializza una lista mutable per le richieste
                 val richiesteList = mutableListOf<Richiesta>()
+
+                // Itera attraverso i documenti restituiti e crea oggetti Richiesta
                 for (document in snapshot?.documents ?: emptyList()) {
                     val request = document.toObject(Richiesta::class.java)
                     request?.let { richiesteList.add(it) }
                 }
 
+                // Esegui il callback con la lista di richieste aggiornata
                 callback(true, null, richiesteList)
             }
     }
 
 
 
+    // Aggiorna lo stato della richiesta nel firestore database
     fun updateRichiestaStato(richiestaId: String, nuovoStato: String, callback: (Boolean, String?) -> Unit) {
         val richiestaRef = firestoreDatabase.collection("requests").document(richiestaId)
 

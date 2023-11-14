@@ -23,6 +23,7 @@ import com.example.easymove.model.Richiesta
 
 class RichiesteGuidatoreFragment : Fragment() {
 
+    // Riferimento al binding per il layout del fragment
     private var _binding: FragmentRichiesteGuidatoreBinding? = null
     private val binding get() = _binding!!
 
@@ -31,6 +32,7 @@ class RichiesteGuidatoreFragment : Fragment() {
     private lateinit var veicoliViewModel: VeicoliViewModel
     private lateinit var recensioneViewModel: RecensioneViewModel
 
+    // inizializzazione adapter delle richieste
     private lateinit var adapter: MyAdapterRichieste
 
     private lateinit var userId:String
@@ -42,8 +44,10 @@ class RichiesteGuidatoreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-
+        // Utilizza il binding per associare il layout del fragment al codice
         _binding = FragmentRichiesteGuidatoreBinding.inflate(inflater, container, false)
+
+        // Restituisce la vista radice associata al layout del fragment
         return binding.root
     }
 
@@ -51,29 +55,39 @@ class RichiesteGuidatoreFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Recupera l'argomento passato dal precedente fragment
         var argument=arguments
         if (argument != null ){
             stato= argument.getString("stato").toString()
-        } else stato="Attesa"
+        }
+        // se l'argomento è nullo imposta lo stato in attesa
+        else stato="Attesa"
 
+        // Inizializza i ViewModel necessari
         richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
         recensioneViewModel = ViewModelProvider(requireActivity()).get(RecensioneViewModel::class.java)
 
+        // Inizializza i ViewModel necessari
         val layoutManager = LinearLayoutManager(requireActivity())
         binding.recyclerViewRichiesta.layoutManager = layoutManager
 
+        // Osserva i LiveData del ViewModel dei veicoli per gli aggiornamenti
         veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner){veicoliList->
 
+            // Osserva i LiveData di tutti gli utenti per gli aggiornamenti
             userViewModel.allUsersLiveData.observe(viewLifecycleOwner) { userData ->
                 if (userData != null) {
 
+                    // Osserva i LiveData dell'utente corrente per gli aggiornamenti
                     userViewModel.userDataLiveData.observe(viewLifecycleOwner) { user ->
                         if (user != null) {
-
+                            // Imposta il tipo di utente e l'ID dell'utente corrente
                             userType= user.userType
                             userId = user.id
+
+                            // Inizializza e imposta l'adapter per il RecyclerView
                             adapter = MyAdapterRichieste(ArrayList(),veicoliList, userData,userType,recensioneViewModel,richiestaViewModel, userViewModel, veicoliViewModel)
                             binding.recyclerViewRichiesta.adapter = adapter
                         }
@@ -82,19 +96,27 @@ class RichiesteGuidatoreFragment : Fragment() {
         }
 
 
+            // Osserva i LiveData delle richieste per gli aggiornamenti
             richiestaViewModel.richiesteLiveData.observe(viewLifecycleOwner) { richiestaList ->
                 if (richiestaList.isEmpty()) {
+                    // Mostra il layout vuoto se la lista delle richieste è vuota
                     binding.emptyLayout.visibility=VISIBLE
                 } else {
 
+                    // Filtra le richieste in base all'ID dell'utente e allo stato
                     var richiesteFiltrate = ArrayList(richiestaViewModel.filterRichiesteByUserIdAndStato(userId, stato, richiestaList, userType))
 
                     if (richiesteFiltrate.isEmpty()) {
+
+                        // Mostra il layout vuoto se la lista delle richieste filtrate è vuota
                         binding.emptyLayout.visibility=VISIBLE
                     } else {
+
+                        // Nasconde il layout vuoto se ci sono richieste da mostrare
                         binding.emptyLayout.visibility=GONE
                     }
 
+                    // Aggiorna l'adapter con le richieste filtrate
                     adapter.updateRichieste(richiesteFiltrate)
 
                 }

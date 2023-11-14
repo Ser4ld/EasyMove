@@ -40,6 +40,7 @@ import com.google.firebase.auth.FirebaseAuth
 
 class AggiungiVeicoloFragment : Fragment() {
 
+    // Riferimento al binding per il layout del fragment
     private var _binding: FragmentAggiungiVeicoloBinding? = null
     private val binding get() = _binding!!
 
@@ -53,13 +54,21 @@ class AggiungiVeicoloFragment : Fragment() {
     private val PICK_IMAGE_REQUEST = 1
     private var imageUri: Uri? = null
 
+    // Dichiarazione di un Activity Result Launcher per l'autocompletamento della posizione del veicolo
     private val startAutocomplete =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
+                // Se l'operazione di autocompletamento è stata completata con successo
                 val intent = result.data
                 if (intent != null) {
+
+                    // Estrai il luogo selezionato dall'intento dell'autocompletamento
                     val place = Autocomplete.getPlaceFromIntent(intent)
+
+                    // Invoca un metodo nel view model per ottenere i dettagli dell'indirizzo del veicolo
                     mapViewModel.getAddressDetailsVeicolo(place, positionData)
+
+                    // Imposta il testo nell'elemento UI corrispondente con l'indirizzo ottenuto
                     binding.LocazioneVeicolo.text = Editable.Factory.getInstance().newEditable(positionData.address)
                     Log.i("ProvaOrigine", "$positionData")
                 }
@@ -73,19 +82,24 @@ class AggiungiVeicoloFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Utilizza il binding per associare il layout del fragment al codice
         _binding = FragmentAggiungiVeicoloBinding.inflate(inflater, container, false)
+
+        // Restituisce la vista radice associata al layout del fragment
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Inizializzazione dei ViewModel
         veicoliViewModel =  ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         mapViewModel = ViewModelProvider(requireActivity()).get(MapViewModel::class.java)
 
 
-        //caratteri editText uppercase
+        // Configurazione del TextWatcher per convertire il testo in maiuscolo nel campo di input della targa
         binding.Targa.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
                 // Non è necessario implementare nulla qui
@@ -101,14 +115,13 @@ class AggiungiVeicoloFragment : Fragment() {
                 s?.let {
                     val upperCaseText = it.toString().uppercase()
                     if (it.toString() != upperCaseText) {
-                        //it.replace(startIndex, endIndex, testodasostituire), startIndex indice da cui iniziare a sostituire, endIndex indice fino al quale sostituire
                         it.replace(0, it.length, upperCaseText)
                     }
                 }
             }
         })
 
-
+        // vengono osservati i dati dell'utente corrente per ottenere il suo id
         userViewModel.userDataLiveData.observe(
             viewLifecycleOwner,
         ) { userData ->
@@ -118,10 +131,10 @@ class AggiungiVeicoloFragment : Fragment() {
         }
 
 
-        // Inizializza l'SDK
+        // Inizializza l'SDK Places per l'autocompletamento
         Places.initialize(requireContext(), getString(R.string.map_api_key))
 
-        // Definisce i campi che devono essere restituiti in seguito alla selezione
+        // Definizione dei campi che devono essere restituiti dopo la selezione
         val fields = listOf(
             Place.Field.NAME,
             Place.Field.ADDRESS,
@@ -135,7 +148,7 @@ class AggiungiVeicoloFragment : Fragment() {
             .setCountries(listOf("IT")) // Filtra i risulati per città
             .build(requireContext())
 
-        // Controlla il focus del primo EditText
+        // Controlla il focus del primo EditText se questo ha il focus viene lanciato il meccanismo di autocompletamento
         binding.LocazioneVeicolo.setOnFocusChangeListener { _, hasFocus ->
             if (hasFocus) {
                 startAutocomplete.launch(intent) // Lancia l'autocomplete
@@ -145,13 +158,16 @@ class AggiungiVeicoloFragment : Fragment() {
             }
         }
 
+        // Configurazione del listener per aprire il selettore di file (per impostare l'immagine del van)
         binding.imageBtn.setOnClickListener {
             openFileChooser()
         }
 
+        // Configurazione del listener per aggiungere un veicolo
         binding.addVeicoloButton.setOnClickListener {
-            // Verifica se sono stati inseriti tutti i dati necessari
 
+            // Verifica se sono stati inseriti tutti i dati necessari e memorizza
+            // il van tramite il metodo storeVehicle
             veicoliViewModel.storeVehicle(
                 userId,
                 binding.NomeVeicolo.text.toString(),
@@ -169,6 +185,8 @@ class AggiungiVeicoloFragment : Fragment() {
                 viewModelScope = viewLifecycleOwner.lifecycleScope
             ){success, message ->
                 if(success){
+                    // Se la memorizzazione del veicolo va a buon fine fa comparire il dialog di conferma,
+                    // pulisce il form e nascode la tastiera
                     Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                     hideKeyboard()
                     dialog()
@@ -186,6 +204,7 @@ class AggiungiVeicoloFragment : Fragment() {
     }
 
 
+    // Funzione per ripulire il form dopo l'aggiunta del veicolo
     private fun clearForm(){
         val vectorDrawable = ContextCompat.getDrawable(requireContext(), R.drawable.baseline_image_24)
         binding.Targa.text.clear()
@@ -199,6 +218,7 @@ class AggiungiVeicoloFragment : Fragment() {
     }
 
 
+    // Funzione per mostrare un dialog personalizzato
     private fun dialog() {
 
         // Crea un nuovo AlertDialog
@@ -207,10 +227,11 @@ class AggiungiVeicoloFragment : Fragment() {
         builder.setView(customView)
         val dialog = builder.create()
 
-        //imposto lo sfodo del dialog a trasparente per poter applicare un background con i bordi arrotondati
+        //imposta lo sfodo del dialog a trasparente per poter applicare un background con i bordi arrotondati
         dialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
 
+        // Imposta il listener per il pulsante OK nel layout del dialog
         customView.findViewById<Button>(R.id.btnOK).setOnClickListener{
             dialog.dismiss()
         }
@@ -220,35 +241,35 @@ class AggiungiVeicoloFragment : Fragment() {
 
     }
 
-
+    // Funzione per aprire il selettore di file
     private fun openFileChooser() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/png" // Set the MIME type to restrict to PNG images
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
-
+    // Gestione del risultato dell'attività di selezione del file
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.data != null) {
             val selectedImageUri = data.data!!
 
-            // Verifying the MIME type of the selected file
+            // Verifica del MIME type del file selezionato
             val contentResolver = requireContext().contentResolver
             val mime = contentResolver.getType(selectedImageUri)
             if (mime == "image/png") {
-                // The selected file is a PNG image
+                // Il file selezionato è un'immagine PNG
                 imageUri = selectedImageUri
                 binding.imageFirebase.setImageURI(imageUri)
             } else {
-                // The selected file is not a PNG image, handle the error
+                // Il file selezionato non è un'immagine PNG restituisci un messaggio di errore
                 Toast.makeText(requireContext(), "Please select a PNG image", Toast.LENGTH_SHORT).show()
             }
         }
     }
 
-
+    // Funzione per nascondere la tastiera
     private fun hideKeyboard() {
         val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view?.windowToken, 0)

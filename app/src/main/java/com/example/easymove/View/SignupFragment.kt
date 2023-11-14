@@ -14,6 +14,7 @@ import com.example.easymove.repository.UserRepository
 
 class SignupFragment : Fragment() {
 
+    // Binding per manipolare gli oggetti del layout
     private var _binding: FragmentSignupBinding? = null
     private val binding get() = _binding!!
     private lateinit var viewModel: SignupViewModel
@@ -23,34 +24,43 @@ class SignupFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        // Utilizza il binding per associare il layout del fragment al codice
         _binding = FragmentSignupBinding.inflate(inflater, container, false)
+
+        // Restituisce la vista radice associata al layout del fragment
         return binding.root
     }
 
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Crea un'istanza del SignupViewModel associato a un UserRepository
         viewModel = SignupViewModel(UserRepository())
 
+        // Gestisce il clic sul pulsante per tornare al fragment precedente
         binding.floatingActionButton.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
+        // Gestisce il clic sul testo "Login" per navigare al fragment di login
         binding.textLogin2.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragmentContainer, LoginFragment())
                 .commit()
         }
 
-
+        // Gestisce il clic sul pulsante di registrazione
         binding.signup.setOnClickListener {
+            // Ottieni i dati inseriti dall'utente nei campi di registrazione
             val email = binding.Email.text.toString()
             val password = binding.Password.text.toString()
             val nome = binding.Nome.text.toString()
             val cognome = binding.Cognome.text.toString()
             val repeatPassword = binding.RepeatPassword.text.toString()
 
-
+            // Esegui la registrazione utilizzando il SignupViewModel
             viewModel.signUp(
                 email,
                 password,
@@ -59,6 +69,9 @@ class SignupFragment : Fragment() {
                 cognome,
                 tipoutente
             ) { success, message ->
+
+                // Se la registrazione ha successo, sostituisci il fragment corrente con il MainFragment
+                // Altrimenti, mostra un Toast con il messaggio di errore
                 if (success) {
                     parentFragmentManager.beginTransaction()
                         .replace(R.id.fragmentContainer, MainFragment())
@@ -71,6 +84,8 @@ class SignupFragment : Fragment() {
 
         }
 
+        // Gestisce il cambiamento dello stato del CheckBox "Guidatore/Consumatore"
+        // se la checkbox risulta spuntata allora l'utente è un guidatore viceversa è un consumatore
         binding.checkguidatore.setOnCheckedChangeListener { _, isChecked ->
             tipoutente = if (isChecked) {
                 "guidatore"

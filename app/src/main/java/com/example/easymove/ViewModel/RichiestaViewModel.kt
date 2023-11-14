@@ -33,6 +33,7 @@ class RichiestaViewModel: ViewModel() {
     private var richiesteListener: ListenerRegistration? = null
 
 
+    // Inoltra una richiesta al guidatore per la prenotazione del veicolo
     @RequiresApi(Build.VERSION_CODES.O)
     fun inoltraRichiesta(
         guidatoreId: String,
@@ -45,13 +46,18 @@ class RichiestaViewModel: ViewModel() {
         descrizione: String,
         callback: (success: Boolean, errorMessage: String?) -> Unit
     ){
+        // verifica che i parametri passati non siano vuoti
         if(guidatoreId.isNotEmpty() && consumatoreId.isNotEmpty() && targaveicolo.isNotEmpty() && puntoPartenza.isNotEmpty() && puntoArrivo.isNotEmpty() && prezzo.isNotEmpty()){
             if(data.isNotEmpty() && descrizione.isNotEmpty()){
+                //verifica che la data immessa sia successiva a quella corrente tramite la funzione checkdate
                 if(checkDate(data)){
+                    // viene richiamato il metodo storerequest per memorizzare la richiesta nel firestore database
                     richiestaRepository.storeRequest(guidatoreId,consumatoreId,targaveicolo,puntoPartenza,puntoArrivo,data,descrizione, "Attesa", prezzo){success,ErrMsg->
                         if(success){
                             callback(true, "Richiesta Inviata")
-                        }else{
+                        }
+                        //vengono gestite le varie eccezioni
+                        else{
                             callback(false, ErrMsg)
                         }
                     }
@@ -67,6 +73,7 @@ class RichiestaViewModel: ViewModel() {
         }
     }
 
+    // Aggiorna lo stato della richietra tramite il metodo updateRichiestaStato
     fun updateRichiestaStato(richiestaId: String, nuovoStato: String, callback: (Boolean, String?) -> Unit) {
         richiestaRepository.updateRichiestaStato(richiestaId, nuovoStato) { success, message ->
             if(success) {
@@ -79,7 +86,7 @@ class RichiestaViewModel: ViewModel() {
     }
 
 
-
+    // Metodo per verificare che la data immessa sia successiva a quella corrente
     @RequiresApi(Build.VERSION_CODES.O)     // indica che il metodo richiede API di livello 26 o superiore
     fun checkDate(stringDate: String): Boolean {
         // Crea un formatter per il formato "dd/MM/yyyy"
@@ -95,6 +102,10 @@ class RichiestaViewModel: ViewModel() {
         return enteredDate.isAfter(currentDate)
     }
 
+
+    // aggiorna lo stato delle richieste se queste sono in attesa e
+    // se la data dell'appuntamento risulta antecedente alla data corrente
+    // allora il loro stato verrà impostato come rifiutate
     @RequiresApi(Build.VERSION_CODES.O)
     fun checkAndUpdateStato() {
         richiesteLiveData.observeForever {richiesteList->
@@ -113,6 +124,7 @@ class RichiestaViewModel: ViewModel() {
         }
     }
 
+    // controlla che ci siano delle richieste nello stato di accettate riguardanti il veicolo
     fun checkRichiestaOnDeleteVeicolo(guidatoreId: String, richiesteList: List<Richiesta>, callback: (Boolean, String?) -> Unit) {
             val isCompletedFound = richiesteList?.any { richiesta ->
                 richiesta.stato == "Accettata" && richiesta.guidatoreId == guidatoreId
@@ -122,6 +134,8 @@ class RichiestaViewModel: ViewModel() {
 
     }
 
+    // Aggiorna lo stato delle richieste in "Attesa" associate a un guidatore quando viene eliminato un veicolo,
+    // lo stato di quest'ulime verrà impostato come "Rifiutata"
     fun updateRichiestaonDeleteVeicolo(guidatoreId: String, richiesteList: List<Richiesta>){
         richiesteList?.forEach { richiesta ->
                 if(richiesta.guidatoreId == guidatoreId && richiesta.stato == "Attesa")
@@ -138,6 +152,7 @@ class RichiestaViewModel: ViewModel() {
 
     }
 
+    // Verifica se la data fornita è uguale o precedente alla data corrente.
     @RequiresApi(Build.VERSION_CODES.O)
     private fun checkDateAnnullaRichiesta(stringDate: String): Boolean{
         val formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy")
@@ -146,6 +161,9 @@ class RichiestaViewModel: ViewModel() {
 
         return (currentDate.isEqual(enteredDate) || currentDate.isAfter(enteredDate))
     }
+
+    // Verifica se è possibile completare una determinata richiesta
+    // andando a controllare la data associata ad essa
     @RequiresApi(Build.VERSION_CODES.O)
     fun checkClickOnComplete(richiesta: Richiesta): Boolean{
         if(!checkDate(richiesta.data)){
@@ -154,6 +172,9 @@ class RichiestaViewModel: ViewModel() {
         return false
     }
 
+
+    // Verifica se è possibile annullare una determinata richiesta
+    // andando a controllare la data associata ad essa
     @RequiresApi(Build.VERSION_CODES.O)
     fun checkClickOnAnnulla(richiesta: Richiesta): Boolean{
         if(checkDateAnnullaRichiesta(richiesta.data)){
@@ -162,16 +183,28 @@ class RichiestaViewModel: ViewModel() {
         return true
     }
 
+
+    // Avvia il listener per gli aggiornamenti sulla lista di richieste
     fun startRichiesteListener() {
+        // Ottieni il listener dalla repository delle richieste
         richiesteListener = richiestaRepository.getRichiesteListener { success, error, richiestaList ->
+
+            // Verifica se l'operazione ha avuto successo
             if (success) {
+
+                // Aggiorna il LiveData con la lista di richieste ottenuta dalla repository
                 _richiesteLiveData.postValue(richiestaList)
             } else {
+
+                // Se l'operazione fallisce, imposta il LiveData con una lista vuota
                 _richiesteLiveData.postValue(emptyList())
             }
         }
     }
 
+    // Filtra le richieste totali in base all'ID dell'utente e al tipo di utente se è guidatore
+    // filtra la lista in base alle richieste ricevute se invece è consumatore filtra le richieste in base
+    // a quelle che ha mandato
     fun filterRichiesteByUserId(userId: String, richiesteList: List<Richiesta>, userType: String): ArrayList<Richiesta> {
         if(userType == "guidatore"){
             val filteredList = richiesteList.filter { richiesta -> richiesta.guidatoreId == userId }
@@ -183,6 +216,8 @@ class RichiestaViewModel: ViewModel() {
 
     }
 
+
+    // Funzione che ottiene le richieste in relazione allo stato e all'utente
     fun filterRichiesteByUserIdAndStato(userId: String, stato: String, richiesteList: List<Richiesta>,userType: String): List<Richiesta> {
         if(userType == "guidatore"){
             val filteredList = richiesteList.filter { richiesta -> richiesta.guidatoreId == userId && richiesta.stato == stato }
@@ -194,6 +229,7 @@ class RichiestaViewModel: ViewModel() {
 
     }
 
+    // Funzione che restituisce il numero delle richieste totali
     fun totaleRichieste( richiesteList: List<Richiesta>): Int {
         return richiesteList.size
     }
@@ -209,6 +245,7 @@ class RichiestaViewModel: ViewModel() {
     }
 
 
+    //Calcola il prezzo del viaggio in base alla distanza e alla tariffa per chilometro specificata
     fun calcolaPrezzo(input: String, tariffakm: String): Double {
         val pattern = Pattern.compile("\\d+(\\.\\d+)?") // Crea un pattern per trovare sequenze di numeri
         val matcher = pattern.matcher(input)

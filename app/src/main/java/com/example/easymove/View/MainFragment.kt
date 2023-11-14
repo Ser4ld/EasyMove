@@ -21,6 +21,8 @@ import com.example.easymove.Viewmodel.RecensioneViewModel
 
 
 class MainFragment : Fragment() {
+
+    // Riferimento al binding per il layout del fragment
     private var _binding: FragmentMainBinding? = null
     private val binding get() = _binding!!
 
@@ -35,7 +37,11 @@ class MainFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+
+        // Utilizza il binding per associare il layout del fragment al codice
         _binding = FragmentMainBinding.inflate(inflater, container, false)
+
+        // Restituisce la vista radice associata al layout del fragment
         return binding.root
     }
 
@@ -44,41 +50,45 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Nasconde la tastiera virtuale
         hideKeyboard()
 
+        // Inizializza le ViewModel necessarie per il fragment
         homeViewModel = HomeViewModel()
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
         recensioneViewModel = ViewModelProvider(requireActivity()).get((RecensioneViewModel::class.java))
         richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
 
+        // Recupera i dati dell'utente e la lista di tutti gli utenti
         userViewModel.fetchUserData()
         userViewModel.fetchAllUser()
+
+        // Avvia i listener utilizzato per rilevare gli aggiornamenti nei dati provenienti dal Firestore
+        // per le ViewModel relative a veicoli, recensioni e richieste
         veicoliViewModel.startVeicoliListener()
         recensioneViewModel.startRecensioniListener()
         richiestaViewModel.startRichiesteListener()
+
+        // Controlla e aggiorna lo stato delle richieste
         richiestaViewModel.checkAndUpdateStato()
 
-        //controllo se il frameLayout è vuoto
+        // Controllo se il FrameLayout è vuoto e sostituisce il fragment corrente con il fragment HomeFragment
         if (childFragmentManager.findFragmentById(R.id.frameLayout) == null) {
             replaceFragment(HomeFragment())
             binding.bottomNavigationView.menu.findItem(R.id.homeItem).isChecked = true
         }
 
 
-
-        //binding.bottomAppBar.setBackgroundColor(resources.getColor(R.color.white))
+        // Imposta il background della bottom navigation view a null per renderlo trasparente
         binding.bottomNavigationView.background = null
 
-        /*binding.addItem.setOnClickListener {
-            parentFragmentManager.beginTransaction()
-                .replace(R.id.fragmentContainer, AggiungiVeicoloFragment())
-                .addToBackStack(null)
-                .commit()
-        }
-*/
+
+        // Gestisce la selezione degli elementi nella bottom navigation view
         binding.bottomNavigationView.setOnItemSelectedListener { menuItem ->
 
+            // fa visualizzare una schermata piuttosto che un'altra
+            // in base all'id dell'elemento selezionato nella bottom bar
             when (menuItem.itemId) {
                 R.id.homeItem -> replaceFragment(HomeFragment())
                 R.id.profileItem -> replaceFragment(ProfileFragment())
@@ -86,22 +96,16 @@ class MainFragment : Fragment() {
                 R.id.addItem -> replaceFragment(AggiungiVeicoloFragment())
             }
 
-           /* if(childFragmentManager.executePendingTransactions()){
-                val currentFragment = childFragmentManager.findFragmentById(R.id.frameLayout)
-
-                val isHomeOrProfileFragment = currentFragment is RichiestePannelloGuidatoreFragment || currentFragment is HomeFragment || currentFragment is ProfileFragment
-                binding.bottomNavigationView.visibility = if (isHomeOrProfileFragment) View.VISIBLE else View.GONE
-
-            }*/
-
             true
         }
 
 
 
-
+        // Osserva i dati dell'utente e mostra/nasconde l'elemento "Add Item" in base al tipo di utente
         userViewModel.userDataLiveData.observe(viewLifecycleOwner) { currentUser ->
 
+            // Se l'utente è autenticato, mostra/nasconde l'elemento "Add Item" nella bottom bar
+            // in base al tipo di utente tramite la funzione checkUserType
             if (currentUser != null) {
                 binding.bottomNavigationView.menu.findItem(R.id.addItem).isVisible =
                     userViewModel.checkUserType(currentUser.userType)
@@ -114,13 +118,15 @@ class MainFragment : Fragment() {
     }
 
 
-
+    // Sostituisce il fragment corrente nel frameLayout con un nuovo fragment.
     private fun replaceFragment(fragment: Fragment) {
         childFragmentManager.beginTransaction()
             .replace(R.id.frameLayout, fragment)
             .addToBackStack(null)
             .commit()
     }
+
+    // Nasconde la tastiera virtuale.
     private fun hideKeyboard() {
         val imm = requireContext().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
         imm.hideSoftInputFromWindow(view?.windowToken, 0)
@@ -128,4 +134,3 @@ class MainFragment : Fragment() {
 
 
 }
-

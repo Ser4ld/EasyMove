@@ -17,7 +17,7 @@ import com.google.android.material.tabs.TabLayout
 
 class RichiestePannelloGuidatoreFragment : Fragment() {
 
-
+    // Riferimento al binding per il layout del fragment
     private var _binding: FragmentRichiestePannelloGuidatoreBinding? = null
     private val binding get() = _binding!!
 
@@ -32,7 +32,10 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Utilizza il binding per associare il layout del fragment al codice
         _binding = FragmentRichiestePannelloGuidatoreBinding.inflate(inflater, container, false)
+
+        // Restituisce la vista radice associata al layout del fragment
         return binding.root
     }
 
@@ -49,24 +52,29 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
         var richiesteCompletate: List<Richiesta>
 
 
-
+        // Osserva i dati dell'utente
         userViewModel.userDataLiveData.observe(viewLifecycleOwner) { user ->
             if (user != null) {
 
+                // Osserva le richieste
                 richiestaViewModel.richiesteLiveData.observe(viewLifecycleOwner) { richiesteList ->
                     if (richiesteList != null) {
 
+                        // Filtra le richieste totali in base all'ID dell'utente e al tipo di utente
                         richiesteTotali = richiestaViewModel.filterRichiesteByUserId(
                             user.id,
                             richiesteList,
                             user.userType
                         )
+
+                        // Filtra le richieste in attesa in base all'ID dell'utente e allo stato
                         richiesteInAttesa = richiestaViewModel.filterRichiesteByUserIdAndStato(
                             user.id,
                             "Attesa",
                             richiesteList,
                             user.userType
                         )
+                        // Filtra le richieste accettate in base all'ID dell'utente e allo stato
                         richiesteAccettate = richiestaViewModel.filterRichiesteByUserIdAndStato(
                             user.id,
                             "Accettata",
@@ -74,6 +82,7 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
                             user.userType
                         )
 
+                        // Filtra le richieste completate in base all'ID dell'utente e allo stato
                         richiesteCompletate = richiestaViewModel.filterRichiesteByUserIdAndStato(
                             user.id,
                             "Completata",
@@ -81,6 +90,7 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
                             user.userType
                         )
 
+                        // Aggiorna i dati nella UI con il totale delle richieste per ogni stato
                         binding.textRichiesteTotali2.text =
                             richiestaViewModel.totaleRichieste(richiesteTotali).toString()
                         binding.textRichiesteAttesa2.text =
@@ -101,24 +111,26 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
                     .commit()
             }
 
-
+            // Creazione delle tab
             val attesaTab = binding.tabLayout.newTab().setText("IN ATTESA")
             val accettateTab = binding.tabLayout.newTab().setText("ACCETTATE")
             val completateTab = binding.tabLayout.newTab().setText("COMPLETATE")
             val terminateTab = binding.tabLayout.newTab().setText("RIFIUTATE")
 
 
+            // Aggiunta delle tab al TabLayout
             binding.tabLayout.addTab(attesaTab)
             binding.tabLayout.addTab(accettateTab)
             binding.tabLayout.addTab(completateTab)
             binding.tabLayout.addTab(terminateTab)
 
 
-
+            // Listener per le selezioni delle tab
             binding.tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
                 override fun onTabSelected(tab: TabLayout.Tab) {
 
-
+                    // La tab in cui ci troviamo rappresenta uno stato e
+                    // questo viene passato al fragment che rimpiazza il childFragmentManager
                     stato = when (tab.position) {
                         0 -> "Attesa"
                         1 -> "Accettata"
@@ -127,7 +139,7 @@ class RichiestePannelloGuidatoreFragment : Fragment() {
                         else -> throw IllegalArgumentException("Posizione Tab non valida")
                     }
 
-
+                    // Passa lo stato come argomento al fragment e sostituisci il frameLayoutRichieste
                     bundle.putString("stato", stato)
                     val richiesteGuidatoreFragment = RichiesteGuidatoreFragment()
                     richiesteGuidatoreFragment.arguments = bundle

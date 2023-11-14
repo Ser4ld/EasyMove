@@ -24,6 +24,7 @@ import java.util.*
 
 class InoltraRichiestaFragment : Fragment() {
 
+    // Binding per manipolare gli oggetti nella schermata
     private var _binding: FragmentInoltraRichiestaBinding? = null
     private val binding get() = _binding!!
     private lateinit var userViewModel: UserViewModel
@@ -46,8 +47,10 @@ class InoltraRichiestaFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
+        // Utilizza il binding per associare il layout del fragment al codice
         _binding = FragmentInoltraRichiestaBinding.inflate(inflater, container, false)
 
+        // Restituisce la vista radice associata al layout del fragment
         return binding.root
     }
 
@@ -55,24 +58,29 @@ class InoltraRichiestaFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        // Inizializzazione viewmodel che serviranno nella view
         userViewModel = ViewModelProvider(requireActivity()).get(UserViewModel::class.java)
         richiestaViewModel = ViewModelProvider(requireActivity()).get(RichiestaViewModel::class.java)
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
 
-
+        // Evento di click che ti porta alla schermata precedente
         binding.floatingActionButton.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
 
+        // Evento di click che fa visualizzare il calendario per la scelta della data dell'appuntamento
         binding.textData.setOnClickListener {
             showCalendario()
         }
 
-
+        //Viene osservato il live data dei veicoli
         veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner){ veicoliList->
-           var inoltroBool = veicoliViewModel.verificaTargaPresente(targa,veicoliList)
+
+            // Verifica se la targa è presente nella lista dei veicoli disponibili.
+            var inoltroBool = veicoliViewModel.verificaTargaPresente(targa,veicoliList)
 
             if(inoltroBool){
+                // Se la targa è presente, imposta il click listener per il pulsante di invio richiesta.
                 binding.richiestabtn.setOnClickListener{
                     // Verifica se sono stati inseriti tutti i dati necessari
                     richiestaViewModel.inoltraRichiesta(
@@ -86,11 +94,13 @@ class InoltraRichiestaFragment : Fragment() {
                         binding.textDescription.text.toString(),
                     ){success, message ->
                         if(success){
+                            // Se la richiesta ha avuto successo, mostra un messaggio di conferma e torna alla schermata precedente
                             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                             parentFragmentManager.popBackStack()
                             parentFragmentManager.popBackStack()
 
                         }else{
+                            // Se c'è un errore durante l'inoltro della richiesta, mostra un messaggio di errore.
                             Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show()
                             //no success
                         }
@@ -99,6 +109,8 @@ class InoltraRichiestaFragment : Fragment() {
 
                 }
             } else {
+                // Se la targa non è presente, mostra un messaggio indicando che il veicolo non è disponibile e
+                // torna alla schermata precedente.
                 Toast.makeText(requireContext(), "Veicolo non disponibile", Toast.LENGTH_SHORT).show()
                 parentFragmentManager.popBackStack()
             }
@@ -107,9 +119,11 @@ class InoltraRichiestaFragment : Fragment() {
 
         }
 
-
+        // Ottiene i dati passati dal precedente fragment, attraverso gli argomenti e
+        // imposta i testi nelle viste corrispondenti
         val argument = arguments
         if (argument != null) {
+            // setta i dati passati attraverso gli argomenti del fragment
             distance=argument.getString("distance").toString()
             tariffaKm = argument.getString("tariffaKm").toString()
             modello = argument.getString("modello").toString()
@@ -118,12 +132,17 @@ class InoltraRichiestaFragment : Fragment() {
             idGuidatore = argument.getString("id_guidatore").toString()
             destination = argument.getString("destination").toString()
             origin =  argument.getString("origin").toString()
+
+            // imposta il testo riguardante il modello e la destinazione nella vista
             binding.textViewVeicolo2.text = modello
             binding.textViewDestination2.text = destination
+
+            // Calcola il prezzo in base alla distanza e alla tariffa per chilometro
             prezzo= richiestaViewModel.calcolaPrezzo(distance,tariffaKm).toString()
 
         }
 
+        // Osserva la lista di tutti gli utenti per ottenere il nome e il cognome del guidatore
         userViewModel.allUsersLiveData.observe(
             viewLifecycleOwner,
             ) { userList ->
@@ -133,6 +152,7 @@ class InoltraRichiestaFragment : Fragment() {
             }
         }
 
+        // Osserva i dati dell'utente corrente per ottenere l'ID utente
         userViewModel.userDataLiveData.observe(
             viewLifecycleOwner,
         ) { userData ->
@@ -143,7 +163,10 @@ class InoltraRichiestaFragment : Fragment() {
 
     }
 
-
+    /**
+     * Mostra un DatePickerDialog per la selezione della data.
+     * Imposta la data minima selezionabile come il giorno corrente.
+     */
     private fun showCalendario() {
         val calendar = Calendar.getInstance()
         val year = calendar.get(Calendar.YEAR)

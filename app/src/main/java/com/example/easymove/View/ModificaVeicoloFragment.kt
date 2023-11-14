@@ -31,8 +31,10 @@ import com.google.android.libraries.places.widget.model.AutocompleteActivityMode
 
 class ModificaVeicoloFragment : Fragment() {
 
+    // Binding per manipolare gli oggetti nella schermata
     private var _binding:  FragmentModificaVeicoloBinding? = null
     private val binding get() = _binding!!
+
     private lateinit var targa: String
     private lateinit var veicoliViewModel: VeicoliViewModel
     private lateinit var mapViewModel: MapViewModel
@@ -41,18 +43,22 @@ class ModificaVeicoloFragment : Fragment() {
     private val PICK_IMAGE_REQUEST = 1
     private var imageUri: Uri? = null
 
+    // Gestisce i risultati dell'attività di autocompletamento dell'indirizzo.
     private val startAutocomplete =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 val intent = result.data
                 if (intent != null) {
                     val place = Autocomplete.getPlaceFromIntent(intent)
+
+                    // Ottieni i dettagli dell'indirizzo dal place e aggiorna la UI
                     mapViewModel.getAddressDetailsVeicolo(place, positionData)
+
                     binding.LocazioneVeicolo.text = Editable.Factory.getInstance().newEditable(positionData.address)
                     Log.i("ProvaOrigine", "$positionData")
                 }
             } else if (result.resultCode == Activity.RESULT_CANCELED) {
-                // The user canceled the operation.
+                // L'utente ha annullato l'operazione di autocompletamento.
                 Log.i("Prova", "User canceled autocomplete")
             }
         }
@@ -61,14 +67,20 @@ class ModificaVeicoloFragment : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        // Utilizza il binding per associare il layout del fragment al codice
         _binding = FragmentModificaVeicoloBinding.inflate(inflater, container, false)
+
+        // Restituisce la vista radice associata al layout del fragment
         return binding.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
+
+        // Inizializza il viewmodel
         mapViewModel = ViewModelProvider(requireActivity()).get(MapViewModel::class.java)
 
+        // torna indietro
         binding.floatingActionButton.setOnClickListener {
             parentFragmentManager.popBackStack()
         }
@@ -100,20 +112,27 @@ class ModificaVeicoloFragment : Fragment() {
             }
         }
 
-
+        // Inizializza il ViewModel per la gestione dei veicoli e ottiene gli argomenti passati al fragment.
         veicoliViewModel = ViewModelProvider(requireActivity()).get(VeicoliViewModel::class.java)
         val argument = arguments
 
-
+        // Verifica se ci sono argomenti passati al fragment e,
+        // in caso positivo, ottiene la targa dal bundle.
         if(argument!= null){
             targa = argument.getString("targa").toString()
         }
 
+        // Osserva i dati relativi ai veicoli e, quando sono disponibili, filtra il veicolo corrispondente alla targa fornita.
         veicoliViewModel.veicoliLiveData.observe(viewLifecycleOwner){veicoliList->
             if(veicoliList!= null){
                 var veicolo = veicoliViewModel.filterListbyTarga(targa, veicoliList)
                 if(veicolo!= null){
+
+                    // Imposta i valori negli EditText del layout con i dati del veicolo
                     setEditText(veicolo)
+
+                    // Gestisce il click sul pulsante di modifica veicolo richiamando la funzione
+                    // checkModificaVeicolo che contolla che i nuovi parametri immessi siano corretti
                     binding.modificaVeicolo.setOnClickListener{
                         veicoliViewModel.checkModificaVeicolo(veicolo,imageUri, binding.LocazioneVeicolo.text.toString(), binding.TariffaKm.text.toString(), positionData){success, message->
                             if(success){
@@ -129,12 +148,14 @@ class ModificaVeicoloFragment : Fragment() {
             }
         }
 
+        // Gestisce il click sul pulsante per aprire il file chooser per l'immagine.
         binding.imageBtn.setOnClickListener {
             openFileChooser()
         }
 
     }
 
+    // setta le edit text con i parametri del veicolo da modificare
     private fun setEditText(veicolo:Veicolo){
         binding.NomeVeicolo.setText(veicolo.modello)
         binding.LocazioneVeicolo.setText(veicolo.via)
@@ -153,12 +174,14 @@ class ModificaVeicoloFragment : Fragment() {
         }
     }
 
+    // apre la schermata di selezione di un file
     private fun openFileChooser() {
         val intent = Intent(Intent.ACTION_GET_CONTENT)
         intent.type = "image/png" // Set the MIME type to restrict to PNG images
         startActivityForResult(intent, PICK_IMAGE_REQUEST)
     }
 
+    // una volta selezionato il file, si controlla che questo sia del giusto formato (.PNG)
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
 
